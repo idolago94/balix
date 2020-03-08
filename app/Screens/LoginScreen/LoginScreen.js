@@ -35,14 +35,14 @@ class LoginScreen extends Component {
 
   onLogin() {
     const {login} = this.props;
-    // let auth = {
-    //   username: this.state.username,
-    //   password: this.state.password
-    // };
-      let auth = {
-        username: 'Test',
-        password: '1234'
-      }
+    let auth = {
+      username: this.state.username,
+      password: this.state.password
+    };
+      // let auth = {
+      //   username: 'Test',
+      //   password: '1234'
+      // }
     login(auth);
   }
 

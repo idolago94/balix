@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   const auth = state.auth;
-  return {openMenu, auth};
+  return {auth};
 };
 
 export default connect(mapStateToProps)(AppScreen);

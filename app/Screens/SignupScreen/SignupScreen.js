@@ -20,8 +20,8 @@ export default class SignupScreen extends Component {
         this.state = {
             securePassword: true,
             created: false,
-            password: '1234', // for development
-            confirmPassword: '1234' // for development
+            password: '', // for development
+            confirmPassword: '' // for development
         }
     }
 
