@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TextInput, Image, Text, ScrollView, TouchableHighlight, Alert, Button, Modal, Dimensions, Platform } from 'react-native';
-import Style from '../helpers/style/style';
+import Style from '../../helpers/style/style';
 import { connect } from 'react-redux';
 import { Dropdown } from 'react-native-material-dropdown';
-import Icon, { iconNames } from '../components/Icon/Icon';
+import Icon, { iconNames } from '../../components/Icon/Icon';
 import { Formik } from 'formik';
 import { WebView } from 'react-native-webview';
 import Slider from '@react-native-community/slider';
-import db from "../database/db";
+import db from "../../database/db";
 
 class WithdrawScreen extends Component {
   static navigationOptions = ({ navigation }) => {

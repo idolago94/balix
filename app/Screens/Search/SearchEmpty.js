@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import Style from '../../helpers/style/style';
-import Icon, {iconNames} from "../Icon/Icon";
+import Icon, {iconNames} from "../../components/Icon/Icon";
 
 export default function SearchEmpty() {
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, TouchableHighlight, FlatList, Dimensions} from 'react-native';
-import Header from '../Header/Header';
+import Header from '../../components/Header/Header';
 import Style from '../../helpers/style/style';
 import {connect} from 'react-redux';
 import Result from './Result';

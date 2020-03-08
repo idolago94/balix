@@ -3,7 +3,7 @@ import {View, ScrollView, Image, TouchableHighlight, Platform, Dimensions} from 
 import Style from '../../helpers/style/style';
 import { connect } from 'react-redux';
 import Package from './Package/Package';
-import Icon, { iconNames } from '../Icon/Icon';
+import Icon, { iconNames } from '../../components/Icon/Icon';
 import {getAvailablePurchases, getProducts, initConnection} from "react-native-iap";
 
 class BuyPackage extends Component {
@@ -29,9 +29,9 @@ class BuyPackage extends Component {
         }
         {
           this.props.userLogin.profileImage ? (
-              <Image 
-              style={{height: '100%', width: '100%', position: 'absolute', top: 0, left: 0, opacity: 0.1}} 
-              source={{uri: `data:${this.props.userLogin.profileImage.contentType};base64,${bufferToBase64(this.props.userLogin.profileImage.buffer)}`}} 
+              <Image
+              style={{height: '100%', width: '100%', position: 'absolute', top: 0, left: 0, opacity: 0.1}}
+              source={{uri: `data:${this.props.userLogin.profileImage.contentType};base64,${bufferToBase64(this.props.userLogin.profileImage.buffer)}`}}
               />
           ) : (null)
         }

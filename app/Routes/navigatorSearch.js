@@ -1,9 +1,9 @@
 import {createStackNavigator} from 'react-navigation-stack';
 
-import commonRoutes, {commonRouteConfig} from '../../Routes/commonRoutes';
-import Style from '../../helpers/style/style';
-import Routes from '../../Routes/Routes';
-import Search from './Search';
+import commonRoutes, {commonRouteConfig} from './commonRoutes';
+import Style from '../helpers/style/style';
+import Routes from './Routes';
+import Search from '../Screens/Search/Search';
 
 
 export default createStackNavigator(

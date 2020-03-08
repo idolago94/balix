@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableHighlight, Alert } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Style from '../../../helpers/style/style';
-import Icon, { iconNames } from '../../Icon/Icon';
+import Icon, { iconNames } from '../../../components/Icon/Icon';
 import RadialGradient from 'react-native-radial-gradient';
 import db from "../../../database/db";
 import {bindActionCreators} from "redux";

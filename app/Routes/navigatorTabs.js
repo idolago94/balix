@@ -9,7 +9,7 @@ import NavigatorPhoto from '../Screens/PhotoScreen/navigatorPhoto';
 import NavigatorRecentActions from '../Screens/RecentActionsScreen/navigatorRecentActions';
 import Routes from './Routes';
 import NavigatorMail from '../components/Mail/navigatorMail';
-import NavigatorSearch from '../components/Search/navigatorSearch';
+import NavigatorSearch from './navigatorSearch';
 
 export default createBottomTabNavigator(
   {

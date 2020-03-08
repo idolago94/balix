@@ -7,9 +7,9 @@ import Header from '../../../components/Header/Header';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getActions } from '../../../store/actions/actionsActions';
-import SearchEmpty from "../../../components/Search/SearchEmpty";
+import SearchEmpty from "../../Search/SearchEmpty";
 import Routes from "../../../Routes/Routes";
-import Result from "../../../components/Search/Result";
+import Result from "../../Search/Result";
 import ActionsEmpty from "./ActionsEmpty";
 
 class RecentActions extends Component {

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 // Components
 import { StyleSheet, View, Image, Animated, TouchableHighlight, Text, Dimensions } from 'react-native';
 import Style from '../../helpers/style/style';
-import Emoji from '../Photo/EmojiBox/Emoji';
+import Emoji from '../../components/Photo/EmojiBox/Emoji';
 import { emojis } from '../../common/emojiVariables';
-import Icon, { iconNames } from '../Icon/Icon';
+import Icon, { iconNames } from '../../components/Icon/Icon';
 
 export default class StoryEmojiBox extends Component {
     // Props = [ emojiSize, emojiPress ]
