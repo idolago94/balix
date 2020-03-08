@@ -1,4 +1,3 @@
-import menuReducer from './sideMenu/menuReducer';
 import { combineReducers } from 'redux';
 import authReducer from './auth/authReducer';
 import searchReducer from './search/searchReducer';
@@ -11,7 +10,6 @@ import usersReducer from './users/usersReducer';
 
 const reducers = combineReducers({
     auth: authReducer,
-    sideMenu: menuReducer,
     search: searchReducer,
     cashButtons: cashButtonsReducer,
     actions: actionsReducer,

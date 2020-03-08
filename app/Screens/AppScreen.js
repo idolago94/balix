@@ -3,14 +3,10 @@ import React, {Component} from 'react';
 import NavigatorMain from '../Routes/navigatorMain';
 // Components
 import {StyleSheet, Text, View, StatusBar, Animated, Dimensions, TouchableHighlight, Platform} from 'react-native';
-// import SideMenu from '../components/SideMenu';
 // import LoginScreen from './LoginScreen/LoginScreen';
 import CashButtons from '../components/CashButtons/CashButtons';
 // Redux
 import {connect} from 'react-redux';
-
-// import Style from '../helpers/style/style';
-// import SignupScreen from "./SignupScreen/SignupScreen";
 
 class AppScreen extends Component {
 
@@ -45,7 +41,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const {openMenu} = state.sideMenu;
   const auth = state.auth;
   return {openMenu, auth};
 };
