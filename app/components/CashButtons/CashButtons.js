@@ -4,15 +4,12 @@ import { StyleSheet, Text, View, TouchableHighlight, Animated } from 'react-nati
 import RequestPass from './RequestPass/RequestPass';
 import Routes from '../../Routes/Routes';
 import AppNavigator from '../../Routes/AppNavigator';
+import { inject } from "mobx-react/native";
 
-// Redux
-import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {toggleButtons} from '../../store/cashButtons/cashButtonsActions';
-
+@inject('AuthStore', 'CashButtonsStore')
 import Style from '../../helpers/style/style';
 
-class CashButtons extends Component {
+export default class CashButtons extends Component {
 
   constructor(props) {
     super(props);
@@ -23,8 +20,17 @@ class CashButtons extends Component {
     this.dropDownBottom = new Animated.Value(-200);
   }
 
+  componentDidMount() {
+    this.openDropDown();
+  }
+
+  componentWillUnMount() {
+    this.closeDropDown();
+  }
+
   checkPassword(pass) {
-    if(pass == this.props.userLogin.password) {
+    const {AuthStore} = this.props;
+    if(pass == AuthStore.getUserLogin.password) {
       this.setState({ authError: '', showAuthBox: false });
       this.navigateTo(Routes.Screens.WITHDRAW.routeName);
     } else {
@@ -33,7 +39,8 @@ class CashButtons extends Component {
   }
 
   navigateTo(routeName) {
-    this.props.toggleButtons();
+    const {CashButtonsStore} = this.props;
+    CashButtonsStore.hideButtons();
     AppNavigator.getRef()._navigation.navigate(routeName);
   }
 
@@ -47,14 +54,6 @@ class CashButtons extends Component {
     Animated.spring(this.dropDownBottom, {
         toValue: -200
     }).start();
-  }
-
-  componentDidUpdate() {
-    if(this.props.showButtons) {
-        this.openDropDown();
-    } else {
-      this.closeDropDown();
-    }
   }
 
   render() {
@@ -98,18 +97,3 @@ const styles = StyleSheet.create({
       zIndex: 999
     }
 });
-
-const mapStateToProps = (state) => {
-  return {
-    showButtons: state.cashButtons.showButtons,
-    userLogin: state.auth.userLogin
-  }
-};
-
-const mapDispatchToProps = dispatch => (
-	bindActionCreators({
-		toggleButtons,
-	}, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(CashButtons);

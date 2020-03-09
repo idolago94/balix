@@ -5,10 +5,9 @@ import Icon, {iconNames} from '../Icon/Icon';
 import { withComma } from '../../common/numberMethods';
 import Svg, { Polygon } from 'react-native-svg';
 
-export default class PhotoIndicator extends Component {
+export default function PhotoIndicator(props) {
   // Props = [ indicators: {cash: number, hearts: number} ]
 
-  render() {
     return (
       <View style={styles.container}>
         <Svg style={{position: 'absolute', top: 0, left: -50}} height="100" width="100">
@@ -21,17 +20,16 @@ export default class PhotoIndicator extends Component {
           <View style={styles.iconBox}>
             <Icon name={iconNames.DOLLAR} size={15} color={Style.colors.lightMain} />
           </View>
-          <Text style={styles.number}>{withComma(this.props.indicators.cash)}</Text>
+          <Text style={styles.number}>{withComma(props.indicators.cash)}</Text>
         </View>
         <View style={styles.indicatorBox}>
           <View style={styles.iconBox}>
             <Icon name={iconNames.HEART} size={15} color={Style.colors.lightMain} />
           </View>
-          <Text style={{...styles.number, paddingHorizontal: 3}}>{withComma(this.props.indicators.hearts)}</Text>
+          <Text style={{...styles.number, paddingHorizontal: 3}}>{withComma(props.indicators.hearts)}</Text>
         </View>
       </View>
     );
-  }
 }
 
 const styles = StyleSheet.create({

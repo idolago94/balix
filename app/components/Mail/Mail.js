@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
 import Conversation from './Conversation';
 import Style from '../../helpers/style/style';
+import { inject, observer } from "mobx-react/native";
 
-class Mail extends Component {
+@inject('AuthStore')
+export default class Mail extends Component {
 
   render() {
     return (
       <View style={styles.container}>
         {
-          this.props.userLogin.conversations.map((conv, i) => (
-            <Conversation key={i} {...this.props.navigation} userLogin={this.props.userLogin} conversationId={conv} />
+          this.props.AuthStore.getUserLogin.conversations.map((conv, i) => (
+            <Conversation key={i} {...this.props.navigation} userLogin={this.props.AuthStore.getUserLogin} conversationId={conv} />
           ))
         }
       </View>
@@ -26,11 +27,3 @@ const styles = StyleSheet.create({
     backgroundColor: Style.colors.background,
   }
 });
-
-const mapStateToProps = (state) => {
-  return {
-    userLogin: state.auth.userLogin
-  }
-};
-
-export default connect(mapStateToProps)(Mail);

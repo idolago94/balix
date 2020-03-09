@@ -29,17 +29,16 @@ export default function FormField(props) {
                     </TouchableHighlight>
                 </View>
                 {
-                    (!props.confirm) ? (null) :
-                        (
-                            <View style={styles.field}>
-                                <TextInput
-                                    secureTextEntry={securePassword}
-                                    onChangeText={(confirmPassword) => props.confirm(confirmPassword)}
-                                    placeholderTextColor={Style.colors.text} style={styles.input}
-                                    placeholder='Password Confirm'
-                                />
-                            </View>
-                        )
+                    props.confirm && (
+                        <View style={styles.field}>
+                            <TextInput
+                                secureTextEntry={securePassword}
+                                onChangeText={(confirmPassword) => props.confirm(confirmPassword)}
+                                placeholderTextColor={Style.colors.text} style={styles.input}
+                                placeholder='Password Confirm'
+                            />
+                        </View>
+                    )
                 }
             </View>
         )

@@ -14,9 +14,6 @@ export default createAppContainer(createStackNavigator(
     [Routes.Navigators.REGISTER.routeName]: {
         screen: ResgisterNavigator
     },
-    [Routes.Screens.APP_SCREEN.routeName]: {
-      screen: AppScreen
-    }
   },
   {
 		mode: 'modal', //must be modal for transparent background

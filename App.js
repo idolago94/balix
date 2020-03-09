@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
-// Redux
-import {Provider} from 'react-redux';
-import store from './app/store/store';
+import {StatusBar} from 'react-native';
 import LoginNavigator from './app/Routes/navigatorLogin';
-import AppNavigator from './app/Routes/AppNavigator';
+import { Provider } from "mobx-react/native";
+import * as Stores from './app/mobx';
+import AppScreen from './app/Screens/AppScreen';
+import { inject, observer } from "mobx-react/native";
 
+@inject('AuthStore')
+@observer
 export default class App extends Component {
-
 	render() {
+		const Root = this.props.AuthStore.getUserLogin ? AppScreen : LoginNavigator;
 		return (
-			<Provider store={store}>
-				<LoginNavigator ref={(r) => AppNavigator.setRef(r)} />
+			<Provider store={...Stores}>
+          		<StatusBar barStyle={'light-content'}/>
+				<Root />
 			</Provider>
 		);
 	}

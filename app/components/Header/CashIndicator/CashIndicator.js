@@ -6,15 +6,10 @@ import {withComma} from '../../../common/numberMethods';
 import LinearGradient from 'react-native-linear-gradient';
 
 
-export default class CashIndicator extends Component {
+export default function CashIndicator(props) {
 
-	plusPress() {
-		this.props.openTabs();
-	}
-
-	render() {
 		return (
-			<TouchableHighlight onPress={this.plusPress.bind(this)}>
+			<TouchableHighlight onPress={() => props.onPress()}>
 				<View style={{
 					flexDirection: 'row',
 					alignItems: 'center',
@@ -41,33 +36,6 @@ export default class CashIndicator extends Component {
 				</View>
 			</TouchableHighlight>
 		);
-
-		// return (
-		// 	<View style={{flexDirection: 'row', alignItems: 'center'}}>
-		// 		<View style={{}}>
-		// 			<View style={{
-		// 				flexDirection: 'row',
-		// 				alignItems: 'center',
-		// 				padding: 2,
-		// 				margin: 2,
-		// 				borderBottomColor: 'gray',
-		// 				borderBottomWidth: 1,
-		// 			}}>
-		// 				<Icon name={iconNames.MONEY_BAG} size={15} color={Style.colors.lightMain}/>
-		// 				<Text style={styles.number}>{withComma(this.props.cash)}</Text>
-		// 			</View>
-		// 			<View style={{flexDirection: 'row', alignItems: 'center', padding: 2, margin: 2}}>
-		// 				<Icon name={iconNames.HEART} size={15} color={Style.colors.lightMain}/>
-		// 				<Text style={{...styles.number, fontSize: 10}}>{withComma(this.props.hearts)}</Text>
-		// 			</View>
-		// 		</View>
-		// 		<TouchableHighlight onPress={this.plusPress.bind(this)}
-		// 							style={{borderRadius: 999, padding: 3, backgroundColor: Style.colors.lightMain}}>
-		// 			<Icon name={iconNames.PLUS} size={8} color={'white'}/>
-		// 		</TouchableHighlight>
-		// 	</View>
-		// );
-	}
 }
 
 const styles = StyleSheet.create({

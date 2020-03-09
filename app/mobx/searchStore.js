@@ -31,6 +31,11 @@ class SearchStore {
     }
 
     @action
+    clearResults() {
+        this.setResults([]);
+    }
+
+    @action
     handleSearch(word) {
         console.log('SearchStore -> handleSearch -> ', word);
         this.status = 'PENDING';

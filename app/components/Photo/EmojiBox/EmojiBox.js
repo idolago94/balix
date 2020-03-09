@@ -7,7 +7,7 @@ import { emojis } from '../../../common/emojiVariables';
 import Icon, { iconNames } from '../../Icon/Icon';
 
 export default class EmojiBox extends Component {
-    // Props = [ emojiSize, emojiPress ]
+    // Props = [ emojiSize, emojiPress, heartPress, includeHeart ]
 
     constructor(props) {
         super(props);
@@ -24,7 +24,15 @@ export default class EmojiBox extends Component {
         this.setState({emojis: emojis})
     }
 
+    componentWillUnMount() {
+        Animated.spring(this.animation, {
+            toValue: 0,
+         }).start();
+         this.setState({emojis: emojis})
+    }
+
     render() {
+        const {emojiSize, emojiPress, heartPress, includeHeart} = this.props;
         return (
             <Animated.View
               style={{
@@ -36,22 +44,18 @@ export default class EmojiBox extends Component {
                 })
               }}
             >
-                {
-                    (!this.props.includeHeart) ? (<View></View>) :
-                    (
-                    <TouchableHighlight style={{margin: 7}} onPress={(ev) => this.props.heartPress(ev)}>
+                {includeHeart && (
+                    <TouchableHighlight style={{margin: 7}} onPress={(ev) => heartPress(ev)}>
                         <View >
-                            <Icon name={iconNames.FULL_HEART} size={this.props.emojiSize} color={Style.colors.heart} />
-                            {/* <Text style={{color: Style.colors.text, fontSize: 10}}>0$</Text> */}
+                            <Icon name={iconNames.FULL_HEART} size={emojiSize} color={Style.colors.heart} />
                             <View style={{width: '100%', height: 13}}></View>
                         </View>
                     </TouchableHighlight>
-                    )
-                }
+                )}
                 {
                     Object.keys(this.state.emojis).map((key, i) => (
-                        <TouchableHighlight key={i} onPress={(ev) => this.props.emojiPress(this.state.emojis[key], ev)}>
-                            <Emoji data={this.state.emojis[key]} size={this.props.emojiSize} />
+                        <TouchableHighlight key={i} onPress={(ev) => emojiPress(this.state.emojis[key], ev)}>
+                            <Emoji data={this.state.emojis[key]} size={emojiSize} />
                         </TouchableHighlight>
                     ))
                 }

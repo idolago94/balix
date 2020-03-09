@@ -7,13 +7,12 @@ import CashIndicator from './CashIndicator/CashIndicator';
 import Routes from '../../Routes/Routes';
 // Helper
 import Style from '../../helpers/style/style';
-// Redux
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {handleSearch, clearSearch} from '../../store/search/searchActions';
-import {toggleButtons} from '../../store/cashButtons/cashButtonsActions';
 
-class Header extends Component {
+import { inject, observer } from "mobx-react/native";
+
+@inject('SearchStore', 'CashButtonsStore', 'AuthStore')
+@observer
+export default class Header extends Component {
 	constructor(props) {
 		super(props);
 
@@ -30,7 +29,7 @@ class Header extends Component {
 		if (this.props.state.routeName === Routes.Screens.SEARCH.routeName) {
 			this.startInputAnimation();
 		}
-		if (this.props.state.routeName === Routes.Screens.PROFILE.routeName && this.props.getParam('userData') && this.props.getParam('userData').userId !== this.props.userLogin._id) {
+		if (this.props.state.routeName === Routes.Screens.PROFILE.routeName && this.props.getParam('userData') && this.props.getParam('userData').userId !== this.props.AuthStore.getUserLogin._id) {
 			this.hideIndicator();
 		}
 	}
@@ -73,50 +72,34 @@ class Header extends Component {
 		]).start();
 	}
 
-	toggleMenu() {
-		this.props.changeMenuStatus();
-	}
-
 	navigateTo(routeName, params) {
 		this.props.navigate(routeName, params);
 	}
 
 	handleSearch(text) {
+		const {SearchStore} = this.props;
 		if(text.length >= 3) {
-			this.props.handleSearch(text);
+			SearchStore.handleSearch(text);
 		}
 		if(text.length < 3) {
-			this.props.clearSearch();
+			SearchStore.clearResults();
 		}
 	}
 
 	render() {
-		const {toggleDrawer, userLogin} = this.props;
+		const {toggleDrawer, AuthStore, CashButtonsStore} = this.props;
 		return (
 			<View style={styles.header}>
 				<Animated.View style={{...styles.leftSide, opacity: this.indicatorOpacity, maxWidth: this.indicatorWidth, maxHeight: this.indicatorWidth}}>
 					{
-						(this.props.state.routeName === Routes.Screens.PROFILE.routeName && this.props.getParam('userData') && this.props.getParam('userData').userId === userLogin._id) ?
+						(this.props.state.routeName === Routes.Screens.PROFILE.routeName && this.props.getParam('userData') && this.props.getParam('userData').userId === AuthStore.getUserLogin._id) ?
 							null :
 							<CashIndicator
-								openTabs={this.props.toggleButtons.bind(this)}
-								cash={userLogin.cash} hearts={userLogin.hearts}
+								onPress={() => CashButtonsStore.toggleButtons()}
+								cash={AuthStore.getUserLogin.cash} hearts={AuthStore.getUserLogin.hearts}
 							/>
 					}
 				</Animated.View>
-
-				{/*{*/}
-				{/*	(this.props.state.routeName === Routes.Screens.SEARCH.routeName) ? (null) :*/}
-				{/*		(*/}
-				{/*			<TouchableHighlight onPress={this.navigateTo.bind(this, Routes.Screens.CAMERA.routeName, {story_live: true})} style={{padding: 5, backgroundColor: Style.colors.bar, borderRadius: 999, aspectRatio: 1, transform: [{translateY: 8}]}}>*/}
-				{/*				<View style={{borderRadius: 999, padding: 7, borderColor: 'white', borderWidth: 1}}*/}
-				{/*					  // colors={[Style.colors.lightMain, Style.colors.darkMain]}*/}
-				{/*				>*/}
-				{/*					<Icon name={iconNames.CAMERA} color={Style.colors.text} size={20} />*/}
-				{/*				</View>*/}
-				{/*			</TouchableHighlight>*/}
-				{/*		)*/}
-				{/*}*/}
 
 				<View style={styles.rightSide}>
 					{
@@ -187,15 +170,11 @@ const styles = StyleSheet.create({
 	rightSide: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		// borderColor: 'blue',
-		// borderWidth: 1,
 	},
 	leftSide: {
 		marginLeft: 10,
 		alignItems: 'center',
 		flexDirection: 'row',
-		// borderColor: 'red',
-		// borderWidth: 1,
 	},
 	cash: {
 		color: Style.colors.text,
@@ -238,20 +217,3 @@ const styles = StyleSheet.create({
 		backgroundColor: Style.colors.background,
 	},
 });
-
-const mapStateToProps = (state) => {
-	return {
-		userLogin: state.auth.userLogin,
-		wordSearch: state.search.wordSearch,
-	};
-};
-
-const mapDispatchToProps = dispatch => (
-	bindActionCreators({
-		handleSearch,
-		toggleButtons,
-		clearSearch
-	}, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);

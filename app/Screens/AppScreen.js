@@ -1,27 +1,31 @@
 import React, {Component} from 'react';
 // Navigation
 import NavigatorMain from '../Routes/navigatorMain';
+import AppNavigator from '../Routes/AppNavigator';
 // Components
-import {StyleSheet, Text, View, StatusBar, Animated, Dimensions, TouchableHighlight, Platform} from 'react-native';
+import {StyleSheet, View, Dimensions} from 'react-native';
 // import LoginScreen from './LoginScreen/LoginScreen';
 import CashButtons from '../components/CashButtons/CashButtons';
-// Redux
-import {connect} from 'react-redux';
 
-class AppScreen extends Component {
+import { inject, observer } from "mobx-react/native";
+
+
+@inject('CashButtonsStore', 'AuthStore')
+@observer
+export default class AppScreen extends Component {
 
   constructor(props) {
     super(props);
   }
 
   render() {
+    const {CashButtonsStore, AuthStore} = this.props;
     if(this.props.auth.userLogin && this.props.auth.userLogin._id) {
       return (
         <View style={styles.screen}>
-        <CashButtons />
-        <StatusBar barStyle={'light-content'}/>
-        <NavigatorMain />
-      </View>
+          {CashButtonsStore.isVisible && <CashButtons />}
+          <NavigatorMain ref={(r) => AppNavigator.setRef(r)}/>
+        </View>
       );
     }
   }
@@ -39,10 +43,3 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 });
-
-const mapStateToProps = (state) => {
-  const auth = state.auth;
-  return {auth};
-};
-
-export default connect(mapStateToProps)(AppScreen);

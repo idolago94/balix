@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { textColor } from '../../../common/style';
 
-export default class SingleComment extends Component {
+export default function SingleComment(props) {
     // Props = [ data ]
 
-  render() {
     return (
         <View style={{flexDirection: 'row'}}>
-            <Text style={styles.name}>{this.props.data.user}: </Text>
-            <Text style={styles.content}>{this.props.data.comment}</Text>
+            <Text style={styles.name}>{props.data.user}: </Text>
+            <Text style={styles.content}>{props.data.comment}</Text>
         </View>
     );
-  }
 }
 
 const styles = StyleSheet.create({

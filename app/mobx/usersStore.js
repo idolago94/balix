@@ -1,5 +1,6 @@
 import { observable, action, computed } from "mobx";
 import db from "../database/db";
+import { updateUserLogin } from "../store/auth/authActions";
 
 
 class UsersStore {
@@ -28,6 +29,15 @@ class UsersStore {
     setErrors(...errors) {
         this.status = false;
         this.errors = errors;
+    }
+
+    @action
+    updateUser(user_id, field_to_update) {
+        this.users.forEach(u => {
+            if(u._id == user_id) {
+                return Object.assign(u, field_to_update);
+            }
+        })
     }
 
     @action

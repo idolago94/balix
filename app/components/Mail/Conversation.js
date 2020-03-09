@@ -5,7 +5,9 @@ import messageService from '../../demoDB/Messages/messageService';
 import ProfileSymbol from '../ProfileSymbol/ProfileSymbol';
 import Style from '../../helpers/style/style';
 import Routes from '../../Routes/Routes';
+import { inject, observer } from "mobx-react/native";
 
+@inject('AuthStore')
 export default class Conversation extends Component {
 
     constructor(props) {
@@ -18,7 +20,7 @@ export default class Conversation extends Component {
 
     componentDidMount() {
         let messages = messageService.getConversationMessages(this.props.conversationId);
-        let talkWith = (messages[0].senderId == this.props.userLogin._id) ? (messages[0].receiverId) : (messages[0].senderId);
+        let talkWith = (messages[0].senderId == this.props.AuthStore.getUserLogin._id) ? (messages[0].receiverId) : (messages[0].senderId);
         talkWith = userService.getUserById(talkWith);
         this.setState({
             messages: messages,
@@ -31,7 +33,7 @@ export default class Conversation extends Component {
         (this.state.messages && this.state.talkWith) ?
         (
         <TouchableHighlight onPress={() => this.props.navigate(Routes.Screens.CONVERSATION.routeName, {
-            conversationData: { userLogin: this.props.userLogin, messages: this.state.messages, talkWith: this.state.talkWith }
+            conversationData: { userLogin: this.props.AuthStore.getUserLogin, messages: this.state.messages, talkWith: this.state.talkWith }
         })}>
         <View style={styles.container}>
             <ProfileSymbol src={this.state.talkWith.profileImage} size={40} style={{margin: 5}} />

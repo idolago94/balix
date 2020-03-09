@@ -18,6 +18,12 @@ export default class RequestPass extends Component {
     }).start()
   }
 
+  componentWillUnMount() {
+    Animated.spring(this.requestHeight, {
+      toValue: 0
+    }).start()
+  }
+
   confirmPress(pass) {
     this.props.onConfirm(pass);
   }
