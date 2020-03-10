@@ -30,13 +30,13 @@ class AuthStore {
     }
 
     @action
-    login(username, password) {
-        console.log('authStore -> login -> ', username);
+    login(authData) {
+        console.log('authStore -> login -> ', authData.username);
         this.status = 'PENDING';
         fetch(`${db.url}/users/login`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json', 'Content-Length': '*'},
-            body: JSON.stringify({username, password})
+            body: JSON.stringify(authData)
         }).then(res => res.json()).then(authResponse => {
             if(authResponse._id) {
                 this.setErrors(undefined);

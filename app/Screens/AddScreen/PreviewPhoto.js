@@ -6,8 +6,10 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import { updateUserLogin } from "../../store/auth/authActions";
 import Routes from "../../Routes/Routes";
+import { inject, observer } from "mobx-react/native";
 
-class PreviewPhoto extends Component {
+@inject('AuthStore')
+export default class PreviewPhoto extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
         style: {
@@ -23,13 +25,18 @@ class PreviewPhoto extends Component {
       storyMode: undefined,
       rotateDeg: 0
     }
+    this.focusListener = null;
   }
 
   componentDidMount() {
-    this._sub = this.props.navigation.addListener(
-      'didFocus',
+    this.focusListener = this.props.navigation.addListener(
+      'willFocus',
       this.getDataFromParams.bind(this)
     );
+  }
+
+  componentWillUnMount() {
+    this.focusListener.remove();
   }
 
   getDataFromParams() {
@@ -42,11 +49,11 @@ class PreviewPhoto extends Component {
   }
 
   postImage() {
-    const {userLogin} = this.props;
+    const {AuthStore} = this.props;
     let requestBody = {
       file: this.state.imageData
     };
-    fetch(`${db.url}/content/upload?id=${userLogin._id}`, {
+    fetch(`${db.url}/content/upload?id=${AuthStore.getUserLogin._id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -63,9 +70,8 @@ class PreviewPhoto extends Component {
 
   onImagePosted(serverResponse) {
     console.log('PreviewPhoto -> onImagePosted');
-    const {navigation, userLogin, updateUserLogin} = this.props;
-    let updatedUser = {...userLogin, uploads: serverResponse};
-    updateUserLogin(updatedUser);
+    const {navigation, AuthStore} = this.props;
+    AuthStore.updateUserLogin({uploads: serverResponse});
     navigation.navigate(Routes.Screens.HOME.routeName);
   }
 
@@ -123,17 +129,3 @@ const styles = StyleSheet.create({
     padding: 10
   }
 });
-
-const mapStateToProps = (state) => {
-  return {
-    userLogin: state.auth.userLogin
-  };
-};
-
-const mapDispatchToProps = dispatch => (
-    bindActionCreators({
-      updateUserLogin
-    }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(PreviewPhoto);

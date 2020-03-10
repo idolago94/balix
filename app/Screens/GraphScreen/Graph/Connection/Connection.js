@@ -6,8 +6,10 @@ import Popup from './Popup';
 import { connect } from 'react-redux';
 import Routes from '../../../../Routes/Routes';
 import db from "../../../../database/db";
+import { inject, observer } from "mobx-react/native";
 
-class Connection extends Component {
+@inject('AuthStore')
+export default class Connection extends Component {
 
   symbolSize = 45;
   bigCircleSize = Dimensions.get('window').width*0.90;
@@ -23,43 +25,6 @@ class Connection extends Component {
       sub_mostVolunteers: []
     }
     this.popAnimation = new Animated.Value(0);
-  }
-
-  componentDidMount() {
-    // this.getMostVolunteers();
-  }
-
-  componentDidUpdate() {
-    // this.getMostVolunteers();
-  }
-
-  getMostVolunteers() {
-    let getEmoji_actions = this.props.userActions.filter(act => (act.disactive_user_id == this.props.userLogin._id && act.type == 0));
-    let volunteers_ids = [];
-    let volunteers_amount = [];
-
-    getEmoji_actions.map((act, i) => {
-      let index = volunteers_ids.indexOf(act.active_user_id);
-      if(index == -1) {
-        volunteers_ids.push(act.active_user_id);
-        volunteers_amount.push(act.emoji.value);
-      } else {
-        volunteers_amount[index] = volunteers_amount[index] + act.emoji.value;
-      }
-    });
-
-    fetch(`${db.url}/users/getUsers?ids=${volunteers_ids.join(',')}`)
-        .then(res => res.json()).then(response => {
-      let volunteers = [];
-      for(let i=0; i<volunteers_ids.length; i++) {
-        volunteers.push({
-          user: response.find(user => user._id == volunteers_ids[i]),
-          amount: volunteers_amount[i]
-        });
-      }
-      volunteers = volunteers.sort((a, b) => b.amount - a.amount);
-      this.setState({ mostVolunteers: volunteers });
-    });
   }
 
   calculateLocation(circleSize, symbolSize, deg) {
@@ -155,7 +120,7 @@ class Connection extends Component {
                 })
               }
               <View style={styles.imageBox}>
-                <ProfileSymbol src={this.props.userLogin.profileImage} size={130} />
+                <ProfileSymbol src={this.props.AuthStore.getUserLogin.profileImage} size={130} />
               </View>
             </View>
           </View>
@@ -193,11 +158,3 @@ const styles = StyleSheet.create({
     position: 'absolute'
   }
 });
-
-const mapStateToProps = (state) => {
-  const userLogin = state.auth.userLogin;
-  const users = state.users.users;
-  return { userLogin, users }
-};
-
-export default connect(mapStateToProps)(Connection);

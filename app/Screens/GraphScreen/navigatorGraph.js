@@ -4,11 +4,6 @@ import commonRoutes from '../../Routes/commonRoutes';
 import Style from '../../helpers/style/style';
 import Routes from '../../Routes/Routes';
 
-// export const graphRoutesName = {
-// 	GRAPH: 'Graph',
-// 	MAIL: 'Mail',
-// 	PROFILE_VIEW: 'ProfileView',
-// };
 
 export default createStackNavigator(
 	{

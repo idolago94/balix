@@ -4,17 +4,15 @@ import Style from '../../helpers/style/style';
 import {StyleSheet, Text, View, TouchableHighlight, TextInput, Animated, Platform} from 'react-native';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import { LinearTextGradient } from "react-native-text-gradient";
-// Redux
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { login } from '../../store/auth/authActions';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager} from 'react-native-fbsdk';
 import FormField from '../../components/FormField/FormField';
 import Routes from '../../Routes/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
 import TextButton from '../../components/TextButton/TextButton';
+import { inject, observer } from "mobx-react/native";
 
-class LoginScreen extends Component {
+@inject('AuthStore')
+export default class LoginScreen extends Component {
 
   constructor(props) {
     console.log('Login Screen');
@@ -24,17 +22,8 @@ class LoginScreen extends Component {
     }
   }
 
-  componentDidUpdate() {
-    console.log('Login Screen -> componentDidUpdate');
-    const {navigation, auth}  = this.props;
-    if(auth.userLogin) {
-      console.log('navigate to app');
-      navigation.navigate(Routes.Screens.APP_SCREEN.routeName);
-    }
-  }
-
   onLogin() {
-    const {login} = this.props;
+    const {AuthStore} = this.props;
     let auth = {
       username: this.state.username,
       password: this.state.password
@@ -43,7 +32,7 @@ class LoginScreen extends Component {
       //   username: 'Test',
       //   password: '1234'
       // }
-    login(auth);
+    AuthStore.login(auth);
   }
 
   //  async getFacebookUserData(user) {
@@ -58,20 +47,16 @@ class LoginScreen extends Component {
   //   }
 
   render() {
-    const {navigation} = this.props;
+    const {navigation, AuthStore} = this.props;
     return (
         <View style={styles.container}>
           <AppTitle />
             <View style={styles.form}>
-                {
-                    (!this.props.auth.error) ? (<View></View>) :
-                    (
-                        <View style={styles.errorBox}>
-                            <Text style={{color: Style.colors.text}}>{this.props.auth.error}</Text>
-                        </View>
-                    )
-                }
-
+              {AuthStore.getErrors.length > 0 && (
+                <View style={styles.errorBox}>
+                  <Text style={{color: Style.colors.text}}>{this.props.auth.error}</Text>
+                </View>
+              )}
                 <FormField
                     placeholder={'Username or Email'}
                     onChange={(username) => this.setState({username})}
@@ -144,16 +129,3 @@ const styles = StyleSheet.create({
       backgroundColor: Style.colors.errorBackground
   }
 });
-
-const mapStateToProps = (state) => {
-  const auth = {...state.auth};
-  return { auth }
-};
-
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({
-    login,
-  }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

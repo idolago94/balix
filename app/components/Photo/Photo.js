@@ -56,6 +56,16 @@ export default class Photo extends Component {
     ];
   }
 
+  componentDidMount() {
+    let userData;
+    if(this.props.data.user_id == this.props.AuthService.getUserLogin._id) {
+      userData = this.props.AuthService.getUserLogin;
+    } else {
+      userData = this.props.UsersStore.getUsers.find(user => user._id == this.props.data.user_id);
+    }
+    this.setState({userData: userData, imageData: this.props.data});
+  }
+
   toggleEmoji() {
     this.setState((prevState) => {
       return {
@@ -238,16 +248,6 @@ export default class Photo extends Component {
     }).catch(err => {
       console.log(err);
     });
-  }
-
-  componentDidMount() {
-    let userData;
-    if(this.props.data.user_id == this.props.AuthService.getUserLogin._id) {
-      userData = this.props.AuthService.getUserLogin;
-    } else {
-      userData = this.props.UsersStore.getUsers.find(user => user._id == this.props.data.user_id);
-    }
-    this.setState({userData: userData, imageData: this.props.data});
   }
 
   navigateToProfile() {

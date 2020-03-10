@@ -6,7 +6,6 @@ import AddHeader from './AddHeader';
 import AddBottomBar from './AddBottomBar';
 import { RNCamera } from 'react-native-camera';
 import CameraRoll from "@react-native-community/cameraroll";
-import {PermissionsAndroid} from 'react-native';
 import Routes from '../../Routes/Routes';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import ImagePicker from 'react-native-image-picker';
@@ -28,10 +27,11 @@ export default class CameraScreen extends Component {
       postMode: undefined,
       flashMode: false
     }
+    this.focusListener = null;
   }
 
   componentDidMount() {
-    this.props.navigation.addListener(
+    this.focusListener = this.props.navigation.addListener(
         'willFocus', () => {
           let story_live = this.props.navigation.getParam('story_live');
           console.log(story_live);
@@ -39,6 +39,10 @@ export default class CameraScreen extends Component {
         }
     );
     this.askCameraRollPermission();
+  }
+
+  componentWillUnMount() {
+    this.focusListener.remove();
   }
 
   switchCamera() {
@@ -67,54 +71,30 @@ export default class CameraScreen extends Component {
   }
 
   async askCameraRollPermission() {
-    if(Platform.OS) {
-      check(PERMISSIONS.IOS.CAMERA)
-          .then(result => {
-            switch (result) {
-              case RESULTS.UNAVAILABLE:
-                console.log('This feature is not available (on this device / in this context)');
-                break;
-              case RESULTS.DENIED:
-                console.log('The permission has not been requested / is denied but requestable');
-                request(PERMISSIONS.IOS.CAMERA).then(res => console.log(res));
-                break;
-              case RESULTS.GRANTED:
-                console.log('The permission is granted');
-                break;
-              case RESULTS.BLOCKED:
-                console.log('The permission is denied and not requestable anymore');
-                alert('This app can not access to your camera. ')
-                this.props.navigation.navigate(Routes.Screens.HOME.routeName);
-                break;
-
-            }
-          })
-    } else {
-      await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: 'Cool Photo App Camera Permission',
-            message:
-                'Cool Photo App needs access to your camera ' +
-                'so you can take awesome pictures.',
-            buttonNeutral: 'Ask Me Later',
-            buttonNegative: 'Cancel',
-            buttonPositive: 'OK',
-          }
-      );
-    }
+    let cameraPermission = Platform.OS == 'ios' ? PERMISSIONS.IOS.CAMERA:PERMISSIONS.ANDROID.CAMERA;
+    check(cameraPermission).then(result => {
+      switch (result) {
+        case RESULTS.UNAVAILABLE:
+          console.log('This feature is not available (on this device / in this context)');
+          break;
+        case RESULTS.DENIED:
+          console.log('The permission has not been requested / is denied but requestable');
+          request(cameraPermission).then(res => console.log(res));
+          break;
+        case RESULTS.GRANTED:
+          console.log('The permission is granted');
+          break;
+        case RESULTS.BLOCKED:
+          console.log('The permission is denied and not requestable anymore');
+          alert('This app can not access to your camera. ')
+          this.props.navigation.navigate(Routes.Screens.HOME.routeName);
+          break;
+      }
+    });
   }
 
   navigateTo(routeName, params) {
-    if(this.state.story_live && this.state.postMode == 'live') {
-      // live post
-    } else {
-      // story or regular post
-      if(this.state.story_live && this.state.postMode == 'story') {
-        params.storyMode = this.state.postMode;
-      }
-      this.props.navigation.navigate(routeName, params);
-    }
+    this.props.navigation.navigate(routeName, params);
   }
 
   onGallery() {
@@ -129,21 +109,16 @@ export default class CameraScreen extends Component {
     });
   }
 
-  onChangeMode(mode) {
-    this.setState({postMode: mode});
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        {
-          (this.state.story_live != 'live') ? (null) :
-              (
-                  <View style={{position: 'absolute', top: 40, right: 10, borderWidth: 1, borderRadius: 10, borderColor: Style.colors.lightMain}}>
-                    <Text style={{color: Style.colors.text, padding: 10}}>10$</Text>
-                  </View>
-              )
-        }
+        {/* cash indicators for live */}
+        {this.state.story_live != 'live' && (
+          <View style={{position: 'absolute', top: 40, right: 10, borderWidth: 1, borderRadius: 10, borderColor: Style.colors.lightMain}}>
+            <Text style={{color: Style.colors.text, padding: 10}}>10$</Text>
+          </View>
+        )}
+        {/*  */}
         <RNCamera
           ref={ref => {
             this.camera = ref;
@@ -151,18 +126,6 @@ export default class CameraScreen extends Component {
           style={{flex:1}}
           type={this.state.cameraType}
           flashMode={(this.state.flashMode) ? (RNCamera.Constants.FlashMode.on) : (RNCamera.Constants.FlashMode.off)}
-          // androidCameraPermissionOptions={{
-          //   title: 'Permission to use camera',
-          //   message: 'We need your permission to use your camera',
-          //   buttonPositive: 'Ok',
-          //   buttonNegative: 'Cancel',
-          // }}
-          // androidRecordAudioPermissionOptions={{
-          //   title: 'Permission to use audio recording',
-          //   message: 'We need your permission to use your audio',
-          //   buttonPositive: 'Ok',
-          //   buttonNegative: 'Cancel',
-          // }}
         />
         {
           (!this.state.flashMode) ?
@@ -184,19 +147,20 @@ export default class CameraScreen extends Component {
         {
           (this.state.story_live == 'live') ?
               (
-                  <TouchableHighlight style={styles.liveButton}>
-                    <LinearGradient colors={[Style.colors.lightMain, Style.colors.darkMain]} style={{borderRadius: 10, padding: 10, paddingHorizontal: 30}}>
-                      <Text style={{color: Style.colors.text, fontSize: 20, letterSpacing: 3}}>{'>> GO LIVE <<'}</Text>
-                    </LinearGradient>
-                  </TouchableHighlight>
+                // live button
+                <TouchableHighlight style={styles.liveButton}>
+                  <LinearGradient colors={[Style.colors.lightMain, Style.colors.darkMain]} style={{borderRadius: 10, padding: 10, paddingHorizontal: 30}}>
+                    <Text style={{color: Style.colors.text, fontSize: 20, letterSpacing: 3}}>{'>> GO LIVE <<'}</Text>
+                  </LinearGradient>
+                </TouchableHighlight>
+                // 
               ) :
               (<AddBottomBar
-                  onChangeMode={this.onChangeMode.bind(this)}
                   story_live={this.state.story_live}
                   onGallery={this.onGallery.bind(this)}
-                  onSwitch={this.switchCamera.bind(this)} onPicture={this.takePicture.bind(this)} />)
+                  onSwitch={this.switchCamera.bind(this)} onPicture={this.takePicture.bind(this)} 
+              />)
         }
-
       </View>
     );
   }

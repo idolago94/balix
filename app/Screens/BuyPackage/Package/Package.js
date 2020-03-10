@@ -5,11 +5,10 @@ import Style from '../../../helpers/style/style';
 import Icon, { iconNames } from '../../../components/Icon/Icon';
 import RadialGradient from 'react-native-radial-gradient';
 import db from "../../../database/db";
-import {bindActionCreators} from "redux";
-import {connect} from "react-redux";
-import { updateUserLogin } from "../../../store/auth/authActions";
+import { inject, observer } from "mobx-react/native";
 
-class Package extends Component {
+@inject('AuthStore')
+export default class Package extends Component {
 
     packagePress() {
         let bodyRequest = {
@@ -19,14 +18,14 @@ class Package extends Component {
                 hearts: this.props.data.hearts
             }
         };
-        fetch(`${db.url}/users/buyPackage?id=${this.props.userLogin._id}`, {
+        fetch(`${db.url}/users/buyPackage?id=${this.props.AuthStore.getUserLogin._id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(bodyRequest)
         }).then(res => res.json()).then(response => {
-            this.props.updateUserLogin(response);
+            this.props.AuthStore.updateUserLogin(response);
             Alert.alert(`You parchased more ${bodyRequest.recieve.cash}$ and ${bodyRequest.recieve.hearts} hearts.` );
             console.log(`${response.cash}$`, response.hearts);
         });
@@ -99,17 +98,3 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 });
-
-const mapStateToProps = (state) => {
-    return {
-        userLogin: state.auth.userLogin
-    }
-};
-
-const mapDispatchToProps = dispatch => (
-    bindActionCreators({
-        updateUserLogin
-    }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Package);

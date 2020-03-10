@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import Emoji from '../../components/Photo/EmojiBox/Emoji';
 import { emojis } from '../../common/emojiVariables';
 
-class LiveScreen extends Component {
+export default class LiveScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             tabBarVisible: false
@@ -418,11 +418,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 });
-
-
-const mapStateToProps = (state) => {
-  const userLogin = state.auth.userLogin;
-  return { userLogin }
-};
-
-export default connect(mapStateToProps)(LiveScreen);

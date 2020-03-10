@@ -1,40 +1,32 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { StyleSheet, Text, View, Image, Button, TouchableOpacity } from 'react-native';
 import imageService from '../../../demoDB/Images/imageService';
 import Routes from '../../../Routes/Routes';
 import bufferToBase64 from '../../../helpers/convert/Buffer';
 
-export default class Photos extends Component {
+export default function Photos(propa) {
+  const [userImages, setUserImages] = useState([]);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      userImages: []
-    }
+  function goToPhoto(params) {
+    props.navigate(Routes.Screens.PHOTO.routeName, params);
   }
 
-  goToPhoto(params) {
-    this.props.navigate(Routes.Screens.PHOTO.routeName, params);
-  }
-
-    render() {
     return (
       <View style={styles.container}>
           {
-              this.props.user.uploads.map((img, i) => {
+              props.user.uploads.map((img, i) => {
                   return (
                       <TouchableOpacity
                           key={i}
                           style={styles.imageBox}
-                          onPress={this.goToPhoto.bind(this, {
-                              userData: this.props.user,
+                          onPress={() => goToPhoto({
+                              userData: props.user,
                               selectedImage: img,
-                              userImages: this.props.user.uploads
+                              userImages: props.user.uploads
                           })}
                       >
                           <Image
                               source={{uri:`data:${img.contentType};base64,${bufferToBase64(img.buffer)}`}}
-                              // source={{uri:img.base64}}
                               style={styles.photo}
                           />
                       </TouchableOpacity>
@@ -43,7 +35,6 @@ export default class Photos extends Component {
           }
       </View>
     );
-  }
 }
 
 const styles = StyleSheet.create({

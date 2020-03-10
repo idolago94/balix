@@ -4,7 +4,6 @@ import Style from '../../helpers/style/style';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import CameraRoll from "@react-native-community/cameraroll";
 import Routes from '../../Routes/Routes';
-import Swiper from 'react-native-swiper';
 
 export default class AddBottomBar extends Component {
 
@@ -17,7 +16,6 @@ export default class AddBottomBar extends Component {
     }
 
     componentDidMount() {
-      this.props.onChangeMode('story');
       this.getCameraRoll();
     }
 
@@ -35,31 +33,9 @@ export default class AddBottomBar extends Component {
       });
     }
 
-    onSwipe(index) {
-        if(index == 0) {
-            this.props.onChangeMode('story');
-        }
-        if(index == 1) {
-            this.props.onChangeMode('live');
-        }
-    }
-
   render() {
     return (
         <View style={styles.container}>
-            {/*{*/}
-            {/*    (!this.props.story_live) ? (null) :*/}
-            {/*        (*/}
-            {/*            <Swiper onIndexChanged={(i) => this.onSwipe(i)} width={200} containerStyle={{width: 100}} style={styles.swiper} showsPagination={false} >*/}
-            {/*                <View style={[styles.slider]}>*/}
-            {/*                    <Text style={{color: Style.colors.text}}>Story</Text>*/}
-            {/*                </View>*/}
-            {/*                <View style={[styles.slider]}>*/}
-            {/*                    <Text style={{color: Style.colors.text}}>Live</Text>*/}
-            {/*                </View>*/}
-            {/*            </Swiper>*/}
-            {/*        )*/}
-            {/*}*/}
             <View style={styles.buttonsBox}>
               <TouchableHighlight onPress={() => this.props.onGallery(Routes.Screens.GALLERY.routeName)} style={styles.galleryButton}>
                 <Image style={{ height: '100%', width: '100%', borderRadius: 10 }} source={{uri: this.state.galleryFirstPic}} />
@@ -71,9 +47,7 @@ export default class AddBottomBar extends Component {
                 <Icon name={iconNames.FLIP} size={Style.sizes.icon} color={Style.colors.icon} />
               </TouchableHighlight>
             </View>
-            {
-                (Platform.OS != 'ios') ? (null):(<View style={{height: 15, backgroundColor: Style.colors.addBar}}></View>)
-            }
+            {Platform.os == 'ios' && <View style={{height: 15, backgroundColor: Style.colors.addBar}}></View>}
         </View>
     );
   }

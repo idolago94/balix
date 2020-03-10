@@ -9,12 +9,11 @@ import ProfileSymbol from '../../../components/ProfileSymbol/ProfileSymbol';
 import {withComma} from '../../../common/numberMethods';
 import Routes from '../../../Routes/Routes';
 import db from "../../../database/db";
-import {bindActionCreators} from "redux";
-import {updateUsers} from "../../../store/users/usersActions";
-import {updateUserLogin} from "../../../store/auth/authActions";
-import {connect} from "react-redux";
+import { inject, observer } from "mobx-react/native";
 
-class PhotoScreen extends Component {
+@inject('AuthStore', 'UsersStore')
+@observer
+export default class PhotoScreen extends Component {
   // Params = [ userImages, selectedImage, userData ] ||
 
   constructor(props) {
@@ -50,16 +49,22 @@ class PhotoScreen extends Component {
       new Animated.Value(0), new Animated.Value(0), new Animated.Value(0), new Animated.Value(0),
       new Animated.Value(0), new Animated.Value(0),
     ];
+    this.focusListener = null;
   }
 
   componentDidMount() {
-    this.props.navigation.addListener('willFocus', () => {
+    this.focusListener = this.props.navigation.addListener('willFocus', () => {
       this.getDetailsFromParams();
     });
   }
 
+  componentWillUnMount() {
+    this.focusListener.remove();
+  }
+
   getDetailsFromParams() {
-    let userImages = this.props.navigation.getParam('userImages');
+    const {navigation} = this.props;
+    let userImages = navigation.getParam('userImages');
     let imageData = this.props.navigation.getParam('selectedImage');
     let userData = this.props.navigation.getParam('userData');
     console.log(imageData);
@@ -90,7 +95,7 @@ class PhotoScreen extends Component {
   }
 
   emojiPress(emoji, event) {
-    if(emoji.value > this.props.userLogin.cash) {
+    if(emoji.value > this.props.AuthStore.getUserLogin.cash) {
       Alert.alert(
           `You don't have enough money!`,
           'Go to buy more cash and hearts.',
@@ -119,7 +124,7 @@ class PhotoScreen extends Component {
   }
 
   heartPress(event) {
-    if(1 > this.props.userLogin.hearts) {
+    if(1 > this.props.AuthStore.getUserLogin.hearts) {
       Alert.alert(
           `You don't have hearts!`,
           'Go to buy more cash and hearts.',
@@ -217,13 +222,15 @@ class PhotoScreen extends Component {
   }
 
   updateValues(values) {
+    const {AuthStore, UsersStore} = this.props;
+    const {userData, imageData} = this.state;
+
     let bodyRequest = {
-      owner_id: this.state.userData._id,
-      image_id: this.state.imageData.id,
+      owner_id: userData._id,
+      content_id: imageData._id,
       achievements: { cash: (values.emoji) ? (values.emoji.value):(0), hearts: values.hearts, emoji: values.emoji }
     }
-    fetch(`${db.url}/images/updateAchievement?id=${this.props.userLogin._id}`, {
-    // fetch(`${db.url}/content/update?id=${this.props.userLogin._id}`, {
+    fetch(`${db.url}/content/update?id=${AuthStore.getUserLogin._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -231,54 +238,62 @@ class PhotoScreen extends Component {
       body: JSON.stringify(bodyRequest)
     }).then(res => res.json()).then(response => {
       if (!response.error) {
-        let updateUser = {...this.state.userData};
-        Object.keys(response).map(key => updateUser[key] = response[key]);
-        let updateUsers = [];
-        this.props.users.map(u => {
-          if (u._id == this.state.userData._id) {
-            updateUsers.push(updateUser);
-          } else updateUsers.push(u);
-        })
-        this.props.updateUsers(updateUsers);
-        this.props.updateUserLogin({
-          ...this.props.userLogin,
-          cash: this.props.userLogin.cash - bodyRequest.achievements.cash,
-          hearts: this.props.userLogin.hearts - bodyRequest.achievements.hearts
-        });
-        let imageData = response.uploads.find(up => up.id == this.state.imageData.id)
-        this.setState({userData: updateUser, userImages: response.uploads, imageData: imageData})
+        // update owner image
+        let user_field_update = {
+          cash: userData.cash + bodyRequest.achievements.cash,
+          hearts: userData.heart + bodyRequest.achievements.hearts,
+        };
+        UsersStore.updateUser(userData._id, user_field_update);
+        // update user login
+        let userLogin_fields_update = {
+          cash: response.cash,
+          hearts: response.cash,
+          cash_earned: AuthStore.getUserLogin.cash_earnedv + bodyRequest.achievements.cash,
+          hearts_earned: AuthStore.getUserLogin.hearts_earnedv + bodyRequest.achievements.hearts
+        };
+        AuthStore.updateUserLogin(userLogin_fields_update);
+        // update current image
+        let updatedImageData = {
+          ...imageData,
+          cash: imageData.cash + bodyRequest.achievements.cash,
+          hearts: imageData.hearts + bodyRequest.achievements.hearts
+        }
+        this.setState({userData: updateUser, imageData: updatedImageData})
       } else console.log(response.error);
+    }).catch(err => {
+      console.log(err);
     });
   }
 
   navigateToProfile() {
-    this.props.navigation.navigate(Routes.Screens.PHOTO.routeName, {userData: this.state.userData});
+    this.props.navigation.navigate(Routes.Screens.PROFILE.routeName, {userData: this.state.userData});
   }
 
   render() {
-    return (!this.state.userData || !this.state.imageData) ? null :
+    const {userData, imageData, openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments, userImages} = this.state;
+    return (!userData || !imageData) ? null :
         <ScrollView style={styles.container}>
           <TouchableHighlight onPress={this.navigateToProfile.bind(this)}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <ProfileSymbol style={{margin: 10}} src={this.state.userData.profileImage} size={40}/>
-              <Text style={styles.userName}>{this.state.userData.username}</Text>
+              <ProfileSymbol style={{margin: 10}} src={userData.profileImage} size={40}/>
+              <Text style={styles.userName}>{userData.username}</Text>
             </View>
           </TouchableHighlight>
 
           <View style={styles.photoBox}>
-            <Image style={styles.photo} source={{uri:this.state.imageData.base64}}/>
+            <Image style={styles.photo} source={{uri:imageData.base64}}/>
             <PhotoIndicator indicators={{
-              cash: this.state.imageData.cash + this.state.plusCash,
-              hearts: this.state.imageData.hearts,
+              cash: imageData.cash,
+              hearts: imageData.hearts,
             }}/>
             <View style={styles.emoji}>
               {
-                !this.state.openEmoji ? null :
+                !openEmoji ? null :
                     <EmojiBox includeHeart={true} emojiSize={this.emojiBoxSize} heartPress={this.heartPress.bind(this)} emojiPress={this.emojiPress.bind(this)}/>
               }
             </View>
             <Animated.Image
-                source={this.state.emojiSend}
+                source={emojiSend}
                 style={{
                   position: 'absolute',
                   width: this.sizeEmoji,
@@ -286,11 +301,11 @@ class PhotoScreen extends Component {
                   opacity: this.fadeEmoji,
                   top: this.moveEmoji.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [this.state.emojiSendPosition.y, 0],
+                    outputRange: [emojiSendPosition.y, 0],
                   }),
                   left: this.moveEmoji.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [this.state.emojiSendPosition.x, Dimensions.get('window').width * 0.77],
+                    outputRange: [emojiSendPosition.x, Dimensions.get('window').width * 0.77],
                   }),
                 }}
             />
@@ -302,9 +317,9 @@ class PhotoScreen extends Component {
                   opacity: this.fadeHeart,
                   top: this.moveHeart.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [this.state.heartSendPosition.y, 70],
+                    outputRange: [heartSendPosition.y, 70],
                   }),
-                  left: this.state.heartSendPosition.x
+                  left: heartSendPosition.x
                 }}
             >
               <Icon color={Style.colors.heart} name={iconNames.FULL_HEART} size={this.emojiBoxSize} />
@@ -318,11 +333,11 @@ class PhotoScreen extends Component {
                     opacity: this.fadeEmoji,
                     top: anim.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [this.state.emojiSendPosition.y, 0],
+                      outputRange: [emojiSendPosition.y, 0],
                     }),
                     left: anim.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [this.state.emojiSendPosition.x, Dimensions.get('window').width * 0.77],
+                      outputRange: [emojiSendPosition.x, Dimensions.get('window').width * 0.77],
                     }),
                   }}/>
               ))
@@ -344,8 +359,8 @@ class PhotoScreen extends Component {
           </View>
           <View style={styles.anotherPhotos}>
             {
-              this.state.userImages.map((img, i) => {
-                if (img.id === this.state.imageData.id) {
+              userImages.map((img, i) => {
+                if (img.id === imageData.id) {
                   return (<View key={i}></View>);
                 }
                 return (
@@ -360,17 +375,17 @@ class PhotoScreen extends Component {
 
           <View style={styles.commentsBox}>
             <View style={{flexDirection: 'row', marginBottom: 5}}>
-              <Text style={styles.username}>{this.state.userData.username}: </Text>
-              <Text style={styles.content}>{this.state.imageData.title}</Text>
+              <Text style={styles.username}>{userData.username}: </Text>
+              <Text style={styles.content}>{imageData.title}</Text>
             </View>
             <TouchableHighlight
                 onPress={() => this.props.navigation.navigate(Routes.Screens.COMMENTS.routeName, {
-                  comments: this.state.comments,
+                  comments: comments,
                 })}>
               <Text
-                  style={styles.allCommentsLink}>View {withComma(this.state.comments.length)} Comments</Text>
+                  style={styles.allCommentsLink}>View {withComma(comments.length)} Comments</Text>
             </TouchableHighlight>
-            <SingleComment data={this.state.comments[this.state.comments.length - 1]}/>
+            <SingleComment data={comments[this.state.comments.length - 1]}/>
           </View>
         </ScrollView>;
   }
@@ -461,19 +476,3 @@ const styles = StyleSheet.create({
     color: Style.colors.text,
   },
 });
-
-const mapStateToProps = (state) => {
-  return {
-    userLogin: state.auth.userLogin,
-    users: state.users.users
-  }
-};
-
-const mapDispatchToProps = dispatch => (
-    bindActionCreators({
-      updateUsers,
-      updateUserLogin
-    }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(PhotoScreen);

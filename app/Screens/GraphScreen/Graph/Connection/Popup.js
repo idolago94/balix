@@ -6,20 +6,20 @@ export default class Popup extends Component {
 
   popAnimation = new Animated.Value(0);
 
-  componentDidUpdate() {
-    let animationDuration = 500;
-    if(this.props.position.open) {
-        Animated.timing(this.popAnimation, {
-            toValue: 100,
-            duration: animationDuration
-        }).start();
-    } else {
-        Animated.timing(this.popAnimation, {
-            toValue: 0,
-            duration: animationDuration
-        }).start();
-    }
-  }
+  // componentDidUpdate() {
+  //   let animationDuration = 500;
+  //   if(this.props.position.open) {
+  //       Animated.timing(this.popAnimation, {
+  //           toValue: 100,
+  //           duration: animationDuration
+  //       }).start();
+  //   } else {
+  //       Animated.timing(this.popAnimation, {
+  //           toValue: 0,
+  //           duration: animationDuration
+  //       }).start();
+  //   }
+  // }
 
   render() {
     return (

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { routeNames } from '../Routes/navigatorTabs';
 import Style from '../helpers/style/style';
 import LinearGradient from 'react-native-linear-gradient';
 // Components

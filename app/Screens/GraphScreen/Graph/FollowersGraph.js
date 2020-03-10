@@ -4,16 +4,15 @@ import InfoTitle from './InfoTitle';
 import { AreaChart, Grid } from 'react-native-svg-charts';
 import * as shape from 'd3-shape';
 
-export default class FollowersGraph extends Component {
-  render() {
+export default function FollowersGraph(props) {
     return (
         <View style={styles.container}>
           <InfoTitle title="23K Followers" />
-          <View style={this.props.style}>
+          <View style={props.style}>
             <AreaChart
-              style={{ height: this.props.height, width: this.props.width }}
+              style={{ height: props.height, width: props.width }}
               data={[45, 60, 55, 73, 70]}
-              svg={{ fill: this.props.fill }}
+              svg={{ fill: props.fill }}
               curve={shape.curveNatural}
               >
                 <Grid />
@@ -21,7 +20,6 @@ export default class FollowersGraph extends Component {
           </View>
         </View>
     );
-  }
 }
 
 const styles = StyleSheet.create({

@@ -4,13 +4,20 @@ import { updateUserLogin } from "../store/auth/authActions";
 
 
 class UsersStore {
-    @observable status = false;
+    @observable usersStatus = false;
+    @observable contentsStatus = false;
     @observable users = [];
+    @observable usersContents = [];
     @observable errors = [];
 
     @computed
     get getUsers() {
         return this.users.slice();
+    }
+
+    @computed
+    get getContents() {
+        return this.contents.slice();
     }
 
     @computed
@@ -21,13 +28,20 @@ class UsersStore {
     @action
     setUsers(users) {
         console.log('UsersStore -> setUsers -> ', users.length);
-        this.status = true;
+        this.usersStatus = true;
         this.users = users;
     }
 
     @action
+    setContetnts(data) {
+        console.log('UsersStore -> setContetnts -> ', data.length);
+        this.contentsStatus = true;
+        this.usersContents = data;
+    }
+
+    @action
     setErrors(...errors) {
-        this.status = false;
+        this.usersStatus = false;
         this.errors = errors;
     }
 
@@ -42,16 +56,32 @@ class UsersStore {
 
     @action
     fetchUsers(users_ids) {
-        console.log('ActionsStore -> fetch -> ', user_id);
-        this.status = 'PENDING';
+        console.log('UsersStore -> fetch -> ', user_id);
+        this.usersStatus = 'PENDING';
         fetch(`${db.url}/users/getUsers?ids=${users_ids.join(',') || ''}`, {
             headers: {'Content-Type': 'application/json', 'Content-Length': '*'},
         }).then(res => res.json()).then(usersResponse => {
             this.setErrors(undefined);
-            this.setActions(usersResponse);
+            this.setUsers(usersResponse);
+            this.fetchContents();
         }).catch(err => {
             this.setErrors(err);
         })
+    }
+
+    @action
+    fetchContents() {
+		let contents_ids = [];
+		this.users.map((user) => {
+			contents_ids = contents_ids.concat(user.uploads);
+        });
+        this.contentsStatus = 'PENDING';
+		fetch(`${db.url}/content/getContents?ids=${contents_ids.join(',')}`)
+		.then(res => res.json()).then(contetnsResponse => {
+			let contents = contetnsResponse.concat(auth.userLogin.uploads);
+			contents.sort((a,b) => new Date(b.uploadDate) - new Date(a.uploadDate));
+			this.setContents(contents);
+		})
     }
 }
 

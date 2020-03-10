@@ -4,23 +4,21 @@ import InfoTitle from './InfoTitle';
 import { BarChart } from 'react-native-svg-charts';
 import { withComma } from '../../../common/numberMethods';
 
-export default class CashEarn extends Component {
-  render() {
+export default function CashEarn(props) {
     return (
         <View style={styles.container}>
           <InfoTitle title={`${withComma(23674)}$`} />
-          <View style={this.props.style}>
+          <View style={props.style}>
             <BarChart
-              style={{ height: this.props.height, width: this.props.width }}
+              style={{ height: props.height, width: props.width }}
               data={[45, 60, 90, 99, 130]}
-              svg={{ fill: this.props.fill }}
+              svg={{ fill: props.fill }}
               contentInset={{ bottom: 10 }}
               >
             </BarChart>
           </View>
         </View>
     );
-  }
 }
 
 const styles = StyleSheet.create({

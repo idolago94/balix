@@ -6,8 +6,10 @@ import UserDetails from './UserDetails';
 import Photos from './Photos';
 import Header from '../../../components/Header/Header';
 import db from '../../../database/db';
+import { inject, observer } from "mobx-react/native";
 
-class ProfileView extends Component {
+@inject('AuthStore')
+export default class ProfileView extends Component {
   static navigationOptions = ({ navigation }) => {
     let user = navigation.getParam('userData');
     if(user) {
@@ -27,13 +29,26 @@ class ProfileView extends Component {
       userData: undefined,
       follow: false
     }
+    this.focusListener = null;
+  }
+
+  componentDidMount() {
+    this.focusListener = this.props.navigation.addListener(
+      'willFocus',
+      this.getDetailsFromParams.bind(this)
+    );
+  }
+
+  componentWillUnMount() {
+    this.focusListener.remove();
   }
 
   getDetailsFromParams() {
-    let user = this.props.navigation.getParam('userData');
-    if(user) {
-      let follow = this.props.userLogin.following.find(followUser => followUser == user._id);
-      if(this.state.userData == undefined ||user._id != this.state.userData._id) {
+    const {AuthStore, navigation} = this.props;
+    let user = navigation.getParam('userData');
+    if(user && user._id != AuthStore.getUserLogin._id) {
+      let follow = AuthStore.getUserLogin.following.find(followUser => followUser == user._id);
+      if(this.state.userData == undefined || user._id != this.state.userData._id) {
         this.setState({userData: user, follow: !!follow});
       } else if(!!follow != this.state.follow) {
         this.setState({follow: !!follow})
@@ -43,15 +58,32 @@ class ProfileView extends Component {
     }
   }
 
-  componentDidMount() {
-    this._sub = this.props.navigation.addListener(
-      'willFocus',
-      this.getDetailsFromParams.bind(this)
-    );
-  }
-
   updateFollow() {
-    this.setState({follow: !this.state.follow});
+    let updateFollowing = this.props.AuthStore.getUserLogin.following;
+    let action = '';
+    let bodyRequest = {user: this.state.userData._id};    
+    if(this.state.follow) {
+      // remove user from following
+      action = 'stopFollow';
+      updateFollowing = updateFollowing.filter(u => u._id != this.state.userData);
+    } else {
+      // add follow
+      action = 'startFollow';
+      updateFollowing.push(this.state.userData._id);
+    }
+    fetch(`${db.url}/users/${action}?id=${this.props.AuthStore.getUserLogin._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(bodyRequest)
+    }).then(res => res.json()).then(response => {
+      console.log(response);
+      if(response.ok) {
+        this.props.AuthStore.updateUserLogin({following: updateFollowing});
+        this.setState({follow: !this.state.follow});
+      }
+    })
   }
 
   render() {
@@ -68,8 +100,8 @@ class ProfileView extends Component {
               ) :
               (
                 <View style={styles.viewContainer}>
-                  <UserDetails {...this.props.navigation} user={this.props.userLogin} />
-                  <Photos {...this.props.navigation} user={this.props.userLogin} />
+                  <UserDetails isMy={true} {...this.props.navigation} user={this.props.AuthStore.getUserLogin} />
+                  <Photos isMy={true} {...this.props.navigation} user={this.props.AuthStore.getUserLogin} />
                 </View>
               )
             }
@@ -88,10 +120,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 });
-
-const mapStateToProps = (state) => {
-  const userLogin = {...state.auth.userLogin};
-  return { userLogin }
-};
-
-export default connect(mapStateToProps)(ProfileView);
