@@ -5,10 +5,9 @@ import RequestPass from './RequestPass/RequestPass';
 import Routes from '../../Routes/Routes';
 import AppNavigator from '../../Routes/AppNavigator';
 import { inject } from "mobx-react/native";
-
-@inject('AuthStore', 'CashButtonsStore')
 import Style from '../../helpers/style/style';
 
+@inject('AuthStore', 'CashButtonsStore')
 export default class CashButtons extends Component {
 
   constructor(props) {

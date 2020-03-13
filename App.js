@@ -1,21 +1,31 @@
 import React, {Component} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, View} from 'react-native';
 import LoginNavigator from './app/Routes/navigatorLogin';
-import { Provider } from "mobx-react/native";
 import * as Stores from './app/mobx';
 import AppScreen from './app/Screens/AppScreen';
-import { inject, observer } from "mobx-react/native";
+import { Provider, inject, observer } from "mobx-react/native";
 
-@inject('AuthStore')
-@observer
+
 export default class App extends Component {
 	render() {
-		const Root = this.props.AuthStore.getUserLogin ? AppScreen : LoginNavigator;
 		return (
-			<Provider store={...Stores}>
-          		<StatusBar barStyle={'light-content'}/>
-				<Root />
-			</Provider>
+			<View style={{flex: 1}}>
+				<StatusBar barStyle={'light-content'}/>
+				<Provider {...Stores}>
+					<RootComponent />
+				</Provider>
+			</View>
 		);
 	}
+}
+
+@inject("AuthStore")
+@observer
+class RootComponent extends Component {
+    render() {
+		const Root = this.props.AuthStore.getUserLogin._id ? AppScreen : LoginNavigator;
+        return (
+            <Root />
+        )
+    }
 }

@@ -24,6 +24,13 @@ export default class StoryEmojiBox extends Component {
         this.setState({emojis: emojis})
     }
 
+    componentWillUnMount() {
+        Animated.spring(this.animation, {
+            toValue: 0,
+        }).start();
+        this.setState({emojis: emojis})
+    }
+
     render() {
         return (
             <Animated.View
@@ -32,17 +39,14 @@ export default class StoryEmojiBox extends Component {
                     maxHeight: this.animation
                 }}
             >
-                {
-                    (!this.props.includeHeart) ? (null) :
-                        (
-                            <TouchableHighlight style={styles.emoji} onPress={(ev) => this.props.heartPress(ev)}>
-                                <View>
-                                    <Icon name={iconNames.FULL_HEART} size={this.props.emojiSize} color={Style.colors.heart} />
-                                    <View style={{width: '100%', height: 13}}></View>
-                                </View>
-                            </TouchableHighlight>
-                        )
-                }
+                {this.props.includeHeart && (
+                    <TouchableHighlight style={styles.emoji} onPress={(ev) => this.props.heartPress(ev)}>
+                        <View>
+                            <Icon name={iconNames.FULL_HEART} size={this.props.emojiSize} color={Style.colors.heart} />
+                            <View style={{width: '100%', height: 13}}></View>
+                        </View>
+                    </TouchableHighlight>
+                )}
                 {
                     Object.keys(this.state.emojis).map((key, i) => (
                         <TouchableHighlight key={i} onPress={(ev) => this.props.emojiPress(this.state.emojis[key], ev)}>

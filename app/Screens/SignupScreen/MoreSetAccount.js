@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import Style from '../../helpers/style/style';
 // Components
-import {StyleSheet, Text, View, TouchableHighlight, TextInput, Animated, Platform, Alert, Dimensions, Image} from 'react-native';
+import {StyleSheet, Text, View, TouchableHighlight, Alert, Dimensions, Image} from 'react-native';
 import Icon, { iconNames } from '../../components/Icon/Icon';
-import { LinearTextGradient } from "react-native-text-gradient";
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import ImagePicker from 'react-native-image-picker';
 import db from "../../database/db";
 import FormField from '../../components/FormField/FormField';
-import Routes from '../../Routes/Routes';
-import Swiper  from 'react-native-swiper-animated';
-import {createdUser} from '../../store/auth/authActions';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import { inject, observer } from 'mobx-react/native';
 
-class MoreSetAccount extends Component {
+@inject('AuthStore')
+export default class MoreSetAccount extends Component {
 
     constructor(props) {
         super(props);
@@ -89,7 +84,7 @@ class MoreSetAccount extends Component {
                 profileImage: this.state.uploadImage,
                 keywords: response
             };
-            this.props.createdUser(createdUser);
+            this.props.AuthStore.setUserLogin(createdUser);
         })
     }
 
@@ -233,15 +228,3 @@ const styles = StyleSheet.create({
         backgroundColor: Style.colors.errorBackground
     }
 });
-
-const mapStateToProps = (state) => {
-    return {  }
-};
-
-const mapDispatchToProps = dispatch => (
-    bindActionCreators({
-        createdUser,
-    }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(MoreSetAccount);

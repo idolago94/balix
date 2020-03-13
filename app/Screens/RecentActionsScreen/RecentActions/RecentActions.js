@@ -11,36 +11,38 @@ import SearchEmpty from "../../Search/SearchEmpty";
 import Routes from "../../../Routes/Routes";
 import Result from "../../Search/Result";
 import ActionsEmpty from "./ActionsEmpty";
+import { inject, observer } from 'mobx-react/native';
 
-class RecentActions extends Component {
+@inject('AuthStore', 'ActionsStore')
+export default class RecentActions extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: () => <Header {...navigation} />,
     };
   }
 
+  constructor(props) {
+    super(props);
+    this.focusListener = null;
+  }
+
   componentDidMount() {
-    console.log('recent actions', this.props.userLogin._id);
-    this.props.navigation.addListener('didFocus', () => this.props.getActions(this.props.userLogin._id));
+    console.log('recent actions', this.props.AuthStore.getUserLogin._id);
+    this.focusListener = this.props.navigation.addListener('willFocus', () => this.props.ActionsStore.fetchUserActions(this.props.AuthStore.getUserLogin._id));
+  }
+
+  componentWillUnMount() {
+    this.focusListener.remove();
   }
 
   render() {
     return (
       <View style={{flex:1}}>
-        {/*<ScrollView style={{backgroundColor: Style.colors.background}}>*/}
-        {/*  <View style={styles.container}>*/}
-        {/*    {*/}
-        {/*      this.props.actions.actions.map((act, i) => (*/}
-        {/*        <Action key={i} data={act} />*/}
-        {/*      ))*/}
-        {/*    }*/}
-        {/*  </View>*/}
-        {/*</ScrollView>*/}
         <FlatList
             style={styles.container}
             keyExtractor={item => item._id.toString()}
             ListEmptyComponent={() => <ActionsEmpty/>}
-            data={this.props.actions.actions}
+            data={this.props.ActionsStore.getActions}
             renderItem={({item}) => (<Action data={item} />)}
         />
       </View>
@@ -53,17 +55,3 @@ const styles = StyleSheet.create({
     backgroundColor: Style.colors.background
   }
 });
-
-const mapStateToProps = (state) => {
-  const userLogin = {...state.auth.userLogin};
-  const actions = {...state.actions}
-  return { userLogin, actions }
-};
-
-const mapDispatchToProps = dispatch => (
-	bindActionCreators({
-      getActions
-	}, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecentActions);

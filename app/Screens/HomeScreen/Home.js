@@ -47,7 +47,7 @@ export default class Home extends Component {
 		if (user.live) {
 			// connect to agora(live stream).
 		} else if (user.story) {
-			Athis.props.navigation.navigate(Routes.Screens.STORY.routeName, {
+			this.props.navigation.navigate(Routes.Screens.STORY.routeName, {
 				userIndex: index
 			});
 		}

@@ -8,26 +8,21 @@ import db from "../../database/db";
 import Routes from '../../Routes/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
 import TextButton from '../../components/TextButton/TextButton';
+import { inject, observer } from 'mobx-react/native';
 
+@inject('AuthStore')
+@observer
 export default class SetProfileImage extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            newUser: undefined,
             profileImage: undefined
         };
     }
 
     componentDidMount() {
         console.log('SetProfileImage -> componentDidMount');
-        const {navigation} = this.props;
-        navigation.addListener('willFocus', () => {
-            console.log('SetProfileImage -> willFocus');
-            let newUser = navigation.getParam('newUser');  
-            console.log('setProfileScreen -> newUser -> ', newUser.username);
-            this.setState({newUser});
-        });
     }
 
     validateForm() {
@@ -42,13 +37,13 @@ export default class SetProfileImage extends Component {
     onSetImage() {
         let validate = this.validateForm();
         if(validate.length <= 0) {
-            const {navigation} = this.props;
-            const {newUser,profileImage} = this.state;
+            const {navigation, AuthStore} = this.props;
+            const {profileImage} = this.state;
             let requestBody = {
                 contentType: profileImage.type,
                 base64: profileImage.data
             };
-                fetch(`${db.url}/users/updateProfileImage?id=${newUser._id}`, {
+                fetch(`${db.url}/users/updateProfileImage?id=${AuthStore.getUserLogin._id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -59,12 +54,8 @@ export default class SetProfileImage extends Component {
                         this.setState({errors: [response.error]});
                     } else {
                         console.log(response);
-                        // this.setState({page: 2, uploadImage: response});  
-                        let userWithProfliImage =  {
-                            ...newUser,
-                            profileImage: response
-                        }
-                        navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {newUser: userWithProfliImage});
+                        AuthStore.updateUserLogin({profileImage: response});
+                        navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName);
                     }
                 }).catch(err => console.log(err));
         }
@@ -83,19 +74,13 @@ export default class SetProfileImage extends Component {
     }
 
     render() {
-        const {newUser} = this.state;
-        const {navigation} = this.props;
-        if(!this.state.newUser) {
-            return (
-                <View></View>
-            )
-        }
+        const {navigation, AuthStore} = this.props;
         return (
             <View style={styles.container}>
                 <AppTitle />
                 <View style={styles.form}>  
                     <View>
-                        <Text style={styles.title}>Hello {newUser.first_name} {newUser.last_name},</Text>
+                        <Text style={styles.title}>Hello {AuthStore.getUserLogin.first_name} {AuthStore.getUserLogin.last_name},</Text>
                         <Text style={styles.label}>Welcome to Balix, just a few steps.</Text>
                         <Text style={styles.label}>Please select photo to your account profile image:</Text>
                     </View>
@@ -121,7 +106,7 @@ export default class SetProfileImage extends Component {
                     <TextButton onPress={this.onSetImage.bind(this)} content={'Set Profile Image'} />
 
                     <View style={styles.footerButtons}>
-                        <TouchableHighlight style={{padding: 20, alignSelf: 'flex-end'}} onPress={() => navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {newUser})}>
+                        <TouchableHighlight style={{padding: 20, alignSelf: 'flex-end'}} onPress={() => navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName)}>
                             <Text style={{color: 'gray', fontSize: 25, letterSpacing: 2}}>skip</Text>
                         </TouchableHighlight>
                     </View>

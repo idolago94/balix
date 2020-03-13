@@ -3,15 +3,12 @@ import Style from '../../../helpers/style/style';
 // Components
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import ProfileSymbol from '../../../components/ProfileSymbol/ProfileSymbol';
-// Redux
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import {getActions} from "../../../store/actions/actionsActions";
 import db from "../../../database/db";
 import Icon, {iconNames} from "../../../components/Icon/Icon";
-import {backgroundColor} from "../../../common/style";
+import { inject, observer } from 'mobx-react/native';
 
-class Action extends Component {
+@inject('AuthStore', 'UsersStore')
+export default class Action extends Component {
 
     constructor(props) {
         super(props);
@@ -25,10 +22,10 @@ class Action extends Component {
         let action = this.props.data;
         if(action.disactive_user_id) {
             let otherUser_id;
-            if(action.active_user_id == this.props.userLogin._id) {
+            if(action.active_user_id == this.props.AuthStore.getUserLogin._id) {
                 otherUser_id = action.disactive_user_id;
             } else otherUser_id = action.active_user_id;
-            let otherUser = await this.props.followingUsers.find(user => user._id==otherUser_id);
+            let otherUser = await this.props.UsersStore.getUsers.find(user => user._id==otherUser_id);
             if(!otherUser) {
                 await fetch(`${db.url}/users/getSingleUser?id=${otherUser_id}`)
                     .then(res => res.json()).then(user => {
@@ -40,42 +37,43 @@ class Action extends Component {
     }
 
     renderActionContent() {
+        const {AuthStore, data} = this.props;
         switch (this.props.data.type) {
             case 0:
                 return (
                     <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between'}}>
                         <View style={{flexDirection: 'row'}}>
-                            <Text style={{...styles.action, fontWeight: (this.props.data.active_user_id == this.props.userLogin._id) ?
+                            <Text style={{...styles.action, fontWeight: (data.active_user_id == AuthStore.getUserLogin._id) ?
                                     ('') : ('bold')}}>
                                 {
-                                    (this.props.data.active_user_id == this.props.userLogin._id) ?
+                                    (data.active_user_id == AuthStore.getUserLogin._id) ?
                                         ('You ') : (`${this.state.otherUser.username} `)
                                 }
                             </Text>
                             <Text style={styles.action}>sent </Text>
-                            <Image style={{width: 15, height: 16}} source={this.props.data.emoji.url} />
+                            <Image style={{width: 15, height: 16}} source={data.emoji.url} />
                             <Text style={styles.action}> to </Text>
-                            <Text style={{...styles.action, fontWeight: (this.props.data.disactive_user_id == this.props.userLogin._id) ?
+                            <Text style={{...styles.action, fontWeight: (data.disactive_user_id == AuthStore.getUserLogin._id) ?
                                     ('') : ('bold')}}>
                                 {
-                                    (this.props.data.disactive_user_id == this.props.userLogin._id) ?
+                                    (data.disactive_user_id == AuthStore.getUserLogin._id) ?
                                         ('you') : (this.state.otherUser.username)
                                 }
                             </Text>
-                            <Text style={styles.action}> in total {this.props.data.emoji.value}$.</Text>
+                            <Text style={styles.action}> in total {data.emoji.value}$.</Text>
                         </View>
                         <ProfileSymbol
                             style={styles.otherUserProfile}
                             size={30}
-                            src={(this.props.data.active_user_id == this.props.userLogin._id) ?
+                            src={(data.active_user_id == AuthStore.getUserLogin._id) ?
                                 (this.state.otherUser.profileImage):
-                                (this.props.userLogin.profileImage)}
+                                (AuthStore.getUserLogin.profileImage)}
                         />
                     </View>
                 )
                 break;
             case 1:
-                if(this.props.data.active_user_id == this.props.userLogin._id) {
+                if(data.active_user_id == AuthStore.getUserLogin._id) {
                     return (
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                             <Text style={styles.action}>{`You start follow ${this.state.otherUser.username}.`}</Text>
@@ -89,7 +87,7 @@ class Action extends Component {
                             <Text style={{...styles.action, fontWeight: 'bold'}}>{this.state.otherUser.username}</Text>
                             <Text style={styles.action}> start follow you.</Text>
                         </View>
-                        <ProfileSymbol size={30} src={this.props.userLogin.profileImage} style={styles.otherUserProfile} />
+                        <ProfileSymbol size={30} src={AuthStore.getUserLogin.profileImage} style={styles.otherUserProfile} />
                     </View>
                 )
                 break;
@@ -99,20 +97,20 @@ class Action extends Component {
             case 3:
                 return (
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                        <Text style={{...styles.action, fontWeight: (this.props.data.active_user_id == this.props.userLogin._id) ?
+                        <Text style={{...styles.action, fontWeight: (data.active_user_id == AuthStore.getUserLogin._id) ?
                                 ('') : (`bold`)}}>
                             {
-                                (this.props.data.active_user_id == this.props.userLogin._id) ?
+                                (data.active_user_id == AuthStore.getUserLogin._id) ?
                                     ('You ') : (`${this.state.otherUser.username} `)
                             }
                         </Text>
                         <Text style={styles.action}>sent </Text>
                         <Icon size={15} color={'red'} name={iconNames.FULL_HEART} />
                         <Text style={styles.action}> to </Text>
-                        <Text style={{...styles.action, fontWeight: (this.props.data.disactive_user_id == this.props.userLogin._id) ?
+                        <Text style={{...styles.action, fontWeight: (data.disactive_user_id == AuthStore.getUserLogin._id) ?
                                 ('') : ('bold')}}>
                             {
-                                (this.props.data.disactive_user_id == this.props.userLogin._id) ?
+                                (data.disactive_user_id == AuthStore.getUserLogin._id) ?
                                     ('you') : (this.state.otherUser.username)
                             }.
                         </Text>
@@ -128,7 +126,7 @@ class Action extends Component {
             case 6:
                 return (<Text style={styles.action}>You just sign up.</Text>)
             case 7:
-                if(this.props.data.active_user_id == this.props.userLogin._id) {
+                if(data.active_user_id == AuthStore.getUserLogin._id) {
                     return (
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                             <Text style={styles.action}>{`You stop follow ${this.state.otherUser.username}.`}</Text>
@@ -140,7 +138,7 @@ class Action extends Component {
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Text style={{...styles.action, fontWeight: 'bold'}}>{this.state.otherUser.username}</Text>
                         <Text style={styles.action}>{` stop follow you.`}</Text>
-                        <ProfileSymbol size={30} src={this.props.userLogin.profileImage} style={styles.otherUserProfile} />
+                        <ProfileSymbol size={30} src={AuthStore.getUserLogin.profileImage} style={styles.otherUserProfile} />
                     </View>
                 )
                 break;
@@ -156,8 +154,8 @@ class Action extends Component {
       <View style={styles.container}>
           <View style={styles.leftSide}>
               {
-                  (this.props.data.active_user_id == this.props.userLogin._id) ?
-                      (<ProfileSymbol src={this.props.userLogin.profileImage} size={40} style={{margin: 5}} />) :
+                  (this.props.data.active_user_id == this.props.AuthStore.getUserLogin._id) ?
+                      (<ProfileSymbol src={this.props.AuthStore.getUserLogin.profileImage} size={40} style={{margin: 5}} />) :
                       (<ProfileSymbol src={this.state.otherUser.profileImage} size={40} style={{margin: 5}} />)
               }
               <View style={styles.content}>
@@ -208,11 +206,3 @@ const styles = StyleSheet.create({
         padding: 2
     }
 });
-
-const mapStateToProps = (state) => {
-    const userLogin = {...state.auth.userLogin};
-    const followingUsers = state.users.users.slice()
-    return { userLogin, followingUsers }
-};
-
-export default connect(mapStateToProps)(Action);

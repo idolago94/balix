@@ -17,6 +17,11 @@ class SearchStore {
         return this.errors.slice();
     }
 
+    @computed
+    get getStatus() {
+        return this.status;
+    }
+
     @action
     setResults(results) {
         console.log('SearchStore -> setResults -> ', results.length);

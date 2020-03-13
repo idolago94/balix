@@ -20,14 +20,12 @@ export default class AppScreen extends Component {
 
   render() {
     const {CashButtonsStore, AuthStore} = this.props;
-    if(this.props.auth.userLogin && this.props.auth.userLogin._id) {
       return (
         <View style={styles.screen}>
           {CashButtonsStore.isVisible && <CashButtons />}
           <NavigatorMain ref={(r) => AppNavigator.setRef(r)}/>
         </View>
       );
-    }
   }
 }
 

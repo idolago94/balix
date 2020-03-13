@@ -25,6 +25,7 @@ class AuthStore {
 
     @action
     setErrors(...errors) {
+        console.log('AuthStore -> setErrors -> ', errors)
         this.status = false;
         this.errors = errors;
     }
@@ -35,11 +36,12 @@ class AuthStore {
         this.status = 'PENDING';
         fetch(`${db.url}/users/login`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json', 'Content-Length': '*'},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(authData)
         }).then(res => res.json()).then(authResponse => {
+            console.log('login response: ', authResponse);
             if(authResponse._id) {
-                this.setErrors(undefined);
+                this.setErrors([]);
                 this.setUserLogin(authResponse);
             }
             else {

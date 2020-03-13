@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import Style from '../../helpers/style/style';
 // Components
-import {StyleSheet, Text, View, TouchableHighlight, TextInput, Animated, Platform, Alert, Dimensions, Image} from 'react-native';
-import Icon, { iconNames } from '../../components/Icon/Icon';
-import { LinearTextGradient } from "react-native-text-gradient";
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import ImagePicker from 'react-native-image-picker';
+import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 import db from "../../database/db";
 import FormField from '../../components/FormField/FormField';
-import MoreSetAccount from './MoreSetAccount';
 import Routes from '../../Routes/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
+import { inject, observer } from 'mobx-react/native';
 
+@inject('AuthStore')
 export default class SignupScreen extends Component {
 
     constructor(props) {
@@ -20,8 +17,8 @@ export default class SignupScreen extends Component {
         this.state = {
             securePassword: true,
             created: false,
-            password: '', // for development
-            confirmPassword: '' // for development
+            password: null,
+            confirmPassword: null
         }
     }
 
@@ -60,8 +57,8 @@ export default class SignupScreen extends Component {
                 if(response.error) {
                     this.setState({errors: [response.error]});
                 } else {
-                    // this.setState({created: response});
-                    navigation.navigate(Routes.Screens.SET_PROFILE.routeName, {newUser: response});
+                    this.props.AuthStore.setUserLogin(response);
+                    navigation.navigate(Routes.Screens.SET_PROFILE.routeName);
                 }
             }).catch(err => console.log(err));
         }

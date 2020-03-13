@@ -8,8 +8,10 @@ import { Formik } from 'formik';
 import { WebView } from 'react-native-webview';
 import Slider from '@react-native-community/slider';
 import db from "../../database/db";
+import { inject, observer } from 'mobx-react/native';
 
-class WithdrawScreen extends Component {
+@inject('AuthStore', 'UsersStore')
+export default class WithdrawScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       tabBarVisible: false
@@ -109,8 +111,8 @@ class WithdrawScreen extends Component {
     return (
       <View style={styles.container}>
         {
-          this.props.userLogin.profileImage ? (
-              <Image style={{height: '100%', width: '100%', position: 'absolute', top: 0, left: 0, opacity: 0.1}} source={{uri: this.props.userLogin.profileImage.base64}} />
+          this.props.AuthStore.getUserLogin.profileImage ? (
+              <Image style={{height: '100%', width: '100%', position: 'absolute', top: 0, left: 0, opacity: 0.1}} source={{uri: this.props.AuthStore.getUserLogin.profileImage.base64}} />
           ) : (null)
         }
         <View style={styles.header}>
@@ -133,37 +135,6 @@ class WithdrawScreen extends Component {
             />
           </View>
         </View>
-
-        {/*<View style={styles.sliderBox}>*/}
-        {/*  <Slider*/}
-        {/*      style={{width: Dimensions.get('window').width*0.6}}*/}
-        {/*      minimumValue={10}*/}
-        {/*      maximumValue={this.props.userLogin.cash}*/}
-        {/*      minimumTrackTintColor={Style.colors.darkMain}*/}
-        {/*      maximumTrackTintColor={"gray"}*/}
-        {/*      value={this.state.sliderValue}*/}
-        {/*      onValueChange={(value) => this.setState({sliderValue: Math.floor(value)})}*/}
-        {/*      onSlidingComplete={(value) => this.setState({withdrawAmount: Math.floor(value), showWebView: false})}*/}
-        {/*  />*/}
-        {/*  <Text style={{color: Style.colors.lightMain, fontSize: 25, padding: 10}}>{this.state.sliderValue}$</Text>*/}
-        {/*</View>*/}
-        {/*<TouchableHighlight onPress={this.sendMoney.bind(this)} style={{borderRadius: 10, backgroundColor: '#0086E9', width: Dimensions.get('window').width*0.6}}>*/}
-        {/*  <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 3}}>*/}
-        {/*    <Image style={{width: 50, aspectRatio: 1}} source={require('../../assets/paypal-logo.png')} />*/}
-        {/*    <Text style={{paddingLeft: 10, fontSize: 20, color: Style.colors.text, fontWeight: 'bold'}}>Get By Paypal</Text>*/}
-        {/*  </View>*/}
-        {/*</TouchableHighlight>*/}
-
-        {/*<View style={{height: Dimensions.get('window').height*0.5}}>*/}
-        {/*  <WebView*/}
-        {/*      style={{opacity: (!this.state.showWebView) ? (0.1):(1), backgroundColor: 'transparent'}}*/}
-        {/*      onLoadEnd={() => this.setState({showWebView: true})}*/}
-        {/*      source={{ uri: `${db.url}/payment/?amount=${this.state.withdrawAmount}` }}*/}
-        {/*      onNavigationStateChange={data =>*/}
-        {/*          this.handleResponse(data)*/}
-        {/*      }*/}
-        {/*  />*/}
-        {/*</View>*/}
       </View>
     );
   }
@@ -241,12 +212,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.3)',
     marginBottom: 10
   }
-})
-
-const mapStateToProps = (state) => {
-  return {
-    userLogin: state.auth.userLogin
-  }
-};
-
-export default connect(mapStateToProps)(WithdrawScreen);
+});

@@ -15,16 +15,14 @@ import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 import Style from '../../helpers/style/style';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import { withComma } from '../../common/numberMethods';
-import { connect } from 'react-redux';
-import EmojiBox from '../../components/Photo/EmojiBox/EmojiBox';
 import db from "../../database/db";
-import {bindActionCreators} from "redux";
-import {updateUsers} from "../../store/users/usersActions";
-import {updateUserLogin} from "../../store/auth/authActions";
 import Routes from "../../Routes/Routes";
 import StoryEmojiBox from "./StoryEmojiBox";
+import { inject, observer } from 'mobx-react/native';
 
-class StoryScreen extends Component {
+@inject('AuthStore', 'UsersStore')
+@observer
+export default class StoryScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             tabBarVisible: false
@@ -50,10 +48,11 @@ class StoryScreen extends Component {
     this.emojiSize = new Animated.Value(0);
     this.groupEmojiPosition = new Animated.Value(0);
     this.buttonSize = 30;
+    this.focusListener = null;
   }
 
   componentDidMount() {
-    this._sub = this.props.navigation.addListener(
+    this.focusListener = this.props.navigation.addListener(
         'didFocus',
         this.screenFocused.bind(this)
     );
@@ -64,11 +63,12 @@ class StoryScreen extends Component {
       clearTimeout(this.emojiBoxTimer);
       this.emojiBoxTimer = undefined;
     }
+    this.focusListener.remove();
   }
 
   screenFocused() {
     let userIndex = this.props.navigation.getParam('userIndex');
-    let user = this.props.users[userIndex];
+    let user = this.props.UsersStore.getUsers[userIndex];
 
     this.initStory(user, userIndex);
     if(!this.state.openEmoji) {
@@ -104,8 +104,8 @@ class StoryScreen extends Component {
   }
 
   checkMoreStory() {
-      let nextStory_user = this.props.users.find((user, i) => (i > this.state.userIndex && user.story.length > 0));
-      let nextStory_index = this.props.users.findIndex((user, i) => (i > this.state.userIndex && user.story.length > 0));
+      let nextStory_user = this.props.UsersStore.getUsers.find((user, i) => (i > this.state.userIndex && user.story.length > 0));
+      let nextStory_index = this.props.UsersStore.getUsers.findIndex((user, i) => (i > this.state.userIndex && user.story.length > 0));
       if(nextStory_user == -1 || nextStory_index == -1) {
         this.exitStory()
       } else this.initStory(nextStory_user, nextStory_index);
@@ -129,7 +129,7 @@ class StoryScreen extends Component {
   }
 
   heartSend(owner_id, imageIndex) {
-    if(1 > this.props.userLogin.hearts) {
+    if(1 > this.props.AuthStore.getUserLogin.hearts) {
       Alert.alert(
           `You don't have hearts!`,
           'Go to buy more cash and hearts.',
@@ -194,7 +194,7 @@ class StoryScreen extends Component {
   }
 
   emojiPress(owner_id, imageIndex, emoji) {
-    if(emoji.value > this.props.userLogin.cash) {
+    if(emoji.value > this.props.AuthStore.getUserLogin.cash) {
       Alert.alert(
           `You don't have enough money!`,
           'Go to buy more cash and hearts.',
@@ -246,7 +246,7 @@ class StoryScreen extends Component {
       image_id: this.state.userData.story[imageIndex].id,
       achievements: { cash: (values.emoji) ? (values.emoji.value):(0), hearts: values.hearts, emoji: values.emoji }
     }
-    fetch(`${db.url}/images/updateAchievement?id=${this.props.userLogin._id}&story=true`, {
+    fetch(`${db.url}/images/updateAchievement?id=${this.props.AuthStore.getUserLogin._id}&story=true`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -254,25 +254,11 @@ class StoryScreen extends Component {
       body: JSON.stringify(bodyRequest)
     }).then(res => res.json()).then(response => {
       if (!response.error) {
-        let updateUser = {
-          ...this.state.userData,
-          cash: response.cash,
-          hearts: response.hearts,
-          story: response.story
-        };
-        let updateUsers = [];
-        this.props.users.map(u => {
-          if (u._id == this.state.userData._id) {
-            updateUsers.push(updateUser);
-          } else updateUsers.push(u);
-        })
-        this.props.updateUsers(updateUsers);
-        this.props.updateUserLogin({
-          ...this.props.userLogin,
-          cash: this.props.userLogin.cash - bodyRequest.achievements.cash,
-          hearts: this.props.userLogin.hearts - bodyRequest.achievements.hearts
+        this.props.UsersStore.updateUser(this.state.userData._id, {cash: response.cash, hearts: response.hearts, story: response.story});
+        this.props.AuthStore.updateUserLogin({
+          cash: this.props.AuthStore.getUserLogin.cash - bodyRequest.achievements.cash, 
+          hearts: this.props.AuthStore.getUserLogin.hearts - bodyRequest.achievements.hearts
         });
-        this.setState({userData: updateUser})
       } else console.log(response.error);
     });
   }
@@ -573,19 +559,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 });
-
-
-const mapStateToProps = (state) => {
-  const userLogin = state.auth.userLogin;
-  const users = state.users.users;
-  return { userLogin, users }
-};
-
-const mapDispatchToProps = dispatch => (
-    bindActionCreators({
-      updateUsers,
-      updateUserLogin
-    }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(StoryScreen);
