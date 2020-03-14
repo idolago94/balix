@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import Style from '../../../helpers/style/style';
-import { connect } from 'react-redux';
 import UserDetails from './UserDetails';
 import Photos from './Photos';
 import Header from '../../../components/Header/Header';
@@ -44,7 +43,7 @@ export default class ProfileView extends Component {
     this.focusListener.remove();
   }
 
-  async getDetailsFromParams() {
+  getDetailsFromParams() {
     console.log('Profile View -> getDetailsFromParams');
     const {AuthStore, navigation} = this.props;
     let user = navigation.getParam('userData');
@@ -52,25 +51,26 @@ export default class ProfileView extends Component {
     if(user && user._id != AuthStore.getUserLogin._id) {
       let follow = AuthStore.getUserLogin.following.find(followUser => followUser == user._id);
       if(this.state.userData == undefined || user._id != this.state.userData._id) {
-        let userContents = await this.getUserContents(user._id);
-        this.setState({userData: user, contents: userContents, follow: !!follow});
+        this.setState({userData: user, contents: [], follow: !!follow});
       } else if(!!follow != this.state.follow) {
         this.setState({follow: !!follow})
       }
+      this.getUserContents(user._id);
     } else {
-      let userContents = await this.getUserContents(AuthStore.getUserLogin._id);
-      this.setState({userData: undefined, contents: userContents});
+      this.setState({userData: undefined, contents: []});
+      this.getUserContents(AuthStore.getUserLogin._id);
     }
   }
 
   getUserContents(user_id) {
-    return new Promise(resolve => {
+    // return new Promise(resolve => {
       console.log('fetch user contents -> ', user_id);
       fetch(`${db.url}/content/userContent?id=${user_id}`)
       .then(res => res.json()).then(contentsResponse => {
-        resolve(contentsResponse);
+        // resolve(contentsResponse);
+        this.setState({contents: contentsResponse});
       });
-    })
+    // })
   }
 
   updateFollow() {
