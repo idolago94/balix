@@ -101,7 +101,7 @@ export default class Graph extends Component {
     render() {
       const {AuthStore, ActionsStore} = this.props;
         if(this.props.ActionsStore.getActions.length < 1) {
-            return (<View></View>)
+            return (<View style={{flex:1, backgroundColor: Style.colors.background}}></View>)
         }
         return (
           <View style={{flex:1, backgroundColor: Style.colors.background}}>
