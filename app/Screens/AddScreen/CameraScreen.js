@@ -100,11 +100,7 @@ export default class CameraScreen extends Component {
   onGallery() {
     ImagePicker.launchImageLibrary({}, (imageSelected) => {
       if(!imageSelected.didCancel) {
-        let galleryImage = {
-        contentType: imageSelected.type,
-        base64: imageSelected.data
-        };
-        this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, {imageData: galleryImage});
+        this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, {imageData: imageSelected});
       }
     });
   }

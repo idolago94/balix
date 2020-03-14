@@ -27,7 +27,8 @@ export default class ProfileView extends Component {
     super(props);
     this.state = {
       userData: undefined,
-      follow: false
+      follow: false,
+      contents: []
     }
     this.focusListener = null;
   }
@@ -43,19 +44,33 @@ export default class ProfileView extends Component {
     this.focusListener.remove();
   }
 
-  getDetailsFromParams() {
+  async getDetailsFromParams() {
+    console.log('Profile View -> getDetailsFromParams');
     const {AuthStore, navigation} = this.props;
     let user = navigation.getParam('userData');
+    // check if params exist and different from the last
     if(user && user._id != AuthStore.getUserLogin._id) {
       let follow = AuthStore.getUserLogin.following.find(followUser => followUser == user._id);
       if(this.state.userData == undefined || user._id != this.state.userData._id) {
-        this.setState({userData: user, follow: !!follow});
+        let userContents = await this.getUserContents(user._id);
+        this.setState({userData: user, contents: userContents, follow: !!follow});
       } else if(!!follow != this.state.follow) {
         this.setState({follow: !!follow})
       }
     } else {
-      this.setState({userData: undefined});
+      let userContents = await this.getUserContents(AuthStore.getUserLogin._id);
+      this.setState({userData: undefined, contents: userContents});
     }
+  }
+
+  getUserContents(user_id) {
+    return new Promise(resolve => {
+      console.log('fetch user contents -> ', user_id);
+      fetch(`${db.url}/content/userContent?id=${user_id}`)
+      .then(res => res.json()).then(contentsResponse => {
+        resolve(contentsResponse);
+      });
+    })
   }
 
   updateFollow() {
@@ -95,13 +110,13 @@ export default class ProfileView extends Component {
               (
                 <View style={styles.viewContainer}>
                   <UserDetails {...this.props.navigation} followPress={this.updateFollow.bind(this)} follow={this.state.follow} user={this.state.userData} />
-                  <Photos {...this.props.navigation} user={this.state.userData} />
+                  <Photos {...this.props.navigation} user={this.state.userData} data={this.state.contents} />
                 </View>
               ) :
               (
                 <View style={styles.viewContainer}>
                   <UserDetails isMy={true} {...this.props.navigation} user={this.props.AuthStore.getUserLogin} />
-                  <Photos isMy={true} {...this.props.navigation} user={this.props.AuthStore.getUserLogin} />
+                  <Photos isMy={true} {...this.props.navigation} user={this.props.AuthStore.getUserLogin} data={this.state.contents} />
                 </View>
               )
             }

@@ -1,7 +1,6 @@
 import { observable, action, computed } from "mobx";
 import db from "../database/db";
-import { updateUserLogin } from "../store/auth/authActions";
-
+import AuthStore from './authStore'; 
 
 class UsersStore {
     @observable usersStatus = false;
@@ -17,7 +16,7 @@ class UsersStore {
 
     @computed
     get getContents() {
-        return this.contents.slice();
+        return this.usersContents.slice();
     }
 
     @computed
@@ -33,7 +32,7 @@ class UsersStore {
     }
 
     @action
-    setContetnts(data) {
+    setContents(data) {
         console.log('UsersStore -> setContetnts -> ', data.length);
         this.contentsStatus = true;
         this.usersContents = data;
@@ -56,31 +55,36 @@ class UsersStore {
 
     @action
     fetchUsers(users_ids) {
-        console.log('UsersStore -> fetch -> ', user_id);
-        this.usersStatus = 'PENDING';
-        fetch(`${db.url}/users/getUsers?ids=${users_ids.join(',') || ''}`, {
-            headers: {'Content-Type': 'application/json', 'Content-Length': '*'},
-        }).then(res => res.json()).then(usersResponse => {
-            this.setErrors(undefined);
-            this.setUsers(usersResponse);
+        console.log('UsersStore -> fetch -> ', users_ids.length + ' users');
+        if(users_ids > 0) {
+            this.usersStatus = 'PENDING';
+            fetch(`${db.url}/users/getUsers?ids=${users_ids.join(',') || ''}`, {
+                headers: {'Content-Type': 'application/json', 'Content-Length': '*'},
+            }).then(res => res.json()).then(usersResponse => {
+                debugger;
+                this.setErrors(undefined);
+                this.setUsers(usersResponse);
+                this.fetchContents();
+            }).catch(err => {
+                this.setErrors(err);
+            })
+        } else {
             this.fetchContents();
-        }).catch(err => {
-            this.setErrors(err);
-        })
+        }
     }
 
     @action
     fetchContents() {
-		let contents_ids = [];
+        let contents_ids = AuthStore.getUserLogin.uploads.slice();
 		this.users.map((user) => {
 			contents_ids = contents_ids.concat(user.uploads);
         });
+        console.log('UsersStore -> fetch -> ', contents_ids + ' contents');
         this.contentsStatus = 'PENDING';
 		fetch(`${db.url}/content/getContents?ids=${contents_ids.join(',')}`)
 		.then(res => res.json()).then(contetnsResponse => {
-			let contents = contetnsResponse.concat(auth.userLogin.uploads);
-			contents.sort((a,b) => new Date(b.uploadDate) - new Date(a.uploadDate));
-			this.setContents(contents);
+			contetnsResponse.sort((a,b) => new Date(b.uploadDate) - new Date(a.uploadDate));
+			this.setContents(contetnsResponse);
 		})
     }
 }

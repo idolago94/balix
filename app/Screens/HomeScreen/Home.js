@@ -30,7 +30,7 @@ export default class Home extends Component {
 	componentDidMount() {
 		this.focusListener = this.props.navigation.addListener('willFocus', () => {
 			console.log('HomeScreen -> willFocus');
-			this.props.UsersStore.fetchUsers(this.props.auth.userLogin.following);
+			this.props.UsersStore.fetchUsers(this.props.AuthStore.getUserLogin.following);
 		})
 	}
 
@@ -56,29 +56,21 @@ export default class Home extends Component {
 	render() {
 		return (
 			<View style={{flex: 1, flexDirection: 'row'}}>
-				{
-					!this.state.contents ? (
-						<View style={{flex: 1, backgroundColor: Style.colors.background}}>
-							{/*loader*/}
-						</View>
-					) : (
 						<FlatList
 							style={styles.following}
 							showsVerticalScrollIndicator={false}
 							keyExtractor={(item, index) => index.toString()}
 							ListEmptyComponent={() => <HomeEmpty/>}
 							data={this.props.UsersStore.getContents}
-							renderItem={({item}) => (
+							renderItem={({item, index}) => (
 								<Photo 
-									smallView={true} 
+									index={index}
 									navigation={this.props.navigation} 
 									titlePress={this.onTitlePress.bind(this)}
 									data={item}
 								/>
 							)}
 						/>
-					)
-				}
 			</View>
 		);
 	}

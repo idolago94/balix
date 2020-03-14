@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Image, TouchableHighlight, Platform, Text } from 'react-native';
 import Style from '../../helpers/style/style';
 import Icon, {iconNames} from '../../components/Icon/Icon';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import { updateUserLogin } from "../../store/auth/authActions";
 import Routes from "../../Routes/Routes";
 import { inject, observer } from "mobx-react/native";
+import UploadService from '../../Services/Upload';
 
 @inject('AuthStore')
 export default class PreviewPhoto extends Component {
@@ -48,11 +46,10 @@ export default class PreviewPhoto extends Component {
     this.setState({ rotateDeg: this.state.rotateDeg+90 })
   }
 
-  postImage() {
+  async postImage() {
+    console.log('PreviewPhoto -> postImage');
     const {AuthStore} = this.props;
-    let requestBody = {
-      file: this.state.imageData
-    };
+    let requestBody = await UploadService.buildImageForUpload(this.state.imageData);
     fetch(`${db.url}/content/upload?id=${AuthStore.getUserLogin._id}`, {
       method: 'POST',
       headers: {
@@ -90,8 +87,8 @@ export default class PreviewPhoto extends Component {
         <View style={styles.container}>
           <Image
               style={{width: '100%', height: '100%', transform: [{ rotate: `${this.state.rotateDeg}deg` }]}}
-              // source={{uri: this.state.imageData.base64}}
-              source={{uri: `data:${this.state.imageData.type};base64,${this.state.imageData.base64}`}}
+              source={{uri: this.state.imageData.uri}}
+              // source={{uri: `data:${this.state.imageData.type};base64,${this.state.imageData.base64}`}}
           />
         </View>
         <View style={styles.buttons}>

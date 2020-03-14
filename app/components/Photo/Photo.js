@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
+// Componenta
 import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Alert} from 'react-native';
-import Style from '../../helpers/style/style';
-import Icon, {iconNames} from '../Icon/Icon';
 import SingleComment from './Comments/SingleComment';
 import EmojiBox from './EmojiBox/EmojiBox';
 import PhotoIndicator from './PhotoIndicator';
 import ProfileSymbol from '../ProfileSymbol/ProfileSymbol';
+import Icon, {iconNames} from '../Icon/Icon';
+import DoubleClick from 'react-native-double-click';
+
+import Style from '../../helpers/style/style';
 import {withComma} from '../../common/numberMethods';
 import Routes from '../../Routes/Routes';
-import DoubleClick from 'react-native-double-click';
-// Redux
-import { updateUsers } from "../../store/users/usersActions";
 import db from "../../database/db";
-import {updateUserLogin} from "../../store/auth/authActions";
 import bufferToBase64 from '../../helpers/convert/Buffer';
 import { inject, observer } from "mobx-react/native";
 
@@ -22,6 +21,7 @@ export default class Photo extends Component {
   // Props = [ data, titlePress ]
 
   constructor(props) {
+    console.log('Photo -> constructor');
     super(props);
     this.state = {
       openEmoji: false,
@@ -57,9 +57,10 @@ export default class Photo extends Component {
   }
 
   componentDidMount() {
+    console.log('Photo -> componentDidMount');
     let userData;
-    if(this.props.data.user_id == this.props.AuthService.getUserLogin._id) {
-      userData = this.props.AuthService.getUserLogin;
+    if(this.props.data.user_id == this.props.AuthStore.getUserLogin._id) {
+      userData = this.props.AuthStore.getUserLogin;
     } else {
       userData = this.props.UsersStore.getUsers.find(user => user._id == this.props.data.user_id);
     }
@@ -67,6 +68,7 @@ export default class Photo extends Component {
   }
 
   toggleEmoji() {
+    console.log('Photo -> toggleEmoji');
     this.setState((prevState) => {
       return {
         ...prevState,
@@ -76,6 +78,7 @@ export default class Photo extends Component {
   }
 
   getPressPosition(event) {
+    console.log('Photo -> getPressPosition');
     return{
       x: event.touchHistory.touchBank[1].currentPageX - 20,
       y: event.touchHistory.touchBank[1].currentPageY - 150,
@@ -83,6 +86,7 @@ export default class Photo extends Component {
   }
 
   emojiPress(emoji, event) {
+    console.log('Photo -> emojiPress -> ', emoji);
     if(emoji.value > this.props.AuthStore.getUserLogin.cash) {
       Alert.alert(
           `You don't have enough money!`,
@@ -109,6 +113,7 @@ export default class Photo extends Component {
   }
 
   heartPress(event) {
+    console.log('Photo -> heartPress');
     if(1 > this.props.AuthStore.getUserLogin.hearts) {
       Alert.alert(
           `You don't have hearts!`,
@@ -135,6 +140,7 @@ export default class Photo extends Component {
   }
 
   startHeartAnimation() {
+    console.log('Photo -> startHeartAnimation');
     this.sparkleAnimation.map((anim, i) => {
       Animated.timing(anim, {
         toValue: 1,
@@ -172,6 +178,7 @@ export default class Photo extends Component {
   }
 
   startEmojiAnimation(emoji) {
+    console.log('Photo -> startEmojiAnimation');
     this.sparkleAnimation.map((anim, i) => {
       Animated.timing(anim, {
         toValue: 1,
@@ -207,6 +214,7 @@ export default class Photo extends Component {
   }
 
   updateValues(values) {
+    console.log('Photo -> updateValues -> ', values);    
     const {AuthStore, UsersStore} = this.props;
     const {userData, imageData} = this.state;
 
@@ -233,8 +241,8 @@ export default class Photo extends Component {
         let userLogin_fields_update = {
           cash: response.cash,
           hearts: response.cash,
-          cash_earned: AuthStore.getUserLogin.cash_earnedv + bodyRequest.achievements.cash,
-          hearts_earned: AuthStore.getUserLogin.hearts_earnedv + bodyRequest.achievements.hearts
+          cash_earned: AuthStore.getUserLogin.cash_earned + bodyRequest.achievements.cash,
+          hearts_earned: AuthStore.getUserLogin.hearts_earned + bodyRequest.achievements.hearts
         };
         AuthStore.updateUserLogin(userLogin_fields_update);
         // update current image
@@ -250,11 +258,8 @@ export default class Photo extends Component {
     });
   }
 
-  navigateToProfile() {
-    this.props.navigation.navigate(Routes.Screens.PROFILE.routeName, {userData: this.state.userData});
-  }
-
   render() {
+    console.log('Photo -> render');
     const {userData, imageData, openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments} = this.state;
     return (!userData) ? null :
       <ScrollView style={styles.container}>
@@ -262,7 +267,8 @@ export default class Photo extends Component {
           <DoubleClick onClick={this.toggleEmoji.bind(this)}>
             <Image
                 style={styles.photo}
-                source={{uri:`data:${imageData.contentType};base64,${bufferToBase64(imageData.buffer)}`}}
+                // source={{uri:`data:${imageData.contentType};base64,${bufferToBase64(imageData.buffer)}`}}
+                source={{uri:`data:${imageData.contentType};base64,${bufferToBase64(this.props.UsersStore.getContentBuffer(this.props.index))}`}}
             />
           </DoubleClick>
           {/* Photo Indicators */}

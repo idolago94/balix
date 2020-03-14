@@ -4,8 +4,7 @@ import imageService from '../../../demoDB/Images/imageService';
 import Routes from '../../../Routes/Routes';
 import bufferToBase64 from '../../../helpers/convert/Buffer';
 
-export default function Photos(propa) {
-  const [userImages, setUserImages] = useState([]);
+export default function Photos(props) {
 
   function goToPhoto(params) {
     props.navigate(Routes.Screens.PHOTO.routeName, params);
@@ -14,7 +13,7 @@ export default function Photos(propa) {
     return (
       <View style={styles.container}>
           {
-              props.user.uploads.map((img, i) => {
+              props.data.map((img, i) => {
                   return (
                       <TouchableOpacity
                           key={i}
