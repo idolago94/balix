@@ -17,13 +17,13 @@ export default function UserDetails(props) {
           <View style={styles.user}>
             <View style={styles.imageBox}>
               <ProfileSymbol
-                iconPress={(props.isMy) ? (navigateTo.bind(this, Routes.Screens.CAMERA.routeName, {story_live: 'live'})) : (navigateTo.bind(this, Routes.Screens.CONVERSATION.routeName))}
+                iconPress={(props.isMy) ? (() => navigateTo(Routes.Screens.CAMERA.routeName, {story_live: 'live'})) : (() => navigateTo(Routes.Screens.CONVERSATION.routeName))}
                 src={props.user.profileImage}
-                icon={(isMy) ? (iconNames.LIVE) : (iconNames.LETTER)}
+                icon={(props.isMy) ? (iconNames.LIVE) : (iconNames.LETTER)}
                 size={100}
               />
-              {!isMy && (
-                <TouchableHighlight onPress={props.followPress.bind(this)} >
+              {!props.isMy && (
+                <TouchableHighlight onPress={() => props.followPress()} >
                   <View style={{...styles.followButton, borderColor: (props.follow) ? (Style.colors.lightMain):(Style.colors.text)}}>
                     <Icon size={15} name={iconNames.FOLLOW} color={(props.follow) ? (Style.colors.lightMain):(Style.colors.text)} />
                     <Text style={{color: (props.follow) ? (Style.colors.lightMain):(Style.colors.text), marginLeft: 7}}>{(props.follow) ? ('STOP'):('START')} FOLLOW</Text>
@@ -48,7 +48,7 @@ export default function UserDetails(props) {
             </View>
           </View>
         </View>
-        {isMy && (
+        {props.isMy && (
           <View style={styles.buttonBox}>
               <View style={styles.extraButton}>
                   <Text style={styles.buttonContent}>Extra Photo</Text>
