@@ -267,8 +267,7 @@ export default class Photo extends Component {
           <DoubleClick onClick={this.toggleEmoji.bind(this)}>
             <Image
                 style={styles.photo}
-                // source={{uri:`data:${imageData.contentType};base64,${bufferToBase64(imageData.buffer)}`}}
-                source={{uri:`data:${imageData.contentType};base64,${bufferToBase64(this.props.UsersStore.getContentBuffer(this.props.index))}`}}
+                source={{uri:`data:${imageData.contentType};base64,${bufferToBase64(imageData.buffer)}`}}
             />
           </DoubleClick>
           {/* Photo Indicators */}
