@@ -57,14 +57,18 @@ export default class Photo extends Component {
   }
 
   componentDidMount() {
-    console.log('Photo -> componentDidMount');
+    console.log('Photo -> componentDidMount -> ', this.props);
     let userData;
     if(this.props.data.user_id == this.props.AuthStore.getUserLogin._id) {
       userData = this.props.AuthStore.getUserLogin;
     } else {
       userData = this.props.UsersStore.getUsers.find(user => user._id == this.props.data.user_id);
     }
-    this.setState({userData: userData, imageData: this.props.data});
+    this.setState({
+      userData: userData, 
+      imageData: this.props.data,
+      base64: `data:image/jpeg;base64,${bufferToBase64(this.props.data.buffer)}`,
+    });
   }
 
   toggleEmoji() {
@@ -260,14 +264,15 @@ export default class Photo extends Component {
 
   render() {
     console.log('Photo -> render');
-    const {userData, imageData, openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments} = this.state;
+    const {userData, imageData, openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments, base64} = this.state;
     return (!userData) ? null :
       <ScrollView style={styles.container}>
         <View style={styles.photoBox}>
           <DoubleClick onClick={this.toggleEmoji.bind(this)}>
             <Image
                 style={styles.photo}
-                source={{uri:`data:${imageData.contentType};base64,${bufferToBase64(imageData.buffer)}`}}
+                source={{uri: base64}}
+
             />
           </DoubleClick>
           {/* Photo Indicators */}
