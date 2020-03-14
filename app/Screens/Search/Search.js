@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, TouchableHighlight, FlatList, Dimensions} from 'react-native';
+import {StyleSheet, View, TouchableHighlight, FlatList, Text} from 'react-native';
 import Header from '../../components/Header/Header';
 import Style from '../../helpers/style/style';
 import {connect} from 'react-redux';
@@ -20,11 +20,7 @@ export default class Search extends Component {
 	};
 
 	navigateTo(routeName, params) {
-		fetch(`${db.url}/content/userContent?id=${params.userData._id}`)
-			.then(res => res.json()).then(userUploads => {
-			params.userData.uploads = userUploads;
-			this.props.navigation.navigate(routeName, params);
-		});
+		this.props.navigation.navigate(routeName, params);
 	}
 
 	render() {
@@ -38,7 +34,7 @@ export default class Search extends Component {
 				<FlatList
 					keyExtractor={item => item._id.toString()}
 					ListEmptyComponent={() => <NotFound/>}
-					data={this.props.SeaarchStore.getResults}
+					data={this.props.SearchStore.getResults}
 					renderItem={({item}) => (
 						<TouchableHighlight
 							onPress={this.navigateTo.bind(this, Routes.Screens.PROFILE.routeName, {userData: item})}>

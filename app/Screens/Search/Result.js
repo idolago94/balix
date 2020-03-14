@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Style from '../../helpers/style/style';
+import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 
 export default function Result(props) {
 

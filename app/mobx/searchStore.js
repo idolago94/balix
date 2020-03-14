@@ -31,6 +31,7 @@ class SearchStore {
 
     @action
     setErrors(...errors) {
+        console.log('SearchStore -> setErrors -> ', errors)
         this.status = false;
         this.errors = errors;
     }
@@ -44,10 +45,9 @@ class SearchStore {
     handleSearch(word) {
         console.log('SearchStore -> handleSearch -> ', word);
         this.status = 'PENDING';
-        fetch(`${db.url}/search/?word=${word}`, {
-            headers: {'Content-Type': 'application/json', 'Content-Length': '*'},
-        }).then(res => res.json()).then(searchResponse => {
-            this.setErrors(undefined);
+        fetch(`${db.url}/search/?word=${word}`)
+        .then(res => res.json()).then(searchResponse => {
+            this.setErrors([]);
             this.setResults(searchResponse);
         }).catch(err => {
             this.setErrors(err);
