@@ -10,11 +10,12 @@ import BuyPackage from '../Screens/BuyPackage/BuyPackage';
 import WithdrawScreen from '../Screens/WithdrawScreen/WithdrawScreen';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import Style from '../helpers/style/style';
+import NavigatorStack from './navigatorStack';
 
 export default createAppContainer(createDrawerNavigator(
   {
-    [Routes.Navigators.TABS.routeName]: {
-      screen: NavigatorTabs,
+    [Routes.Navigators.STACK.routeName]: {
+      screen: NavigatorStack,
     },
     [Routes.Navigators.ADD.routeName]: {
       screen: NavigatorAdd,
@@ -40,8 +41,8 @@ export default createAppContainer(createDrawerNavigator(
     contentOptions: {
       inactiveTintColor: Style.colors.text
     },
-		headerMode: 'none',
-        initialRouteName: Routes.Navigators.TABS.routeName,
+		// headerMode: 'none',
+        initialRouteName: Routes.Navigators.STACK.routeName,
         defaultNavigationOptions: {
 			gestureEnabled: false,
 			cardShadowEnabled: false,

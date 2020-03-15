@@ -8,7 +8,7 @@ import Routes from '../../../../Routes/Routes';
 import db from "../../../../database/db";
 import { inject, observer } from "mobx-react/native";
 
-@inject('AuthStore')
+@inject('AuthStore', 'NavigationStore')
 export default class Connection extends Component {
 
   symbolSize = 45;
@@ -62,7 +62,7 @@ export default class Connection extends Component {
   }
 
   navigateToProfile(userData) {
-    this.props.navigate(Routes.Screens.PROFILE.routeName, {userData: userData})
+    this.props.NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {userData: userData})
   }
 
   render() {

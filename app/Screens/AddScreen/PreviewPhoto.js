@@ -67,9 +67,9 @@ export default class PreviewPhoto extends Component {
 
   onImagePosted(serverResponse) {
     console.log('PreviewPhoto -> onImagePosted');
-    const {navigation, AuthStore} = this.props;
+    const {NavigationStore, AuthStore} = this.props;
     AuthStore.updateUserLogin({uploads: serverResponse});
-    navigation.navigate(Routes.Screens.HOME.routeName);
+    NavigationStore.navigate(Routes.Screens.HOME.routeName);
   }
 
   render() {

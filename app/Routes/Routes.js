@@ -11,6 +11,7 @@ export default Routes = {
         SEARCH: {routeName: 'NAVIGATOR_SEARCH'},
         REGISTER: {routeName: 'NAVIGATOR_REGISTER'},
         DRAWER: {routeName: 'NAVIGATOR_DRAWER'},
+        STACK: {routeName: 'NAVIGATOR_STACK'}
     },
     Screens: {
         LIVE: {routeName: 'SCREEN_LIVE'},

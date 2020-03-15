@@ -1,6 +1,6 @@
 // Components
 import React, {Component} from 'react';
-import {StyleSheet, View, TouchableHighlight, TextInput, Animated, Dimensions} from 'react-native';
+import {StyleSheet, View, TouchableHighlight, Platform, Animated, Dimensions, Text} from 'react-native';
 import Icon, {iconNames} from '../Icon/Icon';
 import CashIndicator from './CashIndicator/CashIndicator';
 // Navigator
@@ -9,29 +9,20 @@ import Routes from '../../Routes/Routes';
 import Style from '../../helpers/style/style';
 
 import { inject, observer } from "mobx-react/native";
+import HeaderButton from './HeaderButton/HeaderButton';
+import SearchInput from './SearchInput/SearchInput';
+import BackButton from './BackButton/BackButton';
 
-@inject('SearchStore', 'CashButtonsStore', 'AuthStore')
+@inject('SearchStore', 'CashButtonsStore', 'AuthStore', 'NavigationStore')
 @observer
 export default class Header extends Component {
 	constructor(props) {
 		super(props);
-
-		this.openInputAnim = new Animated.Value(0);
-		this.opacityInput = new Animated.Value(0);
-		this.openIconBox = new Animated.Value(0);
-		this.iconOpacity = new Animated.Value(1);
-		this.iconWidth = new Animated.Value(70);
+		this.state = {
+			isSearch: false
+		};
 		this.indicatorOpacity = new Animated.Value(1);
 		this.indicatorWidth = new Animated.Value(200);
-	}
-
-	componentDidMount() {
-		if (this.props.state.routeName === Routes.Screens.SEARCH.routeName) {
-			this.startInputAnimation();
-		}
-		if (this.props.state.routeName === Routes.Screens.PROFILE.routeName && this.props.getParam('userData') && this.props.getParam('userData').userId !== this.props.AuthStore.getUserLogin._id) {
-			this.hideIndicator();
-		}
 	}
 
 	hideIndicator() {
@@ -42,118 +33,59 @@ export default class Header extends Component {
 		]).start();
 	}
 
-	startInputAnimation() {
-		Animated.sequence([
-			Animated.parallel([
-				Animated.timing(this.iconOpacity, {
-					toValue: 0,
-				}),
-				Animated.timing(this.iconWidth, {
-					toValue: 0,
-				}),
-				Animated.timing(this.indicatorOpacity, {
-					toValue: 0
-				}),
-				Animated.timing(this.indicatorWidth, {
-					toValue: 0
-				})
-			]),
-			Animated.parallel([
-				Animated.timing(this.opacityInput, {
-					toValue: 1,
-				}),
-				Animated.timing(this.openInputAnim, {
-					toValue: 1,
-				}),
-				Animated.timing(this.openIconBox, {
-					toValue: 1,
-				})
-			]),
-		]).start();
-	}
-
 	navigateTo(routeName, params) {
-		this.props.navigate(routeName, params);
-	}
-
-	handleSearch(text) {
-		const {SearchStore} = this.props;
-		if(text.length >= 3) {
-			SearchStore.handleSearch(text);
+		if(routeName == Routes.Screens.SEARCH.routeName) {
+			this.setState({isSearch: true});
+		} else {
+			this.setState({isSearch: false});
 		}
-		if(text.length < 3) {
-			SearchStore.clearResults();
-		}
+		this.props.NavigationStore.setCurrentTab(routeName);
+		this.props.NavigationStore.navigate(routeName, params);
 	}
 
 	render() {
-		const {toggleDrawer, AuthStore, CashButtonsStore} = this.props;
+		const {AuthStore, CashButtonsStore, NavigationStore} = this.props;
 		return (
-			<View style={styles.header}>
-				<Animated.View style={{...styles.leftSide, opacity: this.indicatorOpacity, maxWidth: this.indicatorWidth, maxHeight: this.indicatorWidth}}>
-					{
-						(this.props.state.routeName === Routes.Screens.PROFILE.routeName && this.props.getParam('userData') && this.props.getParam('userData').userId === AuthStore.getUserLogin._id) ?
-							null :
+			<View>
+				{Platform.OS == 'ios' && <View style={{height: Style.sizes.iphone_notch, backgroundColor: Style.colors.bar}} />}
+				<View style={styles.header}>
+
+					{(NavigationStore.isProfile && !NavigationStore.isMyProfile) || NavigationStore.isSearch ? (!NavigationStore.isSearch && <BackButton onPress={() => NavigationStore.goBack()} color={Style.colors.icon} size={Style.sizes.icon}/>) : (
+						<Animated.View style={{...styles.leftSide, opacity: this.indicatorOpacity, maxWidth: this.indicatorWidth, maxHeight: this.indicatorWidth}}>
 							<CashIndicator
 								onPress={() => CashButtonsStore.toggleButtons()}
 								cash={AuthStore.getUserLogin.cash} hearts={AuthStore.getUserLogin.hearts}
 							/>
-					}
-				</Animated.View>
-
-				<View style={styles.rightSide}>
-					{
-						(this.props.state.routeName === Routes.Screens.SEARCH.routeName) ?
-							(
-								<View style={styles.searchBox}>
-									<Animated.View style={
-										{
-											...styles.inputBox,
-											flexGrow: this.openInputAnim,
-											paddingHorizontal: this.openInputAnim.interpolate({
-												inputRange: [0, 1],
-												outputRange: [0, 10],
-											}),
-											opacity: this.opacityInput,
-										}}>
-										<TextInput autoFocus value={this.props.wordSearch}
-												   onChangeText={(text) => this.handleSearch(text)}
-												   style={styles.input}/>
-									</Animated.View>
-									<Animated.View style={{
-										...styles.searchIconBox,
-										backgroundColor: this.openIconBox.interpolate({
-											inputRange: [0, 1],
-											outputRange: ['rgba(125,125,125,0)', 'gray'],
-										}),
-									}}>
-										<Icon color={Style.colors.icon} name={iconNames.SEARCH}
-											  size={Style.sizes.icon} style={styles.icon}/>
-									</Animated.View>
-								</View>
-							) :
-							(
-								<TouchableHighlight
-									onPress={this.navigateTo.bind(this, Routes.Navigators.SEARCH.routeName)}>
-									<Icon color={Style.colors.icon} name={iconNames.SEARCH} size={Style.sizes.icon}
-										  style={styles.icon}/>
-								</TouchableHighlight>
-							)
-					}
-					<Animated.View style={{opacity: this.iconOpacity, maxWidth: this.iconWidth}}>
-						<TouchableHighlight onPress={this.navigateTo.bind(this, Routes.Navigators.MAIL.routeName)}>
-							<Icon color={Style.colors.icon} name={iconNames.LETTER} size={Style.sizes.icon}
-								  style={styles.icon}/>
-						</TouchableHighlight>
-					</Animated.View>
-					<Animated.View style={{opacity: this.iconOpacity, maxWidth: this.iconWidth}}>
-						<TouchableHighlight onPress={() => toggleDrawer()}>
-							<Icon color={Style.colors.icon} name={iconNames.MENU} size={Style.sizes.icon}
-								style={styles.icon}/>
-						</TouchableHighlight>
-					</Animated.View>
+						</Animated.View>
+					)}
+					<View style={styles.rightSide}>
+						<View style={{flex: NavigationStore.isSearch ? (1):(0)}}>
+							{(!NavigationStore.isProfile) && (NavigationStore.isSearch ? (<SearchInput />) : (
+							<HeaderButton
+								onPress={this.navigateTo.bind(this, Routes.Screens.SEARCH.routeName)}
+								color={Style.colors.icon}
+								icon={iconNames.SEARCH}
+								size={Style.sizes.icon}
+							/>
+							))}
+						</View>
+						{NavigationStore.isProfile ? (<Text style={styles.title}>{NavigationStore.isProfile}</Text>) : (
+							!NavigationStore.isSearch && <HeaderButton
+								onPress={this.navigateTo.bind(this, Routes.Screens.MAIL.routeName)}
+								color={Style.colors.icon}
+								icon={iconNames.LETTER}
+								size={Style.sizes.icon}
+							/>)}
+						{!NavigationStore.isSearch && (<HeaderButton
+							onPress={() => NavigationStore.toggleDrawer()}
+							color={Style.colors.icon}
+							icon={iconNames.MENU}
+							size={Style.sizes.icon}
+						/>)}
+					</View>
 				</View>
 			</View>
+
 		);
 	}
 }
@@ -181,9 +113,6 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		letterSpacing: 1,
 		marginLeft: 3,
-	},
-	icon: {
-		margin: 10,
 	},
 
 	searchIconBox: {
@@ -216,4 +145,10 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		backgroundColor: Style.colors.background,
 	},
+	title: {
+		color: Style.colors.text,
+		fontWeight: 'bold',
+		fontSize: 16,
+		letterSpacing: 1
+	}
 });

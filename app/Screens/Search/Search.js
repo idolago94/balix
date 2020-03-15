@@ -10,7 +10,7 @@ import NotFound from "./NotFound";
 import db from '../../database/db';
 import { inject, observer } from 'mobx-react/native';
 
-@inject('SearchStore')
+@inject('SearchStore', 'NavigationStore')
 @observer
 export default class Search extends Component {
 	static navigationOptions = ({navigation}) => {
@@ -20,7 +20,7 @@ export default class Search extends Component {
 	};
 
 	navigateTo(routeName, params) {
-		this.props.navigation.navigate(routeName, params);
+		this.props.NavigationStore.navigate(routeName, params);
 	}
 
 	render() {

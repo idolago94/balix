@@ -7,7 +7,7 @@ import Style from '../../helpers/style/style';
 import Routes from '../../Routes/Routes';
 import { inject, observer } from "mobx-react/native";
 
-@inject('AuthStore')
+@inject('AuthStore', 'NavigationStore')
 export default class Conversation extends Component {
 
     constructor(props) {
@@ -32,7 +32,7 @@ export default class Conversation extends Component {
     return (
         (this.state.messages && this.state.talkWith) ?
         (
-        <TouchableHighlight onPress={() => this.props.navigate(Routes.Screens.CONVERSATION.routeName, {
+        <TouchableHighlight onPress={() => this.props.NavigationStore.navigate(Routes.Screens.CONVERSATION.routeName, {
             conversationData: { userLogin: this.props.AuthStore.getUserLogin, messages: this.state.messages, talkWith: this.state.talkWith }
         })}>
         <View style={styles.container}>

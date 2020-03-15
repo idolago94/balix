@@ -7,17 +7,13 @@ import Routes from '../../../Routes/Routes';
 
 export default function UserDetails(props) {
 
-  function navigateTo(routeName, params) {
-    props.navigate(routeName, params);
-  }
-
     return (
       <View>
         <View style={styles.userDetails}>
           <View style={styles.user}>
             <View style={styles.imageBox}>
               <ProfileSymbol
-                iconPress={(props.isMy) ? (() => navigateTo(Routes.Screens.CAMERA.routeName, {story_live: 'live'})) : (() => navigateTo(Routes.Screens.CONVERSATION.routeName))}
+                iconPress={(props.isMy) ? (() => props.onNavigate(Routes.Screens.CAMERA.routeName, {story_live: 'live'})) : (() => props.onNavigate(Routes.Screens.CONVERSATION.routeName))}
                 src={props.user.profileImage}
                 icon={(props.isMy) ? (iconNames.LIVE) : (iconNames.LETTER)}
                 size={100}

@@ -1,13 +1,13 @@
 // Components
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, Animated } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Animated, Platform } from 'react-native';
 import RequestPass from './RequestPass/RequestPass';
 import Routes from '../../Routes/Routes';
 import AppNavigator from '../../Routes/AppNavigator';
 import { inject } from "mobx-react/native";
 import Style from '../../helpers/style/style';
 
-@inject('AuthStore', 'CashButtonsStore')
+@inject('AuthStore', 'CashButtonsStore', 'NavigationStore')
 export default class CashButtons extends Component {
 
   constructor(props) {
@@ -38,14 +38,14 @@ export default class CashButtons extends Component {
   }
 
   navigateTo(routeName) {
-    const {CashButtonsStore} = this.props;
+    const {CashButtonsStore, NavigationStore} = this.props;
     CashButtonsStore.hideButtons();
-    AppNavigator.getRef()._navigation.navigate(routeName);
+    NavigationStore.navigate(routeName);
   }
 
   openDropDown() {
       Animated.spring(this.dropDownBottom, {
-        toValue: Style.sizes.barHeight*2-10
+        toValue: Platform.OS == 'ios' ? (Style.sizes.barHeight+Style.sizes.iphone_notch):(Style.sizes.barHeight)
       }).start();
   }
 

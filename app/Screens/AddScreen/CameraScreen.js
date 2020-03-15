@@ -10,11 +10,13 @@ import Routes from '../../Routes/Routes';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import ImagePicker from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
+import { inject } from 'mobx-react/native';
 
+@inject('NavigationStore')
 export default class CameraScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: () => <AddHeader {...navigation} />,
+      headerTitle: () => <AddHeader />,
       headerTransparent: true
     };
   }
@@ -87,14 +89,14 @@ export default class CameraScreen extends Component {
         case RESULTS.BLOCKED:
           console.log('The permission is denied and not requestable anymore');
           alert('This app can not access to your camera. ')
-          this.props.navigation.navigate(Routes.Screens.HOME.routeName);
+          this.navigateTo(Routes.Screens.HOME.routeName);
           break;
       }
     });
   }
 
   navigateTo(routeName, params) {
-    this.props.navigation.navigate(routeName, params);
+    this.props.NavigationStore.navigate(routeName, params);
   }
 
   onGallery() {

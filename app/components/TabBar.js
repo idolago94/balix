@@ -1,63 +1,84 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import Style from '../helpers/style/style';
 import LinearGradient from 'react-native-linear-gradient';
 // Components
 import { StyleSheet, View, TouchableHighlight, Platform } from 'react-native';
 import Icon, {iconNames} from './Icon/Icon';
 import Routes from '../Routes/Routes';
+import { inject, observer } from "mobx-react/native";
 
-export default function TabBar(props) {
+@inject('NavigationStore', 'AuthStore')
+@observer
+export default class TabBar extends Component {
 
-  function navigateTo(routeName, params) {
-    props.navigation.navigate(routeName, params);
+  constructor(props) {
+    super(props);
+    this.state = {currentTab: Routes.Screens.HOME.routeName};
   }
 
-    return (
-      <View style={props.style}>
-          <View style={{...props.style, width: '100%', marginBottom: (Platform.OS == 'ios') ? (20):(0)}}>
+  navigateTo(routeName, params) {
+    this.props.NavigationStore.setCurrentTab(routeName);
+    this.props.NavigationStore.navigate(routeName, params);
+  }
 
-            <TouchableHighlight onPress={() => navigateTo(Routes.Navigators.HOME.routeName)} style={styles.tab}>
+  render() {
+    const {NavigationStore, AuthStore} = this.props;
+    return (
+      <View style={this.props.style}>
+          <View style={{...this.props.style, width: '100%', marginBottom: (Platform.OS == 'ios') ? (20):(0)}}>
+
+            <TouchableHighlight 
+              onPress={() => this.navigateTo(Routes.Screens.HOME.routeName)} 
+              style={styles.tab}
+            >
             {
-              (props.navigation.state.routes[props.navigation.state.index].key==Routes.Navigators.HOME.routeName) ?
-              (<Icon size={Style.sizes.icon} name={iconNames.HOME} color={props.activeTintColor} />) :
-              (<Icon size={Style.sizes.icon} name={iconNames.HOME} color={props.inactiveTintColor} />)
+              (NavigationStore.getCurrentTab == Routes.Screens.HOME.routeName) ?
+              (<Icon size={Style.sizes.icon} name={iconNames.HOME} color={this.props.activeTintColor} />) :
+              (<Icon size={Style.sizes.icon} name={iconNames.HOME} color={this.props.inactiveTintColor} />)
             }
             </TouchableHighlight>
-            <TouchableHighlight onPress={() => navigateTo(Routes.Navigators.RECENT_ACTIONS.routeName)} style={styles.tab}>
+            <TouchableHighlight 
+              onPress={() => this.navigateTo(Routes.Screens.RECENT_ACTIONS.routeName)} 
+              style={styles.tab}
+            >
             {
-              (props.navigation.state.routes[props.navigation.state.index].key==Routes.Navigators.RECENT_ACTIONS.routeName) ?
-              (<Icon size={Style.sizes.icon} name={iconNames.TIMER} color={props.activeTintColor} />) :
-              (<Icon size={Style.sizes.icon} name={iconNames.TIMER} color={props.inactiveTintColor} />)
+              (NavigationStore.getCurrentTab == Routes.Screens.RECENT_ACTIONS.routeName) ?
+              (<Icon size={Style.sizes.icon} name={iconNames.TIMER} color={this.props.activeTintColor} />) :
+              (<Icon size={Style.sizes.icon} name={iconNames.TIMER} color={this.props.inactiveTintColor} />)
             }
             </TouchableHighlight>
             <View style={styles.plusTabBox}>
               <LinearGradient style={{borderRadius: 999, borderWidth: 1, borderColor: 'black'}} colors={[Style.colors.lightMain, Style.colors.darkMain]}>
-                {/*<TouchableHighlight onPress={() => navigateTo(routeNames.ADD)} style={styles.plusTab}>*/}
-                <TouchableHighlight onPress={() => navigateTo(Routes.Navigators.ADD.routeName)} style={styles.plusTab}>
-                  <Icon size={Style.sizes.icon+10} name={iconNames.CAMERA} color={props.inactiveTintColor} />
+                <TouchableHighlight onPress={() => this.navigateTo(Routes.Screens.CAMERA.routeName)} style={styles.plusTab}>
+                  <Icon size={Style.sizes.icon+10} name={iconNames.CAMERA} color={this.props.inactiveTintColor} />
                 </TouchableHighlight>
               </LinearGradient>
             </View>
-            <TouchableHighlight onPress={() => navigateTo(Routes.Navigators.GRAPH.routeName)} style={styles.tab}>
-            {
-              (props.navigation.state.routes[props.navigation.state.index].key==Routes.Navigators.GRAPH.routeName) ?
-              (<Icon size={Style.sizes.icon} name={iconNames.GRAPH} color={props.activeTintColor} />) :
-              (<Icon size={Style.sizes.icon} name={iconNames.GRAPH} color={props.inactiveTintColor} />)
-            }
-            </TouchableHighlight>
-            <TouchableHighlight
-              onPress={() => navigateTo(Routes.Navigators.PROFILE.routeName)}
+            <TouchableHighlight 
+              onPress={() => this.navigateTo(Routes.Screens.GRAPH.routeName)} 
               style={styles.tab}
             >
             {
-              (props.navigation.state.routes[props.navigation.state.index].key==Routes.Navigators.PROFILE.routeName) ?
-              (<Icon size={Style.sizes.icon} name={iconNames.AVATAR} color={props.activeTintColor} />) :
-              (<Icon size={Style.sizes.icon} name={iconNames.AVATAR} color={props.inactiveTintColor} />)
+              (NavigationStore.getCurrentTab == Routes.Screens.GRAPH.routeName) ?
+              (<Icon size={Style.sizes.icon} name={iconNames.GRAPH} color={this.props.activeTintColor} />) :
+              (<Icon size={Style.sizes.icon} name={iconNames.GRAPH} color={this.props.inactiveTintColor} />)
+            }
+            </TouchableHighlight>
+            <TouchableHighlight
+              onPress={() => this.navigateTo(Routes.Screens.PROFILE.routeName, {userData: AuthStore.getUserLogin})}
+              style={styles.tab}
+            >
+            {
+              (NavigationStore.getCurrentTab == Routes.Screens.PROFILE.routeName) ?
+              (<Icon size={Style.sizes.icon} name={iconNames.AVATAR} color={this.props.activeTintColor} />) :
+              (<Icon size={Style.sizes.icon} name={iconNames.AVATAR} color={this.props.inactiveTintColor} />)
             }
             </TouchableHighlight>
           </View>
       </View>
     );
+  }
+
 }
 
 

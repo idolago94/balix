@@ -6,10 +6,6 @@ import bufferToBase64 from '../../../helpers/convert/Buffer';
 
 export default function Photos(props) {
 
-  function goToPhoto(params) {
-    props.navigate(Routes.Screens.PHOTO.routeName, params);
-  }
-
     return (
       <View style={styles.container}>
           {
@@ -18,7 +14,7 @@ export default function Photos(props) {
                       <TouchableOpacity
                           key={i}
                           style={styles.imageBox}
-                          onPress={() => goToPhoto({
+                          onPress={() => props.onPhoto({
                               userData: props.user,
                               selectedImage: img,
                               userImages: props.user.uploads

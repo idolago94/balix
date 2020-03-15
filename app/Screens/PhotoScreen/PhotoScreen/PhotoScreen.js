@@ -11,7 +11,7 @@ import Routes from '../../../Routes/Routes';
 import db from "../../../database/db";
 import { inject, observer } from "mobx-react/native";
 
-@inject('AuthStore', 'UsersStore')
+@inject('AuthStore', 'UsersStore', 'NavigationStore')
 @observer
 export default class PhotoScreen extends Component {
   // Params = [ userImages, selectedImage, userData ] ||
@@ -105,7 +105,7 @@ export default class PhotoScreen extends Component {
               onPress: () => console.log('Cancel Pressed'),
               style: 'cancel',
             },
-            {text: 'OK', onPress: () => this.props.navigation.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
+            {text: 'OK', onPress: () => this.props.NavigationStore.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
           ],
           {cancelable: false},
       );
@@ -134,7 +134,7 @@ export default class PhotoScreen extends Component {
               onPress: () => console.log('Cancel Pressed'),
               style: 'cancel',
             },
-            {text: 'OK', onPress: () => this.props.navigation.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
+            {text: 'OK', onPress: () => this.props.NavigationStore.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
           ],
           {cancelable: false},
       );
@@ -266,7 +266,7 @@ export default class PhotoScreen extends Component {
   }
 
   navigateToProfile() {
-    this.props.navigation.navigate(Routes.Screens.PROFILE.routeName, {userData: this.state.userData});
+    this.props.NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {userData: this.state.userData});
   }
 
   render() {
@@ -379,7 +379,7 @@ export default class PhotoScreen extends Component {
               <Text style={styles.content}>{imageData.title}</Text>
             </View>
             <TouchableHighlight
-                onPress={() => this.props.navigation.navigate(Routes.Screens.COMMENTS.routeName, {
+                onPress={() => this.props.NavigationStore.navigate(Routes.Screens.COMMENTS.routeName, {
                   comments: comments,
                 })}>
               <Text

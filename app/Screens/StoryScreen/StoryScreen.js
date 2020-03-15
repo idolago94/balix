@@ -20,7 +20,7 @@ import Routes from "../../Routes/Routes";
 import StoryEmojiBox from "./StoryEmojiBox";
 import { inject, observer } from 'mobx-react/native';
 
-@inject('AuthStore', 'UsersStore')
+@inject('AuthStore', 'UsersStore', 'NavigationStore')
 @observer
 export default class StoryScreen extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -139,7 +139,7 @@ export default class StoryScreen extends Component {
               onPress: () => console.log('Cancel Pressed'),
               style: 'cancel',
             },
-            {text: 'OK', onPress: () => this.props.navigation.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
+            {text: 'OK', onPress: () => this.props.NavigationStore.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
           ],
           {cancelable: false},
       );
@@ -204,7 +204,7 @@ export default class StoryScreen extends Component {
               onPress: () => console.log('Cancel Pressed'),
               style: 'cancel',
             },
-            {text: 'OK', onPress: () => this.props.navigation.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
+            {text: 'OK', onPress: () => this.props.NavigationStore.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
           ],
           {cancelable: false},
       );
@@ -441,7 +441,7 @@ export default class StoryScreen extends Component {
           <View style={styles.buttons}>
             <ProfileSymbol
                 style={styles.btn}
-                press={() => this.props.navigation.navigate(Routes.Screens.PROFILE.routeName, {userData: this.state.userData})}
+                press={() => this.props.NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {userData: this.state.userData})}
                 src={this.state.userData.profileImage}
                 size={this.buttonSize}
             />

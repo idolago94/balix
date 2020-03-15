@@ -15,7 +15,7 @@ import db from "../../database/db";
 import bufferToBase64 from '../../helpers/convert/Buffer';
 import { inject, observer } from "mobx-react/native";
 
-@inject('AuthStore', 'UsersStore')
+@inject('AuthStore', 'UsersStore', 'NavigationStore')
 @observer
 export default class Photo extends Component {
   // Props = [ data, titlePress ]
@@ -101,7 +101,7 @@ export default class Photo extends Component {
               onPress: () => console.log('Cancel Pressed'),
               style: 'cancel',
             },
-            {text: 'OK', onPress: () => this.props.navigation.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
+            {text: 'OK', onPress: () => this.props.NavigationStore.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
           ],
           {cancelable: false},
       );
@@ -128,7 +128,7 @@ export default class Photo extends Component {
               onPress: () => console.log('Cancel Pressed'),
               style: 'cancel',
             },
-            {text: 'OK', onPress: () => this.props.navigation.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
+            {text: 'OK', onPress: () => this.props.NavigationStore.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
           ],
           {cancelable: false},
       );
@@ -381,7 +381,7 @@ export default class Photo extends Component {
             <Text style={styles.content}>{imageData.title}My first photo</Text>
           </View>
           <TouchableHighlight
-            onPress={() => this.props.navigation.navigate(Routes.Screens.COMMENTS.routeName, {
+            onPress={() => this.props.NavigationStore.navigate(Routes.Screens.COMMENTS.routeName, {
               comments: comments,
             })}>
             <Text

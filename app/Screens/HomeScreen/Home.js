@@ -13,7 +13,7 @@ import HomeEmpty from "./HomeEmpty";
 import db from '../../database/db';
 import { inject, observer } from "mobx-react/native";
 
-@inject('AuthStore', 'UsersStore')
+@inject('AuthStore', 'UsersStore', 'NavigationStore')
 @observer
 export default class Home extends Component {
 	static navigationOptions = ({navigation}) => {
@@ -39,7 +39,7 @@ export default class Home extends Component {
 	}
 
 	onTitlePress(user) {
-		this.props.navigation.navigate(Routes.Screens.PROFILE, {userData: user});
+		this.props.NavigationStore.navigate(Routes.Screens.PROFILE, {userData: user});
 	}
 
 	symbolPressed(index) {
@@ -47,7 +47,7 @@ export default class Home extends Component {
 		if (user.live) {
 			// connect to agora(live stream).
 		} else if (user.story) {
-			this.props.navigation.navigate(Routes.Screens.STORY.routeName, {
+			this.props.NavigationStore.navigate(Routes.Screens.STORY.routeName, {
 				userIndex: index
 			});
 		}

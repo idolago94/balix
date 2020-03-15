@@ -4,7 +4,7 @@ import CashButtonsStore from './cashButtonsStore';
 import LoaderStore from './loaderStore';
 import SearchStore from './searchStore';
 import UsersStore from './usersStore';
-// import NavigationStore from './navigationStore';
+import NavigationStore from './navigationStore';
 
 export {
     ActionsStore,
@@ -13,5 +13,5 @@ export {
     LoaderStore,
     SearchStore,
     UsersStore,
-    // NavigationStore
+    NavigationStore
 }

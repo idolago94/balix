@@ -6,8 +6,10 @@ import Photos from './Photos';
 import Header from '../../../components/Header/Header';
 import db from '../../../database/db';
 import { inject, observer } from "mobx-react/native";
+import Routes from '../../../Routes/Routes';
 
-@inject('AuthStore')
+@inject('AuthStore', 'NavigationStore')
+@observer
 export default class ProfileView extends Component {
   static navigationOptions = ({ navigation }) => {
     let user = navigation.getParam('userData');
@@ -101,6 +103,10 @@ export default class ProfileView extends Component {
     })
   }
 
+  navigateToPhoto(params) {
+    this.props.NavigationStore.navigate(Routes.Screens.PHOTO.routeName, params);
+  }
+
   render() {
     return (
       <View style={{flex:1}}>
@@ -109,14 +115,14 @@ export default class ProfileView extends Component {
               (this.state.userData) ?
               (
                 <View style={styles.viewContainer}>
-                  <UserDetails {...this.props.navigation} followPress={this.updateFollow.bind(this)} follow={this.state.follow} user={this.state.userData} />
-                  <Photos {...this.props.navigation} user={this.state.userData} data={this.state.contents} />
+                  <UserDetails onNavigate={(routeName, params) => this.props.NavigationStore.navigate(routeName, params)} followPress={this.updateFollow.bind(this)} follow={this.state.follow} user={this.state.userData} />
+                  <Photos onPhoto={this.navigateToPhoto.bind(this)} user={this.state.userData} data={this.state.contents} />
                 </View>
               ) :
               (
                 <View style={styles.viewContainer}>
-                  <UserDetails isMy={true} {...this.props.navigation} user={this.props.AuthStore.getUserLogin} />
-                  <Photos isMy={true} {...this.props.navigation} user={this.props.AuthStore.getUserLogin} data={this.state.contents} />
+                  <UserDetails onNavigate={(routeName, params) => this.props.NavigationStore.navigate(routeName, params)} isMy={true}  user={this.props.AuthStore.getUserLogin} />
+                  <Photos onPhoto={this.navigateToPhoto.bind(this)}isMy={true}  user={this.props.AuthStore.getUserLogin} data={this.state.contents} />
                 </View>
               )
             }

@@ -1,42 +1,42 @@
 import React from 'react';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Style from '../helpers/style/style';
-import NavigatorHome from '../Screens/HomeScreen/navigatorHome';
-import NavigatorProfile from '../Screens/ProfileScreen/navigatorProfile';
 import TabBar from '../components/TabBar';
-import NavigatorGraph from '../Screens/GraphScreen/navigatorGraph';
-import NavigatorPhoto from '../Screens/PhotoScreen/navigatorPhoto';
-import NavigatorRecentActions from '../Screens/RecentActionsScreen/navigatorRecentActions';
 import Routes from './Routes';
-import NavigatorMail from '../components/Mail/navigatorMail';
-import NavigatorSearch from './navigatorSearch';
+import Home from '../Screens/HomeScreen/Home';
+import ProfileView from '../Screens/ProfileScreen/ProfileView/ProfileView';
+import Graph from '../Screens/GraphScreen/Graph/Graph';
+import RecentActions from '../Screens/RecentActionsScreen/RecentActions/RecentActions';
+import PhotoScreen from '../Screens/PhotoScreen/PhotoScreen/PhotoScreen';
+import Mail from '../components/Mail/Mail';
+import Search from '../Screens/Search/Search';
 
 export default createBottomTabNavigator(
   {
-    [Routes.Navigators.HOME.routeName]: {
-      screen: NavigatorHome,
+    [Routes.Screens.HOME.routeName]: {
+      screen: Home,
     },
-    [Routes.Navigators.PROFILE.routeName]: {
-      screen: NavigatorProfile,
+    [Routes.Screens.PROFILE.routeName]: {
+      screen: ProfileView,
     },
-    [Routes.Navigators.GRAPH.routeName]: {
-      screen: NavigatorGraph,
+    [Routes.Screens.GRAPH.routeName]: {
+      screen: Graph,
     },
-    [Routes.Navigators.RECENT_ACTIONS.routeName]: {
-      screen: NavigatorRecentActions,
+    [Routes.Screens.RECENT_ACTIONS.routeName]: {
+      screen: RecentActions,
     },
-    [Routes.Navigators.PHOTO.routeName]: {
-      screen: NavigatorPhoto
+    [Routes.Screens.PHOTO.routeName]: {
+      screen: PhotoScreen
     },
-    [Routes.Navigators.MAIL.routeName]: {
-      screen: NavigatorMail
+    [Routes.Screens.MAIL.routeName]: {
+      screen: Mail
     },
-    [Routes.Navigators.SEARCH.routeName]: {
-        screen: NavigatorSearch
+    [Routes.Screens.SEARCH.routeName]: {
+        screen: Search
     },
   },
   {
-    initialRouteName: Routes.Navigators.HOME.routeName,
+    initialRouteName: Routes.Screens.HOME.routeName,
     tabBarComponent: props => (
       <TabBar {...props} />
     ),
