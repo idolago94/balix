@@ -12,7 +12,7 @@ class UploadService {
     resizeImage(imageURI) {
         return new Promise(resolve => {
             let data = null;
-            ImageResizer.createResizedImage(imageURI, 800, 800, 'JPEG', 99).then(result => {
+            ImageResizer.createResizedImage(imageURI, 1080, 1080, 'JPEG', 99).then(result => {
                 if(result.size > 500000) {
                     resolve(this.resizeImage(result.uri));
                 } else {

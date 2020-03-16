@@ -6,7 +6,7 @@ import Routes from "../../Routes/Routes";
 import { inject, observer } from "mobx-react/native";
 import UploadService from '../../Services/Upload';
 
-@inject('AuthStore')
+@inject('AuthStore', 'NavigationStore')
 export default class PreviewPhoto extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -48,7 +48,8 @@ export default class PreviewPhoto extends Component {
 
   async postImage() {
     console.log('PreviewPhoto -> postImage');
-    const {AuthStore} = this.props;
+    const {AuthStore, NavigationStore} = this.props;
+    NavigationStore.navigate(Routes.Screens.HOME.routeName);
     let requestBody = await UploadService.buildImageForUpload(this.state.imageData);
     fetch(`${db.url}/content/upload?id=${AuthStore.getUserLogin._id}`, {
       method: 'POST',
@@ -69,7 +70,6 @@ export default class PreviewPhoto extends Component {
     console.log('PreviewPhoto -> onImagePosted');
     const {NavigationStore, AuthStore} = this.props;
     AuthStore.updateUserLogin({uploads: serverResponse});
-    NavigationStore.navigate(Routes.Screens.HOME.routeName);
   }
 
   render() {

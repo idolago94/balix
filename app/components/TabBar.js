@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    borderRadius: 999
+    flexGrow: 1
   },
   plusTabBox: {
     transform: [
