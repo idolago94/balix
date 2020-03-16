@@ -10,6 +10,7 @@ import {withComma} from '../../../common/numberMethods';
 import Routes from '../../../Routes/Routes';
 import db from "../../../database/db";
 import { inject, observer } from "mobx-react/native";
+import bufferToBase64 from '../../../helpers/convert/Buffer';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore')
 @observer
@@ -74,6 +75,7 @@ export default class PhotoScreen extends Component {
         imageData: imageData,
         userData: userData,
         userImages: userImages,
+        base64: `data:image/jpeg;base64,${bufferToBase64(imageData.buffer)}`
       };
     });
   }
@@ -270,7 +272,7 @@ export default class PhotoScreen extends Component {
   }
 
   render() {
-    const {userData, imageData, openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments, userImages} = this.state;
+    const {base64, userData, imageData, openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments, userImages} = this.state;
     return (!userData || !imageData) ? null :
         <ScrollView style={styles.container}>
           <TouchableHighlight onPress={this.navigateToProfile.bind(this)}>
@@ -281,7 +283,7 @@ export default class PhotoScreen extends Component {
           </TouchableHighlight>
 
           <View style={styles.photoBox}>
-            <Image style={styles.photo} source={{uri:imageData.base64}}/>
+            <Image style={styles.photo} source={{uri: base64}}/>
             <PhotoIndicator indicators={{
               cash: imageData.cash,
               hearts: imageData.hearts,
