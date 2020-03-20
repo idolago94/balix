@@ -1,5 +1,6 @@
 import { observable, action, computed } from "mobx";
 import db from "../database/db";
+import ApiService from "../Services/Api";
 
 class AuthStore {
     @observable status = false;
@@ -31,25 +32,11 @@ class AuthStore {
     }
 
     @action
-    login(authData) {
+    async login(authData) {
         console.log('authStore -> login -> ', authData.username);
         this.status = 'PENDING';
-        fetch(`${db.url}/users/login`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(authData)
-        }).then(res => res.json()).then(authResponse => {
-            console.log('login response: ', authResponse);
-            if(authResponse._id) {
-                this.setErrors([]);
-                this.setUserLogin(authResponse);
-            }
-            else {
-                this.setErrors(response.err);
-            }
-        }).catch(err => {
-            this.setErrors(err);
-        })
+        let auth = await ApiService.login(authData.username, authData.password);
+        auth._id && this.setUserLogin(auth);
     }
 
     @action
