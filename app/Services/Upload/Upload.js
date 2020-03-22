@@ -5,16 +5,17 @@ class UploadService {
 
     async buildImageForUpload(imageData) {
         console.log(imageData);
-        let resizedImage= await this.resizeImage(imageData.uri);
+        let resizedImage= await this.resizeImage(imageData.uri, 100);
         return resizedImage;
     }
 
-    resizeImage(imageURI) {
+    resizeImage(imageURI, q) {
         return new Promise(resolve => {
             let data = null;
-            ImageResizer.createResizedImage(imageURI, 1080, 1080, 'JPEG', 99).then(result => {
+            ImageResizer.createResizedImage(imageURI, 1080, 1080, 'JPEG', q).then(result => {
+                console.log('Resized image size: ', result.size);
                 if(result.size > 500000) {
-                    resolve(this.resizeImage(result.uri));
+                    resolve(this.resizeImage(result.uri, q-1));
                 } else {
                     data = {
                         contentType: 'image/jpeg',
