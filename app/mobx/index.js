@@ -5,6 +5,9 @@ import LoaderStore from './loaderStore';
 import SearchStore from './searchStore';
 import UsersStore from './usersStore';
 import NavigationStore from './navigationStore';
+import ContentsStore from './contentsStore';
+import BuffersStore from './buffersStore'; 
+import IdentifierStore from './identifierStore';
 
 export {
     ActionsStore,
@@ -13,5 +16,8 @@ export {
     LoaderStore,
     SearchStore,
     UsersStore,
-    NavigationStore
+    NavigationStore,
+    ContentsStore,
+    BuffersStore,
+    IdentifierStore
 }

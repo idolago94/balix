@@ -11,9 +11,10 @@ import Style from '../../helpers/style/style';
 
 import HomeEmpty from "./HomeEmpty";
 import db from '../../database/db';
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
+import UpdatesService from '../../Services/Updates';
 
-@inject('AuthStore', 'UsersStore', 'NavigationStore')
+@inject('NavigationStore', 'IdentifierStore')
 @observer
 export default class Home extends Component {
 	static navigationOptions = ({navigation}) => {
@@ -30,7 +31,7 @@ export default class Home extends Component {
 	componentDidMount() {
 		this.focusListener = this.props.navigation.addListener('willFocus', () => {
 			console.log('HomeScreen -> willFocus');
-			this.props.UsersStore.fetchUsers(this.props.AuthStore.getUserLogin.following);
+			UpdatesService.checkFollowingUpdates();
 		})
 	}
 
@@ -42,17 +43,6 @@ export default class Home extends Component {
 		this.props.NavigationStore.navigate(Routes.Screens.PROFILE, {userData: user});
 	}
 
-	symbolPressed(index) {
-		let user = this.props.users.users[index];
-		if (user.live) {
-			// connect to agora(live stream).
-		} else if (user.story) {
-			this.props.NavigationStore.navigate(Routes.Screens.STORY.routeName, {
-				userIndex: index
-			});
-		}
-	}
-
 	render() {
 		return (
 			<View style={{flex: 1, flexDirection: 'row'}}>
@@ -61,7 +51,7 @@ export default class Home extends Component {
 							showsVerticalScrollIndicator={false}
 							keyExtractor={(item, index) => index.toString()}
 							ListEmptyComponent={() => <HomeEmpty/>}
-							data={this.props.UsersStore.getContents}
+							data={this.props.IdentifierStore.getFollowing}
 							renderItem={({item, index}) => (
 								<Photo 
 									index={index}

@@ -8,7 +8,7 @@ import { Formik } from 'formik';
 import { WebView } from 'react-native-webview';
 import Slider from '@react-native-community/slider';
 import db from "../../database/db";
-import { inject, observer } from 'mobx-react/native';
+import { inject, observer } from 'mobx-react';
 
 @inject('AuthStore', 'UsersStore')
 export default class WithdrawScreen extends Component {

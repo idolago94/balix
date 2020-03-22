@@ -7,7 +7,7 @@ import {StyleSheet, View, Dimensions} from 'react-native';
 // import LoginScreen from './LoginScreen/LoginScreen';
 import CashButtons from '../components/CashButtons/CashButtons';
 
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 import Header from '../components/Header/Header';
 import Routes from '../Routes/Routes';
 

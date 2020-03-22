@@ -15,7 +15,7 @@ import {getActions} from "../../../store/actions/actionsActions";
 import {connect} from "react-redux";
 
 import db from "../../../database/db";
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 
 @inject('AuthStore', 'ActionsStore')
 @observer

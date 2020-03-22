@@ -5,7 +5,7 @@ import Style from '../../../helpers/style/style';
 import Icon, { iconNames } from '../../../components/Icon/Icon';
 import RadialGradient from 'react-native-radial-gradient';
 import db from "../../../database/db";
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 
 @inject('AuthStore')
 export default class Package extends Component {

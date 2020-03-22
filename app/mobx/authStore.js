@@ -1,6 +1,7 @@
-import { observable, action, computed } from "mobx";
+import { observable, action, computed, get, set } from "mobx";
 import db from "../database/db";
 import ApiService from "../Services/Api";
+import { UsersStore } from ".";
 
 class AuthStore {
     @observable status = false;
@@ -15,6 +16,16 @@ class AuthStore {
     @computed
     get getErrors() {
         return this.errors.slice();
+    }
+
+    @computed
+    get isMyId() {
+        return (id) => this.userLogin._id == id;
+    }
+
+    @computed
+    get isFollow() {
+        return (id) => get(this.userLogin, 'following').find(f => f == id);
     }
 
     @action
@@ -41,8 +52,7 @@ class AuthStore {
 
     @action
     updateUserLogin(field_to_update) {
-        let updatedUser = Object.assign(this.userLogin, field_to_update);
-        this.setUserLogin(updatedUser);
+        set(this.userLogin, field_to_update);
     }
 
     @action

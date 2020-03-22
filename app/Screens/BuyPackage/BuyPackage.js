@@ -4,7 +4,7 @@ import Style from '../../helpers/style/style';
 import Package from './Package/Package';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import {getAvailablePurchases, getProducts, initConnection} from "react-native-iap";
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 
 @inject('AuthStore')
 export default class BuyPackage extends Component {

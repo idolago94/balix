@@ -37,7 +37,7 @@ class ActionsStore {
         fetch(`${db.url}/actions/getActions?id=${user_id}`, {
             headers: {'Content-Type': 'application/json', 'Content-Length': '*'},
         }).then(res => res.json()).then(actionsResponse => {
-            this.setErrors(undefined);
+            this.setErrors([]);
             this.setActions(actionsResponse);
         }).catch(err => {
             this.setErrors(err);

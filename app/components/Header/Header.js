@@ -8,7 +8,7 @@ import Routes from '../../Routes/Routes';
 // Helper
 import Style from '../../helpers/style/style';
 
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 import HeaderButton from './HeaderButton/HeaderButton';
 import SearchInput from './SearchInput/SearchInput';
 import BackButton from './BackButton/BackButton';

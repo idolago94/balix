@@ -11,7 +11,7 @@ import SearchEmpty from "../../Search/SearchEmpty";
 import Routes from "../../../Routes/Routes";
 import Result from "../../Search/Result";
 import ActionsEmpty from "./ActionsEmpty";
-import { inject, observer } from 'mobx-react/native';
+import { inject, observer } from 'mobx-react';
 
 @inject('AuthStore', 'ActionsStore')
 export default class RecentActions extends Component {

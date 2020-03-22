@@ -6,7 +6,7 @@ import Icon, { iconNames } from '../../components/Icon/Icon';
 import ImagePicker from 'react-native-image-picker';
 import db from "../../database/db";
 import FormField from '../../components/FormField/FormField';
-import { inject, observer } from 'mobx-react/native';
+import { inject, observer } from 'mobx-react';
 
 @inject('AuthStore')
 export default class MoreSetAccount extends Component {

@@ -3,10 +3,11 @@ import { StyleSheet, View, Image, TouchableHighlight, Platform, Text } from 'rea
 import Style from '../../helpers/style/style';
 import Icon, {iconNames} from '../../components/Icon/Icon';
 import Routes from "../../Routes/Routes";
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 import UploadService from '../../Services/Upload';
+import ApiService from '../../Services/Api';
 
-@inject('AuthStore', 'NavigationStore')
+@inject('AuthStore', 'NavigationStore', 'ContentsStore', 'LoaderStore')
 export default class PreviewPhoto extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -49,27 +50,16 @@ export default class PreviewPhoto extends Component {
   async postImage() {
     console.log('PreviewPhoto -> postImage');
     const {AuthStore, NavigationStore} = this.props;
-    NavigationStore.navigate(Routes.Screens.HOME.routeName);
-    let requestBody = await UploadService.buildImageForUpload(this.state.imageData);
-    fetch(`${db.url}/content/upload?id=${AuthStore.getUserLogin._id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': '*'
-      },
-      body: JSON.stringify(requestBody)
-    }).then(res => res.json()).then(response => {
-      console.log('PreviewPhoto -> postImage -> response');
-      this.onImagePosted(response);
-    }).catch(err => {
-      console.log('PreviewPhoto -> postImage -> error', err);
+    let upload = await UploadService.buildImageForUpload(this.state.imageData);
+    let uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, upload); // the new upload object
+    let myUploads = AuthStore.getUserLogin.uploads;
+    myUploads.push({
+      content_id: uploadResponse._id,
+      uploadDate: uploadResponse.uploadDate,
+      lastUpdate: uploadResponse.lastUpdate
     });
-  }
-
-  onImagePosted(serverResponse) {
-    console.log('PreviewPhoto -> onImagePosted');
-    const {NavigationStore, AuthStore} = this.props;
-    AuthStore.updateUserLogin({uploads: serverResponse});
+    AuthStore.updateUserLogin({uploads: myUploads});
+    NavigationStore.navigate(Routes.Screens.HOME.routeName);
   }
 
   render() {
@@ -80,7 +70,7 @@ export default class PreviewPhoto extends Component {
     return (
       <View style={{flex: 1, backgroundColor: Style.colors.background, paddingTop: (Platform.OS == 'ios') ? (40):(0)}}>
         <View style={{alignItems: 'flex-end'}}>
-          <TouchableHighlight onPress={this.postImage.bind(this)} style={styles.btn}>
+          <TouchableHighlight onPress={() => this.postImage()} style={styles.btn}>
             <Icon name={iconNames.CONFIRM} color={Style.colors.icon} size={buttonSize} />
           </TouchableHighlight>
         </View>
@@ -88,14 +78,13 @@ export default class PreviewPhoto extends Component {
           <Image
               style={{width: '100%', height: '100%', transform: [{ rotate: `${this.state.rotateDeg}deg` }]}}
               source={{uri: this.state.imageData.uri}}
-              // source={{uri: `data:${this.state.imageData.type};base64,${this.state.imageData.base64}`}}
           />
         </View>
         <View style={styles.buttons}>
           <TouchableHighlight style={styles.btn}>
             <Icon name={iconNames.COLLAGE} color={Style.colors.icon} size={buttonSize} />
           </TouchableHighlight>
-          <TouchableHighlight onPress={this.rotateImage.bind(this)} style={styles.btn}>
+          <TouchableHighlight onPress={() => this.rotateImage()} style={styles.btn}>
             <Icon name={iconNames.ROTATE} color={Style.colors.icon} size={buttonSize} />
           </TouchableHighlight>
           <TouchableHighlight style={styles.btn}>
@@ -105,6 +94,7 @@ export default class PreviewPhoto extends Component {
             <Icon name={iconNames.DESIGN} color={Style.colors.icon} size={buttonSize} />
           </TouchableHighlight>
         </View>
+        {this.props.LoaderStore.isVisible && <Text style={{color: Style.colors.text, fontSize: 20, letterSpacing: 1}}>Loader...</Text>}
       </View>
     );
   }

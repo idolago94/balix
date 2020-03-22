@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Conversation from './Conversation';
 import Style from '../../helpers/style/style';
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 
 @inject('AuthStore')
 export default class Mail extends Component {

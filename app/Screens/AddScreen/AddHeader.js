@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableHighlight, Dimensions } from 'react-native';
 import Style from '../../helpers/style/style';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import Routes from "../../Routes/Routes";
-import { inject } from 'mobx-react/native';
+import { inject } from 'mobx-react';
 
 @inject('NavigationStore')
 export default class AddHeader extends Component {

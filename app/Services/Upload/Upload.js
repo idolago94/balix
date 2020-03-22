@@ -6,7 +6,7 @@ class UploadService {
     async buildImageForUpload(imageData) {
         console.log(imageData);
         let resizedImage= await this.resizeImage(imageData.uri);
-        return {file: resizedImage};
+        return resizedImage;
     }
 
     resizeImage(imageURI) {
@@ -17,7 +17,7 @@ class UploadService {
                     resolve(this.resizeImage(result.uri));
                 } else {
                     data = {
-                        type: 'image/png',
+                        contentType: 'image/jpeg',
                         width: result.width,
                         height: result.height,
                         size: result.size

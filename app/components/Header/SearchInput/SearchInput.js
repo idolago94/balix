@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View, TouchableHighlight, Animated, TextInput} from 'react-native';
 import Style from '../../../helpers/style/style';
 import Icon, {iconNames} from '../../Icon/Icon';
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 
 @inject('SearchStore')
 export default class SearchInput extends Component {

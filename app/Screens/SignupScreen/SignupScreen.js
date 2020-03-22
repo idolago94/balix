@@ -6,7 +6,8 @@ import db from "../../database/db";
 import FormField from '../../components/FormField/FormField';
 import Routes from '../../Routes/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
-import { inject, observer } from 'mobx-react/native';
+import { inject, observer } from 'mobx-react';
+import ApiService from '../../Services/Api';
 
 @inject('AuthStore')
 export default class SignupScreen extends Component {
@@ -42,25 +43,18 @@ export default class SignupScreen extends Component {
         return errors;
     }
 
-    onCreateAccount() {
+    async onCreateAccount() {
         let validate = this.validateForm();        
         if(validate.length <= 0) {
-        const {navigation} = this.props;
-            fetch(`${db.url}/users/signup`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.state)
-            }).then(res => res.json()).then(response => {
-                console.log(response);
-                if(response.error) {
-                    this.setState({errors: [response.error]});
-                } else {
-                    this.props.AuthStore.setUserLogin(response);
-                    navigation.navigate(Routes.Screens.SET_PROFILE.routeName);
-                }
-            }).catch(err => console.log(err));
+            const {navigation} = this.props;
+            const {first_name, last_name, username, email, password, gender} = this.state;
+            let signupResponse = await ApiService.signup(first_name, last_name, username, password, email, gender);
+            if(signupResponse.error) {
+                this.setState({errors: [signupResponse.error]});
+            } else {
+                this.props.AuthStore.setUserLogin(signupResponse);
+                navigation.navigate(Routes.Screens.SET_PROFILE.routeName);
+            }
         }
     }
 

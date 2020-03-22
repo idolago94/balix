@@ -8,7 +8,7 @@ import Routes from '../../Routes/Routes';
 import SearchEmpty from "./SearchEmpty";
 import NotFound from "./NotFound";
 import db from '../../database/db';
-import { inject, observer } from 'mobx-react/native';
+import { inject, observer } from 'mobx-react';
 
 @inject('SearchStore', 'NavigationStore')
 @observer

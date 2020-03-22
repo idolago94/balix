@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import Style from '../../../helpers/style/style';
 import UserDetails from './UserDetails';
 import Photos from './Photos';
 import Header from '../../../components/Header/Header';
 import db from '../../../database/db';
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 import Routes from '../../../Routes/Routes';
 
-@inject('AuthStore', 'NavigationStore')
+@inject('AuthStore', 'NavigationStore', 'UsersStore')
 @observer
 export default class ProfileView extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -27,7 +27,7 @@ export default class ProfileView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: undefined,
+      userData: {},
       follow: false,
       contents: []
     }
@@ -47,33 +47,31 @@ export default class ProfileView extends Component {
 
   getDetailsFromParams() {
     console.log('Profile View -> getDetailsFromParams');
-    const {AuthStore, navigation} = this.props;
-    let user = navigation.getParam('userData');
-    // check if params exist and different from the last
-    if(user && user._id != AuthStore.getUserLogin._id) {
-      let follow = AuthStore.getUserLogin.following.find(followUser => followUser == user._id);
-      if(this.state.userData == undefined || user._id != this.state.userData._id) {
-        this.setState({userData: user, contents: [], follow: !!follow});
-      } else if(!!follow != this.state.follow) {
-        this.setState({follow: !!follow})
-      }
-      this.getUserContents(user._id);
-    } else {
-      this.setState({userData: undefined, contents: []});
-      this.getUserContents(AuthStore.getUserLogin._id);
-    }
+    // const {UsersStore, navigation} = this.props;
+    // let user = UsersStore.getUserById(navigation.getParam('id'));
+    // let user = navigation.getParam('userData');
+    // // check if params exist and different from the last
+    // if(user && user._id != AuthStore.getUserLogin._id) {
+    //   let follow = AuthStore.getUserLogin.following.find(followUser => followUser == user._id);
+    //   if(this.state.userData == undefined || user._id != this.state.userData._id) {
+    //     this.setState({userData: user, follow: !!follow});
+    //   } else if(!!follow != this.state.follow) {
+    //     this.setState({follow: !!follow})
+    //   }
+    //   // this.getUserContents(user._id);
+    // } else {
+    //   this.setState({userData: undefined, contents: []});
+    //   // this.getUserContents(AuthStore.getUserLogin._id);
+    // }
   }
 
-  getUserContents(user_id) {
-    // return new Promise(resolve => {
-      console.log('fetch user contents -> ', user_id);
-      fetch(`${db.url}/content/userContent?id=${user_id}`)
-      .then(res => res.json()).then(contentsResponse => {
-        // resolve(contentsResponse);
-        this.setState({contents: contentsResponse});
-      });
-    // })
-  }
+  // getUserContents(user_id) {
+  //     console.log('fetch user contents -> ', user_id);
+  //     fetch(`${db.url}/content/userContent?id=${user_id}`)
+  //     .then(res => res.json()).then(contentsResponse => {
+  //       this.setState({contents: contentsResponse});
+  //     });
+  // }
 
   updateFollow() {
     let updateFollowing = this.props.AuthStore.getUserLogin.following;
@@ -104,28 +102,31 @@ export default class ProfileView extends Component {
   }
 
   navigateToPhoto(params) {
+    params.user_id = this.props.navigation.getParam('id');
+    console.log('ProfileView -> navigateToPhoto -> params ', params);
     this.props.NavigationStore.navigate(Routes.Screens.PHOTO.routeName, params);
   }
 
   render() {
+    const {UsersStore, AuthStore, navigation} = this.props;
+    const userData = UsersStore.getUsers[navigation.getParam('id')];
+    !userData && UsersStore.fetchUsers([navigation.getParam('id')]);
     return (
       <View style={{flex:1}}>
         <ScrollView style={styles.scrollContainer}>
-            {
-              (this.state.userData) ?
-              (
-                <View style={styles.viewContainer}>
-                  <UserDetails onNavigate={(routeName, params) => this.props.NavigationStore.navigate(routeName, params)} followPress={this.updateFollow.bind(this)} follow={this.state.follow} user={this.state.userData} />
-                  <Photos onPhoto={this.navigateToPhoto.bind(this)} user={this.state.userData} data={this.state.contents} />
-                </View>
-              ) :
-              (
-                <View style={styles.viewContainer}>
-                  <UserDetails onNavigate={(routeName, params) => this.props.NavigationStore.navigate(routeName, params)} isMy={true}  user={this.props.AuthStore.getUserLogin} />
-                  <Photos onPhoto={this.navigateToPhoto.bind(this)}isMy={true}  user={this.props.AuthStore.getUserLogin} data={this.state.contents} />
-                </View>
-              )
-            }
+          {userData && <View style={styles.viewContainer}>
+            <UserDetails 
+              onNavigate={(routeName, params) => this.props.NavigationStore.navigate(routeName, params)} 
+              followPress={this.updateFollow.bind(this)}
+              isMy={AuthStore.isMyId(userData._id)} 
+              follow={AuthStore.isFollow(userData._id)} 
+              user={userData} 
+            />
+            <Photos 
+              onPhoto={this.navigateToPhoto.bind(this)}
+              data={userData.uploads} 
+            />
+          </View>}
         </ScrollView>
       </View>
     );

@@ -9,10 +9,9 @@ import ProfileSymbol from '../../../components/ProfileSymbol/ProfileSymbol';
 import {withComma} from '../../../common/numberMethods';
 import Routes from '../../../Routes/Routes';
 import db from "../../../database/db";
-import { inject, observer } from "mobx-react/native";
-import bufferToBase64 from '../../../helpers/convert/Buffer';
+import { inject, observer } from "mobx-react";
 
-@inject('AuthStore', 'UsersStore', 'NavigationStore')
+@inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'BuffersStore')
 @observer
 export default class PhotoScreen extends Component {
   // Params = [ userImages, selectedImage, userData ] ||
@@ -24,9 +23,6 @@ export default class PhotoScreen extends Component {
       emojiSendPosition: {x: 0, y: 0},
       heartSendPosition: {x: 0, y:0},
       emojiSend: undefined,
-      plusCash: 0,
-      userData: undefined,
-      imageData: undefined,
       userImages: undefined,
       comments: [
         {user: 'simon', comment: 'com1'},
@@ -50,34 +46,6 @@ export default class PhotoScreen extends Component {
       new Animated.Value(0), new Animated.Value(0), new Animated.Value(0), new Animated.Value(0),
       new Animated.Value(0), new Animated.Value(0),
     ];
-    this.focusListener = null;
-  }
-
-  componentDidMount() {
-    this.focusListener = this.props.navigation.addListener('willFocus', () => {
-      this.getDetailsFromParams();
-    });
-  }
-
-  componentWillUnMount() {
-    this.focusListener.remove();
-  }
-
-  getDetailsFromParams() {
-    const {navigation} = this.props;
-    let userImages = navigation.getParam('userImages');
-    let imageData = this.props.navigation.getParam('selectedImage');
-    let userData = this.props.navigation.getParam('userData');
-    console.log(imageData);
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        imageData: imageData,
-        userData: userData,
-        userImages: userImages,
-        base64: `data:image/jpeg;base64,${bufferToBase64(imageData.buffer)}`
-      };
-    });
   }
 
   toggleEmoji() {
@@ -268,11 +236,15 @@ export default class PhotoScreen extends Component {
   }
 
   navigateToProfile() {
-    this.props.NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {userData: this.state.userData});
+    this.props.NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: this.props.navigation.getParam('user_id')});
   }
 
   render() {
-    const {base64, userData, imageData, openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments, userImages} = this.state;
+    const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments, userImages} = this.state;
+    const {NavigationStore, ContentsStore, UsersStore, BuffersStore, navigation} = this.props;
+    const userData = UsersStore.getUserById(navigation.getParam('user_id'));
+    const imageData = ContentsStore.getContentById(navigation.getParam('id'));
+    const base64 = BuffersStore.getBase64(imageData.buffer_id);
     return (!userData || !imageData) ? null :
         <ScrollView style={styles.container}>
           <TouchableHighlight onPress={this.navigateToProfile.bind(this)}>
@@ -359,21 +331,22 @@ export default class PhotoScreen extends Component {
                     color={Style.colors.icon}/>
             </View>
           </View>
-          <View style={styles.anotherPhotos}>
+          {/* <View style={styles.anotherPhotos}>
             {
-              userImages.map((img, i) => {
-                if (img.id === imageData.id) {
+              userImages.map((img_id, i) => {
+                if (img.id === ContentsStore.getContentById(id).id) {
                   return (<View key={i}></View>);
                 }
                 return (
                     <TouchableHighlight key={i} style={{padding: 5, width: '12.5%', aspectRatio: 1}}
-                                        onPress={() => this.setState({imageData: img})}>
+                      onPress={() => this.setState({id: img_id})}
+                    >
                       <Image style={styles.smallPhoto} source={{uri:img.base64}}/>
                     </TouchableHighlight>
                 );
               })
             }
-          </View>
+          </View> */}
 
           <View style={styles.commentsBox}>
             <View style={{flexDirection: 'row', marginBottom: 5}}>
@@ -381,7 +354,7 @@ export default class PhotoScreen extends Component {
               <Text style={styles.content}>{imageData.title}</Text>
             </View>
             <TouchableHighlight
-                onPress={() => this.props.NavigationStore.navigate(Routes.Screens.COMMENTS.routeName, {
+                onPress={() => NavigationStore.navigate(Routes.Screens.COMMENTS.routeName, {
                   comments: comments,
                 })}>
               <Text

@@ -13,9 +13,10 @@ import {withComma} from '../../common/numberMethods';
 import Routes from '../../Routes/Routes';
 import db from "../../database/db";
 import bufferToBase64 from '../../helpers/convert/Buffer';
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
+import ApiService from '../../Services/Api';
 
-@inject('AuthStore', 'UsersStore', 'NavigationStore')
+@inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'BuffersStore')
 @observer
 export default class Photo extends Component {
   // Props = [ data, titlePress ]
@@ -58,17 +59,6 @@ export default class Photo extends Component {
 
   componentDidMount() {
     console.log('Photo -> componentDidMount -> ', this.props);
-    let userData;
-    if(this.props.data.user_id == this.props.AuthStore.getUserLogin._id) {
-      userData = this.props.AuthStore.getUserLogin;
-    } else {
-      userData = this.props.UsersStore.getUsers.find(user => user._id == this.props.data.user_id);
-    }
-    this.setState({
-      userData: userData, 
-      imageData: this.props.data,
-      base64: `data:image/jpeg;base64,${bufferToBase64(this.props.data.buffer)}`,
-    });
   }
 
   toggleEmoji() {
@@ -264,7 +254,10 @@ export default class Photo extends Component {
 
   render() {
     console.log('Photo -> render');
-    const {userData, imageData, openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments, base64} = this.state;
+    const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments} = this.state;
+    const imageData = this.props.ContentsStore.getContentById(this.props.data.content_id);
+    const userData = this.props.UsersStore.getUserById(imageData.user_id);
+    const base64 = this.props.BuffersStore.getBase64(imageData.buffer_id);
     return (!userData) ? null :
       <ScrollView style={styles.container}>
         <View style={styles.photoBox}>
@@ -272,7 +265,6 @@ export default class Photo extends Component {
             <Image
                 style={styles.photo}
                 source={{uri: base64}}
-
             />
           </DoubleClick>
           {/* Photo Indicators */}

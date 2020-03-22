@@ -1,3 +1,4 @@
+import { LoaderStore } from "../../mobx";
 
 class ApiService {
 
@@ -14,7 +15,7 @@ class ApiService {
     }
 
     async getUsers(ids_array) {
-        let usersResponse = await this.sendRequest('GET', '/users/getUsers?ids=' + ids_array.join());
+        let usersResponse = await this.sendRequest('GET', '/users/getUsers?ids=' + ids_array.join(','));
         return usersResponse;
     }
 
@@ -95,18 +96,37 @@ class ApiService {
         return searchResponse;
     }
 
+    // Route: /buffer
+
+    async getBuffer(id) {
+        let bufferResponse = await this.sendRequest('GET', '/buffer/?id=' + id);
+        return bufferResponse;
+    }
+
+    async getBuffers(ids_array) {
+        let bufferResponse = await this.sendRequest('GET', '/buffer/some?ids=' + ids_array.join());
+        return bufferResponse;
+    }
 
     sendRequest(method, route, body) {
         return new Promise((resolve, reject) => {
             console.log('ApiService -> sendRequest -> ', method, route, body);
-            let server_url = 'http://34.69.232.216:8080';
+            LoaderStore.showLoader();
+            // let server_url = 'http://34.69.232.216:8080'; // google server
+            let server_url = 'http://127.0.0.1:8080'; // local server
             fetch(server_url + route, {
                 method: method,
-                headers: {'Content-Type': 'application/json', 'Content-Length': '*'},
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(body)
             })
-            .then(res => res.json()).then(response => resolve(response))
-            .catch(err => reject(err));
+            .then(res => res.json()).then(response => {
+                LoaderStore.hideLoader();
+                resolve(response);
+            })
+            .catch(err => {
+                LoaderStore.hideLoader();
+                reject(err);
+            });
         });
     }
 }

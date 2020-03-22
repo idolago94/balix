@@ -1,8 +1,8 @@
 import React, { Component, useState } from 'react';
 import { StyleSheet, Text, View, Image, Button, TouchableOpacity } from 'react-native';
-import imageService from '../../../demoDB/Images/imageService';
 import Routes from '../../../Routes/Routes';
 import bufferToBase64 from '../../../helpers/convert/Buffer';
+import SmallPhoto from './SmallPhoto';
 
 export default function Photos(props) {
 
@@ -11,20 +11,7 @@ export default function Photos(props) {
           {
               props.data.map((img, i) => {
                   return (
-                      <TouchableOpacity
-                          key={i}
-                          style={styles.imageBox}
-                          onPress={() => props.onPhoto({
-                              userData: props.user,
-                              selectedImage: img,
-                              userImages: props.user.uploads
-                          })}
-                      >
-                          <Image
-                              source={{uri:`data:${img.contentType};base64,${bufferToBase64(img.buffer)}`}}
-                              style={styles.photo}
-                          />
-                      </TouchableOpacity>
+                      <SmallPhoto key={i} data={img} onPress={(params) => props.onPhoto(params)} />
                   )
               })
           }

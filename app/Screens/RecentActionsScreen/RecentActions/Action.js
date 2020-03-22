@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import ProfileSymbol from '../../../components/ProfileSymbol/ProfileSymbol';
 import db from "../../../database/db";
 import Icon, {iconNames} from "../../../components/Icon/Icon";
-import { inject, observer } from 'mobx-react/native';
+import { inject, observer } from 'mobx-react';
 
 @inject('AuthStore', 'UsersStore')
 export default class Action extends Component {

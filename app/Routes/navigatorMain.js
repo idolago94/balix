@@ -34,7 +34,7 @@ export default createAppContainer(createDrawerNavigator(
     },
   },
   {
-    mode: 'modal', //must be modal for transparent background
+    // mode: 'modal', //must be modal for transparent background
     drawerBackgroundColor: Style.colors.background,
     drawerPosition: 'right',
     drawerType: 'slide',

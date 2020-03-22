@@ -8,7 +8,7 @@ import db from "../../database/db";
 import Routes from '../../Routes/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
 import TextButton from '../../components/TextButton/TextButton';
-import { inject, observer } from 'mobx-react/native';
+import { inject, observer } from 'mobx-react';
 
 @inject('AuthStore')
 @observer

@@ -3,7 +3,7 @@ import {StatusBar, View} from 'react-native';
 import LoginNavigator from './app/Routes/navigatorLogin';
 import * as Stores from './app/mobx';
 import AppScreen from './app/Screens/AppScreen';
-import { Provider, inject, observer } from "mobx-react/native";
+import { Provider, inject, observer } from "mobx-react";
 
 
 export default class App extends Component {

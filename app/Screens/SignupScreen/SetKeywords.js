@@ -7,7 +7,7 @@ import db from "../../database/db";
 import FormField from '../../components/FormField/FormField';
 import Routes from '../../Routes/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
-import { inject, observer } from 'mobx-react/native';
+import { inject, observer } from 'mobx-react';
 
 @inject('AuthStore')
 export default class SetKeywords extends Component {

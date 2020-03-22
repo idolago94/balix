@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { StyleSheet, View, TouchableHighlight, Platform } from 'react-native';
 import Icon, {iconNames} from './Icon/Icon';
 import Routes from '../Routes/Routes';
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 
 @inject('NavigationStore', 'AuthStore')
 @observer
@@ -65,7 +65,7 @@ export default class TabBar extends Component {
             }
             </TouchableHighlight>
             <TouchableHighlight
-              onPress={() => this.navigateTo(Routes.Screens.PROFILE.routeName, {userData: AuthStore.getUserLogin})}
+              onPress={() => this.navigateTo(Routes.Screens.PROFILE.routeName, {id: AuthStore.getUserLogin._id})}
               style={styles.tab}
             >
             {

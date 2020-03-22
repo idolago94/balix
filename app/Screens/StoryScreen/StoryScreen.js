@@ -18,7 +18,7 @@ import { withComma } from '../../common/numberMethods';
 import db from "../../database/db";
 import Routes from "../../Routes/Routes";
 import StoryEmojiBox from "./StoryEmojiBox";
-import { inject, observer } from 'mobx-react/native';
+import { inject, observer } from 'mobx-react';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore')
 @observer

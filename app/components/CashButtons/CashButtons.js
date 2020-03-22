@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TouchableHighlight, Animated, Platform } from '
 import RequestPass from './RequestPass/RequestPass';
 import Routes from '../../Routes/Routes';
 import AppNavigator from '../../Routes/AppNavigator';
-import { inject } from "mobx-react/native";
+import { inject } from "mobx-react";
 import Style from '../../helpers/style/style';
 
 @inject('AuthStore', 'CashButtonsStore', 'NavigationStore')

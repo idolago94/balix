@@ -6,7 +6,7 @@ import Popup from './Popup';
 import { connect } from 'react-redux';
 import Routes from '../../../../Routes/Routes';
 import db from "../../../../database/db";
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 
 @inject('AuthStore', 'NavigationStore')
 export default class Connection extends Component {

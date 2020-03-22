@@ -10,7 +10,7 @@ import Routes from '../../Routes/Routes';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import ImagePicker from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
-import { inject } from 'mobx-react/native';
+import { inject } from 'mobx-react';
 
 @inject('NavigationStore')
 export default class CameraScreen extends Component {

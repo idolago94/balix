@@ -11,7 +11,7 @@ export default createStackNavigator(
     }
   },
   {
-		mode: 'modal', //must be modal for transparent background
+		// mode: 'modal', //must be modal for transparent background
     headerMode: 'screen',
     initialRouteName: Routes.Navigators.TABS.routeName,
     defaultNavigationOptions: {

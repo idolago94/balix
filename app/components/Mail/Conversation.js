@@ -5,7 +5,7 @@ import messageService from '../../demoDB/Messages/messageService';
 import ProfileSymbol from '../ProfileSymbol/ProfileSymbol';
 import Style from '../../helpers/style/style';
 import Routes from '../../Routes/Routes';
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 
 @inject('AuthStore', 'NavigationStore')
 export default class Conversation extends Component {
