@@ -10,7 +10,7 @@ import NotFound from "./NotFound";
 import db from '../../database/db';
 import { inject, observer } from 'mobx-react';
 
-@inject('SearchStore', 'NavigationStore')
+@inject('SearchStore', 'NavigationStore', 'IdentifierStore', 'LoaderStore')
 @observer
 export default class Search extends Component {
 	static navigationOptions = ({navigation}) => {
@@ -24,21 +24,21 @@ export default class Search extends Component {
 	}
 
 	render() {
-		if(!this.props.SearchStore.getStatus) {
-			return (<SearchEmpty/>)
-		} else if(this.props.SearchStore.getStatus == 'PENDING') {
+		if(this.props.LoaderStore.isVisible) {
 			return <Text>Loader</Text>
+		} else if(!this.props.IdentifierStore.isHandleSearch) {
+			return (<SearchEmpty/>)
 		}
 		return (
 			<View style={styles.container}>
 				<FlatList
-					keyExtractor={item => item._id.toString()}
+					keyExtractor={(item, index) => index.toString()}
 					ListEmptyComponent={() => <NotFound/>}
-					data={this.props.SearchStore.getResults}
+					data={this.props.IdentifierStore.getSearch}
 					renderItem={({item}) => (
 						<TouchableHighlight
 							onPress={this.navigateTo.bind(this, Routes.Screens.PROFILE.routeName, {userData: item})}>
-							<Result data={item}/>
+							<Result id={item}/>
 						</TouchableHighlight>
 					)}
 				/>

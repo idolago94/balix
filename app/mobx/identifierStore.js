@@ -1,11 +1,13 @@
 import { observable, action, computed } from "mobx";
 import {persist} from 'mobx-persist';
+import { clearSearch } from "../store/search/searchActions";
 
 class IdentifierStore {
     @persist @observable followingContents = []; // array ids of my following users contents
     @persist @observable topContents = []; // array ids of the top contents
     @persist @observable searchUsers = []; // array ids of the search results users
-
+    @observable handleSearch = false;
+    
     @computed
     get getFollowing() {
         return this.followingContents.slice();
@@ -20,6 +22,11 @@ class IdentifierStore {
     get getSearch() {
         return this.searchUsers.slice();
     }
+
+    @computed
+    get isHandleSearch() {
+        return this.handleSearch;
+    }
     
     @action
     setFollowing(ids_array) {
@@ -33,8 +40,15 @@ class IdentifierStore {
 
     @action
     setSearch(ids_array) {
+        this.handleSearch = true;
         this.searchUsers = ids_array;
     }
-}
+
+    @action
+    clearSearch() {
+        this.searchUsers = [];
+        this.handleSearch = false;
+    }
+ }
 
 export default new IdentifierStore();
