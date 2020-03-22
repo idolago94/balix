@@ -45,7 +45,7 @@ class ContentsStore {
 
     @action
     updateContent(id, data) {
-        this.contents[id] = {...data};
+        this.contents[id] = {...this.contents[id], ...data};
     }
 
     @action

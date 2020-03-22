@@ -167,7 +167,7 @@ export default class Photo extends Component {
       this.fadeHeart.setValue(1);
       this.moveHeart.setValue(0);
       this.sizeHeart.setValue(0);
-      this.updateValues({emoji: undefined, hearts: 1})
+      this.updateValues({emoji: undefined, hearts: 1, cash: 0})
     });
   }
 
@@ -203,53 +203,16 @@ export default class Photo extends Component {
       this.fadeEmoji.setValue(1);
       this.moveEmoji.setValue(0);
       this.sizeEmoji.setValue(0);
-      this.updateValues({emoji: emoji, hearts: 0})
+      this.updateValues({emoji: emoji, hearts: 0, cash: emoji.value})
     });
   }
 
-  updateValues(values) {
+  async updateValues(values) {
     console.log('Photo -> updateValues -> ', values);    
-    const {AuthStore, UsersStore} = this.props;
-    const {userData, imageData} = this.state;
-
-    let bodyRequest = {
-      owner_id: userData._id,
-      content_id: imageData._id,
-      achievements: { cash: (values.emoji) ? (values.emoji.value):(0), hearts: values.hearts, emoji: values.emoji }
-    }
-    fetch(`${db.url}/content/update?id=${AuthStore.getUserLogin._id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(bodyRequest)
-    }).then(res => res.json()).then(response => {
-      if (!response.error) {
-        // update owner image
-        let user_field_update = {
-          cash: userData.cash + bodyRequest.achievements.cash,
-          hearts: userData.heart + bodyRequest.achievements.hearts,
-        };
-        UsersStore.updateUser(userData._id, user_field_update);
-        // update user login
-        let userLogin_fields_update = {
-          cash: response.cash,
-          hearts: response.cash,
-          cash_earned: AuthStore.getUserLogin.cash_earned + bodyRequest.achievements.cash,
-          hearts_earned: AuthStore.getUserLogin.hearts_earned + bodyRequest.achievements.hearts
-        };
-        AuthStore.updateUserLogin(userLogin_fields_update);
-        // update current image
-        let imageData = {
-          ...this.state.imageData,
-          cash: this.state.imageData.cash + bodyRequest.achievements.cash,
-          hearts: this.state.imageData.hearts + bodyRequest.achievements.hearts
-        }
-        this.setState({userData: updateUser, imageData: imageData})
-      } else console.log(response.error);
-    }).catch(err => {
-      console.log(err);
-    });
+    const {AuthStore, ContentsStore, data} = this.props;
+    let updateResponse = await ApiService.updateContent(AuthStore.getUserLogin._id, data.content_id, values);// {user, owner, content}
+    AuthStore.updateUserLogin(updateResponse.user);
+    ContentsStore.updateContent(data.content_id, updateResponse.content);
   }
 
   render() {
@@ -267,23 +230,13 @@ export default class Photo extends Component {
                 source={{uri: base64}}
             />
           </DoubleClick>
-          {/* Photo Indicators */}
-          <View style={{position: 'absolute', alignItems: 'flex-start'}}>
-            <ProfileSymbol 
-              style={{marginLeft: 10,marginTop: 10, borderWidth: 1, borderColor: 'black', borderRadius: 999}} 
-              src={userData.profileImage} 
-              size={55}
-            />
-            <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 10, padding: 4}}>
-              <Icon color={Style.colors.text} name={iconNames.DOLLAR} size={22} />
-              <Text style={{color: Style.colors.text}}>{imageData.cash}</Text>
-            </View>
-            <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 10, padding: 4}}>
-              <Icon color={Style.colors.text} name={iconNames.FULL_HEART} size={22} />
-              <Text style={{color: Style.colors.text}}>{imageData.hearts}</Text>
-            </View>
-          </View>
-          {/*  */}
+
+          <PhotoIndicator 
+            user={userData}
+            cash={imageData.cash}
+            hearts={imageData.hearts}
+          />
+
           <View style={styles.emoji}>
             {
               !openEmoji ? null :
@@ -329,6 +282,7 @@ export default class Photo extends Component {
           >
             <Icon color={Style.colors.heart} name={iconNames.FULL_HEART} size={this.emojiBoxSize} />
           </Animated.View>
+          {/* sparkle animation */}
           {
             this.sparkleAnimation.map((anim, i) => (
               <Animated.Image key={i} source={require('../../assets/sparkle.gif')} style={{

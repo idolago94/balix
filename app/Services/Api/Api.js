@@ -40,8 +40,8 @@ class ApiService {
         return followResponse;
     }
 
-    async buyPackage(user_id, recieve_obj) {
-        let buyResponse = await this.sendRequest('POST', '/users/buyPackage?id=' + user_id, {recieve: recieve_obj});
+    async buyPackage(user_id, cost, recieve_obj) {
+        let buyResponse = await this.sendRequest('POST', '/users/buyPackage?id=' + user_id, {recieve: recieve_obj, cost});
         return buyResponse;
     }
 

@@ -52,7 +52,8 @@ class AuthStore {
 
     @action
     updateUserLogin(field_to_update) {
-        set(this.userLogin, field_to_update);
+        // set(this.userLogin, field_to_update);
+        this.userLogin = {...this.userLogin, ...field_to_update};
     }
 
     @action

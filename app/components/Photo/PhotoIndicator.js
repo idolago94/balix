@@ -3,30 +3,25 @@ import { StyleSheet, Text, View } from 'react-native';
 import Style from '../../helpers/style/style';
 import Icon, {iconNames} from '../Icon/Icon';
 import { withComma } from '../../common/numberMethods';
-import Svg, { Polygon } from 'react-native-svg';
+import ProfileSymbol from '../ProfileSymbol/ProfileSymbol';
 
 export default function PhotoIndicator(props) {
   // Props = [ indicators: {cash: number, hearts: number} ]
 
     return (
-      <View style={styles.container}>
-        <Svg style={{position: 'absolute', top: 0, left: -50}} height="100" width="100">
-          <Polygon
-            points="50,0 0,27 50,27"
-            fill='rgba(128, 128, 128, 0.4)'
-          />
-        </Svg>
-        <View style={styles.indicatorBox}>
-          <View style={styles.iconBox}>
-            <Icon name={iconNames.DOLLAR} size={15} color={Style.colors.lightMain} />
-          </View>
-          <Text style={styles.number}>{withComma(props.indicators.cash)}</Text>
+      <View style={{position: 'absolute', alignItems: 'flex-start'}}>
+        <ProfileSymbol 
+          style={{marginLeft: 10,marginTop: 10, borderWidth: 1, borderColor: 'black', borderRadius: 999}} 
+          src={props.user.profileImage} 
+          size={55}
+        />
+        <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 10, padding: 4}}>
+          <Icon color={Style.colors.text} name={iconNames.DOLLAR} size={22} />
+          <Text style={{color: Style.colors.text}}>{withComma(props.cash)}</Text>
         </View>
-        <View style={styles.indicatorBox}>
-          <View style={styles.iconBox}>
-            <Icon name={iconNames.HEART} size={15} color={Style.colors.lightMain} />
-          </View>
-          <Text style={{...styles.number, paddingHorizontal: 3}}>{withComma(props.indicators.hearts)}</Text>
+        <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 10, padding: 4}}>
+          <Icon color={Style.colors.text} name={iconNames.FULL_HEART} size={22} />
+          <Text style={{color: Style.colors.text}}>{withComma(props.hearts)}</Text>
         </View>
       </View>
     );
