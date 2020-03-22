@@ -12,6 +12,7 @@ import Routes from '../../Routes/Routes';
 import { inject, observer } from "mobx-react";
 import ApiService from '../../Services/Api';
 import Buttons from './Buttons';
+import ProgressiveImage from '../ProgressiveImage/PreogressiveImage';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'BuffersStore')
 @observer
@@ -39,6 +40,7 @@ export default class Photo extends Component {
         {user: 'simon', comment: 'com6'},
       ],
     };
+    this.imageLoad = new Animated.Value(0);
     this.emojiBoxSize = 25;
     this.moveEmoji = new Animated.Value(0);
     this.moveHeart = new Animated.Value(0);
@@ -52,10 +54,6 @@ export default class Photo extends Component {
       new Animated.Value(0), new Animated.Value(0), new Animated.Value(0), new Animated.Value(0),
       new Animated.Value(0), new Animated.Value(0),
     ];
-  }
-
-  componentDidMount() {
-    console.log('Photo -> componentDidMount -> ', this.props);
   }
 
   toggleEmoji() {
@@ -217,16 +215,13 @@ export default class Photo extends Component {
     const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments} = this.state;
     const imageData = this.props.ContentsStore.getContentById(this.props.data.content_id);
     const userData = this.props.UsersStore.getUserById(imageData.user_id);
-    const base64 = this.props.BuffersStore.getBase64(imageData.buffer_id);
     return (!userData) ? null :
       <ScrollView style={styles.container}>
         <View style={styles.photoBox}>
-          <DoubleClick onClick={this.toggleEmoji.bind(this)}>
-            <Image
-                style={styles.photo}
-                source={{uri: base64}}
-            />
-          </DoubleClick>
+          <ProgressiveImage 
+            onDoubleClick={this.toggleEmoji.bind(this)}
+            buffer_id={imageData.buffer_id}
+          />
 
           <PhotoIndicator 
             user={userData}

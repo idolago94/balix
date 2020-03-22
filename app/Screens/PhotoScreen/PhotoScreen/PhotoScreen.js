@@ -13,6 +13,7 @@ import { inject, observer } from "mobx-react";
 import ApiService from '../../../Services/Api';
 import Buttons from '../../../components/Photo/Buttons';
 import DoubleClick from 'react-native-double-click';
+import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'BuffersStore')
 @observer
@@ -210,13 +211,17 @@ export default class PhotoScreen extends Component {
     const {NavigationStore, ContentsStore, UsersStore, BuffersStore, navigation} = this.props;
     const userData = UsersStore.getUserById(navigation.getParam('user_id'));
     const imageData = ContentsStore.getContentById(navigation.getParam('id'));
-    const base64 = BuffersStore.getBase64(imageData.buffer_id);
+    // const base64 = BuffersStore.getBase64(imageData.buffer_id);
     return (!userData || !imageData) ? null :
         <ScrollView style={styles.container}>
           <View style={styles.photoBox}>
-            <DoubleClick onClick={this.toggleEmoji.bind(this)}>
+            {/* <DoubleClick onClick={this.toggleEmoji.bind(this)}>
               <Image style={styles.photo} source={{uri: base64}}/>
-            </DoubleClick>
+            </DoubleClick> */}
+            <ProgressiveImage 
+              buffer_id={imageData.buffer_id}
+              onDoubleClick={this.toggleEmoji.bind(this)}
+            />
             <PhotoIndicator 
               user={userData}
               cash={imageData.cash}

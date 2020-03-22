@@ -28,10 +28,10 @@ class UpdateService {
                 buffers_ids.push(c.buffer_id);
             }
         });
-        let buffers = await ApiService.getBuffers(buffers_ids);
+        // let buffers = await ApiService.getBuffers(buffers_ids);
         ContentsStore.setContents(contents);
         UsersStore.setUsers(fetch_users);
-        BuffersStore.setBuffers(buffers);
+        // BuffersStore.setBuffers(buffers);
         IdentifierStore.setFollowing(content_ids);
     }
 }
