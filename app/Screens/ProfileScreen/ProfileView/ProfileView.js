@@ -102,15 +102,14 @@ export default class ProfileView extends Component {
   }
 
   navigateToPhoto(params) {
-    params.user_id = this.props.navigation.getParam('id');
     console.log('ProfileView -> navigateToPhoto -> params ', params);
+    params.user_id = this.props.navigation.getParam('id');
     this.props.NavigationStore.navigate(Routes.Screens.PHOTO.routeName, params);
   }
 
   render() {
     const {UsersStore, AuthStore, navigation} = this.props;
     const userData = UsersStore.getUsers[navigation.getParam('id')];
-    !userData && UsersStore.fetchUsers([navigation.getParam('id')]);
     return (
       <View style={{flex:1}}>
         <ScrollView style={styles.scrollContainer}>

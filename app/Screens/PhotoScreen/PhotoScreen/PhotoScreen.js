@@ -10,6 +10,9 @@ import {withComma} from '../../../common/numberMethods';
 import Routes from '../../../Routes/Routes';
 import db from "../../../database/db";
 import { inject, observer } from "mobx-react";
+import ApiService from '../../../Services/Api';
+import Buttons from '../../../components/Photo/Buttons';
+import DoubleClick from 'react-native-double-click';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'BuffersStore')
 @observer
@@ -150,7 +153,7 @@ export default class PhotoScreen extends Component {
       this.fadeEmoji.setValue(1);
       this.moveEmoji.setValue(0);
       this.sizeEmoji.setValue(0);
-      this.updateValues({emoji: emoji, hearts: 0})
+      this.updateValues({emoji: emoji, hearts: 0, cash: emoji.value})
     });
   }
 
@@ -187,52 +190,15 @@ export default class PhotoScreen extends Component {
       this.fadeHeart.setValue(1);
       this.moveHeart.setValue(0);
       this.sizeHeart.setValue(0);
-      this.updateValues({emoji: undefined, hearts: 1})
+      this.updateValues({emoji: undefined, hearts: 1, cash: 0})
     });
   }
 
-  updateValues(values) {
-    const {AuthStore, UsersStore} = this.props;
-    const {userData, imageData} = this.state;
-
-    let bodyRequest = {
-      owner_id: userData._id,
-      content_id: imageData._id,
-      achievements: { cash: (values.emoji) ? (values.emoji.value):(0), hearts: values.hearts, emoji: values.emoji }
-    }
-    fetch(`${db.url}/content/update?id=${AuthStore.getUserLogin._id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(bodyRequest)
-    }).then(res => res.json()).then(response => {
-      if (!response.error) {
-        // update owner image
-        let user_field_update = {
-          cash: userData.cash + bodyRequest.achievements.cash,
-          hearts: userData.heart + bodyRequest.achievements.hearts,
-        };
-        UsersStore.updateUser(userData._id, user_field_update);
-        // update user login
-        let userLogin_fields_update = {
-          cash: response.cash,
-          hearts: response.cash,
-          cash_earned: AuthStore.getUserLogin.cash_earnedv + bodyRequest.achievements.cash,
-          hearts_earned: AuthStore.getUserLogin.hearts_earnedv + bodyRequest.achievements.hearts
-        };
-        AuthStore.updateUserLogin(userLogin_fields_update);
-        // update current image
-        let updatedImageData = {
-          ...imageData,
-          cash: imageData.cash + bodyRequest.achievements.cash,
-          hearts: imageData.hearts + bodyRequest.achievements.hearts
-        }
-        this.setState({userData: updateUser, imageData: updatedImageData})
-      } else console.log(response.error);
-    }).catch(err => {
-      console.log(err);
-    });
+  async updateValues(values) {
+    const {AuthStore, ContentsStore, navigation} = this.props;
+    let updateResponse = await ApiService.updateContent(AuthStore.getUserLogin._id, navigation.getParam('id'), values);// {user, owner, content}
+    AuthStore.updateUserLogin(updateResponse.user);
+    ContentsStore.updateContent(navigation.getParam('id'), updateResponse.content);
   }
 
   navigateToProfile() {
@@ -247,42 +213,40 @@ export default class PhotoScreen extends Component {
     const base64 = BuffersStore.getBase64(imageData.buffer_id);
     return (!userData || !imageData) ? null :
         <ScrollView style={styles.container}>
-          <TouchableHighlight onPress={this.navigateToProfile.bind(this)}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <ProfileSymbol style={{margin: 10}} src={userData.profileImage} size={40}/>
-              <Text style={styles.userName}>{userData.username}</Text>
-            </View>
-          </TouchableHighlight>
-
           <View style={styles.photoBox}>
-            <Image style={styles.photo} source={{uri: base64}}/>
-            <PhotoIndicator indicators={{
-              cash: imageData.cash,
-              hearts: imageData.hearts,
-            }}/>
+            <DoubleClick onClick={this.toggleEmoji.bind(this)}>
+              <Image style={styles.photo} source={{uri: base64}}/>
+            </DoubleClick>
+            <PhotoIndicator 
+              user={userData}
+              cash={imageData.cash}
+              hearts={imageData.hearts}
+            />
             <View style={styles.emoji}>
               {
                 !openEmoji ? null :
                     <EmojiBox includeHeart={true} emojiSize={this.emojiBoxSize} heartPress={this.heartPress.bind(this)} emojiPress={this.emojiPress.bind(this)}/>
               }
             </View>
+            {/* emoji sent */}
             <Animated.Image
-                source={emojiSend}
-                style={{
-                  position: 'absolute',
-                  width: this.sizeEmoji,
-                  height: this.sizeEmoji,
-                  opacity: this.fadeEmoji,
-                  top: this.moveEmoji.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [emojiSendPosition.y, 0],
-                  }),
-                  left: this.moveEmoji.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [emojiSendPosition.x, Dimensions.get('window').width * 0.77],
-                  }),
-                }}
+              source={emojiSend}
+              style={{
+                position: 'absolute',
+                width: this.sizeEmoji,
+                height: this.sizeEmoji,
+                opacity: this.fadeEmoji,
+                top: this.moveEmoji.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [emojiSendPosition.y, 50],
+                }),
+                left: this.moveEmoji.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [emojiSendPosition.x, Dimensions.get('window').width * 0.1],
+                }),
+              }}
             />
+            {/* heart sent */}
             <Animated.View
                 style={{
                   position: 'absolute',
@@ -291,13 +255,14 @@ export default class PhotoScreen extends Component {
                   opacity: this.fadeHeart,
                   top: this.moveHeart.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [heartSendPosition.y, 70],
+                    outputRange: [heartSendPosition.y, 90],
                   }),
                   left: heartSendPosition.x
                 }}
             >
               <Icon color={Style.colors.heart} name={iconNames.FULL_HEART} size={this.emojiBoxSize} />
             </Animated.View>
+            {/* sparkle animation */}
             {
               this.sparkleAnimation.map((anim, i) => (
                   <Animated.Image key={i} source={require('../../../assets/sparkle.gif')} style={{
@@ -317,37 +282,9 @@ export default class PhotoScreen extends Component {
               ))
             }
           </View>
-          <View style={styles.buttonsBox}>
-            <View style={styles.leftSide}>
-              <TouchableHighlight onPress={this.toggleEmoji.bind(this)}>
-                <Icon style={styles.icon} name={iconNames.LIKE} size={Style.sizes.icon}
-                      color={Style.colors.icon}/>
-              </TouchableHighlight>
-              <Icon style={styles.icon} name={iconNames.COMMENT} size={Style.sizes.icon}
-                    color={Style.colors.icon}/>
-            </View>
-            <View style={styles.rightSide}>
-              <Icon style={styles.icon} name={iconNames.SHARE} size={Style.sizes.icon}
-                    color={Style.colors.icon}/>
-            </View>
-          </View>
-          {/* <View style={styles.anotherPhotos}>
-            {
-              userImages.map((img_id, i) => {
-                if (img.id === ContentsStore.getContentById(id).id) {
-                  return (<View key={i}></View>);
-                }
-                return (
-                    <TouchableHighlight key={i} style={{padding: 5, width: '12.5%', aspectRatio: 1}}
-                      onPress={() => this.setState({id: img_id})}
-                    >
-                      <Image style={styles.smallPhoto} source={{uri:img.base64}}/>
-                    </TouchableHighlight>
-                );
-              })
-            }
-          </View> */}
-
+          <Buttons
+            onOpenEmoji={() => this.toggleEmoji()}
+          />
           <View style={styles.commentsBox}>
             <View style={{flexDirection: 'row', marginBottom: 5}}>
               <Text style={styles.username}>{userData.username}: </Text>

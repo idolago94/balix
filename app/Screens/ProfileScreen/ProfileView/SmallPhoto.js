@@ -20,7 +20,7 @@ export default class SmallPhoto extends Component {
         return (
             <TouchableOpacity
                 style={styles.imageBox}
-                onPress={() => this.props.onPress({id})}
+                onPress={() => this.props.onPress({id: this.props.data.content_id})}
             >
                 <Image
                     source={{uri: base64}}

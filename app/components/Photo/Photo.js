@@ -4,17 +4,14 @@ import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated,
 import SingleComment from './Comments/SingleComment';
 import EmojiBox from './EmojiBox/EmojiBox';
 import PhotoIndicator from './PhotoIndicator';
-import ProfileSymbol from '../ProfileSymbol/ProfileSymbol';
 import Icon, {iconNames} from '../Icon/Icon';
 import DoubleClick from 'react-native-double-click';
-
 import Style from '../../helpers/style/style';
 import {withComma} from '../../common/numberMethods';
 import Routes from '../../Routes/Routes';
-import db from "../../database/db";
-import bufferToBase64 from '../../helpers/convert/Buffer';
 import { inject, observer } from "mobx-react";
 import ApiService from '../../Services/Api';
+import Buttons from './Buttons';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'BuffersStore')
 @observer
@@ -304,22 +301,9 @@ export default class Photo extends Component {
           <View style={styles.buttonsBox}>
           </View>
         </View>
-        {/* image buttons */}
-        <View style={styles.buttonsBox}>
-          <View style={styles.leftSide}>
-            <TouchableHighlight onPress={this.toggleEmoji.bind(this)}>
-              <Icon style={styles.icon} name={iconNames.FULL_EARN} size={Style.sizes.icon}
-                    color={Style.colors.icon}/>
-            </TouchableHighlight>
-            <Icon style={styles.icon} name={iconNames.FULL_COMMENT} size={Style.sizes.icon}
-                  color={Style.colors.icon}/>
-            <Icon style={styles.icon} name={iconNames.FULL_SHARE} size={Style.sizes.icon}
-                  color={Style.colors.icon}/>
-          </View>
-          <View style={styles.leftSide}>
-          </View>
-        </View>
-        {/*  */}
+        <Buttons 
+          onOpenEmoji={() => this.toggleEmoji()}
+        />
 
         <View style={styles.commentsBox}>
           <View style={{flexDirection: 'row', marginBottom: 5}}>
