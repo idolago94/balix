@@ -6,29 +6,33 @@ import Icon, { iconNames } from '../../../components/Icon/Icon';
 import RadialGradient from 'react-native-radial-gradient';
 import db from "../../../database/db";
 import { inject, observer } from "mobx-react";
+import ApiService from '../../../Services/Api';
+import Routes from '../../../Routes/Routes';
 
-@inject('AuthStore')
+@inject('AuthStore', 'NavigationStore')
 export default class Package extends Component {
 
-    packagePress() {
-        let bodyRequest = {
-            cost: this.props.data.cost,
-            recieve: {
-                cash: this.props.data.cash,
-                hearts: this.props.data.hearts
-            }
+    async packagePress() {
+        let recieveObj = {
+            cash: this.props.data.cash,
+            hearts: this.props.data.hearts
         };
-        fetch(`${db.url}/users/buyPackage?id=${this.props.AuthStore.getUserLogin._id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(bodyRequest)
-        }).then(res => res.json()).then(response => {
-            this.props.AuthStore.updateUserLogin(response);
-            Alert.alert(`You parchased more ${bodyRequest.recieve.cash}$ and ${bodyRequest.recieve.hearts} hearts.` );
-            console.log(`${response.cash}$`, response.hearts);
-        });
+        let buyResponse = await ApiService.buyPackage(this.props.AuthStore.getUserLogin._id, this.props.data.cost, recieveObj);
+        this.props.AuthStore.updateUserLogin(buyResponse);
+        Alert.alert(`You parchased more ${recieveObj.cash}$ and ${recieveObj.hearts} hearts.` );
+        console.log(`${buyResponse.cash}$`, buyResponse.hearts);
+        this.props.NavigationStore.goBack();
+        // fetch(`${db.url}/users/buyPackage?id=${this.props.AuthStore.getUserLogin._id}`, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(bodyRequest)
+        // }).then(res => res.json()).then(response => {
+        //     this.props.AuthStore.updateUserLogin(response);
+        //     Alert.alert(`You parchased more ${bodyRequest.recieve.cash}$ and ${bodyRequest.recieve.hearts} hearts.` );
+        //     console.log(`${response.cash}$`, response.hearts);
+        // });
     }
 
   render() {
