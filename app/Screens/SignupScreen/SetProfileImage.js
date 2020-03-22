@@ -9,6 +9,8 @@ import Routes from '../../Routes/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
 import TextButton from '../../components/TextButton/TextButton';
 import { inject, observer } from 'mobx-react';
+import ApiService from '../../Services/Api';
+import UploadService from '../../Services/Upload';
 
 @inject('AuthStore')
 @observer
@@ -34,30 +36,16 @@ export default class SetProfileImage extends Component {
         return errors;
     }
 
-    onSetImage() {
+    async onSetImage() {
         let validate = this.validateForm();
         if(validate.length <= 0) {
             const {navigation, AuthStore} = this.props;
             const {profileImage} = this.state;
-            let requestBody = {
-                contentType: profileImage.type,
-                base64: profileImage.data
-            };
-                fetch(`${db.url}/users/updateProfileImage?id=${AuthStore.getUserLogin._id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestBody)
-                }).then(res => res.json()).then(response => {
-                    if(response.error) {
-                        this.setState({errors: [response.error]});
-                    } else {
-                        console.log(response);
-                        AuthStore.updateUserLogin({profileImage: response});
-                        navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName);
-                    }
-                }).catch(err => console.log(err));
+            let signupUser = navigation.getParam('user');
+            let resizedProfile = await UploadService.buildProfileImage(profileImage);
+            let setProfileResponse = await ApiService.updateProfileImage(signupUser._id, resizedProfile);
+            signupUser.profileImage = setProfileResponse._id;
+            navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {user: signupUser});
         }
     }
 

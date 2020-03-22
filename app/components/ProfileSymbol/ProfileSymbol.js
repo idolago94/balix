@@ -5,6 +5,7 @@ import Style from '../../helpers/style/style';
 import LiveIndicator from './LiveIndicator';
 import { withComma } from '../../common/numberMethods';
 import bufferToBase64 from '../../helpers/convert/Buffer';
+import ProgressiveImage from '../ProgressiveImage/PreogressiveImage';
 
 export default function ProfileSymbol(props) {
   // Props = [
@@ -33,7 +34,7 @@ export default function ProfileSymbol(props) {
   }
 
     const iconPosition = calculateIconLocation(props.iconDeg || 145);
-    const imageURI = props.src ? ({uri:`data:${props.src.contentType};base64,${bufferToBase64(props.src.buffer)}`}):(require('../../assets/profileImage.png'));
+    // const imageURI = props.src ? ({uri:`data:${props.src.contentType};base64,${bufferToBase64(props.src.buffer)}`}):(require('../../assets/profileImage.png'));
     return (
         <View style={{...props.style, alignItems: 'center', position: 'relative'}}>
           <View style={{position: 'relative'}}>
@@ -41,25 +42,17 @@ export default function ProfileSymbol(props) {
             (props.press) ?
             (
             <TouchableHighlight style={[(props.story || props.live) ? (styles.storyBorder):({})]} onPress={imageClicked.bind(this)}>
-              <Image style={{
-                  ...styles.image,
-                  borderRadius: 999,
-                  height: props.size,
-                  width: props.size
-                  }} 
-                  source={imageURI}
+                <ProgressiveImage 
+                  style={[styles.image, {height: props.size, width: props.size}]}
+                  buffer_id={props.src}
                 />
             </TouchableHighlight>
             ) :
             (
               <View style={[(props.story || props.live) ? (styles.storyBorder):({})]}>
-                <Image style={{
-                  ...styles.image,
-                  borderRadius: 999,
-                  height: props.size,
-                  width: props.size
-                  }} 
-                  source={imageURI}
+                <ProgressiveImage 
+                  style={[styles.image, {height: props.size, width: props.size}]}
+                  buffer_id={props.src}
                 />
               </View>
             )

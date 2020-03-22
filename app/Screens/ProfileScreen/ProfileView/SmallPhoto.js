@@ -23,7 +23,7 @@ export default class SmallPhoto extends Component {
                 onPress={() => this.props.onPress({id: this.props.data.content_id})}
             >
                 <ProgressiveImage 
-                    style={{borderRadius: 10}}
+                    style={{width: '100%', height: '100%', borderRadius: 10}}
                     buffer_id={imageData.buffer_id}
                 />
             </TouchableOpacity>

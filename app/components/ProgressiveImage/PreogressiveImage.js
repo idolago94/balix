@@ -38,7 +38,7 @@ export default class ProgressiveImage extends Component {
         return (
             <DoubleClick onClick={this.props.onDoubleClick.bind(this)}>
                 <Animated.Image
-                    style={[this.props.style, styles.photo, {opacity: this.imageLoad}]}
+                    style={[this.props.style, {opacity: this.imageLoad}]}
                     source={{uri: base64}}
                     onLoad={() => this.onImageLoad()}
                 />
@@ -47,17 +47,10 @@ export default class ProgressiveImage extends Component {
     }
     return (
         <Animated.Image
-            style={[this.props.style, styles.photo, {opacity: this.imageLoad}]}
+            style={[this.props.style, {opacity: this.imageLoad}]}
             source={{uri: base64}}
             onLoad={() => this.onImageLoad()}
         />
     )
   }
 }
-
-const styles = StyleSheet.create({
-    photo: {
-        width: '100%',
-        height: '100%',
-    },
-});

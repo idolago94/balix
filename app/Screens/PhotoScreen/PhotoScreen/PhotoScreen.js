@@ -215,10 +215,8 @@ export default class PhotoScreen extends Component {
     return (!userData || !imageData) ? null :
         <ScrollView style={styles.container}>
           <View style={styles.photoBox}>
-            {/* <DoubleClick onClick={this.toggleEmoji.bind(this)}>
-              <Image style={styles.photo} source={{uri: base64}}/>
-            </DoubleClick> */}
             <ProgressiveImage 
+              style={{width: '100%', height: '100%'}}
               buffer_id={imageData.buffer_id}
               onDoubleClick={this.toggleEmoji.bind(this)}
             />

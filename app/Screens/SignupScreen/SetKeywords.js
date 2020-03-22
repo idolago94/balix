@@ -8,6 +8,7 @@ import FormField from '../../components/FormField/FormField';
 import Routes from '../../Routes/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
 import { inject, observer } from 'mobx-react';
+import ApiService from '../../Services/Api';
 
 @inject('AuthStore')
 export default class SetKeywords extends Component {
@@ -29,23 +30,18 @@ export default class SetKeywords extends Component {
         this.setState({keywords});
     }
 
-    onSave() {
+    async onSave() {
         const {keywords} = this.state;
         const {AuthStore, navigation} = this.props;
+        let signupUser = navigation.getParam('user');
         if(keywords.length < 1) {
-            navigation.navigate(Routes.Screens.LOGIN.routeName);
+            AuthStore.setUserLogin(signupUser);
         } else {
-            fetch(`${db.url}/users/updateKeywords?id=${AuthStore.getUserLogin._id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({keywords: keywords})
-        }).then(res => res.json()).then(response => {
-            AuthStore.updateUserLogin({keywords: response});
-            navigation.navigate(Routes.Screens.LOGIN.routeName);
-        }).catch(err => console.log(err));
+            let keywordsResponse = await ApiService.updateKeywords(signupUser._id, keywords);
+            signupUser.keywords = keywordsResponse;
+            AuthStore.setUserLogin(signupUser);
         }
+        navigation.navigate(Routes.Screens.LOGIN.routeName);
     }
 
     render() {
