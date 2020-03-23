@@ -1,5 +1,5 @@
 import ApiService from "../Api";
-import { UsersStore, AuthStore, ContentsStore, IdentifierStore, BuffersStore, ActionsStore } from "../../mobx";
+import { UsersStore, AuthStore, ContentsStore, IdentifierStore, BuffersStore, ActionsStore, GraphStore } from "../../mobx";
 
 class UpdateService {
 
@@ -38,9 +38,33 @@ class UpdateService {
     async updateActions() {
         console.log('UpdateService -> updateActions');
         let actions = await ApiService.getUserActions(AuthStore.getUserLogin._id);
+        this.updateGraphs(actions);
         ActionsStore.setActions(actions);
         let actions_ids = actions.map(act => act._id);
         IdentifierStore.setActions(actions_ids);
+    }
+
+    updateGraphs(actions) {
+        let volunteers = []; // {id, amount}[]
+        actions.map(act => {
+            if(act.disactive_user_id == AuthStore.getUserLogin._id && act.type == 0) {
+                // get emoji actions
+                let index = volunteers.findIndex(v => v.user_id == act.active_user_id);
+                if (index == -1) {
+                    volunteers.push({
+                        user_id: act.active_user_id,
+                        amount: act.emoji.value
+                    });
+                } else {
+                    volunteers[index] = {user_id: act.active_user_id, amount: volunteers[index].amount + act.emoji.value};
+                }
+            }
+            if(act.disactive_user_id == AuthStore.getUserLogin._id && act.type == 3) {
+                // get hearts actions
+            }
+        });
+        volunteers.sort((a, b) => b.amount - a.amount);
+        GraphStore.setMostVolunteers(volunteers);
     }
 }
 

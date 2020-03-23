@@ -8,7 +8,6 @@ import ApiService from '../../Services/Api';
 @inject('BuffersStore')
 @observer
 export default class ProgressiveImage extends Component {
-  // Props = [ data, titlePress ]
 
   constructor(props) {
     console.log('ProgressiveImage -> constructor');

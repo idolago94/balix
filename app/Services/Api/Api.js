@@ -5,16 +5,25 @@ class ApiService {
     // Route: /users
 
     async login(username, password) {
+        if(!username || username == '' || !password || password == '') {
+            return {error: 'all fields required.'};
+        }
         let loginResponse = await this.sendRequest('POST', '/users/login', {username, password});
         return loginResponse;
     }
 
     async getUser(user_id) {
+        if(!user_id) {
+            return []
+        }
         let userResponse = await this.sendRequest('GET', '/users/getSingleUser?id=' + user_id);
         return userResponse;
     }
 
     async getUsers(ids_array) {
+        if(!ids_array || ids_array.length < 1) {
+            return []
+        }
         let usersResponse = await this.sendRequest('GET', '/users/getUsers?ids=' + ids_array.join(','));
         return usersResponse;
     }
@@ -46,11 +55,17 @@ class ApiService {
     }
 
     async updateProfileImage(user_id, image) {
+        if(!user_id || !image) {
+            return null;
+        }
         let updateResponse = await this.sendRequest('POST', '/users/updateProfileImage?id=' + user_id, {image});
         return updateResponse;
     }
 
     async updateKeywords(user_id, keywords_array) {
+        if(!keywords_array || keywords_array.length < 1) {
+            return null;
+        }
         let keywordsResponse = await this.sendRequest('PUT', '/users/updateKeywords?id=' + user_id, {keywords: keywords_array});
         return keywordsResponse;
     }
@@ -73,18 +88,27 @@ class ApiService {
     }
 
     async getUserContents(user_id) {
+        if(!user_id) {
+            return null
+        }
         let contentsResponse = await this.sendRequest('GET', '/content/userContent?id=' + user_id);
         return contentsResponse;
     }
 
-    async getSomeContents(ids_aray) {
-        let contentsResponse = await this.sendRequest('GET', '/content/getContents?ids=' + ids_aray.join());
+    async getSomeContents(ids_array) {
+        if(!ids_array || ids_array.length < 1) {
+            return [];
+        }
+        let contentsResponse = await this.sendRequest('GET', '/content/getContents?ids=' + ids_array.join());
         return contentsResponse;
     }
 
     // Route: /actions
 
     async getUserActions(user_id) {
+        if(!user_id || user_id == '') {
+            return [];
+        }
         let actionsResponse = await this.sendRequest('GET', '/actions/getActions?id=' + user_id);
         return actionsResponse;
     }
@@ -92,6 +116,9 @@ class ApiService {
     // Route: /search
 
     async handleSearch(word) {
+        if(!word || word.length < 3) {
+            return [];
+        }
         let searchResponse = await this.sendRequest('GET', '/search/?word=' + word);
         return searchResponse;
     }
@@ -99,11 +126,17 @@ class ApiService {
     // Route: /buffer
 
     async getBuffer(id) {
+        if(!id || id == '') {
+            return null;
+        }
         let bufferResponse = await this.sendRequest('GET', '/buffer/?id=' + id);
         return bufferResponse;
     }
 
     async getBuffers(ids_array) {
+        if(!ids_array || ids_array.length < 1) {
+            return [];
+        }
         let bufferResponse = await this.sendRequest('GET', '/buffer/some?ids=' + ids_array.join());
         return bufferResponse;
     }

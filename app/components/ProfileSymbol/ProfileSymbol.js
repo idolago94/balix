@@ -11,7 +11,6 @@ export default function ProfileSymbol(props) {
   // Props = [
   //   src: url,
   //   size: number,
-  //   showCash: boolean,
   //   press: callback,
   //   icon: string,
   //   iconDeg: number,
@@ -81,12 +80,6 @@ export default function ProfileSymbol(props) {
               ))
           }
           </View>
-          {props.showCash && (
-            <View style={styles.cashBox}>
-              <Icon name={iconNames.DOLLAR} size={props.size/4} color={Style.colors.darkMain}/>
-              <Text style={{...styles.cash, fontSize: props.size/4}}>{withComma(props.cash)}</Text>
-            </View>
-          )}
           {props.live && <LiveIndicator press={imageClicked.bind(this)} size={props.size} />}
         </View>
     );

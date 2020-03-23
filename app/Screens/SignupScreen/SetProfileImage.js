@@ -63,12 +63,13 @@ export default class SetProfileImage extends Component {
 
     render() {
         const {navigation, AuthStore} = this.props;
+        const newUser = navigation.getParam('user');
         return (
             <View style={styles.container}>
                 <AppTitle />
                 <View style={styles.form}>  
                     <View>
-                        <Text style={styles.title}>Hello {AuthStore.getUserLogin.first_name} {AuthStore.getUserLogin.last_name},</Text>
+                        <Text style={styles.title}>Hello {newUser.first_name} {newUser.last_name},</Text>
                         <Text style={styles.label}>Welcome to Balix, just a few steps.</Text>
                         <Text style={styles.label}>Please select photo to your account profile image:</Text>
                     </View>

@@ -25,12 +25,12 @@ export default class BuyPackage extends Component {
     return (
       <View style={{flex: 1, position: 'relative', backgroundColor: Style.colors.background}}>
         {Platform.OS == 'ios' && <View style={{height: 30, backgroundColor: Style.colors.background}}></View>}
-        {this.props.AuthStore.getUserLogin.profileImage && (
+        {/* {this.props.AuthStore.getUserLogin.profileImage && (
               <Image
                 style={{height: '100%', width: '100%', position: 'absolute', top: 0, left: 0, opacity: 0.1}}
                 source={{uri: `data:${this.props.AuthStore.getUserLogin.profileImage.contentType};base64,${bufferToBase64(this.props.AuthStore.getUserLogin.profileImage.buffer)}`}}
               />
-        )}
+        )} */}
         <View>
           <TouchableHighlight onPress={() => this.props.navigation.goBack()} style={{padding: 15}}>
             <Icon name={iconNames.LEFT_CHEVRON} size={25} color={'white'} />

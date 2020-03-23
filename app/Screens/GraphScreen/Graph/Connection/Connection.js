@@ -3,12 +3,12 @@ import { StyleSheet, View, Dimensions, Animated, Text } from 'react-native';
 import Style from '../../../../helpers/style/style';
 import ProfileSymbol from '../../../../components/ProfileSymbol/ProfileSymbol';
 import Popup from './Popup';
-import { connect } from 'react-redux';
 import Routes from '../../../../Routes/Routes';
-import db from "../../../../database/db";
+import Volunteer from './Volunteer';
 import { inject, observer } from "mobx-react";
 
-@inject('AuthStore', 'NavigationStore')
+@inject('AuthStore', 'NavigationStore', 'UsersStore')
+@observer
 export default class Connection extends Component {
 
   symbolSize = 45;
@@ -66,56 +66,79 @@ export default class Connection extends Component {
   }
 
   render() {
+    const mainVolunteers = this.props.data.slice(0, this.props.data.length/2);
+    const subVolunteers = this.props.data.slice(this.props.data.length/2, this.props.data.length);
     return (
         <View style={styles.connectionsBox}>
           <View style={{...styles.circle, width: this.bigCircleSize}}>
           {
-            this.state.sub_mostVolunteers.map((vol, i) => {
+            subVolunteers.map((vol, i) => {
               let symbolPosition = this.calculateLocation(
                   this.bigCircleSize,
                   this.symbolSize,
-                  (360/this.state.sub_mostVolunteers.length)*(i+1)
+                  (360/mainVolunteers.length)*(i+1)
               );
               return (
-                  <ProfileSymbol
-                      key={i}
-                      src={vol.user.profileImage}
-                      size={this.symbolSize}
-                      press={this.navigateToProfile.bind(this, vol.user)}
-                      showCash={true}
-                      cash={vol.amount}
-                      style={{
-                        position: 'absolute',
-                        top: symbolPosition.y,
-                        left: symbolPosition.x
-                      }}
-                  />
+                <Volunteer 
+                  key={i}
+                  user_id={vol.user_id}
+                  amount={vol.amount}
+                  size={this.symbolSize}
+                  style={{
+                    position: 'absolute',
+                    top: symbolPosition.y,
+                    left: symbolPosition.x
+                  }}
+                />
+                  // <ProfileSymbol
+                  //     key={i}
+                  //     src={userData.profileImage}
+                  //     size={this.symbolSize}
+                  //     press={this.navigateToProfile.bind(this, vol.user)}
+                  //     showCash={true}
+                  //     cash={vol.amount}
+                  //     style={{
+                  //       position: 'absolute',
+                  //       top: symbolPosition.y,
+                  //       left: symbolPosition.x
+                  //     }}
+                  // />
               )
             })
           }
             <View style={{...styles.circle, width: this.smallCircleSize}}>
               {
-                this.props.mostVolunteers.map((vol, i) => {
+                mainVolunteers.map((vol, i) => {
                   let symbolPosition = this.calculateLocation(
                       this.smallCircleSize,
                       this.symbolSize+10,
-                      50+(360/this.props.mostVolunteers.length)*(i+1)
+                      50+(360/subVolunteers.length)*(i+1)
                   );
                   return (
-                      <View key={i} style={{
-                          position: 'absolute',
-                          top: symbolPosition.y,
-                          left: symbolPosition.x
-                      }}>
-                        <ProfileSymbol
-
-                            src={vol.user.profileImage}
-                            size={this.symbolSize+10}
-                            press={this.navigateToProfile.bind(this, vol.user)}
-                            showCash={true}
-                            cash={vol.amount}
-                        />
-                      </View>
+                    <Volunteer
+                      key={i}
+                      user_id={vol.user_id}
+                      amount={vol.amount}
+                      size={this.symbolSize+10}
+                      style={{
+                        position: 'absolute',
+                        top: symbolPosition.y,
+                        left: symbolPosition.x
+                      }}
+                    />
+                      // <View key={i} style={{
+                      //     position: 'absolute',
+                      //     top: symbolPosition.y,
+                      //     left: symbolPosition.x
+                      // }}>
+                      //   {/* <ProfileSymbol
+                      //       src={vol.user.profileImage}
+                      //       size={this.symbolSize+10}
+                      //       press={this.navigateToProfile.bind(this, vol.user)}
+                      //       showCash={true}
+                      //       cash={vol.amount}
+                      //   /> */}
+                      // </View>
                   )
                 })
               }

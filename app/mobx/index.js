@@ -8,6 +8,7 @@ import NavigationStore from './navigationStore';
 import ContentsStore from './contentsStore';
 import BuffersStore from './buffersStore'; 
 import IdentifierStore from './identifierStore';
+import GraphStore from './GraphStore';
 
 export {
     ActionsStore,
@@ -19,5 +20,6 @@ export {
     NavigationStore,
     ContentsStore,
     BuffersStore,
-    IdentifierStore
+    IdentifierStore,
+    GraphStore
 }

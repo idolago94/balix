@@ -9,15 +9,11 @@ import CashEarn from './CashEarn';
 import FollowersGraph from './FollowersGraph';
 import Connection from './Connection/Connection';
 import Icon, {iconNames} from "../../../components/Icon/Icon";
-// Redux
-import {bindActionCreators} from "redux";
-import {getActions} from "../../../store/actions/actionsActions";
-import {connect} from "react-redux";
-
 import db from "../../../database/db";
 import { inject, observer } from "mobx-react";
+import UpdateService from '../../../Services/Updates';
 
-@inject('AuthStore', 'ActionsStore')
+@inject('AuthStore', 'ActionsStore', 'GraphStore')
 @observer
 export default class Graph extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -37,42 +33,11 @@ export default class Graph extends Component {
 
   componentDidMount() {
       console.log('Graph', this.props.AuthStore.getUserLogin._id);
-      this.focusListener = this.props.navigation.addListener('willFocus', () => this.getMostVolunteers());
+      this.focusListener = this.props.navigation.addListener('willFocus', () => UpdateService.updateActions());
   }
 
   componentWillUnMount() {
     this.focusListener.remove();
-  }
-
-  getMostVolunteers() {
-      let getEmoji_actions = this.props.ActionsStore.getActions.filter(act => 
-        (act.disactive_user_id == this.props.AuthStore.getUserLogin._id && act.type == 0)
-      );
-      let volunteers_ids = [];
-      let volunteers_amount = [];
-
-      getEmoji_actions.map((act, i) => {
-        let index = volunteers_ids.indexOf(act.active_user_id);
-          if (index == -1) {
-            volunteers_ids.push(act.active_user_id);
-            volunteers_amount.push(act.emoji.value);
-          } else {
-            volunteers_amount[index] = volunteers_amount[index] + act.emoji.value;
-          }
-      });
-
-      fetch(`${db.url}/users/getUsers?ids=${volunteers_ids.join(',')}`)
-          .then(res => res.json()).then(response => {
-            let volunteers = [];
-            for (let i = 0; i < volunteers_ids.length; i++) {
-                volunteers.push({
-                    user: response.find(user => user._id == volunteers_ids[i]),
-                    amount: volunteers_amount[i]
-                });
-            }
-            volunteers = volunteers.sort((a, b) => b.amount - a.amount);
-            this.setState({mostVolunteers: volunteers});
-      });
   }
 
   genderCounter() {
@@ -99,10 +64,7 @@ export default class Graph extends Component {
   }
 
     render() {
-      const {AuthStore, ActionsStore} = this.props;
-        if(this.props.ActionsStore.getActions.length < 1) {
-            return (<View style={{flex:1, backgroundColor: Style.colors.background}}></View>)
-        }
+      const {AuthStore, ActionsStore, GraphStore} = this.props;
         return (
           <View style={{flex:1, backgroundColor: Style.colors.background}}>
             <ScrollView style={{backgroundColor: Style.colors.background}}>
@@ -119,33 +81,30 @@ export default class Graph extends Component {
                     </View>
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                  <GenderGraph 
+                  {/* <GenderGraph 
                     data={this.state.gendersData} 
                     style={styles.box} 
                     width={Dimensions.get('window').width*0.45} 
                     height={80} 
-                  />
+                  /> */}
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                  <FollowersGraph 
+                  {/* <FollowersGraph 
                     userActions={ActionsStore.getActions} 
                     style={styles.box} 
                     fill='rgba(255, 255, 255, 0.3)' 
                     width={Dimensions.get('window').width*0.48} 
                     height={80} 
-                  />
-                  <CashEarn 
+                  /> */}
+                  {/* <CashEarn 
                     userActions={ActionsStore.getActions} 
                     style={styles.box} 
                     fill='rgba(255, 255, 255, 0.3)' 
                     width={Dimensions.get('window').width*0.48} 
                     height={80} 
-                  />
+                  /> */}
                 </View>
-                <Connection 
-                  mostVolunteers={this.state.mostVolunteers.slice(0, 16)} 
-                  {...this.props.navigation} 
-                />
+                <Connection data={GraphStore.get14MostVolunteers} />
               </View>
             </ScrollView>
           </View>

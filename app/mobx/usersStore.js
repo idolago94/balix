@@ -24,7 +24,7 @@ class UsersStore {
 
     @action
     async setUsers(users) {
-        console.log('UsersStore -> setUsers -> ', users.length);
+        console.log('UsersStore -> setUsers -> ', users.map(u => u.username));
         this.usersStatus = true;
         users.map(u => set(this.users, u._id, u));
     }
