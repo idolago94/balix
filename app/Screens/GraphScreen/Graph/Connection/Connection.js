@@ -66,8 +66,9 @@ export default class Connection extends Component {
   }
 
   render() {
-    const mainVolunteers = this.props.data.slice(0, this.props.data.length/2);
-    const subVolunteers = this.props.data.slice(this.props.data.length/2, this.props.data.length);
+    const {data} = this.props;
+    const mainVolunteers = data.slice(0, data.length/2);
+    const subVolunteers = data.slice(data.length/2, data.length);
     return (
         <View style={styles.connectionsBox}>
           <View style={{...styles.circle, width: this.bigCircleSize}}>
@@ -76,7 +77,7 @@ export default class Connection extends Component {
               let symbolPosition = this.calculateLocation(
                   this.bigCircleSize,
                   this.symbolSize,
-                  (360/mainVolunteers.length)*(i+1)
+                  (360/subVolunteers.length)*(i+1)
               );
               return (
                 <Volunteer 
@@ -90,19 +91,6 @@ export default class Connection extends Component {
                     left: symbolPosition.x
                   }}
                 />
-                  // <ProfileSymbol
-                  //     key={i}
-                  //     src={userData.profileImage}
-                  //     size={this.symbolSize}
-                  //     press={this.navigateToProfile.bind(this, vol.user)}
-                  //     showCash={true}
-                  //     cash={vol.amount}
-                  //     style={{
-                  //       position: 'absolute',
-                  //       top: symbolPosition.y,
-                  //       left: symbolPosition.x
-                  //     }}
-                  // />
               )
             })
           }
@@ -112,7 +100,7 @@ export default class Connection extends Component {
                   let symbolPosition = this.calculateLocation(
                       this.smallCircleSize,
                       this.symbolSize+10,
-                      50+(360/subVolunteers.length)*(i+1)
+                      50+(360/mainVolunteers.length)*(i+1)
                   );
                   return (
                     <Volunteer
