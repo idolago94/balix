@@ -25,21 +25,21 @@ export default class Action extends Component {
         console.log('Action -> componentDidMount -> ', this.props.id); 
         const {ActionsStore, AuthStore, UsersStore, id} = this.props;
         let action = ActionsStore.getActionById(id);
-        if(action.disactive_user) {
-            if(action.disactive_user._id != AuthStore.getUserLogin._id) {
-                let other_user = UsersStore.getUserById(action.disactive_user._id);
+        if(action.disactive_user_id) {
+            if(action.disactive_user_id != AuthStore.getUserLogin._id) {
+                let other_user = UsersStore.getUserById(action.disactive_user_id);
                 if(!other_user) {
-                    let userResponse = await ApiService.getUser(action.disactive_user._id);
+                    let userResponse = await ApiService.getUser(action.disactive_user_id);
                     UsersStore.setUsers([userResponse]);
                 }
-                this.setState({other_user_id: action.disactive_user._id});
+                this.setState({other_user_id: action.disactive_user_id});
             } else {
-                let other_user = UsersStore.getUserById(action.active_user._id);
+                let other_user = UsersStore.getUserById(action.active_user_id);
                 if(!other_user) {
-                    let userResponse = await ApiService.getUser(action.active_user._id);
+                    let userResponse = await ApiService.getUser(action.active_user_id);
                     UsersStore.setUsers([userResponse]);
                 }
-                this.setState({other_user_id: action.active_user._id});
+                this.setState({other_user_id: action.active_user_id});
             }
         }
     }
@@ -53,20 +53,20 @@ export default class Action extends Component {
                 return (
                     <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                         <View style={{flexDirection: 'row'}}>
-                            <Text style={{...styles.action, fontWeight: (actionData.active_user._id == AuthStore.getUserLogin._id) ?
+                            <Text style={{...styles.action, fontWeight: (actionData.active_user_id == AuthStore.getUserLogin._id) ?
                                     ('') : ('bold')}}>
                                 {
-                                    (actionData.active_user._id == AuthStore.getUserLogin._id) ?
+                                    (actionData.active_user_id == AuthStore.getUserLogin._id) ?
                                         ('You ') : (`${otherUserData.username} `)
                                 }
                             </Text>
                             <Text style={styles.action}>sent </Text>
                             <Image style={{width: 15, height: 16}} source={actionData.emoji.url} />
                             <Text style={styles.action}> to </Text>
-                            <Text style={{...styles.action, fontWeight: (actionData.disactive_user._id == AuthStore.getUserLogin._id) ?
+                            <Text style={{...styles.action, fontWeight: (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
                                     ('') : ('bold')}}>
                                 {
-                                    (actionData.disactive_user._id == AuthStore.getUserLogin._id) ?
+                                    (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
                                         ('you') : (otherUserData.username)
                                 }
                             </Text>
@@ -75,7 +75,7 @@ export default class Action extends Component {
                         {/* <ProfileSymbol
                             style={styles.otherUserProfile}
                             size={30}
-                            src={(actionData.active_user._id == AuthStore.getUserLogin._id) ?
+                            src={(actionData.active_user_id == AuthStore.getUserLogin._id) ?
                                 (otherUserData.profileImage):
                                 (AuthStore.getUserLogin.profileImage)}
                         /> */}
@@ -87,7 +87,7 @@ export default class Action extends Component {
                 )
                 break;
             case 1:
-                if(actionData.active_user._id == AuthStore.getUserLogin._id) {
+                if(actionData.active_user_id == AuthStore.getUserLogin._id) {
                     return (
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                             <Text style={styles.action}>{`You start follow ${otherUserData.username}.`}</Text>
@@ -118,20 +118,20 @@ export default class Action extends Component {
             case 3:
                 return (
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                        <Text style={{...styles.action, fontWeight: (actionData.active_user._id == AuthStore.getUserLogin._id) ?
+                        <Text style={{...styles.action, fontWeight: (actionData.active_user_id == AuthStore.getUserLogin._id) ?
                                 ('') : (`bold`)}}>
                             {
-                                (actionData.active_user._id == AuthStore.getUserLogin._id) ?
+                                (actionData.active_user_id == AuthStore.getUserLogin._id) ?
                                     ('You ') : (`${otherUserData.username} `)
                             }
                         </Text>
                         <Text style={styles.action}>sent </Text>
                         <Icon size={15} color={'red'} name={iconNames.FULL_HEART} />
                         <Text style={styles.action}> to </Text>
-                        <Text style={{...styles.action, fontWeight: (actionData.disactive_user._id == AuthStore.getUserLogin._id) ?
+                        <Text style={{...styles.action, fontWeight: (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
                                 ('') : ('bold')}}>
                             {
-                                (actionData.disactive_user._id == AuthStore.getUserLogin._id) ?
+                                (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
                                     ('you') : (otherUserData.username)
                             }.
                         </Text>
@@ -147,11 +147,11 @@ export default class Action extends Component {
             case 6:
                 return (<Text style={styles.action}>You just sign up.</Text>)
             case 7:
-                if(actionData.active_user._id == AuthStore.getUserLogin._id) {
+                if(actionData.active_user_id == AuthStore.getUserLogin._id) {
                     return (
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                             <Text style={styles.action}>{`You stop follow ${this.state.otherUser.username}.`}</Text>
-                            <ProfileSymbol size={30} src={this.state.otherUser.profileImage} style={styles.otherUserProfile} />
+                            <ProfileSymbol size={30} src={otherUserData.profileImage} style={styles.otherUserProfile} />
                         </View>
                     )
                 }
@@ -183,14 +183,14 @@ export default class Action extends Component {
         const {ActionsStore, AuthStore, UsersStore, id} = this.props;
         const actionData = ActionsStore.getActionById(id);
         const otherUserData = UsersStore.getUserById(this.state.other_user_id);
-        if(actionData.disactive_user._id && !otherUserData) {
+        if(actionData.disactive_user_id && !otherUserData) {
             return null;
         }
         return (
         <View style={styles.container}>
             <View style={styles.leftSide}>
                 {
-                    (actionData.active_user._id == AuthStore.getUserLogin._id) ?
+                    (actionData.active_user_id == AuthStore.getUserLogin._id) ?
                         (<ProfileSymbol src={AuthStore.getUserLogin.profileImage} size={40} style={{margin: 5}} />) :
                         (<ProfileSymbol src={otherUserData.profileImage} size={40} style={{margin: 5}} />)
                 }
