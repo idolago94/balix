@@ -6,8 +6,11 @@ class IdentifierStore {
     @persist @observable followingContents = []; // array ids of my following users contents
     @persist @observable topContents = []; // array ids of the top contents
     @persist @observable searchUsers = []; // array ids of the search results users
+    @persist @observable actions = [];
     @observable handleSearch = false;
     
+    // GET
+
     @computed
     get getFollowing() {
         return this.followingContents.slice();
@@ -24,9 +27,16 @@ class IdentifierStore {
     }
 
     @computed
+    get getActions() {
+        return this.actions.slice();
+    }
+
+    @computed
     get isHandleSearch() {
         return this.handleSearch;
     }
+
+    // SET
     
     @action
     setFollowing(ids_array) {
@@ -43,6 +53,12 @@ class IdentifierStore {
         this.handleSearch = true;
         this.searchUsers = ids_array;
     }
+
+    setActions(ids_array) {
+        this.actions = ids_array;
+    }
+
+    // Actions
 
     @action
     clearSearch() {

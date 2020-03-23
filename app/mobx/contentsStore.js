@@ -4,7 +4,7 @@ import bufferToBase64 from '../helpers/convert/Buffer';
 import ApiService from "../Services/Api";
 
 class ContentsStore {
-    @persist @observable contents = {};
+    @persist('object') @observable contents = {};
     @observable errors = [];
 
     @computed

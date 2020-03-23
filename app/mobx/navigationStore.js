@@ -1,5 +1,4 @@
 import { observable, action, computed } from "mobx";
-import { persist } from 'mobx-persist'
 import { NavigationActions } from 'react-navigation';
 import { DrawerActions } from 'react-navigation-drawer'
 import { Keyboard } from 'react-native';

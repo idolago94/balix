@@ -2,10 +2,11 @@ import { observable, action, computed, get, set } from "mobx";
 import db from "../database/db";
 import ApiService from "../Services/Api";
 import { UsersStore } from ".";
+import { persist } from "mobx-persist";
 
 class AuthStore {
     @observable status = false;
-    @observable userLogin = undefined;
+    @persist('object') @observable userLogin = undefined;
     @observable errors = [];
 
     @computed
@@ -32,11 +33,12 @@ class AuthStore {
     setUserLogin(user) {
         console.log('authStore -> setUserLogin -> ', user._id);
         this.status = true;
+        this.setErrors([]);
         this.userLogin = user;
     }
 
     @action
-    setErrors(...errors) {
+    setErrors(errors) {
         console.log('AuthStore -> setErrors -> ', errors)
         this.status = false;
         this.errors = errors;
@@ -48,6 +50,7 @@ class AuthStore {
         this.status = 'PENDING';
         let auth = await ApiService.login(authData.username, authData.password);
         auth._id && this.setUserLogin(auth);
+        auth.error && this.setErrors([auth.error]);
     }
 
     @action
