@@ -125,7 +125,7 @@ class ApiService {
             })
             .catch(err => {
                 LoaderStore.hideLoader();
-                reject(err);
+                resolve({error: err.message});
             });
         });
     }

@@ -12,6 +12,7 @@ import TextButton from '../../components/TextButton/TextButton';
 import { inject, observer } from "mobx-react";
 
 @inject('AuthStore')
+@observer
 export default class LoginScreen extends Component {
 
   constructor(props) {
@@ -54,7 +55,9 @@ export default class LoginScreen extends Component {
             <View style={styles.form}>
               {AuthStore.getErrors.length > 0 && (
                 <View style={styles.errorBox}>
-                  <Text style={{color: Style.colors.text}}>{this.props.auth.error}</Text>
+                  {AuthStore.getErrors.map((err, i) => (
+                    <Text key={i} style={{color: Style.colors.text}}>{err}</Text>
+                  ))}
                 </View>
               )}
                 <FormField
