@@ -44,7 +44,7 @@ class UpdateService {
         IdentifierStore.setActions(actions_ids);
     }
 
-    updateGraphs(actions) {
+    async updateGraphs(actions) {
         let volunteers = []; // {id, amount}[]
         actions.map(act => {
             if(act.disactive_user_id == AuthStore.getUserLogin._id && act.type == 0) {
@@ -63,8 +63,16 @@ class UpdateService {
                 // get hearts actions
             }
         });
+        let volunteers_ids = volunteers.map(v => v.user_id);
+        let users = await ApiService.getUsers(volunteers_ids);
+        let gendersData = {male: 0, female: 0};
+        users.map(u => {
+            u.gender == 'Female' && gendersData.female++;
+            u.gender == 'Male' && gendersData.male++;
+        });
         volunteers.sort((a, b) => b.amount - a.amount);
         GraphStore.setMostVolunteers(volunteers);
+        GraphStore.setGendersData(gendersData);
     }
 }
 

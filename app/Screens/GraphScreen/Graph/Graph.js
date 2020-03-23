@@ -81,12 +81,12 @@ export default class Graph extends Component {
                     </View>
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                  {/* <GenderGraph 
-                    data={this.state.gendersData} 
+                  <GenderGraph 
+                    data={GraphStore.getGendersData} 
                     style={styles.box} 
                     width={Dimensions.get('window').width*0.45} 
                     height={80} 
-                  /> */}
+                  />
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                   {/* <FollowersGraph 

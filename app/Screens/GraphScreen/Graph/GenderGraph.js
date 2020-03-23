@@ -19,6 +19,10 @@ export default function GenderGraph(props) {
     return pieData;
   }
 
+  function getPercentageString(num, total) {
+    return ((num/total)*100).toString().slice(0, 4);
+  }
+
     return (
         <View style={styles.container}>
           <InfoTitle title="Audience" />
@@ -28,13 +32,13 @@ export default function GenderGraph(props) {
               <View style={{...styles.legend, flexDirection: 'row'}}>
                 <Icon name={iconNames.MALE} size={10} color={props.data[0].color} />
                 <Text style={{color: 'rgba(255, 255, 255, 0.3)', fontSize: 13}}>
-                  {((props.data[0].count)/(props.data[0].count + props.data[1].count/100)).toString().slice(0, 4)}%
+                  {getPercentageString(props.data[0].count, props.data[0].count + props.data[1].count)}%
                 </Text>
               </View>
               <View style={{...styles.legend, flexDirection: 'row'}}>
                 <Icon name={iconNames.FEMALE} size={10} color={props.data[1].color} />
                 <Text style={{color: 'rgba(255, 255, 255, 0.3)', fontSize: 13}}>
-                  {((props.data[1].count)/(props.data[0].count + props.data[1].count/100)).toString().slice(0, 4)}%
+                  {getPercentageString(props.data[1].count, props.data[0].count + props.data[1].count)}%
                 </Text>
               </View>
             </View>
