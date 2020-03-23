@@ -1,15 +1,16 @@
-import { observable, action, computed } from "mobx";
+import { observable, action, computed, set, get } from "mobx";
 import db from "../database/db";
+import { persist } from "mobx-persist";
 
 
 class ActionsStore {
     @observable status = false;
-    @observable actions = [];
+    @persist('object') @observable actions = {};
     @observable errors = [];
 
     @computed
-    get getActions() {
-        return this.actions.slice();
+    get getActionById() {
+        return (id) => get(this.actions, id);
     }
 
     @computed
@@ -19,9 +20,8 @@ class ActionsStore {
 
     @action
     setActions(actions) {
-        console.log('ActionsStore -> setActions -> ', action.length);
-        this.status = true;
-        this.actions = actions;
+        console.log('ActionsStore -> setActions -> ', actions.length);
+        actions.map(act => set(this.actions, act._id, act));
     }
 
     @action

@@ -1,5 +1,5 @@
 import ApiService from "../Api";
-import { UsersStore, AuthStore, ContentsStore, IdentifierStore, BuffersStore } from "../../mobx";
+import { UsersStore, AuthStore, ContentsStore, IdentifierStore, BuffersStore, ActionsStore } from "../../mobx";
 
 class UpdateService {
 
@@ -33,6 +33,14 @@ class UpdateService {
         UsersStore.setUsers(fetch_users);
         // BuffersStore.setBuffers(buffers);
         IdentifierStore.setFollowing(content_ids);
+    }
+
+    async updateActions() {
+        console.log('UpdateService -> updateActions');
+        let actions = await ApiService.getUserActions(AuthStore.getUserLogin._id);
+        ActionsStore.setActions(actions);
+        let actions_ids = actions.map(act => act._id);
+        IdentifierStore.setActions(actions_ids);
     }
 }
 
