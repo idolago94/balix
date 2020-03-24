@@ -53,14 +53,6 @@ class ContentsStore {
         this.status = false;
         this.errors = errors;
     }
-
-    // @action
-    // async fetchContents(contents_ids) {
-    //     console.log('ContentsStore -> fetch -> count: ', contents_ids.length);
-    //     let response = await ApiService.getSomeContents(contents_ids);
-    //     this.setErrors([]);
-    //     this.setContents(response);
-    // }
 }
 
 export default new ContentsStore();

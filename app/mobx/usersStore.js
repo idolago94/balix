@@ -39,16 +39,6 @@ class UsersStore {
     updateUser(user_id, field_to_update) {
         this.users[user_id] = {...field_to_update};
     }
-
-    @action
-    async fetchUsers(users_ids) {
-        console.log('UsersStore -> fetch -> ', users_ids.length + ' users');
-        if(users_ids.length > 0) {
-            this.usersStatus = 'PENDING';
-            let users = await ApiService.getUsers(users_ids);
-            this.setUsers(users);
-        }
-    }
 }
 
 export default new UsersStore();

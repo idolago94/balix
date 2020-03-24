@@ -60,53 +60,6 @@ export default class WithdrawScreen extends Component {
     }
   };
 
- async sendMoney() {
-   // request to get access token if not exist or expired
-   if(!this.state.accessToken || this.state.accessToken.expires_date < new Date().getTime()) {
-     let token = await fetch(`${db.url}/paypal/getToken`).then(res => res.json());
-     if(token.error) {
-       Alert.alert('Network error.');
-       return;
-     } else {
-       token.expires_date = new Date().getTime()+token.expires_in;
-       this.setState({accessToken: token});
-     }
-   }
-
-   let requestBody = {
-     "sender_batch_header": {
-       "sender_batch_id": new Date().getTime(),
-       "email_subject": "You have a payout!",
-       "email_message": "You have received a payout! Thanks for using our service!"
-     },
-     "items": [
-       {
-         "recipient_type": "EMAIL",
-         "amount": {
-           "value": this.state.withdrawAmount,
-           "currency": "USD"
-         },
-         "note": "Thanks for your patronage!",
-         "receiver": "idolago94@gmail.com"
-       }
-     ]
-   };
-   fetch('https://api.sandbox.paypal.com/v1/payments/payouts', {
-   // fetch('https://api.paypal.com/v1/payments/payouts', {
-     method: 'POST',
-     headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `${this.state.accessToken.token_type} ${this.state.accessToken.access_token}` // TOKEN
-     },
-     body: JSON.stringify(requestBody)
-   }).then(res => res.json()).then(result => {
-     console.log(result);
-     if(result.batch_header) {
-       Alert.alert('Please check your email.');
-     }
-   })
- }
-
   render() {
     return (
       <View style={styles.container}>

@@ -38,14 +38,6 @@ class BuffersStore {
         this.status = false;
         this.errors = errors;
     }
-
-    @action
-    async fetchBuffer(buffer_id) {
-        console.log('BuffersStore -> fetch');
-        let response = await ApiService.getBuffer(buffer_id);
-        this.setErrors([]);
-        this.setBuffer(response);
-    }
 }
 
 export default new BuffersStore();

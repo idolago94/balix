@@ -20,6 +20,9 @@ export default function GenderGraph(props) {
   }
 
   function getPercentageString(num, total) {
+    if(!num || !total) {
+      return 0;
+    }
     return ((num/total)*100).toString().slice(0, 4);
   }
 

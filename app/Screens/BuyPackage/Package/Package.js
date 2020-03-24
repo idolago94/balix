@@ -22,17 +22,6 @@ export default class Package extends Component {
         Alert.alert(`You parchased more ${recieveObj.cash}$ and ${recieveObj.hearts} hearts.` );
         console.log(`${buyResponse.cash}$`, buyResponse.hearts);
         this.props.NavigationStore.goBack();
-        // fetch(`${db.url}/users/buyPackage?id=${this.props.AuthStore.getUserLogin._id}`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(bodyRequest)
-        // }).then(res => res.json()).then(response => {
-        //     this.props.AuthStore.updateUserLogin(response);
-        //     Alert.alert(`You parchased more ${bodyRequest.recieve.cash}$ and ${bodyRequest.recieve.hearts} hearts.` );
-        //     console.log(`${response.cash}$`, response.hearts);
-        // });
     }
 
   render() {
