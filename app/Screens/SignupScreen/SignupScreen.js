@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Style from '../../helpers/style/style';
 // Components
-import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
+import {StyleSheet, Text, View, TouchableHighlight, Image, Dimensions} from 'react-native';
 import db from "../../database/db";
 import FormField from '../../components/FormField/FormField';
 import Routes from '../../Routes/Routes';
@@ -61,22 +61,19 @@ export default class SignupScreen extends Component {
     render() {
         const {navigation} = this.props;
         return (
-            <View style={styles.container}>
-                <AppTitle />
-                            <View style={styles.form}>
-                                <Text style={styles.title}>Create New Account:</Text>
-                                {
-                                    (!this.state.errors || this.state.errors.length < 1) ? (null) :
-                                        (
-                                            <View style={styles.errorBox}>
-                                                {
-                                                    this.state.errors.map((err, i) => (
-                                                        <Text key={i} style={{color: Style.colors.text}}>{err}</Text>
-                                                    ))
-                                                }
-                                            </View>
-                                        )
-                                }
+            <View style={{flex: 1, position: 'relative', backgroundColor: Style.colors.background}}>
+                <Image
+                    style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, position: 'absolute', top: 0, left: 0, opacity: 0.188}}
+                    source={require('../../assets/background1.jpeg')}
+                />
+                <View style={styles.container}>
+                    <AppTitle />
+                        <View style={styles.form}>
+                            <Text style={styles.title}>Create New Account:</Text>
+                            {(!this.state.errors || this.state.errors.length < 1) ? (null) :
+                                (<View style={styles.errorBox}>{this.state.errors.map((err, i) => (
+                                    <Text key={i} style={{color: Style.colors.text}}>{err}</Text>))}
+                                </View>)}
 
                                 <FormField type={'text'} placeholder={'First Name'} onChange={(first_name) => this.setState({first_name: first_name})}/>
 
@@ -106,8 +103,10 @@ export default class SignupScreen extends Component {
                                 <TouchableHighlight style={{alignSelf: 'flex-start'}} onPress={() => navigation.navigate(Routes.Screens.LOGIN.routeName)}>
                                     <Text style={{color: 'gray', fontSize: 10}}>Login to existing account</Text>
                                 </TouchableHighlight>
-                            </View>
+                        </View>
+                </View>
             </View>
+
         );
     }
 }
@@ -116,9 +115,9 @@ export default class SignupScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 10,
+        paddingVertical: 10,
         alignItems: 'center',
-        backgroundColor: Style.colors.background
+        // backgroundColor: Style.colors.background
     },
     appName: {
         fontSize: 70,

@@ -8,7 +8,7 @@ export default function AppTitle(props) {
   return (
     <View>
         {
-            (Platform.OS != 'ios') ? (null):(<View style={{height: 30, backgroundColor: Style.colors.background}}></View>)
+            (Platform.OS != 'ios') ? (null):(<View style={{height: 30, backgroundColor: 'transparent'}}></View>)
         }
         <LinearTextGradient
             style={styles.appName}
