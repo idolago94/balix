@@ -7,6 +7,7 @@ import Header from '../../../components/Header/Header';
 import db from '../../../database/db';
 import { inject, observer } from "mobx-react";
 import Routes from '../../../Routes/Routes';
+import ApiService from '../../../Services/Api';
 
 @inject('AuthStore', 'NavigationStore', 'UsersStore')
 @observer
@@ -73,32 +74,17 @@ export default class ProfileView extends Component {
   //     });
   // }
 
-  updateFollow() {
-    let updateFollowing = this.props.AuthStore.getUserLogin.following;
-    let action = '';
-    let bodyRequest = {user: this.state.userData._id};    
-    if(this.state.follow) {
-      // remove user from following
-      action = 'stopFollow';
-      updateFollowing = updateFollowing.filter(u => u._id != this.state.userData);
+  async updateFollow() {
+    const {AuthStore, UsersStore, navigation} = this.props;
+    let userData = UsersStore.getUsers[navigation.getParam('id')];
+    let followStatus = AuthStore.isFollow(userData._id);
+    let followResponse;
+    if(followStatus) {
+      followResponse = await ApiService.stopFollow(AuthStore.getUserLogin._id, navigation.getParam('id'));
     } else {
-      // add follow
-      action = 'startFollow';
-      updateFollowing.push(this.state.userData._id);
+      followResponse = await ApiService.startFollow(AuthStore.getUserLogin._id, navigation.getParam('id'));
     }
-    fetch(`${db.url}/users/${action}?id=${this.props.AuthStore.getUserLogin._id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(bodyRequest)
-    }).then(res => res.json()).then(response => {
-      console.log(response);
-      if(response.ok) {
-        this.props.AuthStore.updateUserLogin({following: updateFollowing});
-        this.setState({follow: !this.state.follow});
-      }
-    })
+    (Array.isArray(followResponse)) && AuthStore.updateUserLogin({following: followResponse});
   }
 
   navigateToPhoto(params) {
