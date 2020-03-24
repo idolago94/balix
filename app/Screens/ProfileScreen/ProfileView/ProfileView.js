@@ -38,41 +38,21 @@ export default class ProfileView extends Component {
   componentDidMount() {
     this.focusListener = this.props.navigation.addListener(
       'willFocus',
-      this.getDetailsFromParams.bind(this)
+      () => {
+        const {AuthStore, NavigationStore, UsersStore, navigation} = this.props;
+        let id = navigation.getParam('id');
+        let userData = UsersStore.getUsers[id];
+        NavigationStore.setProfileName(userData.username);
+        if(id == AuthStore.getUserLogin._id) {
+          NavigationStore.setCurrentTab(Routes.Screens.PROFILE.routeName);
+        }
+      }
     );
   }
 
   componentWillUnMount() {
     this.focusListener.remove();
   }
-
-  getDetailsFromParams() {
-    console.log('Profile View -> getDetailsFromParams');
-    // const {UsersStore, navigation} = this.props;
-    // let user = UsersStore.getUserById(navigation.getParam('id'));
-    // let user = navigation.getParam('userData');
-    // // check if params exist and different from the last
-    // if(user && user._id != AuthStore.getUserLogin._id) {
-    //   let follow = AuthStore.getUserLogin.following.find(followUser => followUser == user._id);
-    //   if(this.state.userData == undefined || user._id != this.state.userData._id) {
-    //     this.setState({userData: user, follow: !!follow});
-    //   } else if(!!follow != this.state.follow) {
-    //     this.setState({follow: !!follow})
-    //   }
-    //   // this.getUserContents(user._id);
-    // } else {
-    //   this.setState({userData: undefined, contents: []});
-    //   // this.getUserContents(AuthStore.getUserLogin._id);
-    // }
-  }
-
-  // getUserContents(user_id) {
-  //     console.log('fetch user contents -> ', user_id);
-  //     fetch(`${db.url}/content/userContent?id=${user_id}`)
-  //     .then(res => res.json()).then(contentsResponse => {
-  //       this.setState({contents: contentsResponse});
-  //     });
-  // }
 
   async updateFollow() {
     const {AuthStore, UsersStore, navigation} = this.props;

@@ -11,7 +11,30 @@ class NavigationStore {
     @observable currentScreen = null;
     @observable prevTab = null;
     @observable currentTab = Routes.Screens.HOME.routeName;
-    @observable whoProfile = null;
+    @observable profileName = null;
+    @observable tabs = [
+        Routes.Screens.PROFILE.routeName,
+        Routes.Screens.GRAPH.routeName,
+        Routes.Screens.RECENT_ACTIONS.routeName,
+        Routes.Screens.HOME.routeName,
+        Routes.Screens.SEARCH.routeName,
+        Routes.Screens.MAIL.routeName
+    ]
+    @observable nonBack = [
+        Routes.Screens.HOME.routeName,
+        Routes.Screens.RECENT_ACTIONS.routeName,
+        Routes.Screens.GRAPH.routeName
+    ]
+    @observable nonHeaderButton = [
+        Routes.Screens.PROFILE.routeName,
+        Routes.Screens.PHOTO.routeName,
+        Routes.Screens.SEARCH.routeName
+    ]
+    @observable nonCashIndicator = [
+        Routes.Screens.PROFILE.routeName,
+        Routes.Screens.PHOTO.routeName,
+        Routes.Screens.SEARCH.routeName
+    ];
 
     //GET
 
@@ -36,15 +59,38 @@ class NavigationStore {
     }
 
     @computed
+    get isBack() {
+        return !this.nonBack.includes(this.currentScreen);
+    }
+
+    @computed
     get isProfile() {
-        if(this.currentScreen == Routes.Screens.PROFILE.routeName || this.currentScreen == Routes.Screens.PHOTO.routeName) {
-            return this.whoProfile;
-        } else return null;   
+        return this.currentScreen == Routes.Screens.PROFILE.routeName;
     }
 
     @computed
     get isMyProfile() {
-        return this.whoProfile == AuthStore.getUserLogin.username;
+        return (this.currentScreen == Routes.Screens.PROFILE.routeName && this.whoProfile == AuthStore.getUserLogin.username);
+    }
+
+    @computed
+    get isProfileTab() {
+        return this.currentTab == Routes.Screens.PROFILE.routeName;
+    }
+
+    @computed
+    get whoProfile() {
+        return this.profileName;
+    }
+
+    @computed
+    get isHeaderButton() {
+        return !this.nonHeaderButton.includes(this.currentScreen);
+    }
+
+    @computed
+    get isCashIndicator() {
+        return (this.isProfileTab || !this.nonCashIndicator.includes(this.currentScreen));
     }
 
     //SET
@@ -66,10 +112,17 @@ class NavigationStore {
         this.prevPage = this.currentScreen
         this.currentScreen = data
     }
+
+    @action
+    setProfileName(username) {
+        this.profileName = username;
+    }
+
     @action
     updatePrevPage(data) {
         this.prevPage = data
     }
+
     updatePages = (prev, cur) => {
         this.updatePrevPage(prev);
         this.updateCurrentScreen(cur)
@@ -83,16 +136,14 @@ class NavigationStore {
             routeName
                 ? { routeName, params }
                 : { routeName: data, params: { ..._params } });
-        if((data == Routes.Screens.PROFILE.routeName || data == Routes.Screens.PHOTO.routeName) && _params && _params.userData) {
-            this.whoProfile = _params.userData.username;
-        } else {
-            this.whoProfile = null;
-        }
         this._navigator.dispatch(navigateAction)
     };
 
     @action
     goBack = () => {
+        if(this.tabs.includes(this.prevPage)) {
+            this.setCurrentTab(this.prevPage);
+        }
         const navigateAction = NavigationActions.back();
         this._navigator.dispatch(navigateAction)
     };

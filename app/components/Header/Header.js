@@ -18,9 +18,6 @@ import BackButton from './BackButton/BackButton';
 export default class Header extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			isSearch: false
-		};
 		this.indicatorOpacity = new Animated.Value(1);
 		this.indicatorWidth = new Animated.Value(200);
 	}
@@ -34,11 +31,6 @@ export default class Header extends Component {
 	}
 
 	navigateTo(routeName, params) {
-		if(routeName == Routes.Screens.SEARCH.routeName) {
-			this.setState({isSearch: true});
-		} else {
-			this.setState({isSearch: false});
-		}
 		this.props.NavigationStore.setCurrentTab(routeName);
 		this.props.NavigationStore.navigate(routeName, params);
 	}
@@ -49,39 +41,45 @@ export default class Header extends Component {
 			<View>
 				{Platform.OS == 'ios' && <View style={{height: Style.sizes.iphone_notch, backgroundColor: Style.colors.bar}} />}
 				<View style={styles.header}>
+					<View style={styles.leftSide}>
+						{(NavigationStore.isBack && !NavigationStore.isMyProfile) && <BackButton onPress={() => NavigationStore.goBack()} color={Style.colors.icon} size={Style.sizes.icon}/>}
+						{NavigationStore.isCashIndicator && (
+							<Animated.View style={{...styles.leftSide, opacity: this.indicatorOpacity, maxWidth: this.indicatorWidth, maxHeight: this.indicatorWidth}}>
+								<CashIndicator
+									onPress={() => CashButtonsStore.toggleButtons()}
+									cash={AuthStore.getUserLogin.cash} hearts={AuthStore.getUserLogin.hearts}
+								/>
+							</Animated.View>
+						)}
+					</View>
 
-					{(NavigationStore.isProfile && !NavigationStore.isMyProfile) || NavigationStore.isSearch ? (!NavigationStore.isSearch && <BackButton onPress={() => NavigationStore.goBack()} color={Style.colors.icon} size={Style.sizes.icon}/>) : (
-						<Animated.View style={{...styles.leftSide, opacity: this.indicatorOpacity, maxWidth: this.indicatorWidth, maxHeight: this.indicatorWidth}}>
-							<CashIndicator
-								onPress={() => CashButtonsStore.toggleButtons()}
-								cash={AuthStore.getUserLogin.cash} hearts={AuthStore.getUserLogin.hearts}
-							/>
-						</Animated.View>
-					)}
 					<View style={styles.rightSide}>
 						<View style={{flex: NavigationStore.isSearch ? (1):(0)}}>
-							{(!NavigationStore.isProfile) && (NavigationStore.isSearch ? (<SearchInput />) : (
-							<HeaderButton
+							{NavigationStore.isSearch ? (<SearchInput />) : (
+							NavigationStore.isHeaderButton && <HeaderButton
 								onPress={this.navigateTo.bind(this, Routes.Screens.SEARCH.routeName)}
 								color={Style.colors.icon}
 								icon={iconNames.SEARCH}
 								size={Style.sizes.icon}
 							/>
-							))}
+							)}
 						</View>
-						{NavigationStore.isProfile ? (<Text style={styles.title}>{NavigationStore.isProfile}</Text>) : (
+
+						{!NavigationStore.isHeaderButton ? (<Text style={styles.title}>{NavigationStore.whoProfile}</Text>) : (
 							!NavigationStore.isSearch && <HeaderButton
 								onPress={this.navigateTo.bind(this, Routes.Screens.MAIL.routeName)}
 								color={Style.colors.icon}
 								icon={iconNames.LETTER}
 								size={Style.sizes.icon}
 							/>)}
+
 						{!NavigationStore.isSearch && (<HeaderButton
 							onPress={() => NavigationStore.toggleDrawer()}
 							color={Style.colors.icon}
 							icon={iconNames.MENU}
 							size={Style.sizes.icon}
 						/>)}
+						
 					</View>
 				</View>
 			</View>
@@ -104,7 +102,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	leftSide: {
-		marginLeft: 10,
 		alignItems: 'center',
 		flexDirection: 'row',
 	},
