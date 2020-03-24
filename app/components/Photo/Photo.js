@@ -212,9 +212,10 @@ export default class Photo extends Component {
 
   render() {
     console.log('Photo -> render');
+    const {NavigationStore, ContentsStore, UsersStore, data} = this.props;
     const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments} = this.state;
-    const imageData = this.props.ContentsStore.getContentById(this.props.data.content_id);
-    const userData = this.props.UsersStore.getUserById(imageData.user_id);
+    const imageData = ContentsStore.getContentById(data.content_id);
+    const userData = UsersStore.getUserById(imageData.user_id);
     return (!userData) ? null :
       <ScrollView style={styles.container}>
         <View style={styles.photoBox}>
@@ -228,6 +229,7 @@ export default class Photo extends Component {
             user={userData}
             cash={imageData.cash}
             hearts={imageData.hearts}
+            onSymbol={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})}
           />
 
           <View style={styles.emoji}>
