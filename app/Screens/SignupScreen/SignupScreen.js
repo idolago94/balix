@@ -8,6 +8,8 @@ import Routes from '../../Routes/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
 import { inject, observer } from 'mobx-react';
 import ApiService from '../../Services/Api';
+import HandleError from '../../components/HandleError/HandleError';
+import ValidationService from '../../Services/Validation';
 
 @inject('AuthStore')
 export default class SignupScreen extends Component {
@@ -19,7 +21,8 @@ export default class SignupScreen extends Component {
             securePassword: true,
             created: false,
             password: null,
-            confirmPassword: null
+            confirmPassword: null,
+            errors: []
         }
     }
 
@@ -44,17 +47,19 @@ export default class SignupScreen extends Component {
     }
 
     async onCreateAccount() {
-        let validate = this.validateForm();        
-        if(validate.length <= 0) {
+        // let validate = this.validateForm(); 
+        let validate = ValidationService.signup(this.state);       
+        if(!validate) {
             const {navigation} = this.props;
             const {first_name, last_name, username, email, password, gender} = this.state;
             let signupResponse = await ApiService.signup(first_name, last_name, username, password, email, gender);
             if(signupResponse.error) {
                 this.setState({errors: [signupResponse.error]});
             } else {
-                // this.props.AuthStore.setUserLogin(signupResponse);
                 navigation.navigate(Routes.Screens.SET_PROFILE.routeName, {user: signupResponse});
             }
+        } else {
+            this.setState({errors: validate});
         }
     }
 
@@ -68,42 +73,39 @@ export default class SignupScreen extends Component {
                 />
                 <View style={styles.container}>
                     <AppTitle />
-                        <View style={styles.form}>
-                            <Text style={styles.title}>Create New Account:</Text>
-                            {(!this.state.errors || this.state.errors.length < 1) ? (null) :
-                                (<View style={styles.errorBox}>{this.state.errors.map((err, i) => (
-                                    <Text key={i} style={{color: Style.colors.text}}>{err}</Text>))}
-                                </View>)}
+                    <View style={styles.form}>
+                        <Text style={styles.title}>Create New Account:</Text>
+                        {this.state.errors.length > 0 && <HandleError data={this.state.errors} />}
 
-                                <FormField type={'text'} placeholder={'First Name'} onChange={(first_name) => this.setState({first_name: first_name})}/>
+                        <FormField type={'text'} placeholder={'First Name'} onChange={(first_name) => this.setState({first_name: first_name})}/>
 
-                                <FormField type={'text'} placeholder={'Last Name'} onChange={(last_name) => this.setState({last_name: last_name})}/>
+                        <FormField type={'text'} placeholder={'Last Name'} onChange={(last_name) => this.setState({last_name: last_name})}/>
 
-                                <FormField type={'text'} placeholder={'Username'} onChange={(username) => this.setState({username: username})}/>
+                        <FormField type={'text'} placeholder={'Username'} onChange={(username) => this.setState({username: username})}/>
 
-                                <FormField type={'text'} placeholder={'Email'} onChange={(email) => this.setState({email: email})}/>
+                        <FormField type={'text'} placeholder={'Email'} onChange={(email) => this.setState({email: email})}/>
 
-                                <FormField
-                                    type={'password'}
-                                    placeholder={'Password'}
-                                    onChange={(password) => this.setState({password: password})}
-                                    confirm={(confirmPassword) => this.setState({confirmPassword: confirmPassword})}
-                                />
+                        <FormField
+                            type={'password'}
+                            placeholder={'Password'}
+                            onChange={(password) => this.setState({password: password})}
+                            confirm={(confirmPassword) => this.setState({confirmPassword: confirmPassword})}
+                        />
 
-                                <FormField
-                                    value={this.state.gender}
-                                    type={'radio'}
-                                    onChange={(gender) => this.setState({gender: gender})}
-                                />
+                        <FormField
+                            value={this.state.gender}
+                            type={'radio'}
+                            onChange={(gender) => this.setState({gender: gender})}
+                        />
 
-                                <TouchableHighlight style={styles.signupButton} onPress={this.onCreateAccount.bind(this)}>
-                                    <Text style={styles.loginText}>Signup</Text>
-                                </TouchableHighlight>
+                        <TouchableHighlight style={styles.signupButton} onPress={this.onCreateAccount.bind(this)}>
+                            <Text style={styles.loginText}>Signup</Text>
+                        </TouchableHighlight>
 
-                                <TouchableHighlight style={{alignSelf: 'flex-start'}} onPress={() => navigation.navigate(Routes.Screens.LOGIN.routeName)}>
-                                    <Text style={{color: 'gray', fontSize: 10}}>Login to existing account</Text>
-                                </TouchableHighlight>
-                        </View>
+                        <TouchableHighlight style={{alignSelf: 'flex-start'}} onPress={() => navigation.navigate(Routes.Screens.LOGIN.routeName)}>
+                            <Text style={{color: 'gray', fontSize: 10}}>Login to existing account</Text>
+                        </TouchableHighlight>
+                    </View>
                 </View>
             </View>
 

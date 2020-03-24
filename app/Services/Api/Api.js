@@ -6,7 +6,7 @@ class ApiService {
 
     async login(username, password) {
         if(!username || username == '' || !password || password == '') {
-            return {error: 'all fields required.'};
+            return {error: 'All fields required.'};
         }
         let loginResponse = await this.sendRequest('POST', '/users/login', {username, password});
         return loginResponse;
@@ -150,8 +150,8 @@ class ApiService {
         return new Promise((resolve, reject) => {
             console.log('ApiService -> sendRequest -> ', method, route, body);
             LoaderStore.showLoader();
-            let server_url = 'http://34.69.232.216:8080'; // google server
-            // let server_url = 'http://127.0.0.1:8080'; // local server
+            // let server_url = 'http://34.69.232.216:8080'; // google server
+            let server_url = 'http://127.0.0.1:8080'; // local server
             fetch(server_url + route, {
                 method: method,
                 headers: {'Content-Type': 'application/json'},

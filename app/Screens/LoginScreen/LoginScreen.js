@@ -10,6 +10,7 @@ import Routes from '../../Routes/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
 import TextButton from '../../components/TextButton/TextButton';
 import { inject, observer } from "mobx-react";
+import HandleError from '../../components/HandleError/HandleError';
 
 @inject('AuthStore')
 @observer
@@ -25,14 +26,14 @@ export default class LoginScreen extends Component {
 
   onLogin() {
     const {AuthStore} = this.props;
-    // let auth = {
-    //   username: this.state.username,
-    //   password: this.state.password
-    // };
-      let auth = {
-        username: 'Ido',
-        password: '1234'
-      }
+    let auth = {
+      username: this.state.username,
+      password: this.state.password
+    };
+      // let auth = {
+      //   username: 'Ido',
+      //   password: '1234'
+      // }
     AuthStore.login(auth);
   }
 
@@ -53,13 +54,8 @@ export default class LoginScreen extends Component {
         <View style={styles.container}>
           <AppTitle />
             <View style={styles.form}>
-              {AuthStore.getErrors.length > 0 && (
-                <View style={styles.errorBox}>
-                  {AuthStore.getErrors.map((err, i) => (
-                    <Text key={i} style={{color: Style.colors.text}}>{err}</Text>
-                  ))}
-                </View>
-              )}
+              {AuthStore.getErrors.length > 0 && <HandleError data={AuthStore.getErrors}/>}
+              
                 <FormField
                     placeholder={'Username or Email'}
                     onChange={(username) => this.setState({username})}
