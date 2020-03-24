@@ -65,7 +65,7 @@ export default class Header extends Component {
 							)}
 						</View>
 
-						{!NavigationStore.isHeaderButton ? (<Text style={styles.title}>{NavigationStore.whoProfile}</Text>) : (
+						{(!NavigationStore.isHeaderButton && !NavigationStore.isSearch) ? (<Text style={styles.title}>{NavigationStore.whoProfile}</Text>) : (
 							!NavigationStore.isSearch && <HeaderButton
 								onPress={this.navigateTo.bind(this, Routes.Screens.MAIL.routeName)}
 								color={Style.colors.icon}
