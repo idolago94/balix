@@ -9,8 +9,9 @@ import { inject, observer } from 'mobx-react';
 import ApiService from '../../../Services/Api';
 import moment from 'moment';
 import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
+import Routes from '../../../Routes/Routes';
 
-@inject('AuthStore', 'UsersStore', 'ActionsStore')
+@inject('AuthStore', 'UsersStore', 'ActionsStore', 'NavigationStore')
 @observer
 export default class Action extends Component {
 
@@ -72,17 +73,10 @@ export default class Action extends Component {
                             </Text>
                             <Text style={styles.action}> in total {actionData.emoji.value}$.</Text>
                         </View>
-                        {/* <ProfileSymbol
-                            style={styles.otherUserProfile}
-                            size={30}
-                            src={(actionData.active_user_id == AuthStore.getUserLogin._id) ?
-                                (otherUserData.profileImage):
-                                (AuthStore.getUserLogin.profileImage)}
-                        /> */}
-                        <ProgressiveImage 
+                        {actionData.image_buffer_id && <ProgressiveImage 
                             style={{width: 30, height: 30, borderRadius: 5}}
                             buffer_id={actionData.image_buffer_id}
-                        />
+                        />}
                     </View>
                 )
                 break;
@@ -180,7 +174,7 @@ export default class Action extends Component {
 
     render() {
         console.log('Action => render');
-        const {ActionsStore, AuthStore, UsersStore, id} = this.props;
+        const {ActionsStore, AuthStore, UsersStore, NavigationStore, id} = this.props;
         const actionData = ActionsStore.getActionById(id);
         const otherUserData = UsersStore.getUserById(this.state.other_user_id);
         if(actionData.disactive_user_id && !otherUserData) {
@@ -191,8 +185,18 @@ export default class Action extends Component {
             <View style={styles.leftSide}>
                 {
                     (actionData.active_user_id == AuthStore.getUserLogin._id) ?
-                        (<ProfileSymbol src={AuthStore.getUserLogin.profileImage} size={40} style={{margin: 5}} />) :
-                        (<ProfileSymbol src={otherUserData.profileImage} size={40} style={{margin: 5}} />)
+                        (<ProfileSymbol 
+                            press={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: AuthStore.getUserLogin._id})} 
+                            src={AuthStore.getUserLogin.profileImage} 
+                            size={40} 
+                            style={{margin: 5}} 
+                        />) :
+                        (<ProfileSymbol 
+                            press={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: otherUserData._id})} 
+                            src={otherUserData.profileImage} 
+                            size={40} 
+                            style={{margin: 5}} 
+                        />)
                 }
                 <View style={styles.content}>
                     {this.renderActionContent()}
