@@ -39,7 +39,7 @@ export default function UserDetails(props) {
               <Text style={styles.type}>Following</Text>
             </View>
             <View style={styles.achiveBox}>
-              <Text style={styles.number}>{props.user.cash}$</Text>
+              <Text style={styles.number}>{props.user.cash_earned || 0}$</Text>
               <Text style={styles.type}>Dollars</Text>
             </View>
           </View>
