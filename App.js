@@ -6,6 +6,7 @@ import AppScreen from './app/Screens/AppScreen';
 import { Provider, inject, observer } from "mobx-react";
 import {create} from 'mobx-persist';
 import {AsyncStorage} from 'react-native';
+import ApiService from './app/Services/Api';
 
 // const hydrate = create({
 //     storage: AsyncStorage,
@@ -32,9 +33,15 @@ export default class App extends Component {
 	}
 }
 
-@inject("AuthStore")
+@inject("AuthStore", 'ActionsStore')
 @observer
 class RootComponent extends Component {
+
+	async componentDidMount() {
+		let actionsType = await ApiService.getActionsTypes();
+		this.props.ActionsStore.setTypes(actionsType);
+	}
+
     render() {
 		const Root = this.props.AuthStore.getUserLogin._id ? AppScreen : LoginNavigator;
         return (

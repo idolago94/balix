@@ -6,6 +6,7 @@ import { persist } from "mobx-persist";
 class ActionsStore {
     @observable status = false;
     @persist('object') @observable actions = {};
+    @observable types = {};
     @observable errors = [];
 
     @computed
@@ -16,6 +17,11 @@ class ActionsStore {
     @computed
     get getErrors() {
         return this.errors.slice();
+    }
+
+    @computed
+    get getTypes() {
+        return this.types;
     }
 
     @action
@@ -31,17 +37,9 @@ class ActionsStore {
     }
 
     @action
-    fetchUserActions(user_id) {
-        console.log('ActionsStore -> fetch -> ', user_id);
-        this.status = 'PENDING';
-        fetch(`${db.url}/actions/getActions?id=${user_id}`, {
-            headers: {'Content-Type': 'application/json', 'Content-Length': '*'},
-        }).then(res => res.json()).then(actionsResponse => {
-            this.setErrors([]);
-            this.setActions(actionsResponse);
-        }).catch(err => {
-            this.setErrors(err);
-        })
+    setTypes(data) {
+        console.log('ActionsStore -> setTypes -> ', data);
+        this.types = data;
     }
 }
 

@@ -49,8 +49,9 @@ export default class Action extends Component {
         const {ActionsStore, AuthStore, UsersStore, id} = this.props;
         const actionData = ActionsStore.getActionById(id);
         const otherUserData = UsersStore.getUserById(this.state.other_user_id);
+        let actionTypes = ActionsStore.getTypes;
         switch (actionData.type) {
-            case 0:
+            case actionTypes.EMOJI:
                 return (
                     <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                         <View style={{flexDirection: 'row'}}>
@@ -80,11 +81,14 @@ export default class Action extends Component {
                     </View>
                 )
                 break;
-            case 1:
+            case actionTypes.FOLLOW:
                 if(actionData.active_user_id == AuthStore.getUserLogin._id) {
                     return (
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                            <Text style={styles.action}>{`You start follow ${otherUserData.username}.`}</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={styles.action}>{`You start follow `}</Text>
+                                <Text style={[styles.action, {fontWeight: 'bold'}]}>{`${otherUserData.username}.`}</Text>
+                            </View>
                             <ProfileSymbol size={30} src={otherUserData.profileImage} style={styles.otherUserProfile} />
                         </View>
                     )
@@ -98,7 +102,7 @@ export default class Action extends Component {
                     </View>
                 )
                 break;
-            case 2:
+            case actionTypes.UPLOAD:
                 return (
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Text style={styles.action}>You upload a new photo.</Text>
@@ -109,7 +113,7 @@ export default class Action extends Component {
                     </View>
                 );
                 break;
-            case 3:
+            case actionTypes.HEART:
                 return (
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                         <Text style={{...styles.action, fontWeight: (actionData.active_user_id == AuthStore.getUserLogin._id) ?
@@ -132,32 +136,37 @@ export default class Action extends Component {
                     </View>
                 )
                 break;
-            case 4:
+            case actionTypes.DEPOSIT:
                 return (<Text style={styles.action}>You made a deposit.</Text>)
                 break;
-            case 5:
+            case actionTypes.WITHDRAW:
                 return (<Text style={styles.action}>You made a withdraw.</Text>)
                 break;
-            case 6:
+            case actionTypes.SIGNUP:
                 return (<Text style={styles.action}>You just sign up.</Text>)
-            case 7:
+            case actionTypes.STOP_FOLLOW:
                 if(actionData.active_user_id == AuthStore.getUserLogin._id) {
                     return (
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                            <Text style={styles.action}>{`You stop follow ${this.state.otherUser.username}.`}</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={styles.action}>{`You stop follow `}</Text>
+                                <Text style={[styles.action, {fontWeight: 'bold'}]}>{`${otherUserData.username}.`}</Text>
+                            </View>
                             <ProfileSymbol size={30} src={otherUserData.profileImage} style={styles.otherUserProfile} />
                         </View>
                     )
                 }
                 return (
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <Text style={{...styles.action, fontWeight: 'bold'}}>{this.state.otherUser.username}</Text>
-                        <Text style={styles.action}>{` stop follow you.`}</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={{...styles.action, fontWeight: 'bold'}}>{otherUserData.username}</Text>
+                            <Text style={styles.action}>{` stop follow you.`}</Text>
+                        </View>
                         <ProfileSymbol size={30} src={AuthStore.getUserLogin.profileImage} style={styles.otherUserProfile} />
                     </View>
                 )
                 break;
-            case 11:
+            case actionTypes.PROFILE_IMAGE:
                 return (
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Text style={styles.action}>You update your profile image.</Text>

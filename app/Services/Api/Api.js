@@ -113,6 +113,11 @@ class ApiService {
         return actionsResponse;
     }
 
+    async getActionsTypes() {
+        let typesResponse = await this.sendRequest('GET', '/actions/type');
+        return typesResponse;
+    }
+
     // Route: /search
 
     async handleSearch(word) {
