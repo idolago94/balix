@@ -5,7 +5,7 @@ import Icon, {iconNames} from '../../Icon/Icon';
 import { inject, observer } from "mobx-react";
 import ApiService from '../../../Services/Api';
 
-@inject('SearchStore', 'UsersStore', 'IdentifierStore')
+@inject('UsersStore', 'IdentifierStore')
 export default class SearchInput extends Component {
 
     constructor(props) {
@@ -51,7 +51,7 @@ export default class SearchInput extends Component {
     }
 
     async handleSearch(text) {
-		const {SearchStore, UsersStore, IdentifierStore} = this.props;
+		const {UsersStore, IdentifierStore} = this.props;
 		if(text.length >= 3) {
             let searchResponse = await ApiService.handleSearch(text);
             UsersStore.setUsers(searchResponse);

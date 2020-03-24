@@ -13,7 +13,7 @@ import HeaderButton from './HeaderButton/HeaderButton';
 import SearchInput from './SearchInput/SearchInput';
 import BackButton from './BackButton/BackButton';
 
-@inject('SearchStore', 'CashButtonsStore', 'AuthStore', 'NavigationStore')
+@inject('CashButtonsStore', 'AuthStore', 'NavigationStore')
 @observer
 export default class Header extends Component {
 	constructor(props) {

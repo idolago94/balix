@@ -10,7 +10,7 @@ import NotFound from "./NotFound";
 import db from '../../database/db';
 import { inject, observer } from 'mobx-react';
 
-@inject('SearchStore', 'NavigationStore', 'IdentifierStore', 'LoaderStore')
+@inject('NavigationStore', 'IdentifierStore', 'LoaderStore')
 @observer
 export default class Search extends Component {
 	static navigationOptions = ({navigation}) => {
