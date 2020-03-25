@@ -11,6 +11,8 @@ import TextButton from '../../components/TextButton/TextButton';
 import { inject, observer } from 'mobx-react';
 import ApiService from '../../Services/Api';
 import UploadService from '../../Services/Upload';
+import HandleError from '../../components/HandleError/HandleError';
+import FooterButton from './FooterButton';
 
 @inject('AuthStore', 'NavigationStore')
 @observer
@@ -19,7 +21,8 @@ export default class SetProfileImage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            profileImage: undefined
+            profileImage: undefined,
+            errors: []
         };
     }
 
@@ -73,18 +76,7 @@ export default class SetProfileImage extends Component {
                         <Text style={styles.label}>Welcome to Balix, just a few steps.</Text>
                         <Text style={styles.label}>Please select photo to your account profile image:</Text>
                     </View>
-                    {
-                        (!this.state.errors || this.state.errors.length < 1) ? (null) :
-                            (
-                                <View style={styles.errorBox}>
-                                    {
-                                        this.state.errors.map((err, i) => (
-                                            <Text key={i} style={{color: Style.colors.text}}>{err}</Text>
-                                        ))
-                                    }
-                                </View>
-                            )
-                    }
+                    {this.state.errors.length > 0 && <HandleError data={this.state.errors} />}
                     <TouchableHighlight onPress={this.onImagePress.bind(this)}>
                         <Image
                             style={styles.imageBox}
@@ -95,9 +87,10 @@ export default class SetProfileImage extends Component {
                     <TextButton onPress={this.onSetImage.bind(this)} content={'Set Profile Image'} />
 
                     <View style={styles.footerButtons}>
-                        <TouchableHighlight style={{padding: 20, alignSelf: 'flex-end'}} onPress={() => navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName)}>
-                            <Text style={{color: 'gray', fontSize: 25, letterSpacing: 2}}>skip</Text>
-                        </TouchableHighlight>
+                        <FooterButton title={'SKIP'} onPress={() => navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {user: newUser})}/>
+                        {/* <TouchableHighlight style={{padding: 20}} onPress={() => navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName)}>
+                            <Text style={{color: 'gray', fontSize: 15}}>SKIP</Text>
+                        </TouchableHighlight> */}
                     </View>
                 </View>
             </View>

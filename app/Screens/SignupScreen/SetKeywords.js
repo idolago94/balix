@@ -9,6 +9,7 @@ import Routes from '../../Routes/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
 import { inject, observer } from 'mobx-react';
 import ApiService from '../../Services/Api';
+import FooterButton from './FooterButton';
 
 @inject('AuthStore')
 export default class SetKeywords extends Component {
@@ -33,14 +34,21 @@ export default class SetKeywords extends Component {
     async onSave() {
         const {keywords} = this.state;
         const {AuthStore, navigation} = this.props;
-        let signupUser = navigation.getParam('user');
         if(keywords.length < 1) {
-            AuthStore.setUserLogin(signupUser);
+            this.toApp();
         } else {
+            let signupUser = navigation.getParam('user');
             let keywordsResponse = await ApiService.updateKeywords(signupUser._id, keywords);
             signupUser.keywords = keywordsResponse;
             AuthStore.setUserLogin(signupUser);
+            navigation.navigate(Routes.Screens.LOGIN.routeName);
         }
+    }
+
+    toApp() {
+        const {AuthStore, navigation} = this.props;
+        let signupUser = navigation.getParam('user');
+        AuthStore.setUserLogin(signupUser);
         navigation.navigate(Routes.Screens.LOGIN.routeName);
     }
 
@@ -65,12 +73,14 @@ export default class SetKeywords extends Component {
 
 
                         <View style={styles.footerButtons}>
-                            <TouchableHighlight style={{padding: 20}} onPress={() => navigation.navigate(Routes.Screens.SET_PROFILE.routeName)}>
-                                <Icon name={iconNames.LEFT_CHEVRON} size={20} color={'gray'} />
+                            <FooterButton title={'SKIP'} onPress={() => this.toApp()}/>
+                            <FooterButton title={'DONE'} onPress={() => this.onSave()}/>                            
+                            {/* <TouchableHighlight style={{padding: 20}} onPress={() => this.toApp()}>
+                                <Text style={{color: 'gray', fontSize: 15}}>SKIP</Text>
                             </TouchableHighlight>
                             <TouchableHighlight style={{padding: 20}} onPress={() => this.onSave()}>
                                 <Text style={{color: 'gray', fontSize: 15}}>DONE</Text>
-                            </TouchableHighlight>
+                            </TouchableHighlight> */}
                         </View>
                     </View>
                 </View>
