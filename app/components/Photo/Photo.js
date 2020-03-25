@@ -5,7 +5,6 @@ import SingleComment from './Comments/SingleComment';
 import EmojiBox from './EmojiBox/EmojiBox';
 import PhotoIndicator from './PhotoIndicator';
 import Icon, {iconNames} from '../Icon/Icon';
-import DoubleClick from 'react-native-double-click';
 import Style from '../../helpers/style/style';
 import {withComma} from '../../common/numberMethods';
 import Routes from '../../Routes/Routes';
@@ -14,7 +13,7 @@ import ApiService from '../../Services/Api';
 import Buttons from './Buttons';
 import ProgressiveImage from '../ProgressiveImage/PreogressiveImage';
 
-@inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'BuffersStore')
+@inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
 @observer
 export default class Photo extends Component {
   // Props = [ data, titlePress ]
@@ -212,7 +211,7 @@ export default class Photo extends Component {
 
   render() {
     console.log('Photo -> render');
-    const {NavigationStore, ContentsStore, UsersStore, data} = this.props;
+    const {NavigationStore, ContentsStore, UsersStore, data, height} = this.props;
     const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments} = this.state;
     const imageData = ContentsStore.getContentById(data.content_id);
     const userData = UsersStore.getUserById(imageData.user_id);
@@ -220,7 +219,7 @@ export default class Photo extends Component {
       <ScrollView style={styles.container}>
         <View style={styles.photoBox}>
           <ProgressiveImage 
-            style={{width: '100%', height: '100%'}}
+            style={{width: '100%', height: height}}
             onDoubleClick={this.toggleEmoji.bind(this)}
             buffer_id={imageData.buffer_id}
           />
@@ -292,9 +291,9 @@ export default class Photo extends Component {
             }}/>
           ))}
         </View>
-        <Buttons onOpenEmoji={() => this.toggleEmoji()} />
+        {/* <Buttons onOpenEmoji={() => this.toggleEmoji()} /> */}
         {/* comments */}
-        <View style={styles.commentsBox}>
+        {/* <View style={styles.commentsBox}>
           <View style={{flexDirection: 'row', marginBottom: 5}}>
             <Text style={styles.username}>{userData.username}: </Text>
             <Text style={styles.content}>{imageData.title}My first photo</Text>
@@ -307,7 +306,7 @@ export default class Photo extends Component {
               style={styles.allCommentsLink}>View {withComma(comments.length)} Comments</Text>
           </TouchableHighlight>
           <SingleComment data={comments[comments.length - 1]}/>
-        </View>
+        </View> */}
       </ScrollView>;
   }
 }
@@ -325,8 +324,8 @@ const styles = StyleSheet.create({
   },
   photoBox: {
     width: Dimensions.get('window').width,
-    aspectRatio: 1,
     position: 'relative',
+    marginBottom: 10
   },
   photo: {
     width: '100%',

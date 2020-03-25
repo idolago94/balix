@@ -10,12 +10,12 @@ export default function PhotoIndicator(props) {
 
     return (
       <View style={{position: 'absolute', alignItems: 'flex-start'}}>
-        <ProfileSymbol 
+        {/* <ProfileSymbol 
           style={{marginLeft: 10,marginTop: 10, borderWidth: 1, borderColor: 'black', borderRadius: 999}} 
           src={props.user.profileImage} 
           size={55}
           press={() => props.onSymbol()}
-        />
+        /> */}
         <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 10, padding: 4}}>
           <Icon color={Style.colors.text} name={iconNames.DOLLAR} size={22} />
           <Text style={{color: Style.colors.text}}>{withComma(props.cash)}</Text>
