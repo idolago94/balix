@@ -20,34 +20,13 @@ export default class SignupScreen extends Component {
         this.state = {
             securePassword: true,
             created: false,
-            password: null,
-            confirmPassword: null,
+            password: '',
+            confirmPassword: '',
             errors: []
         }
     }
 
-    validateForm() {
-        let errors = [];
-        if(
-            !this.state.first_name ||
-            !this.state.last_name ||
-            !this.state.username ||
-            !this.state.email ||
-            !this.state.password ||
-            !this.state.confirmPassword ||
-            !this.state.gender
-        ) {
-            errors.push('All fields are required.');
-        }
-        if(this.state.password != this.state.confirmPassword) {
-            errors.push('Your password not match.');
-        }
-        this.setState({errors: errors});
-        return errors;
-    }
-
     async onCreateAccount() {
-        // let validate = this.validateForm(); 
         let validate = ValidationService.signup(this.state);       
         if(!validate) {
             const {navigation} = this.props;

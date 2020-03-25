@@ -1,15 +1,26 @@
 class ValidationService {
 
+    login(data) {
+        let errors = [];
+        errors.push(!data.username || data.username == '' ? ('All fields are required.'):(null));
+        errors.push(this.password(data.password));
+        errors = errors.filter(err => err != null);
+        if(errors.length > 0) {
+            return errors;
+        } else return null;
+    }
+
     signup(data) {
         let errors = [];
         errors.push(this.name(data.first_name, data.last_name));
+        errors.push(this.username(data.username));
         errors.push(this.email(data.email));
         errors.push(this.password(data.password, data.confirmPassword));
         errors.push(data.gender ? (null):('Gender not define.'));
         errors = errors.filter(err => err != null);
         if(errors.length > 0) {
             return errors;
-        } else null;
+        } else return null;
     }
 
     name(first, last) {
@@ -33,7 +44,7 @@ class ValidationService {
 
     password(pass, confirm) {
         if(PASSWORD.test(pass)) {
-            if(pass == confirm) {
+            if(!confirm || pass == confirm) {
                 return null;
             } return 'Password not match.'
         } return 'Password not valid(at least one lowercase caracter, one number and minimum 8 characters).';

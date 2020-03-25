@@ -3,6 +3,7 @@ import db from "../database/db";
 import ApiService from "../Services/Api";
 import { UsersStore } from ".";
 import { persist } from "mobx-persist";
+import ValidationService from "../Services/Validation";
 
 class AuthStore {
     @observable status = false;
@@ -47,10 +48,15 @@ class AuthStore {
     @action
     async login(authData) {
         console.log('authStore -> login -> ', authData.username);
-        this.status = 'PENDING';
-        let auth = await ApiService.login(authData.username, authData.password);
-        auth._id && this.setUserLogin(auth);
-        auth.error && this.setErrors([auth.error]);
+        let validate = ValidationService.login(authData);
+        if(validate) {
+            this.setErrors(validate);
+        } else {
+            this.status = 'PENDING';
+            let auth = await ApiService.login(authData.username, authData.password);
+            auth._id && this.setUserLogin(auth);
+            auth.error && this.setErrors([auth.error]);
+        }
     }
 
     @action
