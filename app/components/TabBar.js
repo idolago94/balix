@@ -17,7 +17,7 @@ export default class TabBar extends Component {
   }
 
   navigateTo(routeName, params) {
-    this.props.NavigationStore.setCurrentTab(routeName);
+    // this.props.NavigationStore.setCurrentTab(routeName);
     this.props.NavigationStore.navigate(routeName, params);
   }
 

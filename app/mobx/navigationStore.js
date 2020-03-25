@@ -1,6 +1,6 @@
 import { observable, action, computed } from "mobx";
 import { NavigationActions } from 'react-navigation';
-import { DrawerActions } from 'react-navigation-drawer'
+import { DrawerActions } from 'react-navigation-drawer';
 import { Keyboard } from 'react-native';
 import Routes from "../Routes/Routes";
 import AuthStore from './authStore';
@@ -14,7 +14,6 @@ class NavigationStore {
     @observable profileName = null;
     @observable.shallow banner = null;
     @observable tabs = [
-        Routes.Screens.PROFILE.routeName,
         Routes.Screens.GRAPH.routeName,
         Routes.Screens.RECENT_ACTIONS.routeName,
         Routes.Screens.HOME.routeName,
@@ -129,11 +128,12 @@ class NavigationStore {
     @action
     updateCurrentScreen = (data) => {
         console.log('NavigationStore -> updateCurrentScreen');
-        if(this.tabs.includes(data)) {
-            this.currentTab = data;
+        if(this.tabs.includes(data.routeName) || 
+        (data.routeName == Routes.Screens.PROFILE.routeName && data.params.id == AuthStore.getUserLogin._id)) {
+            this.currentTab = data.routeName;
         }
         this.prevPage = this.currentScreen
-        this.currentScreen = data
+        this.currentScreen = data.routeName;
     }
 
     @action

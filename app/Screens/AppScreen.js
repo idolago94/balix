@@ -24,7 +24,7 @@ export default class AppScreen extends Component {
     if (navState.hasOwnProperty('index')) {
         return this._getCurrentRouteName(navState.routes[navState.index])
     } else {
-        return navState.routeName
+        return navState;
     }
   } 
 
