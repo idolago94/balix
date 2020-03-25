@@ -6,6 +6,7 @@ import Routes from "../../Routes/Routes";
 import { inject, observer } from "mobx-react";
 import UploadService from '../../Services/Upload';
 import ApiService from '../../Services/Api';
+import { content_width, content_height } from '../../utils/view';
 
 @inject('AuthStore', 'NavigationStore', 'ContentsStore', 'LoaderStore')
 export default class PreviewPhoto extends Component {
@@ -76,11 +77,11 @@ export default class PreviewPhoto extends Component {
         </View>
         <View style={styles.container}>
           <Image
-              style={{width: '100%', height: '100%', transform: [{ rotate: `${this.state.rotateDeg}deg` }]}}
+              style={{width: content_width, height: content_height, transform: [{ rotate: `${this.state.rotateDeg}deg` }]}}
               source={{uri: this.state.imageData.uri}}
           />
         </View>
-        <View style={styles.buttons}>
+        {/* <View style={styles.buttons}>
           <TouchableHighlight style={styles.btn}>
             <Icon name={iconNames.COLLAGE} color={Style.colors.icon} size={buttonSize} />
           </TouchableHighlight>
@@ -93,8 +94,7 @@ export default class PreviewPhoto extends Component {
           <TouchableHighlight style={styles.btn}>
             <Icon name={iconNames.DESIGN} color={Style.colors.icon} size={buttonSize} />
           </TouchableHighlight>
-        </View>
-        {this.props.LoaderStore.isVisible && <Text style={{color: Style.colors.text, fontSize: 20, letterSpacing: 1}}>Loader...</Text>}
+        </View> */}
       </View>
     );
   }
@@ -102,9 +102,7 @@ export default class PreviewPhoto extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Style.sizes.barHeight+5,
-    width: '100%',
-    aspectRatio: 1
+    // marginTop: Style.sizes.barHeight+5,
   },
   buttons: {
     flexDirection: 'row',

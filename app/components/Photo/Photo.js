@@ -12,6 +12,7 @@ import { inject, observer } from "mobx-react";
 import ApiService from '../../Services/Api';
 import Buttons from './Buttons';
 import ProgressiveImage from '../ProgressiveImage/PreogressiveImage';
+import { content_height, content_width } from '../../utils/view';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
 @observer
@@ -39,7 +40,6 @@ export default class Photo extends Component {
         {user: 'simon', comment: 'com6'},
       ],
     };
-    this.imageLoad = new Animated.Value(0);
     this.emojiBoxSize = 25;
     this.moveEmoji = new Animated.Value(0);
     this.moveHeart = new Animated.Value(0);
@@ -219,7 +219,7 @@ export default class Photo extends Component {
       <ScrollView style={styles.container}>
         <View style={styles.photoBox}>
           <ProgressiveImage 
-            style={{width: '100%', height: height}}
+            style={{width: content_width, height: content_height}}
             onDoubleClick={this.toggleEmoji.bind(this)}
             buffer_id={imageData.buffer_id}
           />

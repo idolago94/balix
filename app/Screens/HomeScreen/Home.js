@@ -4,16 +4,15 @@ import {StyleSheet, Text, View, ScrollView, FlatList, SafeAreaView, Dimensions} 
 import Photo from '../../components/Photo/Photo';
 import Header from '../../components/Header/Header';
 // Navigator
-import AppNavigator from '../../Routes/AppNavigator';
 import Routes from '../../Routes/Routes';
 
 import Style from '../../helpers/style/style';
 
 import HomeEmpty from "./HomeEmpty";
-import db from '../../database/db';
 import { inject, observer } from "mobx-react";
 import UpdatesService from '../../Services/Updates';
 import ProfileIndicator from './ProfileIndicator';
+import {content_height} from '../../utils/view';
 
 @inject('NavigationStore', 'IdentifierStore')
 @observer
@@ -30,7 +29,6 @@ export default class Home extends Component {
 			currentContentIndex: 0
 		};
 		this.focusListener = null;
-		this.itemHeight = Dimensions.get('window').height-228;
 	}
 
 	componentDidMount() {
@@ -50,7 +48,7 @@ export default class Home extends Component {
 
 	handleScroll(event) {
 		let contentOffset = event.nativeEvent.contentOffset;
-		let index = Math.floor(contentOffset.y / (this.itemHeight-200));
+		let index = Math.floor(contentOffset.y / (content_height-200));
 		this.state.currentContentIndex != index && this.setState({currentContentIndex: index});
 	}
 
@@ -80,7 +78,6 @@ export default class Home extends Component {
 					renderItem={({item, index}) => (
 						<Photo 
 							index={index}
-							height={this.itemHeight}
 							navigation={this.props.navigation} 
 							titlePress={this.onTitlePress.bind(this)}
 							data={item}
