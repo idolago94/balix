@@ -88,9 +88,6 @@ export default class SetProfileImage extends Component {
 
                     <View style={styles.footerButtons}>
                         <FooterButton title={'SKIP'} onPress={() => navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {user: newUser})}/>
-                        {/* <TouchableHighlight style={{padding: 20}} onPress={() => navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName)}>
-                            <Text style={{color: 'gray', fontSize: 15}}>SKIP</Text>
-                        </TouchableHighlight> */}
                     </View>
                 </View>
             </View>

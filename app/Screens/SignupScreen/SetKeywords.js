@@ -33,28 +33,22 @@ export default class SetKeywords extends Component {
 
     async onSave() {
         const {keywords} = this.state;
-        const {AuthStore, navigation} = this.props;
-        if(keywords.length < 1) {
-            this.toApp();
-        } else {
-            let signupUser = navigation.getParam('user');
+        const {navigation} = this.props;
+        let signupUser = navigation.getParam('user');
+        if(keywords.length > 0) {
             let keywordsResponse = await ApiService.updateKeywords(signupUser._id, keywords);
             signupUser.keywords = keywordsResponse;
-            AuthStore.setUserLogin(signupUser);
-            navigation.navigate(Routes.Screens.LOGIN.routeName);
         }
+        this.toApp(signupUser);
     }
 
-    toApp() {
-        const {AuthStore, navigation} = this.props;
-        let signupUser = navigation.getParam('user');
-        AuthStore.setUserLogin(signupUser);
+    toApp(user) {
+        AuthStore.setUserLogin(user);
         navigation.navigate(Routes.Screens.LOGIN.routeName);
     }
 
     render() {
         const {keywords} = this.state;
-        const {navigation} = this.props;
             return (
                 <View style={styles.container}>
                     <AppTitle />
@@ -74,13 +68,7 @@ export default class SetKeywords extends Component {
 
                         <View style={styles.footerButtons}>
                             <FooterButton title={'SKIP'} onPress={() => this.toApp()}/>
-                            <FooterButton title={'DONE'} onPress={() => this.onSave()}/>                            
-                            {/* <TouchableHighlight style={{padding: 20}} onPress={() => this.toApp()}>
-                                <Text style={{color: 'gray', fontSize: 15}}>SKIP</Text>
-                            </TouchableHighlight>
-                            <TouchableHighlight style={{padding: 20}} onPress={() => this.onSave()}>
-                                <Text style={{color: 'gray', fontSize: 15}}>DONE</Text>
-                            </TouchableHighlight> */}
+                            <FooterButton title={'DONE'} onPress={() => this.onSave()}/>        
                         </View>
                     </View>
                 </View>
