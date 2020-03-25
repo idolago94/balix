@@ -129,6 +129,9 @@ class NavigationStore {
     @action
     updateCurrentScreen = (data) => {
         console.log('NavigationStore -> updateCurrentScreen');
+        if(this.tabs.includes(data)) {
+            this.currentTab = data;
+        }
         this.prevPage = this.currentScreen
         this.currentScreen = data
     }
