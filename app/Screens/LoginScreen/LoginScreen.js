@@ -26,14 +26,14 @@ export default class LoginScreen extends Component {
 
   onLogin() {
     const {AuthStore} = this.props;
-    // let auth = {
-    //   username: this.state.username,
-    //   password: this.state.password
-    // };
-      let auth = {
-        username: 'Idoalgo94',
-        password: 'ido312546534'
-      }
+    let auth = {
+      username: this.state.username,
+      password: this.state.password
+    };
+      // let auth = {
+      //   username: 'Idoalgo94',
+      //   password: 'ido312546534'
+      // }
     AuthStore.login(auth);
   }
 
