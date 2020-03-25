@@ -43,8 +43,8 @@ export default class SetKeywords extends Component {
     }
 
     toApp(user) {
-        AuthStore.setUserLogin(user);
-        navigation.navigate(Routes.Screens.LOGIN.routeName);
+        this.props.AuthStore.setUserLogin(user);
+        this.props.navigation.navigate(Routes.Screens.LOGIN.routeName);
     }
 
     render() {
