@@ -12,6 +12,7 @@ class NavigationStore {
     @observable prevTab = null;
     @observable currentTab = Routes.Screens.HOME.routeName;
     @observable profileName = null;
+    @observable.shallow banner = null;
     @observable tabs = [
         Routes.Screens.PROFILE.routeName,
         Routes.Screens.GRAPH.routeName,
@@ -93,7 +94,26 @@ class NavigationStore {
         return (this.isProfileTab || !this.nonCashIndicator.includes(this.currentScreen));
     }
 
+    @computed
+    get isBanner() {
+        return !!this.banner;
+    }
+
+    @computed
+    get getBanner() {
+        return this.banner;
+    }
+
     //SET
+
+    @action
+    setBanner(data, color) {
+        // data = String / Component
+        // color = String / undefined;
+        console.log('NavigationStore -> setBanner -> ', data);
+        this.banner = {data, color};
+        setTimeout(() => this.banner = null, 5000);
+    }
 
     @action
     setMainNavigation(data) {

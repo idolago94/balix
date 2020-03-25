@@ -12,7 +12,7 @@ import { inject, observer } from 'mobx-react';
 import ApiService from '../../Services/Api';
 import UploadService from '../../Services/Upload';
 
-@inject('AuthStore')
+@inject('AuthStore', 'NavigationStore')
 @observer
 export default class SetProfileImage extends Component {
 

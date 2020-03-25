@@ -1,4 +1,4 @@
-import { LoaderStore } from "../../mobx";
+import { LoaderStore, NavigationStore } from "../../mobx";
 
 class ApiService {
 
@@ -163,7 +163,8 @@ class ApiService {
             })
             .catch(err => {
                 LoaderStore.hideLoader();
-                resolve({error: err.message});
+                NavigationStore.setBanner(err.message);
+                // resolve({error: err.message});
             });
         });
     }

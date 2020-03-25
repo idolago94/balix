@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StatusBar, View} from 'react-native';
+import {StatusBar, View, Text} from 'react-native';
 import LoginNavigator from './app/Routes/navigatorLogin';
 import * as Stores from './app/mobx';
 import AppScreen from './app/Screens/AppScreen';
@@ -7,6 +7,7 @@ import { Provider, inject, observer } from "mobx-react";
 import {create} from 'mobx-persist';
 import {AsyncStorage} from 'react-native';
 import ApiService from './app/Services/Api';
+import Banner from './app/components/Banner/Banner';
 
 // const hydrate = create({
 //     storage: AsyncStorage,
@@ -33,7 +34,7 @@ export default class App extends Component {
 	}
 }
 
-@inject("AuthStore", 'ActionsStore')
+@inject("AuthStore", 'ActionsStore', 'NavigationStore')
 @observer
 class RootComponent extends Component {
 
@@ -43,9 +44,13 @@ class RootComponent extends Component {
 	}
 
     render() {
-		const Root = this.props.AuthStore.getUserLogin._id ? AppScreen : LoginNavigator;
+		const {NavigationStore, AuthStore} = this.props;
+		const Root = AuthStore.getUserLogin._id ? AppScreen : LoginNavigator;
         return (
-            <Root />
+			<View style={{flex: 1}}>
+				{NavigationStore.isBanner && <Banner color={NavigationStore.getBanner.color} content={NavigationStore.getBanner.data} />}
+				<Root />
+			</View>
         )
     }
 }

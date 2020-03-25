@@ -19,7 +19,8 @@ export default class Package extends Component {
         };
         let buyResponse = await ApiService.buyPackage(this.props.AuthStore.getUserLogin._id, this.props.data.cost, recieveObj);
         this.props.AuthStore.updateUserLogin(buyResponse);
-        Alert.alert(`You parchased more ${recieveObj.cash}$ and ${recieveObj.hearts} hearts.` );
+        let msg = (<Text style={{fontWeight: 'bold', color: 'black'}}>{`You parchased more ${recieveObj.cash}$ and ${recieveObj.hearts} hearts.`}</Text>);
+        this.props.NavigationStore.setBanner(msg, 'lightgreen');
         console.log(`${buyResponse.cash}$`, buyResponse.hearts);
         this.props.NavigationStore.goBack();
     }

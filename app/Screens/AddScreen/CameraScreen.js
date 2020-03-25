@@ -101,6 +101,7 @@ export default class CameraScreen extends Component {
 
   onGallery() {
     ImagePicker.launchImageLibrary({}, (imageSelected) => {
+      console.log(imageSelected);
       if(!imageSelected.didCancel) {
         this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, {imageData: imageSelected});
       }
