@@ -40,14 +40,16 @@ const s = StyleSheet.create({
         width: '31%',
         aspectRatio: 1,
         borderWidth: 1,
-        borderStyle: 'dotted',
+        borderStyle: 'dashed',
         borderColor: style.colors.text,
-        borderRadius: 10
+        borderRadius: 10,
+        opacity: 0.35
     },
     touchable: {
         width: '100%',
         height: '100%',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        
     }
 });
