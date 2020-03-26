@@ -16,6 +16,7 @@ export const iconNames = {
     SEARCH: 'search',
     STAR: 'star',
     MONEY_BAG: 'money-bag',
+    FULL_MONEY_BAG: 'full-money-bag',
     COLLAGE: 'collage',
     ROTATE: 'rotate',
     TEXT: 'text',
