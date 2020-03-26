@@ -33,7 +33,6 @@ export default function ProfileSymbol(props) {
   }
 
     const iconPosition = calculateIconLocation(props.iconDeg || 145);
-    // const imageURI = props.src ? ({uri:`data:${props.src.contentType};base64,${bufferToBase64(props.src.buffer)}`}):(require('../../assets/profileImage.png'));
     return (
         <View style={{...props.style, alignItems: 'center', position: 'relative'}}>
           <View style={{position: 'relative'}}>
@@ -60,11 +59,11 @@ export default function ProfileSymbol(props) {
               (props.iconPress) ?
               (
                 <TouchableHighlight
-                style={{position: 'absolute', top: iconPosition.y, left: iconPosition.x, padding: props.size/9, borderRadius:999, backgroundColor: Style.colors.background}}
-                onPress={props.iconPress.bind(this)}
+                  style={[styles.icon, {top: iconPosition.y, left: iconPosition.x, padding: props.iconSize*0.5 || (props.size/5.5)*0.5}]}
+                  onPress={props.iconPress.bind(this)}
                 >
                   <Icon
-                    size={props.size/5.5}
+                    size={props.iconSize || props.size/5.5}
                     name={props.icon}
                     color={props.iconColor || Style.colors.icon}
                   />
@@ -72,8 +71,8 @@ export default function ProfileSymbol(props) {
               ) :
               (
                 <Icon
-                  style={{position: 'absolute', top: iconPosition.y, left: iconPosition.x, padding: props.size/9, borderRadius:999, backgroundColor: Style.colors.background}}
-                  size={props.size/6.5}
+                  style={[styles.icon, {top: iconPosition.y, left: iconPosition.x, padding: props.iconSize*0.5 || (props.size/5.5)*0.5}]}
+                  size={props.iconSize || props.size/5.5}
                   name={props.icon}
                   color={props.iconColor || Style.colors.icon}
                 />
@@ -97,4 +96,12 @@ const styles = StyleSheet.create({
   cash: {
     color: Style.colors.text
   },
+  icon: {
+    position: 'absolute',
+    // padding: 12, 
+    borderRadius:999, 
+    backgroundColor: Style.colors.background,
+    borderColor: Style.colors.text,
+    borderWidth: 1
+  }
 });

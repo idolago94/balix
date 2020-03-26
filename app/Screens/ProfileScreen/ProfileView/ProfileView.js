@@ -78,34 +78,30 @@ export default class ProfileView extends Component {
     const userData = UsersStore.getUsers[navigation.getParam('id')];
     return (
       <View style={{flex:1}}>
-        <ScrollView style={styles.scrollContainer}>
-          {userData && <View style={styles.viewContainer}>
-            <UserDetails 
-              onNavigate={(routeName, params) => this.props.NavigationStore.navigate(routeName, params)} 
-              followPress={this.updateFollow.bind(this)}
-              isMy={AuthStore.isMyId(userData._id)} 
-              follow={AuthStore.isFollow(userData._id)} 
-              user={userData} 
-            />
-            <Photos 
-              isMy={AuthStore.isMyId(userData._id)} 
-              onPhoto={this.navigateToPhoto.bind(this)}
-              data={userData.uploads}
-              toAdd={() => this.props.NavigationStore.navigate(Routes.Screens.CAMERA.routeName)}
-            />
-          </View>}
-        </ScrollView>
+        {userData && <View style={styles.viewContainer}>
+          <UserDetails 
+            onNavigate={(routeName, params) => this.props.NavigationStore.navigate(routeName, params)} 
+            followPress={this.updateFollow.bind(this)}
+            isMy={AuthStore.isMyId(userData._id)} 
+            follow={AuthStore.isFollow(userData._id)} 
+            user={userData} 
+          />
+          <Photos 
+            isMy={AuthStore.isMyId(userData._id)} 
+            onPhoto={this.navigateToPhoto.bind(this)}
+            data={userData.uploads}
+            toAdd={() => this.props.NavigationStore.navigate(Routes.Screens.CAMERA.routeName)}
+          />
+        </View>}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    backgroundColor: Style.colors.background,
-    flex: 1
-  },
   viewContainer: {
     alignItems: 'center',
+    backgroundColor: Style.colors.background,
+    flex: 1
   }
 });

@@ -1,9 +1,8 @@
 import React, { Component, useState } from 'react';
-import { StyleSheet, Text, View, Image, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, TouchableHighlight, ScrollView  } from 'react-native';
 import Routes from '../../../Routes/Routes';
 import bufferToBase64 from '../../../helpers/convert/Buffer';
 import SmallPhoto from './SmallPhoto';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 import style from '../../../helpers/style/style';
 import Icon, { iconNames } from '../../../components/Icon/Icon';
 
@@ -14,16 +13,18 @@ export default function Photos(props) {
         extra.push('');
     }
     return (
-      <View style={s.container}>
-        {props.data.map((img, i) => (<SmallPhoto key={i} data={img} onPress={(params) => props.onPhoto(params)} />))}
-        {props.isMy && extra.map(() => (
-        <View style={s.imageBox}>
-            <TouchableHighlight style={s.touchable} onPress={() => props.toAdd()}>
-                <Icon name={iconNames.PLUS} color={'lightgray'} size={50} />
-            </TouchableHighlight>
-        </View>
-        ))}
-      </View>
+        <ScrollView>
+            <View style={s.container}>
+                {props.data.map((img, i) => (<SmallPhoto key={i} data={img} onPress={(params) => props.onPhoto(params)} />))}
+                {props.isMy && extra.map(() => (
+                <View style={s.imageBox}>
+                    <TouchableHighlight style={s.touchable} onPress={() => props.toAdd()}>
+                        <Icon name={iconNames.PLUS} color={'lightgray'} size={50} />
+                    </TouchableHighlight>
+                </View>
+                ))}
+            </View>
+        </ScrollView>
     );
 }
 

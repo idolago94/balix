@@ -130,6 +130,9 @@ class NavigationStore {
         console.log('NavigationStore -> updateCurrentScreen');
         if(this.tabs.includes(data.routeName) || 
         (data.routeName == Routes.Screens.PROFILE.routeName && data.params.id == AuthStore.getUserLogin._id)) {
+            if(data.routeName == Routes.Screens.PROFILE.routeName && data.params.id == AuthStore.getUserLogin._id) {
+                this.profileName = AuthStore.getUserLogin.username;
+            }
             this.currentTab = data.routeName;
         }
         this.prevPage = this.currentScreen

@@ -223,13 +223,14 @@ export default class Photo extends Component {
             onDoubleClick={this.toggleEmoji.bind(this)}
             buffer_id={imageData.buffer_id}
           />
-
+      <Text style={{color: 'red', fontsize: 20}}>{this.props.index}</Text>
           <PhotoIndicator 
             user={userData}
             cash={imageData.cash}
             hearts={imageData.hearts}
             onSymbol={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})}
           />
+          
           {/* emoji box */}
           <View style={styles.emoji}>
             {openEmoji && <EmojiBox 
