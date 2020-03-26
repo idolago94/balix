@@ -19,8 +19,10 @@ export default class ProgressiveImage extends Component {
     console.log('ProgressiveImage -> componentDidMount');
     let base64 = this.props.BuffersStore.getBase64(this.props.buffer_id);
     if(!base64) {
-      let buffer = await ApiService.getBuffer(this.props.buffer_id);
-      this.props.BuffersStore.setBuffers([buffer]);
+      if(this.props.buffer_id && this.props.buffer_id != 'non-profile') {
+        let buffer = await ApiService.getBuffer(this.props.buffer_id);
+        this.props.BuffersStore.setBuffers([buffer]);
+      }
     }
   }
 
@@ -32,7 +34,10 @@ export default class ProgressiveImage extends Component {
 
   render() {
     console.log('Photo -> render');
-    const base64 = this.props.BuffersStore.getBase64(this.props.buffer_id);
+    let base64 = null;
+    if(this.props.buffer_id && this.props.buffer_id != 'non-profile') {
+      base64 = this.props.BuffersStore.getBase64(this.props.buffer_id);
+    }
     if(this.props.onDoubleClick) {
         return (
             <DoubleClick onClick={this.props.onDoubleClick.bind(this)} style={{backgroundColor: '#dddddd'}}>
