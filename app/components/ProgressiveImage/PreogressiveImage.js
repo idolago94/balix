@@ -35,7 +35,7 @@ export default class ProgressiveImage extends Component {
     const base64 = this.props.BuffersStore.getBase64(this.props.buffer_id);
     if(this.props.onDoubleClick) {
         return (
-            <DoubleClick onClick={this.props.onDoubleClick.bind(this)} style={{backgroundColor: 'lightgray'}}>
+            <DoubleClick onClick={this.props.onDoubleClick.bind(this)} style={{backgroundColor: '#dddddd'}}>
                 <Animated.Image
                     style={[this.props.style, {opacity: this.imageLoad}]}
                     source={{uri: base64}}

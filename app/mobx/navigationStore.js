@@ -13,6 +13,7 @@ class NavigationStore {
     @observable currentTab = Routes.Screens.HOME.routeName;
     @observable profileName = null;
     @observable.shallow banner = null;
+    @observable showProgress = false;
     @observable tabs = [
         Routes.Screens.GRAPH.routeName,
         Routes.Screens.RECENT_ACTIONS.routeName,
@@ -103,7 +104,17 @@ class NavigationStore {
         return this.banner;
     }
 
+    @computed
+    get inProgress() {
+        return this.showProgress;
+    }
+
     //SET
+
+    @action
+    setProgress(bool) {
+        this.showProgress = bool;
+    }
 
     @action
     setBanner(data, color) {

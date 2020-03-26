@@ -7,6 +7,7 @@ import { inject, observer } from "mobx-react";
 import UploadService from '../../Services/Upload';
 import ApiService from '../../Services/Api';
 import { content_width, content_height } from '../../utils/view';
+import UpdateService from '../../Services/Updates';
 
 @inject('AuthStore', 'NavigationStore', 'ContentsStore', 'LoaderStore')
 export default class PreviewPhoto extends Component {
@@ -51,6 +52,8 @@ export default class PreviewPhoto extends Component {
   async postImage() {
     console.log('PreviewPhoto -> postImage');
     const {AuthStore, NavigationStore} = this.props;
+    NavigationStore.setProgress(true);
+    NavigationStore.navigate(Routes.Screens.HOME.routeName);
     let upload = await UploadService.buildImageForUpload(this.state.imageData);
     let uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, upload); // the new upload object
     let myUploads = AuthStore.getUserLogin.uploads;
@@ -60,7 +63,7 @@ export default class PreviewPhoto extends Component {
       lastUpdate: uploadResponse.lastUpdate
     });
     AuthStore.updateUserLogin({uploads: myUploads});
-    NavigationStore.navigate(Routes.Screens.HOME.routeName);
+    UpdateService.checkFollowingUpdates();
   }
 
   render() {

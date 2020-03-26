@@ -12,7 +12,8 @@ import HomeEmpty from "./HomeEmpty";
 import { inject, observer } from "mobx-react";
 import UpdatesService from '../../Services/Updates';
 import ProfileIndicator from './ProfileIndicator';
-import {content_height, window_height} from '../../utils/view';
+import {content_height, window_height, window_width} from '../../utils/view';
+import {Bar} from 'react-native-progress';
 
 @inject('NavigationStore', 'IdentifierStore')
 @observer
@@ -38,7 +39,9 @@ export default class Home extends Component {
 		console.log('window_height', window_height);
 		this.focusListener = this.props.navigation.addListener('willFocus', () => {
 			console.log('HomeScreen -> willFocus');
-			UpdatesService.checkFollowingUpdates();
+			if(!this.props.NavigationStore.isProgress) {
+				UpdatesService.checkFollowingUpdates();
+			}
 		})
 	}
 
@@ -98,6 +101,14 @@ export default class Home extends Component {
 						/>
 					)}					
 				/>
+				{this.props.NavigationStore.inProgress && <Bar 
+					indeterminate 
+					height={3} 
+					width={window_width} 
+					color={Style.colors.darkMain} 
+					unfilledColor={Style.colors.background} 
+					borderWidth={0} 
+				/>}
 				<FlatList
 					ref={(ref) => this._view = ref}
 					onScroll={(e) => this.handleScroll(e)}
