@@ -47,7 +47,7 @@ export default class ProgressiveImage extends Component {
     return (
         <Animated.Image
             style={[this.props.style, {opacity: this.imageLoad}]}
-            source={{uri: base64}}
+            source={this.props.buffer_id != 'non-profile' ? ({uri: base64}):(require('../../assets/non-profile.png'))}
             onLoad={() => this.onImageLoad()}
         />
     )

@@ -42,7 +42,7 @@ export default function ProfileSymbol(props) {
             <TouchableHighlight style={[(props.story || props.live) ? (styles.storyBorder):({})]} onPress={imageClicked.bind(this)}>
                 <ProgressiveImage 
                   style={[styles.image, {height: props.size, width: props.size}]}
-                  buffer_id={props.src}
+                  buffer_id={props.src || 'non-profile'}
                 />
             </TouchableHighlight>
             ) :
@@ -50,7 +50,7 @@ export default function ProfileSymbol(props) {
               <View style={[(props.story || props.live) ? (styles.storyBorder):({})]}>
                 <ProgressiveImage 
                   style={[styles.image, {height: props.size, width: props.size}]}
-                  buffer_id={props.src}
+                  buffer_id={props.src || 'non-profile'}
                 />
               </View>
             )
@@ -65,7 +65,7 @@ export default function ProfileSymbol(props) {
                   <Icon
                     size={props.iconSize || props.size/5.5}
                     name={props.icon}
-                    color={props.iconColor || Style.colors.icon}
+                    color={props.iconColor || 'black'}
                   />
                 </TouchableHighlight>
               ) :
@@ -74,7 +74,7 @@ export default function ProfileSymbol(props) {
                   style={[styles.icon, {top: iconPosition.y, left: iconPosition.x, padding: props.iconSize*0.5 || (props.size/5.5)*0.5}]}
                   size={props.iconSize || props.size/5.5}
                   name={props.icon}
-                  color={props.iconColor || Style.colors.icon}
+                  color={props.iconColor || 'black'}
                 />
               ))
           }
@@ -100,8 +100,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     // padding: 12, 
     borderRadius:999, 
-    backgroundColor: Style.colors.background,
-    borderColor: Style.colors.text,
-    borderWidth: 1
+    backgroundColor: Style.colors.text,
+    borderColor: Style.colors.background,
+    borderWidth: 3
   }
 });
