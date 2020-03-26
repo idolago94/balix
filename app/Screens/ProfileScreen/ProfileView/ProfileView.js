@@ -88,8 +88,10 @@ export default class ProfileView extends Component {
               user={userData} 
             />
             <Photos 
+              isMy={AuthStore.isMyId(userData._id)} 
               onPhoto={this.navigateToPhoto.bind(this)}
-              data={userData.uploads} 
+              data={userData.uploads}
+              toAdd={() => this.props.NavigationStore.navigate(Routes.Screens.CAMERA.routeName)}
             />
           </View>}
         </ScrollView>
