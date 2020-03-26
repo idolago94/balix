@@ -41,7 +41,7 @@ export default class AppScreen extends Component {
           <NavigatorMain                 
             ref={ref => {
               NavigationStore.setMainNavigation(ref);
-              NavigationStore.updateCurrentScreen(Routes.Screens.HOME.routeName);
+              NavigationStore.updateCurrentScreen({routeName: Routes.Screens.HOME.routeName});
               NavigationStore.updatePrevPage(null);
             }}
             onNavigationStateChange={this.onNavigationStateChange}
