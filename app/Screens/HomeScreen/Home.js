@@ -12,7 +12,7 @@ import HomeEmpty from "./HomeEmpty";
 import { inject, observer } from "mobx-react";
 import UpdatesService from '../../Services/Updates';
 import ProfileIndicator from './ProfileIndicator';
-import {content_height} from '../../utils/view';
+import {content_height, window_height} from '../../utils/view';
 
 @inject('NavigationStore', 'IdentifierStore')
 @observer
@@ -29,9 +29,13 @@ export default class Home extends Component {
 			currentContentIndex: 0
 		};
 		this.focusListener = null;
+		this._roller = null;
+		this._view = null;
 	}
 
 	componentDidMount() {
+		console.log('content_height', content_height);
+		console.log('window_height', window_height);
 		this.focusListener = this.props.navigation.addListener('willFocus', () => {
 			console.log('HomeScreen -> willFocus');
 			UpdatesService.checkFollowingUpdates();
@@ -47,28 +51,55 @@ export default class Home extends Component {
 	}
 
 	handleScroll(event) {
-		let contentOffset = event.nativeEvent.contentOffset;
-		let index = Math.floor(contentOffset.y / (content_height-200));
-		this.state.currentContentIndex != index && this.setState({currentContentIndex: index});
+		let listLength = this.props.IdentifierStore.getFollowing.length-1;
+		let index = this.getCurrentIndexInView(event.nativeEvent.contentOffset.y);
+		if(index > listLength) {
+			index = listLength;
+		} else if(index < 0) {
+			index = 0;
+		}
+		if(this.state.currentContentIndex != index) {
+			this._roller.scrollToIndex({index: index > 0 ? (index-1):(0)});
+			this.setState({currentContentIndex: index})
+		}
+	}
+
+	getCurrentIndexInView(y) {
+		let pointMove = content_height*0.6;
+		let n = content_height - pointMove;
+		let index = Math.floor(y / n);
+		console.log(y);
+		console.log(index);
+		return index;
+	}
+
+	onRollerItem(i) {
+		this._view.scrollToIndex({index: i});
+		this._roller.scrollToIndex({index: i > 0 ? (i-1):(0)});
+		this.setState({currentContentIndex: i})
 	}
 
 	render() {
 		return (
 			<View style={{flex: 1}}>
 				<FlatList 
-					style={{backgroundColor: Style.colors.background, padding: 5, borderBottomWidth: 1, borderColor: 'gray'}}
+					ref={(ref) => this._roller = ref}
+					style={{backgroundColor: Style.colors.background, paddingVertical: 13, borderBottomWidth: 1, borderColor: 'gray'}}
 					horizontal={true}
 					keyExtractor={(item, index) => index.toString()}
 					data={this.props.IdentifierStore.getFollowing}
 					contentContainerStyle={styles.profileIndicator}
 					renderItem={({item, index}) => (
 						<ProfileIndicator 
+							index={index}
+							onPress={() => this.onRollerItem(index)}
 							inView={this.state.currentContentIndex == index}
 							data={item}
 						/>
 					)}					
 				/>
 				<FlatList
+					ref={(ref) => this._view = ref}
 					onScroll={(e) => this.handleScroll(e)}
 					style={styles.following}
 					showsVerticalScrollIndicator={false}
