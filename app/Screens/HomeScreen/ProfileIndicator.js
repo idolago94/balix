@@ -20,7 +20,7 @@ export default class ProfileIndicator extends Component {
             <View style={{alignItems: 'center'}}>
                 <ProfileSymbol 
                     press={inView ? (() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})):(() => this.props.onPress())}
-                    style={{borderRadius: 999, margin: 7, borderWidth: 1, borderColor: inView ? ('white'):('transparent')}} 
+                    style={{borderRadius: 999, marginHorizontal: 7, marginTop: 10, borderWidth: 1, borderColor: inView ? ('white'):('transparent')}} 
                     src={userData.profileImage}
                     size={inView ? (80):(55)}
                 />
