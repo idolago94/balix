@@ -115,7 +115,7 @@ export default class Action extends Component {
                 break;
             case actionTypes.HEART:
                 return (
-                    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                    <View style={{flexDirection: 'row'}}>
                         <Text style={{...styles.action, fontWeight: (actionData.active_user_id == AuthStore.getUserLogin._id) ?
                                 ('') : (`bold`)}}>
                             {
