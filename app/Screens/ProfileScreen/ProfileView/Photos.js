@@ -5,13 +5,15 @@ import bufferToBase64 from '../../../helpers/convert/Buffer';
 import SmallPhoto from './SmallPhoto';
 import style from '../../../helpers/style/style';
 import Icon, { iconNames } from '../../../components/Icon/Icon';
+import { window_width } from '../../../utils/view';
 
 export default function Photos(props) {
 
     let extra = [];
-    for(let i=0; i < 9-props.data.length; i++) {
+    for(let i=0; i < props.amount-props.data.length; i++) {
         extra.push('');
     }
+    let extraOptions = [2,4,6];
     return (
         <ScrollView>
             <View style={s.container}>
@@ -20,6 +22,16 @@ export default function Photos(props) {
                 <View key={i} style={s.imageBox}>
                     <TouchableHighlight style={s.touchable} onPress={() => props.toAdd()}>
                         <Icon name={iconNames.PLUS} color={'lightgray'} size={50} />
+                    </TouchableHighlight>
+                </View>
+                ))}
+                {props.showExtra && extraOptions.map((cost, i) => (
+                <View key={i} style={[s.imageBox, {opacity: 1}]}>
+                    <TouchableHighlight style={s.touchable} onPress={() => props.onPressExtra(cost, i+1)}>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <Text style={{color: style.colors.text, fontSize: 35}}>{cost}</Text>
+                            <Icon name={iconNames.DOLLAR} color={style.colors.text} size={30} />
+                        </View>
                     </TouchableHighlight>
                 </View>
                 ))}
@@ -33,7 +45,7 @@ const s = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         padding: 3,
-        width: '100%'
+        width: window_width
     },
     imageBox: {
         margin: 3,

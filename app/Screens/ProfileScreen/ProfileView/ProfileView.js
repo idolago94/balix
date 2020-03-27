@@ -31,9 +31,7 @@ export default class ProfileView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: {},
-      follow: false,
-      contents: []
+      showExtra: false
     }
     this.focusListener = null;
   }
@@ -76,6 +74,17 @@ export default class ProfileView extends Component {
     this.props.NavigationStore.navigate(Routes.Screens.PHOTO.routeName, params);
   }
 
+  async pressExtra(cost, amount) {
+    const {UsersStore, AuthStore, NavigationStore} = this.props;
+    let buyResponse = await ApiService.addExtraContent(AuthStore.getUserLogin._id, cost, amount);
+    if(buyResponse.error) {
+      NavigationStore.setBanner(buyResponse.error);
+    } else {
+      AuthStore.updateUserLogin(buyResponse);
+      UsersStore.updateUser(AuthStore.getUserLogin._id, buyResponse);
+    }
+  }
+
   render() {
     const {UsersStore, AuthStore, navigation} = this.props;
     const userData = UsersStore.getUsers[navigation.getParam('id')];
@@ -91,15 +100,18 @@ export default class ProfileView extends Component {
             user={userData}
           />
           <View style={s.buttons}>
-            {myProfile ? (<ProfileButton title='Extra Photo' icon={iconNames.PLUS} />)
-              :(<FollowButton onPress={this.updateFollow.bind(this)} follow={AuthStore.isFollow(userData._id)} />)}
-            <ProfileButton title='Secret' icon={iconNames.TIMER} />
+            {myProfile ? (<ProfileButton style={{transform: [{skewX: '10deg'}]}} title='Extra Photo' onPress={() => this.setState({showExtra: !this.state.showExtra})} icon={iconNames.PLUS} />)
+              :(<FollowButton style={{transform: [{skewX: '10deg'}]}} onPress={this.updateFollow.bind(this)} follow={AuthStore.isFollow(userData._id)} />)}
+            <ProfileButton style={{transform: [{skewX: '10deg'}]}} title='Secret' icon={iconNames.LOCK} />
           </View>
           <Photos 
-            isMy={myProfile} 
+            isMy={myProfile}
+            amount={userData.limit_of_contents}
             onPhoto={this.navigateToPhoto.bind(this)}
             data={userData.uploads}
             toAdd={() => this.props.NavigationStore.navigate(Routes.Screens.CAMERA.routeName)}
+            showExtra={this.state.showExtra}
+            onPressExtra={this.pressExtra.bind(this)}
           />
         </View>}
       </View>

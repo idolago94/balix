@@ -4,6 +4,8 @@ import Routes from '../../../Routes/Routes';
 import { inject, observer } from "mobx-react";
 import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
 import ApiService from '../../../Services/Api';
+import { backgroundColor } from '../../../common/style';
+import { window_width } from '../../../utils/view';
 
 @inject('NavigationStore', 'ContentsStore')
 @observer
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
     imageBox: {
         margin: 3,
         width: '31%',
-        aspectRatio: 1
+        aspectRatio: 1,
     },
     photo: {
       height: '100%',

@@ -37,7 +37,7 @@ class UsersStore {
 
     @action
     updateUser(user_id, field_to_update) {
-        this.users[user_id] = {...field_to_update};
+        this.users[user_id] = {...this.users[user_id], ...field_to_update};
     }
 }
 
