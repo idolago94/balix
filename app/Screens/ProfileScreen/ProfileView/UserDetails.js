@@ -22,13 +22,6 @@ export default function UserDetails(props) {
             iconDeg={273}
           />
         </View>
-        {props.isMy ? (
-        <View style={styles.buttonBox}>
-          <View style={styles.extraButton}>
-            <Text style={styles.buttonContent}>Extra Photo</Text>
-          </View>
-        </View>
-        ):(<FollowButton style={styles.buttonBox} onPress={() => props.followPress()} follow={props.follow} />)}
       </View>
     );
   }

@@ -16,8 +16,8 @@ export default function Photos(props) {
         <ScrollView>
             <View style={s.container}>
                 {props.data.map((img, i) => (<SmallPhoto key={i} data={img} onPress={(params) => props.onPhoto(params)} />))}
-                {props.isMy && extra.map(() => (
-                <View style={s.imageBox}>
+                {props.isMy && extra.map((e, i) => (
+                <View key={i} style={s.imageBox}>
                     <TouchableHighlight style={s.touchable} onPress={() => props.toAdd()}>
                         <Icon name={iconNames.PLUS} color={'lightgray'} size={50} />
                     </TouchableHighlight>

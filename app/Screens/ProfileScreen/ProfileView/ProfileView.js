@@ -4,10 +4,13 @@ import Style from '../../../helpers/style/style';
 import UserDetails from './UserDetails';
 import Photos from './Photos';
 import Header from '../../../components/Header/Header';
-import db from '../../../database/db';
+import ProfileButton from './ProfileButton';
 import { inject, observer } from "mobx-react";
 import Routes from '../../../Routes/Routes';
 import ApiService from '../../../Services/Api';
+import { window_width } from '../../../utils/view';
+import { iconNames } from '../../../components/Icon/Icon';
+import FollowButton from './FollowButton';
 
 @inject('AuthStore', 'NavigationStore', 'UsersStore')
 @observer
@@ -76,18 +79,24 @@ export default class ProfileView extends Component {
   render() {
     const {UsersStore, AuthStore, navigation} = this.props;
     const userData = UsersStore.getUsers[navigation.getParam('id')];
+    const myProfile = AuthStore.isMyId(userData._id);
     return (
       <View style={{flex:1}}>
-        {userData && <View style={styles.viewContainer}>
+        {userData && <View style={s.viewContainer}>
           <UserDetails 
             onNavigate={(routeName, params) => this.props.NavigationStore.navigate(routeName, params)} 
             followPress={this.updateFollow.bind(this)}
-            isMy={AuthStore.isMyId(userData._id)} 
+            isMy={myProfile} 
             follow={AuthStore.isFollow(userData._id)} 
-            user={userData} 
+            user={userData}
           />
+          <View style={s.buttons}>
+            {myProfile ? (<ProfileButton title='Extra Photo' icon={iconNames.PLUS} />)
+              :(<FollowButton onPress={this.updateFollow.bind(this)} follow={AuthStore.isFollow(userData._id)} />)}
+            <ProfileButton title='Secret' icon={iconNames.TIMER} />
+          </View>
           <Photos 
-            isMy={AuthStore.isMyId(userData._id)} 
+            isMy={myProfile} 
             onPhoto={this.navigateToPhoto.bind(this)}
             data={userData.uploads}
             toAdd={() => this.props.NavigationStore.navigate(Routes.Screens.CAMERA.routeName)}
@@ -98,10 +107,14 @@ export default class ProfileView extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   viewContainer: {
     alignItems: 'center',
     backgroundColor: Style.colors.background,
     flex: 1
+  },
+  buttons: {
+    flexDirection: 'row',
+    width: window_width*0.7
   }
 });

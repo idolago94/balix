@@ -5,8 +5,8 @@ import Icon, { iconNames } from '../../../components/Icon/Icon';
 
 export default function FollowButton(props) {
     return (
-        <TouchableHighlight style={props.style} onPress={() => props.onPress()} >
-            <View style={{...s.followButton, borderColor: (props.follow) ? (Style.colors.lightMain):(Style.colors.text)}}>
+        <TouchableHighlight style={[props.style, {flexGrow: 1,  margin: 5}]} onPress={() => props.onPress()} >
+            <View style={{...s.button, borderColor: (props.follow) ? (Style.colors.lightMain):(Style.colors.text)}}>
                 <Icon size={15} name={iconNames.FOLLOW} color={(props.follow) ? (Style.colors.lightMain):(Style.colors.text)} />
                 <Text style={{color: (props.follow) ? (Style.colors.lightMain):(Style.colors.text), marginLeft: 7}}>{(props.follow) ? ('STOP'):('START')} FOLLOW</Text>
             </View>
@@ -15,11 +15,12 @@ export default function FollowButton(props) {
 }
 
 const s = StyleSheet.create({
-    followButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      padding: 5,
-      borderWidth: 1,
-      borderRadius: 5
-    },
+  button: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 8,
+    borderWidth: 1,
+    borderRadius: 5,
+  },
   });
