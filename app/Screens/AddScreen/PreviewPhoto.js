@@ -8,6 +8,7 @@ import UploadService from '../../Services/Upload';
 import ApiService from '../../Services/Api';
 import { content_width, content_height } from '../../utils/view';
 import UpdateService from '../../Services/Updates';
+import IconButton from '../../components/IconButton/IconButton';
 
 @inject('AuthStore', 'NavigationStore', 'ContentsStore', 'LoaderStore')
 export default class PreviewPhoto extends Component {
@@ -56,14 +57,18 @@ export default class PreviewPhoto extends Component {
     NavigationStore.navigate(Routes.Screens.HOME.routeName);
     let upload = await UploadService.buildImageForUpload(this.state.imageData);
     let uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, upload); // the new upload object
-    let myUploads = AuthStore.getUserLogin.uploads;
-    myUploads.push({
-      content_id: uploadResponse._id,
-      uploadDate: uploadResponse.uploadDate,
-      lastUpdate: uploadResponse.lastUpdate
-    });
-    AuthStore.updateUserLogin({uploads: myUploads});
-    UpdateService.checkFollowingUpdates();
+    if(uploadResponse.error) {
+      NavigationStore.setBanner(uploadResponse.error);
+    } else {
+      let myUploads = AuthStore.getUserLogin.uploads;
+      myUploads.push({
+        content_id: uploadResponse._id,
+        uploadDate: uploadResponse.uploadDate,
+        lastUpdate: uploadResponse.lastUpdate
+      });
+      AuthStore.updateUserLogin({uploads: myUploads});
+      UpdateService.checkFollowingUpdates();
+    }
   }
 
   render() {
@@ -74,9 +79,7 @@ export default class PreviewPhoto extends Component {
     return (
       <View style={{flex: 1, backgroundColor: Style.colors.background, paddingTop: (Platform.OS == 'ios') ? (40):(0)}}>
         <View style={{alignItems: 'flex-end'}}>
-          <TouchableHighlight onPress={() => this.postImage()} style={styles.btn}>
-            <Icon name={iconNames.CONFIRM} color={Style.colors.icon} size={buttonSize} />
-          </TouchableHighlight>
+          <IconButton style={styles.btn} onPress={() => this.postImage()} icon={iconNames.CONFIRM} size={buttonSize} />
         </View>
         <View style={styles.container}>
           <Image
@@ -84,29 +87,18 @@ export default class PreviewPhoto extends Component {
               source={{uri: this.state.imageData.uri}}
           />
         </View>
-        {/* <View style={styles.buttons}>
-          <TouchableHighlight style={styles.btn}>
-            <Icon name={iconNames.COLLAGE} color={Style.colors.icon} size={buttonSize} />
-          </TouchableHighlight>
-          <TouchableHighlight onPress={() => this.rotateImage()} style={styles.btn}>
-            <Icon name={iconNames.ROTATE} color={Style.colors.icon} size={buttonSize} />
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.btn}>
-            <Icon name={iconNames.TEXT} color={Style.colors.icon} size={buttonSize} />
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.btn}>
-            <Icon name={iconNames.DESIGN} color={Style.colors.icon} size={buttonSize} />
-          </TouchableHighlight>
-        </View> */}
+        <View style={styles.buttons}>
+          <IconButton style={styles.btn} onPress={() => this.postImage()} icon={iconNames.COLLAGE} size={buttonSize} />
+          <IconButton style={styles.btn} onPress={() => console.log('ROTATE')} icon={iconNames.ROTATE} size={buttonSize} />
+          <IconButton style={styles.btn} onPress={() => console.log('TEXT')} icon={iconNames.TEXT} size={buttonSize} />
+          <IconButton style={styles.btn} onPress={() => console.log('DESIGN')} icon={iconNames.DESIGN} size={buttonSize} />
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    // marginTop: Style.sizes.barHeight+5,
-  },
   buttons: {
     flexDirection: 'row',
     justifyContent: 'center',
