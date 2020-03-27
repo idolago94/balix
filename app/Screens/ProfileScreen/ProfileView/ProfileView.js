@@ -11,6 +11,7 @@ import ApiService from '../../../Services/Api';
 import { window_width } from '../../../utils/view';
 import { iconNames } from '../../../components/Icon/Icon';
 import FollowButton from './FollowButton';
+import SecretView from './SecretView';
 
 @inject('AuthStore', 'NavigationStore', 'UsersStore')
 @observer
@@ -31,7 +32,7 @@ export default class ProfileView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showExtra: false
+      showScret: false
     }
     this.focusListener = null;
   }
@@ -47,6 +48,7 @@ export default class ProfileView extends Component {
         if(id == AuthStore.getUserLogin._id) {
           NavigationStore.setCurrentTab(Routes.Screens.PROFILE.routeName);
         }
+        this.setState({showScret: false});
       }
     );
   }
@@ -74,15 +76,21 @@ export default class ProfileView extends Component {
     this.props.NavigationStore.navigate(Routes.Screens.PHOTO.routeName, params);
   }
 
-  async pressExtra(cost, amount) {
+  pressExtra() {
     const {UsersStore, AuthStore, NavigationStore} = this.props;
-    let buyResponse = await ApiService.addExtraContent(AuthStore.getUserLogin._id, cost, amount);
-    if(buyResponse.error) {
-      NavigationStore.setBanner(buyResponse.error);
-    } else {
-      AuthStore.updateUserLogin(buyResponse);
-      UsersStore.updateUser(AuthStore.getUserLogin._id, buyResponse);
-    }
+    NavigationStore.showAlert(
+      'Buy extra photo',
+      'You want to buy more 3 photo for uploads in 3USD ?',
+      async() => {
+        let buyResponse = await ApiService.addExtraContent(AuthStore.getUserLogin._id, 3);
+        if(buyResponse.error) {
+          NavigationStore.setBanner(buyResponse.error);
+        } else {
+          AuthStore.updateUserLogin(buyResponse);
+          UsersStore.updateUser(AuthStore.getUserLogin._id, buyResponse);
+        }
+      }
+    )
   }
 
   render() {
@@ -100,19 +108,26 @@ export default class ProfileView extends Component {
             user={userData}
           />
           <View style={s.buttons}>
-            {myProfile ? (<ProfileButton style={{transform: [{skewX: '10deg'}]}} title='Extra Photo' onPress={() => this.setState({showExtra: !this.state.showExtra})} icon={iconNames.PLUS} />)
-              :(<FollowButton style={{transform: [{skewX: '10deg'}]}} onPress={this.updateFollow.bind(this)} follow={AuthStore.isFollow(userData._id)} />)}
-            <ProfileButton style={{transform: [{skewX: '10deg'}]}} title='Secret' icon={iconNames.LOCK} />
+            {myProfile ? (<ProfileButton style={{backgroundColor: Style.colors.text}} title='Extra Photo' onPress={() => this.pressExtra()} icon={iconNames.PLUS} />)
+              :(<FollowButton onPress={this.updateFollow.bind(this)} follow={AuthStore.isFollow(userData._id)} />)}
+            <ProfileButton style={{backgroundColor: this.state.showScret ? (Style.colors.background):(Style.colors.text)}} title='Secret' icon={iconNames.LOCK} onPress={() => this.setState({showScret: !this.state.showScret})} />
           </View>
-          <Photos 
-            isMy={myProfile}
-            amount={userData.limit_of_contents}
-            onPhoto={this.navigateToPhoto.bind(this)}
-            data={userData.uploads}
-            toAdd={() => this.props.NavigationStore.navigate(Routes.Screens.CAMERA.routeName)}
-            showExtra={this.state.showExtra}
-            onPressExtra={this.pressExtra.bind(this)}
-          />
+          {this.state.showScret ? (
+            <SecretView
+              isMy={myProfile}   
+              data={userData.secrets}     
+              toAdd={() => this.props.NavigationStore.navigate(Routes.Screens.CAMERA.routeName, {secret: true})}
+              onPhoto={this.navigateToPhoto.bind(this)}
+            />
+          ):(
+            <Photos 
+              isMy={myProfile}
+              amount={userData.limit_of_contents}
+              onPhoto={this.navigateToPhoto.bind(this)}
+              data={userData.uploads}
+              toAdd={() => this.props.NavigationStore.navigate(Routes.Screens.CAMERA.routeName)}
+            />
+          )}
         </View>}
       </View>
     );
@@ -127,6 +142,6 @@ const s = StyleSheet.create({
   },
   buttons: {
     flexDirection: 'row',
-    width: window_width*0.7
+    width: window_width*0.8
   }
 });

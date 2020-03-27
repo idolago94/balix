@@ -70,6 +70,11 @@ class ApiService {
         return keywordsResponse;
     }
 
+    async addExtraContent(user_id, cost) {
+        let extraResponse = await this.sendRequest('PUT', '/users/addExtra?id=' + user_id, {cost});
+        return extraResponse;
+    }
+
     // Route: /content
 
     async upload(user_id, upload_obj) {
@@ -101,6 +106,16 @@ class ApiService {
         }
         let contentsResponse = await this.sendRequest('GET', '/content/getContents?ids=' + ids_array.join());
         return contentsResponse;
+    }
+
+    async uploadSecret(user_id, upload_obj) {
+        let uploadResponse = await this.sendRequest('POST', '/content/uploadSecret?id=' + user_id, {file: upload_obj});
+        return uploadResponse;
+    }
+
+    async addSecretView(user_id, content) {
+        let updateResponse = await this.sendRequest('PUT', '/content/addSecretView?id=' + user_id, {content});
+        return updateResponse;
     }
 
     // Route: /actions
@@ -150,8 +165,8 @@ class ApiService {
         return new Promise((resolve, reject) => {
             console.log('ApiService -> sendRequest -> ', method, route, body);
             LoaderStore.showLoader();
-            let server_url = 'http://34.69.232.216:8080'; // google server
-            // let server_url = 'http://127.0.0.1:8080'; // local server
+            // let server_url = 'http://34.69.232.216:8080'; // google server
+            let server_url = 'http://127.0.0.1:8080'; // local server
             fetch(server_url + route, {
                 method: method,
                 headers: {'Content-Type': 'application/json'},

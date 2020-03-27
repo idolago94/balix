@@ -42,9 +42,9 @@ export default class ProgressiveImage extends Component {
         return (
             <DoubleClick onClick={this.props.onDoubleClick.bind(this)} style={{backgroundColor: '#dddddd'}}>
                 <Animated.Image
-                    style={[this.props.style, {opacity: this.imageLoad}]}
-                    source={{uri: base64}}
-                    onLoad={() => this.onImageLoad()}
+                  style={[this.props.style, {opacity: this.imageLoad}]}
+                  source={{uri: base64}}
+                  onLoad={() => this.onImageLoad()}
                 />
             </DoubleClick>
         )

@@ -1,13 +1,12 @@
 import React, { Component, useState } from 'react';
 import { StyleSheet, Text, View, Image, Button, TouchableOpacity } from 'react-native';
-import Routes from '../../../Routes/Routes';
 import { inject, observer } from "mobx-react";
 import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
 import ApiService from '../../../Services/Api';
-import { backgroundColor } from '../../../common/style';
-import { window_width } from '../../../utils/view';
+import SecretIndicator from './SecretIndicator';
+import { BlurView, VibrancyView } from "@react-native-community/blur";
 
-@inject('NavigationStore', 'ContentsStore')
+@inject('NavigationStore', 'ContentsStore', 'AuthStore')
 @observer
 export default class SmallPhoto extends Component {
 
@@ -27,27 +26,61 @@ export default class SmallPhoto extends Component {
         }
     }
 
+    onPhotoPress() {
+        const {AuthStore, ContentsStore, NavigationStore, data, secret, onPress, isMy} = this.props;
+        const imageData = ContentsStore.getContentById(data.content_id);
+        const isViewed = imageData.views.includes(AuthStore.getUserLogin._id);
+        if(!secret || isViewed || isMy) {
+            onPress({id: data.content_id})
+        } else {
+            NavigationStore.showAlert(
+                `You want to pay ${imageData.entrance}USD to see this secret?`,
+                null,
+                () => this.openPhoto()
+            );
+        }
+    }
+
+    async openPhoto() {
+        const {AuthStore, ContentsStore, NavigationStore, data} = this.props;
+        const imageData = ContentsStore.getContentById(data.content_id);
+        let viewResponse = await ApiService.addSecretView(AuthStore.getUserLogin._id, imageData);
+        if(viewResponse.error) {
+            NavigationStore.setBanner(viewResponse.error);
+        } else {
+            ContentsStore.updateContent(data.content_id, viewResponse);
+        }
+    }
+
     render() {
-        const {ContentsStore, data} = this.props;
+        const {ContentsStore, AuthStore, data} = this.props;
         const imageData = ContentsStore.getContentById(data.content_id);
         if(!imageData) {
             return null;
         }
+        const isViewed = imageData.views.includes(AuthStore.getUserLogin._id);
+        // const isViewed = ContentsStore.isSecretViewed(imageData._id);
         return (
             <TouchableOpacity
-                style={styles.imageBox}
-                onPress={() => this.props.onPress({id: this.props.data.content_id})}
+                style={s.imageBox}
+                onPress={() => this.onPhotoPress()}
             >
                 <ProgressiveImage 
-                    style={{width: '100%', height: '100%', borderRadius: 10}}
+                    style={s.photo}
                     buffer_id={imageData.buffer_id}
                 />
+                {this.props.secret && !this.props.isMy && !isViewed && <BlurView 
+                  style={[s.photo, {position: 'absolute', top: 0, left: 0}]}
+                  blurAmount={10}
+                  blurType="light"
+                />}
+                {this.props.secret && <SecretIndicator views={imageData.views.length} />}
             </TouchableOpacity>
         )
     }
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
     imageBox: {
         margin: 3,
         width: '31%',

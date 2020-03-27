@@ -14,6 +14,7 @@ import UpdatesService from '../../Services/Updates';
 import ProfileIndicator from './ProfileIndicator';
 import {content_height, window_height, window_width} from '../../utils/view';
 import {Bar} from 'react-native-progress';
+import Slider from '@react-native-community/slider';
 
 @inject('NavigationStore', 'IdentifierStore')
 @observer
@@ -84,7 +85,7 @@ export default class Home extends Component {
 
 	render() {
 		return (
-			<View style={{flex: 1}}>
+			<View style={{flex: 1, backgroundColor: Style.colors.background}}>
 				<FlatList 
 					ref={(ref) => this._roller = ref}
 					style={{backgroundColor: Style.colors.background, paddingVertical: 13, borderBottomWidth: 1, borderColor: 'gray'}}
@@ -99,7 +100,7 @@ export default class Home extends Component {
 							inView={this.state.currentContentIndex == index}
 							data={item}
 						/>
-					)}					
+					)}			
 				/>
 				{this.props.NavigationStore.inProgress && <Bar 
 					indeterminate 

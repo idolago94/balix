@@ -6,19 +6,21 @@ import Icon, { iconNames } from '../../../components/Icon/Icon';
 import { window_width } from '../../../utils/view';
 import IconButton from '../../../components/IconButton/IconButton';
 
-export default function Photos(props) {
-
+export default function SecretView(props) {
     let morePhotos = [];
-    for(let i=0; i < props.amount-props.data.length; i++) {
+    for(let i=0; i < 9-props.data.length; i++) {
         morePhotos.push('');
     }
     return (
         <ScrollView>
             <View style={s.container}>
-                {props.data.map((img, i) => (<SmallPhoto key={i} data={img} onPress={(params) => props.onPhoto(params)} />))}
+                {props.data.map((img, i) => (<SmallPhoto isMy={props.isMy} secret={true} key={i} data={img} onPress={(params) => props.onPhoto(params)} />))}
                 {props.isMy && morePhotos.map((e, i) => (
                 <View key={i} style={s.imageBox}>
                     <IconButton style={s.touchable} onPress={() => props.toAdd()} icon={iconNames.PLUS} color={'lightgray'} size={50} />
+                    <View style={{position: 'absolute', bottom: -3, right: -3, borderRadius: 5, backgroundColor: style.colors.text}}>
+                        <Icon name={iconNames.LOCK} color={style.colors.background} size={18} style={{padding: 3}} />
+                    </View>
                 </View>
                 ))}
             </View>

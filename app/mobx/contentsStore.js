@@ -1,7 +1,5 @@
 import { observable, action, computed, set, get } from "mobx";
 import {persist} from 'mobx-persist';
-import bufferToBase64 from '../helpers/convert/Buffer';
-import ApiService from "../Services/Api";
 
 class ContentsStore {
     @persist('object') @observable contents = {};
@@ -45,6 +43,7 @@ class ContentsStore {
 
     @action
     updateContent(id, data) {
+        console.log('ContentsStore -> updateContent -> ', id, data);
         this.contents[id] = {...this.contents[id], ...data};
     }
 

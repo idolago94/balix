@@ -6,9 +6,11 @@ import Routes from "../../Routes/Routes";
 import { inject, observer } from "mobx-react";
 import UploadService from '../../Services/Upload';
 import ApiService from '../../Services/Api';
-import { content_width, content_height } from '../../utils/view';
+import { content_width, content_height, window_width } from '../../utils/view';
 import UpdateService from '../../Services/Updates';
 import IconButton from '../../components/IconButton/IconButton';
+import Slider from '@react-native-community/slider';
+
 
 @inject('AuthStore', 'NavigationStore', 'ContentsStore', 'LoaderStore')
 export default class PreviewPhoto extends Component {
@@ -24,8 +26,8 @@ export default class PreviewPhoto extends Component {
     super(props);
     this.state = {
       imageData: undefined,
-      storyMode: undefined,
-      rotateDeg: 0
+      rotateDeg: 0,
+      entranceSecret: 10
     }
     this.focusListener = null;
   }
@@ -52,36 +54,60 @@ export default class PreviewPhoto extends Component {
 
   async postImage() {
     console.log('PreviewPhoto -> postImage');
-    const {AuthStore, NavigationStore} = this.props;
+    const {AuthStore, NavigationStore, navigation} = this.props;
     NavigationStore.setProgress(true);
-    NavigationStore.navigate(Routes.Screens.HOME.routeName);
+    let secretMode = navigation.getParam('secret');
+    NavigationStore.navigate(secretMode ? (Routes.Screens.PROFILE.routeName):(Routes.Screens.HOME.routeName), secretMode ? ({id: AuthStore.getUserLogin._id}):({}));
     let upload = await UploadService.buildImageForUpload(this.state.imageData);
-    let uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, upload); // the new upload object
+    let uploadResponse = null;
+    if(secretMode) {
+      upload.entrance = this.state.entranceSecret;
+      uploadResponse = await ApiService.uploadSecret(AuthStore.getUserLogin._id, upload); // the new upload object
+    } else {
+      uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, upload); // the new upload object
+    }
     if(uploadResponse.error) {
       NavigationStore.setBanner(uploadResponse.error);
     } else {
-      let myUploads = AuthStore.getUserLogin.uploads;
+      let myUploads = AuthStore.getUserLogin[secretMode ? ('secrets'):('uploads')];
       myUploads.push({
         content_id: uploadResponse._id,
         uploadDate: uploadResponse.uploadDate,
         lastUpdate: uploadResponse.lastUpdate
       });
-      AuthStore.updateUserLogin({uploads: myUploads});
+      AuthStore.updateUserLogin({[secretMode ? ('secrets'):('uploads')]: myUploads});
       UpdateService.checkFollowingUpdates();
     }
   }
 
   render() {
+    const isSecret = this.props.navigation.getParam('secret');
     let buttonSize = 30;
     if(!this.state.imageData) {
       return (<View></View>)
     }
     return (
       <View style={{flex: 1, backgroundColor: Style.colors.background, paddingTop: (Platform.OS == 'ios') ? (40):(0)}}>
-        <View style={{alignItems: 'flex-end'}}>
+        <View style={{alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row', width: window_width}}>
+          {isSecret && <Icon name={iconNames.LOCK} size={buttonSize} color={Style.colors.icon} />}
           <IconButton style={styles.btn} onPress={() => this.postImage()} icon={iconNames.CONFIRM} size={buttonSize} />
         </View>
         <View style={styles.container}>
+          {isSecret && <View>
+            <Text style={{color: Style.colors.text}}>Select the price to enter your secret:</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Slider
+                style={{margin: 10, flexGrow: 1}}
+                minimumValue={1}
+                maximumValue={200}
+                minimumTrackTintColor={Style.colors.lightMain}
+                maximumTrackTintColor={Style.colors.text}
+                value={this.state.entranceSecret}
+                onValueChange={(value) => this.setState({entranceSecret: Math.round(value)})}
+              />
+              <Text style={{color: Style.colors.lightMain, fontSize: 30}}>{this.state.entranceSecret}$</Text>
+            </View>
+          </View>}
           <Image
               style={{width: content_width, height: content_height, transform: [{ rotate: `${this.state.rotateDeg}deg` }]}}
               source={{uri: this.state.imageData.uri}}

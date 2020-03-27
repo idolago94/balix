@@ -64,7 +64,8 @@ export default class CameraScreen extends Component {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
       this.saveToCameraRoll(data);
-      this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, { imageData: data });
+      let secret = this.props.navigation.getParam('secret');
+      this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, { imageData: data, secret });
     }
   }
 
@@ -103,7 +104,8 @@ export default class CameraScreen extends Component {
     ImagePicker.launchImageLibrary({}, (imageSelected) => {
       console.log(imageSelected);
       if(!imageSelected.didCancel) {
-        this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, {imageData: imageSelected});
+        let secret = this.props.navigation.getParam('secret');
+        this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, {imageData: imageSelected, secret});
       }
     });
   }
