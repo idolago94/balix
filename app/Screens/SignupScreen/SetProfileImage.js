@@ -57,7 +57,7 @@ export default class SetProfileImage extends Component {
             if (response.didCancel) {
                 console.log('User cancelled image picker');
             } else if (response.error) {
-                Alert.alert(response.error);
+                this.props.NavigationStore.setBanner(response.error);
             } else {
                 this.setState({profileImage: response});
             }

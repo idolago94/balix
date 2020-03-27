@@ -88,7 +88,7 @@ export default class CameraScreen extends Component {
           break;
         case RESULTS.BLOCKED:
           console.log('The permission is denied and not requestable anymore');
-          alert('This app can not access to your camera. ')
+          this.props.NavigationStore.setBanner('This app can not access to your camera.');
           this.navigateTo(Routes.Screens.HOME.routeName);
           break;
       }

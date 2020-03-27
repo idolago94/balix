@@ -4,6 +4,7 @@ import { DrawerActions } from 'react-navigation-drawer';
 import { Keyboard } from 'react-native';
 import Routes from "../Routes/Routes";
 import AuthStore from './authStore';
+import {Alert} from 'react-native';
 
 class NavigationStore {
     @observable _navigator = null;
@@ -114,6 +115,21 @@ class NavigationStore {
     @action
     setProgress(bool) {
         this.showProgress = bool;
+    }
+
+    @action
+    showAlert(title, msg, confirmCallback, cancelCallback) {
+        Alert.alert(title, msg,
+            [{
+                text: 'Cancel',
+                onPress: (cancelCallback) ? (() => cancelCallback()):(() => console.log('Cancel Pressed')),
+            },
+            {
+                text: 'OK', 
+                onPress: () => confirmCallback()
+            }],
+            {cancelable: false},
+        );
     }
 
     @action

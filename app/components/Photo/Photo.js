@@ -76,18 +76,10 @@ export default class Photo extends Component {
   emojiPress(emoji, event) {
     console.log('Photo -> emojiPress -> ', emoji);
     if(emoji.value > this.props.AuthStore.getUserLogin.cash) {
-      Alert.alert(
-          `You don't have enough money!`,
-          'Go to buy more cash and hearts.',
-          [
-            {
-              text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
-            },
-            {text: 'OK', onPress: () => this.props.NavigationStore.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
-          ],
-          {cancelable: false},
+      this.props.NavigationStore.showAlert(
+        `You don't have enough money!`, 
+        'Go to buy more cash and hearts.',
+        () => this.props.NavigationStore.navigate(Routes.Screens.BUY_PACKAGE.routeName)
       );
     } else {
       let position = this.getPressPosition(event);
@@ -103,18 +95,10 @@ export default class Photo extends Component {
   heartPress(event) {
     console.log('Photo -> heartPress');
     if(1 > this.props.AuthStore.getUserLogin.hearts) {
-      Alert.alert(
-          `You don't have hearts!`,
-          'Go to buy more cash and hearts.',
-          [
-            {
-              text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
-            },
-            {text: 'OK', onPress: () => this.props.NavigationStore.navigate(Routes.Screens.BUY_PACKAGE.routeName)},
-          ],
-          {cancelable: false},
+      this.props.NavigationStore.showAlert(
+        `You don't have hearts!`,
+        'Go to buy more cash and hearts.',
+        () => this.props.NavigationStore.navigate(Routes.Screens.BUY_PACKAGE.routeName)
       );
     } else {
       let position = this.getPressPosition(event);
@@ -223,7 +207,7 @@ export default class Photo extends Component {
             onDoubleClick={this.toggleEmoji.bind(this)}
             buffer_id={imageData.buffer_id}
           />
-      <Text style={{color: 'red', fontsize: 20}}>{this.props.index}</Text>
+      <Text style={{color: 'red', fontSize: 20}}>{this.props.index}</Text>
           <PhotoIndicator 
             user={userData}
             cash={imageData.cash}
