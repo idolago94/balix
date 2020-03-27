@@ -14,6 +14,7 @@ class NavigationStore {
     @observable currentTab = Routes.Screens.HOME.routeName;
     @observable profileName = null;
     @observable.shallow banner = null;
+    @observable.shallow modal = null;
     @observable showProgress = false;
     @observable tabs = [
         Routes.Screens.GRAPH.routeName,
@@ -106,6 +107,16 @@ class NavigationStore {
     }
 
     @computed
+    get isModal() {
+        return !!this.modal;
+    }
+
+    @computed
+    get getModal() {
+        return this.modal;
+    }
+
+    @computed
     get inProgress() {
         return this.showProgress;
     }
@@ -130,6 +141,11 @@ class NavigationStore {
             }],
             {cancelable: false},
         );
+    }
+
+    setModal(view) {
+        // view = component
+        this.modal = view;
     }
 
     @action

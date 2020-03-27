@@ -8,6 +8,7 @@ import {create} from 'mobx-persist';
 import {AsyncStorage} from 'react-native';
 import ApiService from './app/Services/Api';
 import Banner from './app/components/Banner/Banner';
+import Modal from './app/components/Modal/Modal';
 
 // const hydrate = create({
 //     storage: AsyncStorage,
@@ -49,6 +50,7 @@ class RootComponent extends Component {
         return (
 			<View style={{flex: 1}}>
 				{NavigationStore.isBanner && <Banner color={NavigationStore.getBanner.color} content={NavigationStore.getBanner.data} />}
+				{NavigationStore.isModal && <Modal content={NavigationStore.getModal} />}
 				<Root />
 			</View>
         )
