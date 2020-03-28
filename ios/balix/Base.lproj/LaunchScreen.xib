@@ -13,14 +13,14 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="SplashIcon" translatesAutoresizingMaskIntoConstraints="NO" id="T2c-Oa-uAl">
-                    <rect key="frame" x="90" y="90" width="300" height="300"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="BalixSplash" translatesAutoresizingMaskIntoConstraints="NO" id="Ykn-rO-9b6">
+                    <rect key="frame" x="-404" y="-413" width="1288" height="1306"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
             <constraints>
-                <constraint firstItem="T2c-Oa-uAl" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="1Oc-ih-Go5"/>
-                <constraint firstItem="T2c-Oa-uAl" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="6FP-EB-2tT"/>
+                <constraint firstItem="Ykn-rO-9b6" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="WU0-0d-Qkp"/>
+                <constraint firstItem="Ykn-rO-9b6" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="yIc-ZF-Dn9"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -28,6 +28,6 @@
         </view>
     </objects>
     <resources>
-        <image name="SplashIcon" width="300" height="300"/>
+        <image name="BalixSplash" width="644" height="653"/>
     </resources>
 </document>
