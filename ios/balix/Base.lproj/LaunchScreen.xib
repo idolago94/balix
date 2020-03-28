@@ -13,21 +13,22 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="BalixSplash" translatesAutoresizingMaskIntoConstraints="NO" id="Ykn-rO-9b6">
-                    <rect key="frame" x="-404" y="-413" width="1288" height="1306"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="BalixMan" translatesAutoresizingMaskIntoConstraints="NO" id="5NK-w9-S8c">
+                    <rect key="frame" x="-82" y="-86.5" width="644" height="653"/>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+            <color key="backgroundColor" red="0.0" green="0.67693674559999995" blue="0.68779617550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Ykn-rO-9b6" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="WU0-0d-Qkp"/>
-                <constraint firstItem="Ykn-rO-9b6" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="yIc-ZF-Dn9"/>
+                <constraint firstItem="5NK-w9-S8c" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ERJ-uv-cUm"/>
+                <constraint firstItem="5NK-w9-S8c" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="O3G-g1-GHh"/>
+                <constraint firstItem="5NK-w9-S8c" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="YTo-i2-wvz"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="548" y="455"/>
+            <point key="canvasLocation" x="547.82608695652175" y="454.6875"/>
         </view>
     </objects>
     <resources>
-        <image name="BalixSplash" width="644" height="653"/>
+        <image name="BalixMan" width="322" height="326.5"/>
     </resources>
 </document>
