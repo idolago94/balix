@@ -200,14 +200,12 @@ export default class Photo extends Component {
     const imageData = ContentsStore.getContentById(data.content_id);
     const userData = UsersStore.getUserById(imageData.user_id);
     return (!userData) ? null :
-      <ScrollView style={styles.container}>
-        <View style={styles.photoBox}>
+        <View style={[this.props.style, styles.photoBox]}>
           <ProgressiveImage 
             style={{width: content_width, height: content_height}}
             onDoubleClick={this.toggleEmoji.bind(this)}
             buffer_id={imageData.buffer_id}
           />
-      <Text style={{color: 'red', fontSize: 20}}>{this.props.index}</Text>
           <PhotoIndicator 
             user={userData}
             cash={imageData.cash}
@@ -292,7 +290,6 @@ export default class Photo extends Component {
           </TouchableHighlight>
           <SingleComment data={comments[comments.length - 1]}/>
         </View> */}
-      </ScrollView>;
   }
 }
 

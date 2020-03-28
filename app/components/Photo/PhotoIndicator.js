@@ -9,7 +9,7 @@ export default function PhotoIndicator(props) {
   // Props = [ indicators: {cash: number, hearts: number} ]
 
     return (
-      <View style={{position: 'absolute', alignItems: 'flex-start'}}>
+      <View style={{position: 'absolute', right: 0, alignItems: 'flex-start'}}>
         {/* <ProfileSymbol 
           style={{marginLeft: 10,marginTop: 10, borderWidth: 1, borderColor: 'black', borderRadius: 999}} 
           src={props.user.profileImage} 

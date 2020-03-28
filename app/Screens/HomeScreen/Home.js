@@ -88,22 +88,24 @@ export default class Home extends Component {
 	render() {
 		return (
 			<View style={{flex: 1, backgroundColor: Style.colors.background}}>
-				<FlatList 
-					ref={(ref) => this._roller = ref}
-					style={{backgroundColor: Style.colors.background, paddingVertical: 13, borderBottomWidth: 1, borderColor: 'gray'}}
-					horizontal={true}
-					keyExtractor={(item, index) => index.toString()}
-					data={this.props.IdentifierStore.getFollowing}
-					contentContainerStyle={styles.profileIndicator}
-					renderItem={({item, index}) => (
-						<ProfileIndicator 
-							index={index}
-							onPress={() => this.onRollerItem(index)}
-							inView={this.state.currentContentIndex == index}
-							data={item}
-						/>
-					)}			
-				/>
+				<View style={{zIndex: 999}}>
+					<FlatList 
+						ref={(ref) => this._roller = ref}
+						style={{overflow: 'visible', backgroundColor: Style.colors.background, paddingVertical: 3, borderBottomWidth: 1, borderColor: 'gray'}}
+						horizontal={true}
+						keyExtractor={(item, index) => index.toString()}
+						data={this.props.IdentifierStore.getFollowing}
+						contentContainerStyle={styles.profileIndicator}
+						renderItem={({item, index}) => (
+							<ProfileIndicator 
+								index={index}
+								onPress={() => this.onRollerItem(index)}
+								inView={this.state.currentContentIndex == index}
+								data={item}
+							/>
+						)}			
+					/>
+				</View>
 				{this.props.NavigationStore.inProgress && <Bar 
 					indeterminate 
 					height={3} 
@@ -112,23 +114,25 @@ export default class Home extends Component {
 					unfilledColor={Style.colors.background} 
 					borderWidth={0} 
 				/>}
-				<FlatList
-					ref={(ref) => this._view = ref}
-					onScroll={(e) => this.handleScroll(e)}
-					style={styles.following}
-					showsVerticalScrollIndicator={false}
-					keyExtractor={(item, index) => index.toString()}
-					ListEmptyComponent={() => <HomeEmpty/>}
-					data={this.props.IdentifierStore.getFollowing}
-					renderItem={({item, index}) => (
-						<Photo 
-							index={index}
-							navigation={this.props.navigation} 
-							titlePress={this.onTitlePress.bind(this)}
-							data={item}
-						/>
-					)}
-				/>
+				<View>
+					<FlatList
+						ref={(ref) => this._view = ref}
+						onScroll={(e) => this.handleScroll(e)}
+						style={styles.following}
+						showsVerticalScrollIndicator={false}
+						keyExtractor={(item, index) => index.toString()}
+						ListEmptyComponent={() => <HomeEmpty/>}
+						data={this.props.IdentifierStore.getFollowing}
+						renderItem={({item, index}) => (
+							<Photo 
+								index={index}
+								navigation={this.props.navigation} 
+								titlePress={this.onTitlePress.bind(this)}
+								data={item}
+							/>
+						)}
+					/>
+				</View>
 			</View>
 		);
 	}
@@ -149,6 +153,6 @@ const styles = StyleSheet.create({
 		backgroundColor: Style.colors.background
 	},
 	profileIndicator: {
-		alignItems: 'flex-end'
+		alignItems: 'flex-end',
 	}
 });
