@@ -14,7 +14,7 @@ export default function CashIndicator(props) {
 				<View style={{flexDirection: 'row', alignItems: 'center'}}>
 					<View style={[s.box, {transform: [{translateX: 8}]}]}>
 						<Icon style={{transform: [{translateX: 9}], ...s.icon}} name={iconNames.FULL_MONEY_BAG} size={side_icon_size} color={'yellow'}/>
-						<Text style={[s.number]}>{withComma(154)}</Text>
+						<Text style={[s.number]}>{withComma(props.cash)}</Text>
 					</View>
 					<View style={{zIndex: 999, padding: 2, backgroundColor: Style.colors.bar, borderRadius: 999}}>
 					<LinearGradient style={s.centerBox} colors={[Style.colors.lightMain, Style.colors.darkMain]}>
@@ -26,7 +26,7 @@ export default function CashIndicator(props) {
 					</View>
 					<View style={[s.box, {flexDirection: 'row-reverse', transform: [{translateX: -8}]}]}>
 						<Icon style={{transform: [{translateX: -9}], ...s.icon}} name={iconNames.FULL_HEART} size={side_icon_size} color={'red'}/>
-						<Text style={[s.number]}>{withComma(34)}</Text>
+						<Text style={[s.number]}>{withComma(props.hearts)}</Text>
 					</View>
 				</View>
 			</TouchableHighlight>
