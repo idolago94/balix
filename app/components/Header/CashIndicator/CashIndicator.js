@@ -8,52 +8,56 @@ import LinearGradient from 'react-native-linear-gradient';
 
 export default function CashIndicator(props) {
 
+	let side_icon_size = 22;
 		return (
 			<TouchableHighlight onPress={() => props.onPress()}>
-				<View style={{
-					flexDirection: 'row',
-					alignItems: 'center',
-				}}>
-					<View style={{flexDirection: 'row'}}>
-						<View style={{
-							alignSelf: 'flex-end',
-							flexDirection: 'row',
-							alignItems: 'center',
-							margin: 2,
-							borderBottomColor: 'gray',
-						}}>
-							<Icon name={iconNames.FULL_MONEY_BAG} size={15} color={'yellow'}/>
-							<Text style={{...styles.number, marginLeft: 3}}>{withComma(props.cash)}</Text>
+				<View style={{flexDirection: 'row', alignItems: 'center'}}>
+					<View style={[s.box, {transform: [{translateX: 8}]}]}>
+						<Icon style={{transform: [{translateX: 9}], ...s.icon}} name={iconNames.FULL_MONEY_BAG} size={side_icon_size} color={'yellow'}/>
+						<Text style={[s.number]}>{withComma(154)}</Text>
+					</View>
+					<View style={{zIndex: 999, padding: 2, backgroundColor: Style.colors.bar, borderRadius: 999}}>
+					<LinearGradient style={s.centerBox} colors={[Style.colors.lightMain, Style.colors.darkMain]}>
+						<View style={{aspectRatio: 1, alignItems: 'center', justifyContent: 'center'}}>
+							<Icon name={iconNames.BANK2} size={18} color={'white'}/>
+							<Text style={{fontSize: 5, color: 'white', fontWeight: 'bold', letterSpacing: 1}}>BANK</Text>
 						</View>
-						<LinearGradient style={{borderRadius: 999, padding: 5}} colors={[Style.colors.lightMain, Style.colors.darkMain]}>
-							<Icon name={iconNames.PLUS} size={13} color={'white'}/>
-						</LinearGradient>
-						<View style={{alignSelf: 'flex-end', flexDirection: 'row-reverse', alignItems: 'center', margin: 2}}>
-							<Icon name={iconNames.FULL_HEART} size={15} color={'red'}/>
-							<Text style={{...styles.number, fontSize: 10, marginRight: 3}}>{withComma(props.hearts)}</Text>
-						</View>
+					</LinearGradient>
+					</View>
+					<View style={[s.box, {flexDirection: 'row-reverse', transform: [{translateX: -8}]}]}>
+						<Icon style={{transform: [{translateX: -9}], ...s.icon}} name={iconNames.FULL_HEART} size={side_icon_size} color={'red'}/>
+						<Text style={[s.number]}>{withComma(34)}</Text>
 					</View>
 				</View>
 			</TouchableHighlight>
 		);
 }
 
-const styles = StyleSheet.create({
-	box: {
-		backgroundColor: '#000000',
-		borderRadius: 99,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		marginVertical: 2,
-		paddingHorizontal: 10,
-		paddingVertical: 5,
-		alignItems: 'center',
-	},
+const s = StyleSheet.create({
 	number: {
 		color: Style.colors.text,
-		fontSize: 13,
+		fontSize: 15,
 		letterSpacing: 1,
-		marginLeft: 3,
 		fontWeight: 'bold',
+		borderWidth: 0.3,
+		borderColor: 'lightgray',
+		paddingHorizontal: 8,
+		backgroundColor: 'rgba(208, 211, 213, 0.15)'
 	},
+	box: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginRight: 3
+	},
+	centerBox: {
+		borderRadius: 999, 
+		padding: 6, 
+		justifyContent: 'center', 
+		alignItems: 'center',
+		marginHorizontal: 3,
+		zIndex: 999,
+	},
+	icon: {
+		zIndex: 999
+	}
 });

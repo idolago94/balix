@@ -48,5 +48,7 @@ export const iconNames = {
     FULL_EARN: 'full-earn',
     FULL_COMMENT: 'full-comment',
     FULL_SHARE: 'full-share',
-    LOCK: 'lock'
+    LOCK: 'lock',
+    BANK: 'bank',
+    BANK2: 'bank-2'
 }
