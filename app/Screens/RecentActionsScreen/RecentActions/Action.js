@@ -173,6 +173,82 @@ export default class Action extends Component {
                         <ProfileSymbol size={30} src={AuthStore.getUserLogin.profileImage} style={styles.otherUserProfile} />                        
                     </View>
                 )
+                break;
+            case actionTypes.UPLOAD_SECRET:
+                return (
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Text style={styles.action}>You upload new secret.</Text>
+                        <ProgressiveImage 
+                                style={{width: 30, height: 30, borderRadius: 5}}
+                                buffer_id={actionData.image_buffer_id}
+                        />                   
+                    </View>
+                )
+                break;
+            case actionTypes.SECRET_VIEW:
+                return (
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={[styles.action, {fontWeight: 'bold'}]}>{`${otherUserData.username} `}</Text>
+                            <Text style={styles.action}>opened your secret.</Text>
+                        </View>
+                        <ProfileSymbol size={30} src={otherUserData.profileImage} style={styles.otherUserProfile} />
+                    </View>
+                )
+                break;
+            case actionTypes.SECRET_EMOJI:
+                return (
+                    <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={{...styles.action, fontWeight: (actionData.active_user_id == AuthStore.getUserLogin._id) ?
+                                    ('') : ('bold')}}>
+                                {
+                                    (actionData.active_user_id == AuthStore.getUserLogin._id) ?
+                                        ('You ') : (`${otherUserData.username} `)
+                                }
+                            </Text>
+                            <Text style={styles.action}>sent </Text>
+                            <Image style={{width: 15, height: 16}} source={actionData.emoji.url} />
+                            <Text style={styles.action}> to </Text>
+                            <Text style={{...styles.action, fontWeight: (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
+                                    ('') : ('bold')}}>
+                                {
+                                    (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
+                                        ('your') : (otherUserData.username)
+                                }'s secret.
+                            </Text>
+                            <Text style={styles.action}> in total {actionData.emoji.value}$.</Text>
+                        </View>
+                        {actionData.image_buffer_id && <ProgressiveImage 
+                            style={{width: 30, height: 30, borderRadius: 5}}
+                            buffer_id={actionData.image_buffer_id}
+                        />}
+                    </View>
+                )
+                break;
+            case actionTypes.SECRET_HEART:
+                return (
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={{...styles.action, fontWeight: (actionData.active_user_id == AuthStore.getUserLogin._id) ?
+                                ('') : (`bold`)}}>
+                            {
+                                (actionData.active_user_id == AuthStore.getUserLogin._id) ?
+                                    ('You ') : (`${otherUserData.username} `)
+                            }
+                        </Text>
+                        <Text style={styles.action}>sent </Text>
+                        <Icon size={15} color={'red'} name={iconNames.FULL_HEART} />
+                        <Text style={styles.action}> to </Text>
+                        <Text style={{...styles.action, fontWeight: (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
+                                ('') : ('bold')}}>
+                            {
+                                (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
+                                    ('your') : (otherUserData.username)
+                            }'s secret.
+                        </Text>
+                    </View>
+                )
+                break;
             default: return null;
         }
     }
