@@ -56,15 +56,17 @@ export default class Home extends Component {
 
 	handleScroll(event) {
 		let listLength = this.props.IdentifierStore.getFollowing.length-1;
-		let index = this.getCurrentIndexInView(event.nativeEvent.contentOffset.y);
-		if(index > listLength) {
-			index = listLength;
-		} else if(index < 0) {
-			index = 0;
-		}
-		if(this.state.currentContentIndex != index) {
-			this._roller.scrollToIndex({index: index > 0 ? (index-1):(0)});
-			this.setState({currentContentIndex: index})
+		if(listLength > 0) {
+			let index = this.getCurrentIndexInView(event.nativeEvent.contentOffset.y);
+			if(index > listLength) {
+				index = listLength;
+			} else if(index < 0) {
+				index = 0;
+			}
+			if(this.state.currentContentIndex != index) {
+				this._roller.scrollToIndex({index: index > 0 ? (index-1):(0)});
+				this.setState({currentContentIndex: index})
+			}
 		}
 	}
 
