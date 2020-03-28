@@ -142,6 +142,8 @@ const s = StyleSheet.create({
   },
   buttons: {
     flexDirection: 'row',
-    width: window_width*0.8
+    width: window_width*0.8,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
