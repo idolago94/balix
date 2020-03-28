@@ -13,15 +13,14 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="BalixMan" translatesAutoresizingMaskIntoConstraints="NO" id="5NK-w9-S8c">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="BalixMan" translatesAutoresizingMaskIntoConstraints="NO" id="su8-tR-aYa">
                     <rect key="frame" x="-82" y="-86.5" width="644" height="653"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.67693674559999995" blue="0.68779617550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="5NK-w9-S8c" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ERJ-uv-cUm"/>
-                <constraint firstItem="5NK-w9-S8c" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="O3G-g1-GHh"/>
-                <constraint firstItem="5NK-w9-S8c" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="YTo-i2-wvz"/>
+                <constraint firstItem="su8-tR-aYa" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Vu2-EO-YRq"/>
+                <constraint firstItem="su8-tR-aYa" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="WTr-u8-gl7"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
