@@ -186,13 +186,38 @@ export default class Action extends Component {
                 )
                 break;
             case actionTypes.SECRET_VIEW:
+                // return (
+                //     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                //         <View style={{flexDirection: 'row'}}>
+                //             <Text style={[styles.action, {fontWeight: 'bold'}]}>{`${otherUserData.username} `}</Text>
+                //             <Text style={styles.action}>opened your secret.</Text>
+                //         </View>
+                //         <ProfileSymbol size={30} src={otherUserData.profileImage} style={styles.otherUserProfile} />
+                //     </View>
+                // )
                 return (
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                         <View style={{flexDirection: 'row'}}>
-                            <Text style={[styles.action, {fontWeight: 'bold'}]}>{`${otherUserData.username} `}</Text>
-                            <Text style={styles.action}>opened your secret.</Text>
+                            <Text style={{...styles.action, fontWeight: (actionData.active_user_id == AuthStore.getUserLogin._id) ?
+                                    ('') : ('bold')}}>
+                                {
+                                    (actionData.active_user_id == AuthStore.getUserLogin._id) ?
+                                        ('You ') : (`${otherUserData.username} `)
+                                }
+                            </Text>
+                            <Text style={styles.action}>opened </Text>
+                            <Text style={{...styles.action, fontWeight: (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
+                                    ('') : ('bold')}}>
+                                {
+                                    (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
+                                        ('your') : (otherUserData.username)
+                                }'s secret.
+                            </Text>
                         </View>
-                        <ProfileSymbol size={30} src={otherUserData.profileImage} style={styles.otherUserProfile} />
+                        {actionData.image_buffer_id && <ProgressiveImage 
+                            style={{width: 30, height: 30, borderRadius: 5}}
+                            buffer_id={actionData.image_buffer_id}
+                        />}
                     </View>
                 )
                 break;
@@ -215,7 +240,7 @@ export default class Action extends Component {
                                 {
                                     (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
                                         ('your') : (otherUserData.username)
-                                }'s secret.
+                                }'s secret
                             </Text>
                             <Text style={styles.action}> in total {actionData.emoji.value}$.</Text>
                         </View>
