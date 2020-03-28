@@ -9,6 +9,7 @@ import {AsyncStorage} from 'react-native';
 import ApiService from './app/Services/Api';
 import Banner from './app/components/Banner/Banner';
 import Modal from './app/components/Modal/Modal';
+import SplashScreen from 'react-native-splash-screen'
 
 // const hydrate = create({
 //     storage: AsyncStorage,
@@ -23,6 +24,7 @@ import Modal from './app/components/Modal/Modal';
 
 
 export default class App extends Component {
+
 	render() {
 		return (
 			<View style={{flex: 1}}>
@@ -41,7 +43,10 @@ class RootComponent extends Component {
 
 	async componentDidMount() {
 		let actionsType = await ApiService.getActionsTypes();
-		this.props.ActionsStore.setTypes(actionsType);
+		if(!actionsType.error) {
+			this.props.ActionsStore.setTypes(actionsType);
+			SplashScreen.hide();
+		}
 	}
 
     render() {

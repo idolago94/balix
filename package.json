@@ -42,6 +42,7 @@
     "react-native-screens": "^2.0.0-alpha.22",
     "react-native-shimmer": "^0.5.0",
     "react-native-simple-radio-button": "^2.7.4",
+    "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^11.0.1",
     "react-native-svg-charts": "^5.3.0",
     "react-native-swipe-gestures": "^1.0.4",

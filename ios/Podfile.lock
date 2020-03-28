@@ -243,6 +243,8 @@ PODS:
     - Shimmer (~> 1)
   - react-native-slider (2.0.9):
     - React
+  - react-native-splash-screen (3.2.0):
+    - React
   - react-native-video (5.0.2):
     - React
     - react-native-video/Video (= 5.0.2)
@@ -341,6 +343,7 @@ DEPENDENCIES:
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-shimmer (from `../node_modules/react-native-shimmer`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
+  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-video (from `../node_modules/react-native-video`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -432,6 +435,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-shimmer"
   react-native-slider:
     :path: "../node_modules/@react-native-community/slider"
+  react-native-splash-screen:
+    :path: "../node_modules/react-native-splash-screen"
   react-native-video:
     :path: "../node_modules/react-native-video"
   react-native-webview:
@@ -514,6 +519,7 @@ SPEC CHECKSUMS:
   react-native-safe-area-context: a1d322930b8c5d04ebeb77cc47cc97575ad27203
   react-native-shimmer: d9e6f436e8b0318da2b6f391e04725363b01c2d9
   react-native-slider: b34d943dc60deb96d952ba6b6b249aa8091e86da
+  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-video: 961749da457e73bf0b5565edfbaffc25abfb8974
   react-native-webview: f686ed60541ed7291cb1c2aad56b96c86352cb87
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
