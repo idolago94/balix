@@ -111,9 +111,9 @@ export default class CameraScreen extends Component {
     });
   }
 
-  startVideo() {
-    this.camera.recordAsync().then((res) => {
-      debugger;
+  startRecord() {
+    this.camera.recordAsync().then((record) => {
+      console.log('record', record)
     })
   }
 
@@ -168,7 +168,7 @@ export default class CameraScreen extends Component {
                   onGallery={this.onGallery.bind(this)}
                   onSwitch={this.switchCamera.bind(this)} 
                   onPicture={this.takePicture.bind(this)} 
-                  onStartVideo={() => this.startVideo()}
+                  onStartVideo={() => this.startRecord()}
                   onEndVideo={() => this.camera.stopRecording()}
               />)
         }
