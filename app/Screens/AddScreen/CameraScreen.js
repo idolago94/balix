@@ -29,6 +29,7 @@ export default class CameraScreen extends Component {
       postMode: undefined,
       flashMode: false
     }
+    this.camera = null;
     this.focusListener = null;
   }
 
@@ -110,6 +111,12 @@ export default class CameraScreen extends Component {
     });
   }
 
+  startVideo() {
+    this.camera.recordAsync().then((res) => {
+      debugger;
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -159,7 +166,10 @@ export default class CameraScreen extends Component {
               (<AddBottomBar
                   story_live={this.state.story_live}
                   onGallery={this.onGallery.bind(this)}
-                  onSwitch={this.switchCamera.bind(this)} onPicture={this.takePicture.bind(this)} 
+                  onSwitch={this.switchCamera.bind(this)} 
+                  onPicture={this.takePicture.bind(this)} 
+                  onStartVideo={() => this.startVideo()}
+                  onEndVideo={() => this.camera.stopRecording()}
               />)
         }
       </View>
