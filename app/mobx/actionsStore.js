@@ -38,7 +38,7 @@ class ActionsStore {
 
     @action
     setTypes(data) {
-        console.log('ActionsStore -> setTypes -> ', data);
+        console.log('ActionsStore -> setTypes -> ', Object.keys(data).length);
         this.types = data;
     }
 }

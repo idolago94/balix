@@ -19,15 +19,12 @@ import FooterButton from './FooterButton';
 export default class SetProfileImage extends Component {
 
     constructor(props) {
+        console.log('SetProfileImage -> constructor');
         super(props);
         this.state = {
             profileImage: undefined,
             errors: []
         };
-    }
-
-    componentDidMount() {
-        console.log('SetProfileImage -> componentDidMount');
     }
 
     validateForm() {

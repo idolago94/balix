@@ -15,14 +15,11 @@ import FooterButton from './FooterButton';
 export default class SetKeywords extends Component {
 
     constructor(props) {
+        console.log('SetKeywords -> constructor');
         super(props);
         this.state = {
             keywords: []
         };
-    }
-
-    componentDidMount() {
-        console.log('SetKeywords -> componentDidMount');
     }
 
     addKeyword(newKeyword) {

@@ -165,7 +165,7 @@ class ApiService {
         return new Promise((resolve, reject) => {
             console.log('ApiService -> sendRequest -> ', method, route, body);
             LoaderStore.showLoader();
-            // let server_url = 'http://34.69.232.216:8080'; // google server
+            // let server_url = 'http://34.69.232.216:8080'; // google server 
             let server_url = 'http://127.0.0.1:8080'; // local server
             fetch(server_url + route, {
                 method: method,
@@ -173,6 +173,7 @@ class ApiService {
                 body: JSON.stringify(body)
             })
             .then(res => res.json()).then(response => {
+                console.log('Api Response: ', response);
                 LoaderStore.hideLoader();
                 resolve(response);
             })

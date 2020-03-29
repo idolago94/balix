@@ -283,7 +283,7 @@ export default class Action extends Component {
     }
 
     render() {
-        console.log('Action => render');
+        console.log('Action -> render');
         const {ActionsStore, AuthStore, UsersStore, NavigationStore, id} = this.props;
         const actionData = ActionsStore.getActionById(id);
         const otherUserData = UsersStore.getUserById(this.state.other_user_id);

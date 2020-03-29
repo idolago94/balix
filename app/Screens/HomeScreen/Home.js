@@ -37,7 +37,6 @@ export default class Home extends Component {
 
 	componentDidMount() {
 		console.log('content_height', content_height);
-		console.log('window_height', window_height);
 		this.focusListener = this.props.navigation.addListener('willFocus', () => {
 			console.log('HomeScreen -> willFocus');
 			if(!this.props.NavigationStore.isProgress) {
@@ -74,8 +73,8 @@ export default class Home extends Component {
 		let pointMove = content_height*0.6;
 		let n = content_height - pointMove;
 		let index = Math.floor(y / n);
-		console.log(y);
-		console.log(index);
+		// console.log(y);
+		// console.log(index);
 		return index;
 	}
 

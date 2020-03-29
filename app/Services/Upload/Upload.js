@@ -4,13 +4,13 @@ var RNFS = require('react-native-fs');
 class UploadService {
 
     async buildImageForUpload(imageData) {
-        console.log(imageData);
+        console.log('UploadService -> buildImageForUpload');
         let resizedImage= await this.resizeImage(imageData.uri, 1080, 100);
         return resizedImage;
     }
 
     async buildProfileImage(imageData) {
-        console.log(imageData);
+        console.log('UploadService -> buildProfileImage');
         let resizedImage= await this.resizeImage(imageData.uri, 800, 100);
         return resizedImage;
     }
