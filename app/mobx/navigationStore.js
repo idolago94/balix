@@ -18,10 +18,11 @@ class NavigationStore {
     @observable showProgress = false;
     @observable tabs = [
         Routes.Screens.GRAPH.routeName,
-        Routes.Screens.RECENT_ACTIONS.routeName,
+        // Routes.Screens.RECENT_ACTIONS.routeName,
         Routes.Screens.HOME.routeName,
         Routes.Screens.SEARCH.routeName,
-        Routes.Screens.MAIL.routeName
+        Routes.Screens.MAIL.routeName,
+        Routes.Screens.TOP.routeName
     ]
     @observable nonBack = [
         Routes.Screens.HOME.routeName,

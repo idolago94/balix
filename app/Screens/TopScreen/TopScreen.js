@@ -8,16 +8,15 @@ import Routes from '../../Routes/Routes';
 
 import Style from '../../helpers/style/style';
 
-import HomeEmpty from "./HomeEmpty";
 import { inject, observer } from "mobx-react";
 import UpdatesService from '../../Services/Updates';
-import ProfileIndicator from './ProfileIndicator';
+import ProfileIndicator from '../HomeScreen/ProfileIndicator';
 import {content_height, window_height, window_width} from '../../utils/view';
 import {Bar} from 'react-native-progress';
 
 @inject('NavigationStore', 'IdentifierStore')
 @observer
-export default class Home extends Component {
+export default class TopScreen extends Component {
 	static navigationOptions = ({navigation}) => {
 		return {
 			headerTitle: () => <Header {...navigation} />,
@@ -39,7 +38,7 @@ export default class Home extends Component {
 		this.focusListener = this.props.navigation.addListener('willFocus', () => {
 			console.log('HomeScreen -> willFocus');
 			if(!this.props.NavigationStore.isProgress) {
-				UpdatesService.checkFollowingUpdates();
+				UpdatesService.updateTop();
 			}
 		})
 	}
@@ -92,7 +91,7 @@ export default class Home extends Component {
 						style={{overflow: 'visible', backgroundColor: Style.colors.background, paddingVertical: 3, borderBottomWidth: 1, borderColor: 'gray'}}
 						horizontal={true}
 						keyExtractor={(item, index) => index.toString()}
-						data={this.props.IdentifierStore.getFollowing}
+						data={this.props.IdentifierStore.getTop}
 						contentContainerStyle={styles.profileIndicator}
 						renderItem={({item, index}) => (
 							<ProfileIndicator 
@@ -119,8 +118,7 @@ export default class Home extends Component {
 						style={styles.following}
 						showsVerticalScrollIndicator={false}
 						keyExtractor={(item, index) => index.toString()}
-						ListEmptyComponent={() => <HomeEmpty/>}
-						data={this.props.IdentifierStore.getFollowing}
+						data={this.props.IdentifierStore.getTop}
 						renderItem={({item, index}) => (
 							<Photo 
 								index={index}

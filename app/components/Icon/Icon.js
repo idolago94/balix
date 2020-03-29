@@ -50,5 +50,7 @@ export const iconNames = {
     FULL_SHARE: 'full-share',
     LOCK: 'lock',
     BANK: 'bank',
-    BANK2: 'bank-2'
+    BANK2: 'bank-2',
+    TOP: 'award',
+    FULL_TOP: 'full-top'
 }

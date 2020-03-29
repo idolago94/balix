@@ -74,6 +74,16 @@ class UpdateService {
         GraphStore.setMostVolunteers(volunteers);
         GraphStore.setGendersData(gendersData);
     }
+
+    async updateTop() {
+        console.log('UpdateService -> updateTop');
+        NavigationStore.setProgress(true);
+        let topResponse = await ApiService.getTopContents();
+        let top_ids = topResponse.map(t => ({content_id: t._id}));
+        ContentsStore.setContents(topResponse);
+        IdentifierStore.setTop(top_ids);
+        NavigationStore.setProgress(false);
+    }
 }
 
 export default new UpdateService();

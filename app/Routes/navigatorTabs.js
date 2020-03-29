@@ -10,6 +10,7 @@ import RecentActions from '../Screens/RecentActionsScreen/RecentActions/RecentAc
 import PhotoScreen from '../Screens/PhotoScreen/PhotoScreen/PhotoScreen';
 import Mail from '../components/Mail/Mail';
 import Search from '../Screens/Search/Search';
+import TopScreen from '../Screens/TopScreen/TopScreen';
 
 export default createBottomTabNavigator(
   {
@@ -34,6 +35,9 @@ export default createBottomTabNavigator(
     [Routes.Screens.SEARCH.routeName]: {
         screen: Search
     },
+    [Routes.Screens.TOP.routeName]: {
+      screen: TopScreen
+    }
   },
   {
     initialRouteName: Routes.Screens.HOME.routeName,

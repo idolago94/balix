@@ -118,6 +118,11 @@ class ApiService {
         return updateResponse;
     }
 
+    async getTopContents() {
+        let topResponse = await this.sendRequest('GET', '/content/top');
+        return topResponse;
+    }
+
     // Route: /actions
 
     async getUserActions(user_id) {
@@ -173,7 +178,7 @@ class ApiService {
                 body: JSON.stringify(body)
             })
             .then(res => res.json()).then(response => {
-                console.log('Api Response: ', response);
+                console.log('Api Response: ', response.toString().slice(0, 100));
                 LoaderStore.hideLoader();
                 resolve(response);
             })

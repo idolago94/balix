@@ -45,7 +45,7 @@ export default class TabBar extends Component {
               (<Icon size={Style.sizes.icon} name={iconNames.HOME} color={this.props.inactiveTintColor} />)
             }
             </TouchableHighlight>
-            <TouchableHighlight 
+            {/* <TouchableHighlight 
               onPress={() => this.navigateTo(Routes.Screens.RECENT_ACTIONS.routeName)} 
               style={styles.tab}
             >
@@ -53,6 +53,16 @@ export default class TabBar extends Component {
               (NavigationStore.getCurrentTab == Routes.Screens.RECENT_ACTIONS.routeName) ?
               (<Icon size={Style.sizes.icon} name={iconNames.TIMER} color={this.props.activeTintColor} />) :
               (<Icon size={Style.sizes.icon} name={iconNames.TIMER} color={this.props.inactiveTintColor} />)
+            }
+            </TouchableHighlight> */}
+            <TouchableHighlight 
+              onPress={() => this.navigateTo(Routes.Screens.TOP.routeName)} 
+              style={styles.tab}
+            >
+            {
+              (NavigationStore.getCurrentTab == Routes.Screens.TOP.routeName) ?
+              (<Icon size={Style.sizes.icon} name={iconNames.TOP} color={this.props.activeTintColor} />) :
+              (<Icon size={Style.sizes.icon} name={iconNames.TOP} color={this.props.inactiveTintColor} />)
             }
             </TouchableHighlight>
             <View style={styles.plusTabBox}>
@@ -99,7 +109,7 @@ const styles = StyleSheet.create({
   plusTabBox: {
     borderRadius: 99,
     backgroundColor: Style.colors.bar,
-    padding: 10,
+    padding: 20,
     aspectRatio: 1/1
   },
   plusTab: {

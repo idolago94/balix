@@ -35,5 +35,6 @@ export default Routes = {
         SET_KEYWORDS: {routeName: 'SET_KEYWORDS'},
         LOGIN: {routeName: 'Login_Screen'},
         APP_SCREEN: {routeName: 'App_Screen'},
+        TOP: {routeName: 'Top_Screen'}
     }
 }
