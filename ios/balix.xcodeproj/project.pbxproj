@@ -58,6 +58,7 @@
 		2D02E47B1E0B4A5D006451C7 /* balix-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "balix-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* balix-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "balix-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3423078A14D75EE5F565F8E9 /* Pods-balixTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-balixTests.release.xcconfig"; path = "Target Support Files/Pods-balixTests/Pods-balixTests.release.xcconfig"; sourceTree = "<group>"; };
+		5A8956B024324EBE007DD03B /* liblottie-react-native.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "liblottie-react-native.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A913E2F2405182B006DECDD /* fontello.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = fontello.ttf; path = ../app/assets/fonts/fontello.ttf; sourceTree = "<group>"; };
 		7294DC376D242FC6A1FF044A /* libPods-balix-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-balix-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0266927A6FB540935D22132 /* Pods-balix-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-balix-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-balix-tvOS/Pods-balix-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -141,6 +142,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5A8956B024324EBE007DD03B /* liblottie-react-native.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				F17D9C2704484E8126FDA5E1 /* libPods-balix.a */,

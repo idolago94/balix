@@ -10,7 +10,8 @@ import CashButtons from '../components/CashButtons/CashButtons';
 import { inject, observer } from "mobx-react";
 import Header from '../components/Header/Header';
 import Routes from '../Routes/Routes';
-
+import LottieView from 'lottie-react-native';
+import { window_width, window_height } from '../utils/view';
 
 @inject('CashButtonsStore', 'AuthStore', 'NavigationStore')
 @observer
@@ -38,6 +39,12 @@ export default class AppScreen extends Component {
       return (
         <View style={styles.screen}>
           {CashButtonsStore.isVisible && <CashButtons />}
+          {/* <LottieView 
+            style={{position: 'absolute', top: 0, left: 0, zIndex: 999, width: window_width, height: window_height}} 
+            source={require('../assets/smile.json')} 
+            autoPlay
+            loop 
+          /> */}
           <NavigatorMain                 
             ref={ref => {
               NavigationStore.setMainNavigation(ref);
