@@ -10,7 +10,7 @@ import { content_width, content_height, window_width } from '../../utils/view';
 import UpdateService from '../../Services/Updates';
 import IconButton from '../../components/IconButton/IconButton';
 import Slider from '@react-native-community/slider';
-
+import Video from 'react-native-video';
 
 @inject('AuthStore', 'NavigationStore', 'ContentsStore', 'LoaderStore')
 export default class PreviewPhoto extends Component {
@@ -108,10 +108,20 @@ export default class PreviewPhoto extends Component {
               <Text style={{color: Style.colors.lightMain, fontSize: 30}}>{this.state.entranceSecret}$</Text>
             </View>
           </View>}
-          <Image
-              style={{width: content_width, height: content_height, transform: [{ rotate: `${this.state.rotateDeg}deg` }]}}
-              source={{uri: this.state.imageData.uri}}
-          />
+
+          {this.state.imageData.type ? (
+            <Image
+                style={[styles.image, {transform: [{ rotate: `${this.state.rotateDeg}deg` }]}]}
+                source={{uri: this.state.imageData.uri}}
+            />
+          ):(
+            <Video 
+              source={{uri: this.state.imageData.uri}} 
+              style={[styles.image, {transform: [{ rotate: `${this.state.rotateDeg}deg` }]}]}
+              repeat
+            />
+          )}
+
         </View>
         <View style={styles.buttons}>
           <IconButton style={styles.btn} onPress={() => this.postImage()} icon={iconNames.COLLAGE} size={buttonSize} />
@@ -133,5 +143,9 @@ const styles = StyleSheet.create({
   },
   btn: {
     padding: 10
+  },
+  image: {
+    width: content_width, 
+    height: content_height
   }
 });

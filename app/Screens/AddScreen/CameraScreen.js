@@ -102,10 +102,11 @@ export default class CameraScreen extends Component {
   }
 
   onGallery() {
-    ImagePicker.launchImageLibrary({}, (imageSelected) => {
+    ImagePicker.launchImageLibrary({mediaType: 'mixed'}, (imageSelected) => {
       console.log('CameraScreen -> onGallery -> imageSelected ', imageSelected);
       if(!imageSelected.didCancel) {
         let secret = this.props.navigation.getParam('secret');
+        console.log('imageSelected', imageSelected);
         this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, {imageData: imageSelected, secret});
       }
     });
