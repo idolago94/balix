@@ -15,17 +15,6 @@ export default class ProgressiveImage extends Component {
     this.imageLoad = new Animated.Value(0);
   }
 
-  async componentDidMount() {
-    console.log('ProgressiveImage -> componentDidMount');
-    let base64 = this.props.BuffersStore.getBase64(this.props.buffer_id);
-    if(!base64) {
-      if(this.props.buffer_id && this.props.buffer_id != 'non-profile') {
-        let buffer = await ApiService.getBuffer(this.props.buffer_id);
-        this.props.BuffersStore.setBuffers([buffer]);
-      }
-    }
-  }
-
   onImageLoad() {
     Animated.timing(this.imageLoad, {
       toValue: 1,
@@ -34,16 +23,12 @@ export default class ProgressiveImage extends Component {
 
   render() {
     console.log('Photo -> render');
-    let base64 = null;
-    if(this.props.buffer_id && this.props.buffer_id != 'non-profile') {
-      base64 = this.props.BuffersStore.getBase64(this.props.buffer_id);
-    }
     if(this.props.onDoubleClick) {
         return (
             <DoubleClick onClick={this.props.onDoubleClick.bind(this)} style={{backgroundColor: '#dddddd'}}>
                 <Animated.Image
                   style={[this.props.style, {opacity: this.imageLoad}]}
-                  source={{uri: base64}}
+                  source={{uri: this.props.url}}
                   onLoad={() => this.onImageLoad()}
                 />
             </DoubleClick>
@@ -52,7 +37,7 @@ export default class ProgressiveImage extends Component {
     return (
         <Animated.Image
             style={[this.props.style, {opacity: this.imageLoad}]}
-            source={this.props.buffer_id != 'non-profile' ? ({uri: base64}):(require('../../assets/non-profile.png'))}
+            source={this.props.url != 'non-profile' ? ({uri: this.props.url}):(require('../../assets/non-profile.png'))}
             onLoad={() => this.onImageLoad()}
         />
     )

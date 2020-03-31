@@ -17,7 +17,7 @@ import HandleError from '../../components/HandleError/HandleError';
 export default class LoginScreen extends Component {
 
   constructor(props) {
-    console.log('Login Screen');
+    console.log('Login Screen -> constructor');
     super(props);
     this.state = {
       securePassword: true
@@ -74,6 +74,10 @@ export default class LoginScreen extends Component {
                 </TouchableHighlight>
 
                 </View>
+
+                <TextButton onPress={() => AuthStore.login({username: 'Test', password: '1234'})} content={'Log Test'} />
+                <TextButton onPress={() => AuthStore.login({username: 'Test2', password: '1234'})} content={'Log Test2'} />
+
         </View>
     );
   }

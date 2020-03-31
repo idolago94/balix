@@ -195,13 +195,12 @@ export default class PhotoScreen extends Component {
     const {NavigationStore, ContentsStore, UsersStore, BuffersStore, navigation} = this.props;
     const userData = UsersStore.getUserById(navigation.getParam('user_id'));
     const imageData = ContentsStore.getContentById(navigation.getParam('id'));
-    // const base64 = BuffersStore.getBase64(imageData.buffer_id);
     return (!userData || !imageData) ? null :
         <ScrollView style={styles.container}>
           <View style={styles.photoBox}>
             <ProgressiveImage 
               style={{width: '100%', height: '100%'}}
-              buffer_id={imageData.buffer_id}
+              url={imageData.url}
               onDoubleClick={this.toggleEmoji.bind(this)}
             />
             <PhotoIndicator 

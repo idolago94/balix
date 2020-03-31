@@ -10,7 +10,6 @@ import AppTitle from '../../components/AppTitle/AppTitle';
 import TextButton from '../../components/TextButton/TextButton';
 import { inject, observer } from 'mobx-react';
 import ApiService from '../../Services/Api';
-import UploadService from '../../Services/Upload';
 import HandleError from '../../components/HandleError/HandleError';
 import FooterButton from './FooterButton';
 
@@ -42,8 +41,8 @@ export default class SetProfileImage extends Component {
             const {navigation, AuthStore} = this.props;
             const {profileImage} = this.state;
             let signupUser = navigation.getParam('user');
-            let resizedProfile = await UploadService.buildProfileImage(profileImage);
-            let setProfileResponse = await ApiService.updateProfileImage(signupUser._id, resizedProfile);
+            let setProfileResponse = await ApiService.updateProfileImage(signupUser._id, profileImage);
+            debugger;
             signupUser.profileImage = setProfileResponse._id;
             navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {user: signupUser});
         }

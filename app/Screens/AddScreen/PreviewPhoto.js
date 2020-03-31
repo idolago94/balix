@@ -4,7 +4,6 @@ import Style from '../../helpers/style/style';
 import Icon, {iconNames} from '../../components/Icon/Icon';
 import Routes from "../../Routes/Routes";
 import { inject, observer } from "mobx-react";
-import UploadService from '../../Services/Upload';
 import ApiService from '../../Services/Api';
 import { content_width, content_height, window_width } from '../../utils/view';
 import UpdateService from '../../Services/Updates';
@@ -52,20 +51,19 @@ export default class PreviewPhoto extends Component {
     this.setState({ rotateDeg: this.state.rotateDeg+90 })
   }
 
-  async postImage() {
-    console.log('PreviewPhoto -> postImage');
-    const {AuthStore, NavigationStore, navigation} = this.props;
-    NavigationStore.setProgress(true);
+  async doUpload() {
+    console.log('PreviewPhoto -> doUpload');
+    const {AuthStore, NavigationStore, ContentsStore, navigation} = this.props;
     let secretMode = navigation.getParam('secret');
+    NavigationStore.setProgress(true);
     NavigationStore.navigate(secretMode ? (Routes.Screens.PROFILE.routeName):(Routes.Screens.HOME.routeName), secretMode ? ({id: AuthStore.getUserLogin._id}):({}));
-    let upload = await UploadService.buildImageForUpload(this.state.imageData);
-    let uploadResponse = null;
+    let uploadResponse = null; // new upload object(contents collection)
     if(secretMode) {
-      upload.entrance = this.state.entranceSecret;
-      uploadResponse = await ApiService.uploadSecret(AuthStore.getUserLogin._id, upload); // the new upload object
+      uploadResponse = await ApiService.uploadSecret(AuthStore.getUserLogin._id, this.state.imageData, this.state.entranceSecret);
     } else {
-      uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, upload); // the new upload object
+      uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, this.state.imageData);
     }
+
     if(uploadResponse.error) {
       NavigationStore.setBanner(uploadResponse.error);
     } else {
@@ -90,7 +88,7 @@ export default class PreviewPhoto extends Component {
       <View style={{flex: 1, backgroundColor: Style.colors.background, paddingTop: (Platform.OS == 'ios') ? (40):(0)}}>
         <View style={{alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row', width: window_width}}>
           {isSecret && <Icon name={iconNames.LOCK} size={buttonSize} color={Style.colors.icon} />}
-          <IconButton style={styles.btn} onPress={() => this.postImage()} icon={iconNames.CONFIRM} size={buttonSize} />
+          <IconButton style={styles.btn} onPress={() => this.doUpload()} icon={iconNames.CONFIRM} size={buttonSize} />
         </View>
         <View style={styles.container}>
           {isSecret && <View>

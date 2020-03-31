@@ -42,7 +42,7 @@ export default function ProfileSymbol(props) {
             <TouchableHighlight style={[(props.story || props.live) ? (styles.storyBorder):({})]} onPress={imageClicked.bind(this)}>
                 <ProgressiveImage 
                   style={[styles.image, {height: props.size, width: props.size}]}
-                  buffer_id={props.src || 'non-profile'}
+                  url={props.src || 'non-profile'}
                 />
             </TouchableHighlight>
             ) :
@@ -50,7 +50,7 @@ export default function ProfileSymbol(props) {
               <View style={[(props.story || props.live) ? (styles.storyBorder):({})]}>
                 <ProgressiveImage 
                   style={[styles.image, {height: props.size, width: props.size}]}
-                  buffer_id={props.src || 'non-profile'}
+                  url={props.src || 'non-profile'}
                 />
               </View>
             )

@@ -74,9 +74,9 @@ export default class Action extends Component {
                             </Text>
                             <Text style={styles.action}> in total {actionData.emoji.value}$.</Text>
                         </View>
-                        {actionData.image_buffer_id && <ProgressiveImage 
+                        {actionData.image_url && <ProgressiveImage 
                             style={{width: 30, height: 30, borderRadius: 5}}
-                            buffer_id={actionData.image_buffer_id}
+                            url={actionData.image_url}
                         />}
                     </View>
                 )
@@ -108,7 +108,7 @@ export default class Action extends Component {
                         <Text style={styles.action}>You upload a new photo.</Text>
                         <ProgressiveImage 
                                 style={{width: 30, height: 30, borderRadius: 5}}
-                                buffer_id={actionData.image_buffer_id}
+                                url={actionData.image_url}
                         />
                     </View>
                 );
@@ -180,7 +180,7 @@ export default class Action extends Component {
                         <Text style={styles.action}>You upload new secret.</Text>
                         <ProgressiveImage 
                                 style={{width: 30, height: 30, borderRadius: 5}}
-                                buffer_id={actionData.image_buffer_id}
+                                url={actionData.image_url}
                         />                   
                     </View>
                 )
@@ -214,9 +214,9 @@ export default class Action extends Component {
                                 }'s secret.
                             </Text>
                         </View>
-                        {actionData.image_buffer_id && <ProgressiveImage 
+                        {actionData.image_url && <ProgressiveImage 
                             style={{width: 30, height: 30, borderRadius: 5}}
-                            buffer_id={actionData.image_buffer_id}
+                            url={actionData.image_url}
                         />}
                     </View>
                 )
@@ -244,9 +244,9 @@ export default class Action extends Component {
                             </Text>
                             <Text style={styles.action}> in total {actionData.emoji.value}$.</Text>
                         </View>
-                        {actionData.image_buffer_id && <ProgressiveImage 
+                        {actionData.image_url && <ProgressiveImage 
                             style={{width: 30, height: 30, borderRadius: 5}}
-                            buffer_id={actionData.image_buffer_id}
+                            url={actionData.image_url}
                         />}
                     </View>
                 )

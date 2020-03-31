@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import NavigatorMain from '../Routes/navigatorMain';
 import AppNavigator from '../Routes/AppNavigator';
 // Components
-import {StyleSheet, View, Dimensions} from 'react-native';
+import {StyleSheet, View, Dimensions, Image} from 'react-native';
 // import LoginScreen from './LoginScreen/LoginScreen';
 import CashButtons from '../components/CashButtons/CashButtons';
 
@@ -41,9 +41,9 @@ export default class AppScreen extends Component {
           {CashButtonsStore.isVisible && <CashButtons />}
           {/* <LottieView 
             style={{position: 'absolute', top: 0, left: 0, zIndex: 999, width: window_width, height: window_height}} 
-            source={require('../assets/smile.json')} 
+            source={require('../assets/tongue.json')}
             autoPlay
-            loop 
+            loop
           /> */}
           <NavigatorMain                 
             ref={ref => {

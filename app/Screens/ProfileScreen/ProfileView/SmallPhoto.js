@@ -59,7 +59,6 @@ export default class SmallPhoto extends Component {
             return null;
         }
         const isViewed = imageData.views.includes(AuthStore.getUserLogin._id);
-        // const isViewed = ContentsStore.isSecretViewed(imageData._id);
         return (
             <TouchableOpacity
                 style={s.imageBox}
@@ -67,7 +66,7 @@ export default class SmallPhoto extends Component {
             >
                 <ProgressiveImage 
                     style={s.photo}
-                    buffer_id={imageData.buffer_id}
+                    url={imageData.url}
                 />
                 {this.props.secret && !this.props.isMy && !isViewed && <BlurView 
                   style={[s.photo, {position: 'absolute', top: 0, left: 0}]}

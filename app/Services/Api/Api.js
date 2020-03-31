@@ -1,4 +1,6 @@
 import { LoaderStore, NavigationStore } from "../../mobx";
+import { Platform } from 'react-native';
+import CompressService from "../Compress";
 
 class ApiService {
 
@@ -58,7 +60,14 @@ class ApiService {
         if(!user_id || !image) {
             return null;
         }
-        let updateResponse = await this.sendRequest('POST', '/users/updateProfileImage?id=' + user_id, {image});
+        let resizedImage = await CompressService.buildProfileImage(image);
+        let data = new FormData();
+        data.append('file', {
+            name: resizedImage.name,
+            uri:
+              Platform.OS === "android" ? resizedImage.uri : resizedImage.uri.replace("file://", "")
+        })
+        let updateResponse = await this.sendUploadRequest('/users/updateProfileImage?id=' + user_id, data);
         return updateResponse;
     }
 
@@ -77,9 +86,17 @@ class ApiService {
 
     // Route: /content
 
-    async upload(user_id, upload_obj) {
-        let uploadResponse = await this.sendRequest('POST', '/content/upload?id=' + user_id, {file: upload_obj});
-        return uploadResponse;
+    async upload(user_id, content) {
+        let upload_obj = await CompressService.compressFile(content);
+        let data = new FormData();
+        data.append('file', {
+            name: upload_obj.name,
+            type: content.type || 'video/mp4',
+            uri:
+              Platform.OS === "android" ? upload_obj.uri : upload_obj.uri.replace("file://", "")
+        })
+        let updateResponse = await this.sendUploadRequest(`/content/upload?id=${user_id}`, data);
+        return updateResponse;
     }
 
     async getAllContents() {
@@ -108,12 +125,22 @@ class ApiService {
         return contentsResponse;
     }
 
-    async uploadSecret(user_id, upload_obj) {
-        let uploadResponse = await this.sendRequest('POST', '/content/uploadSecret?id=' + user_id, {file: upload_obj});
-        return uploadResponse;
+    async uploadSecret(user_id, content, secretEntrance) {
+        let upload_obj = await CompressService.compressFile(content);
+        let data = new FormData();
+        data.append('file', {
+            name: upload_obj.name,
+            type: content.type,
+            uri:
+              Platform.OS === "android" ? upload_obj.uri : upload_obj.uri.replace("file://", "")
+        });
+        data.append('entrance', secretEntrance);
+        let updateResponse = await this.sendUploadRequest(`/content/upload?id=${user_id}&secret=true`, data);
+        return updateResponse;
     }
 
     async addSecretView(user_id, content) {
+        console.log('ApiService -> addSecretView', content);
         let updateResponse = await this.sendRequest('PUT', '/content/addSecretView?id=' + user_id, {content});
         return updateResponse;
     }
@@ -176,6 +203,30 @@ class ApiService {
                 method: method,
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(body)
+            })
+            .then(res => res.json()).then(response => {
+                console.log('Api Response: ', response.toString().slice(0, 100));
+                LoaderStore.hideLoader();
+                resolve(response);
+            })
+            .catch(err => {
+                LoaderStore.hideLoader();
+                NavigationStore.setBanner(err.message);
+                // resolve({error: err.message});
+            });
+        });
+    }
+
+    sendUploadRequest(route, body) {
+        return new Promise((resolve, reject) => {
+            console.log('ApiService -> sendRequest -> ', route, body);
+            LoaderStore.showLoader();
+            // let server_url = 'http://34.69.232.216:8080'; // google server 
+            let server_url = 'http://127.0.0.1:8080'; // local server
+            fetch(server_url + route, {
+                method: 'POST',
+                headers: {'Content-Type': 'multipart/form-data'},
+                body: body
             })
             .then(res => res.json()).then(response => {
                 console.log('Api Response: ', response.toString().slice(0, 100));

@@ -204,7 +204,7 @@ export default class Photo extends Component {
           <ProgressiveImage 
             style={{width: content_width, height: content_height}}
             onDoubleClick={this.toggleEmoji.bind(this)}
-            buffer_id={imageData.buffer_id}
+            url={imageData.url}
           />
           <PhotoIndicator 
             user={userData}
