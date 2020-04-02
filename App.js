@@ -19,7 +19,6 @@ import SplashScreen from 'react-native-splash-screen'
 // hydrate('ContentsStore', Stores.ContentsStore);
 // hydrate('UsersStore', Stores.UsersStore);
 // hydrate('IdentifierStore', Stores.IdentifierStore);
-// hydrate('BuffersStore', Stores.BuffersStore);
 // hydrate('ActionsStore', Stores.ActionsStore);
 
 

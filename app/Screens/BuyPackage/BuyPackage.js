@@ -28,7 +28,7 @@ export default class BuyPackage extends Component {
         {/* {this.props.AuthStore.getUserLogin.profileImage && (
               <Image
                 style={{height: '100%', width: '100%', position: 'absolute', top: 0, left: 0, opacity: 0.1}}
-                source={{uri: `data:${this.props.AuthStore.getUserLogin.profileImage.contentType};base64,${bufferToBase64(this.props.AuthStore.getUserLogin.profileImage.buffer)}`}}
+                source={{uri: this.props.AuthStore.getUserLogin.profileImage}}
               />
         )} */}
         <View>

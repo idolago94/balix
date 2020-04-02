@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import userService from '../../demoDB/Users/userService';
 import messageService from '../../demoDB/Messages/messageService';
-import ProfileSymbol from '../ProfileSymbol/ProfileSymbol';
+import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 import Routes from '../../utils/Routes';
 import { inject, observer } from "mobx-react";
 import { colors } from '../../utils/style';

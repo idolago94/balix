@@ -2,11 +2,7 @@ import React, {Component} from 'react';
 // Componenta
 import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Alert} from 'react-native';
 import DoubleClick from 'react-native-double-click';
-import { inject, observer } from "mobx-react";
-import ApiService from '../../Services/Api';
 
-@inject('BuffersStore')
-@observer
 export default class ProgressiveImage extends Component {
 
   constructor(props) {

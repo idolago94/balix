@@ -13,7 +13,7 @@ import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveI
 import { photo_box, content, emoji_popup_box, colors } from '../../../utils/style';
 import { thousandsWithCommas } from '../../../utils/Tools';
 
-@inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'BuffersStore')
+@inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
 @observer
 export default class PhotoScreen extends Component {
   // Params = [ userImages, selectedImage, userData ] ||
@@ -190,7 +190,7 @@ export default class PhotoScreen extends Component {
 
   render() {
     const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments, userImages} = this.state;
-    const {NavigationStore, ContentsStore, UsersStore, BuffersStore, navigation} = this.props;
+    const {NavigationStore, ContentsStore, UsersStore, navigation} = this.props;
     const userData = UsersStore.getUserById(navigation.getParam('user_id'));
     const imageData = ContentsStore.getContentById(navigation.getParam('id'));
     return (!userData || !imageData) ? null :

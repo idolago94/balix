@@ -13,7 +13,6 @@ import {
 import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import { withComma } from '../../utils/emojis';
-import db from "../../database/db";
 import Routes from "../../utils/Routes";
 import StoryEmojiBox from "./StoryEmojiBox";
 import { inject, observer } from 'mobx-react';
@@ -245,21 +244,21 @@ export default class StoryScreen extends Component {
       image_id: this.state.userData.story[imageIndex].id,
       achievements: { cash: (values.emoji) ? (values.emoji.value):(0), hearts: values.hearts, emoji: values.emoji }
     }
-    fetch(`${db.url}/images/updateAchievement?id=${this.props.AuthStore.getUserLogin._id}&story=true`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(bodyRequest)
-    }).then(res => res.json()).then(response => {
-      if (!response.error) {
-        this.props.UsersStore.updateUser(this.state.userData._id, {cash: response.cash, hearts: response.hearts, story: response.story});
-        this.props.AuthStore.updateUserLogin({
-          cash: this.props.AuthStore.getUserLogin.cash - bodyRequest.achievements.cash, 
-          hearts: this.props.AuthStore.getUserLogin.hearts - bodyRequest.achievements.hearts
-        });
-      } else console.log(response.error);
-    });
+    // fetch(`${db.url}/images/updateAchievement?id=${this.props.AuthStore.getUserLogin._id}&story=true`, {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(bodyRequest)
+    // }).then(res => res.json()).then(response => {
+    //   if (!response.error) {
+    //     this.props.UsersStore.updateUser(this.state.userData._id, {cash: response.cash, hearts: response.hearts, story: response.story});
+    //     this.props.AuthStore.updateUserLogin({
+    //       cash: this.props.AuthStore.getUserLogin.cash - bodyRequest.achievements.cash, 
+    //       hearts: this.props.AuthStore.getUserLogin.hearts - bodyRequest.achievements.hearts
+    //     });
+    //   } else console.log(response.error);
+    // });
   }
 
   renderAnimationEmoji() {

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 // Components
-import {StyleSheet, Text, View, TouchableHighlight, TextInput, Animated, Platform, Alert, Dimensions, Image} from 'react-native';
-import Icon, { iconNames } from '../../components/Icon/Icon';
+import {StyleSheet, Text, View, TouchableHighlight, Dimensions, Image} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import db from "../../database/db";
 import Routes from '../../utils/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
 import TextButton from '../../components/TextButton/TextButton';

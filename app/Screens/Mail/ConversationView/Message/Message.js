@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import ProfileSymbol from '../../../ProfileSymbol/ProfileSymbol';
+import ProfileSymbol from '../../../../components/ProfileSymbol/ProfileSymbol';
 import { colors } from '../../../../utils/style';
 
 export default class Message extends Component {

@@ -1,5 +1,5 @@
 import ApiService from "../Api";
-import { UsersStore, AuthStore, ContentsStore, IdentifierStore, BuffersStore, ActionsStore, GraphStore, NavigationStore } from "../../mobx";
+import { UsersStore, AuthStore, ContentsStore, IdentifierStore, ActionsStore, GraphStore, NavigationStore } from "../../mobx";
 
 class UpdateService {
 
@@ -18,17 +18,12 @@ class UpdateService {
                 content_ids.push(up);
                 let content_from_store = ContentsStore.getContentById(up.content_id);
                 if(!content_from_store || new Date(up.lastUpdate) > new Date(content_from_store.lastUpdate)) {
+                    // if there is update
                     contents_to_update_ids.push(up.content_id);
                 }
             });
         });
         let contents = await ApiService.getSomeContents(contents_to_update_ids);
-        let buffers_ids = []
-        contents.map(c => {
-            if(!ContentsStore.getContentById(c._id)) {
-                buffers_ids.push(c.buffer_id);
-            }
-        });
         ContentsStore.setContents(contents);
         UsersStore.setUsers(fetch_users);
         IdentifierStore.setFollowing(content_ids);

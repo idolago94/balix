@@ -175,24 +175,6 @@ class ApiService {
         return searchResponse;
     }
 
-    // Route: /buffer
-
-    async getBuffer(id) {
-        if(!id || id == '') {
-            return null;
-        }
-        let bufferResponse = await this.sendRequest('GET', '/buffer/?id=' + id);
-        return bufferResponse;
-    }
-
-    async getBuffers(ids_array) {
-        if(!ids_array || ids_array.length < 1) {
-            return [];
-        }
-        let bufferResponse = await this.sendRequest('GET', '/buffer/some?ids=' + ids_array.join());
-        return bufferResponse;
-    }
-
     // erver_url = 'http://34.69.232.216:8080'; // google server 
     server_url = 'http://127.0.0.1:8080'; // local server
 

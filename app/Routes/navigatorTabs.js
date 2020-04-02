@@ -7,7 +7,7 @@ import ProfileView from '../Screens/ProfileScreen/ProfileView/ProfileView';
 import Graph from '../Screens/GraphScreen/Graph/Graph';
 import RecentActions from '../Screens/RecentActionsScreen/RecentActions/RecentActions';
 import PhotoScreen from '../Screens/PhotoScreen/PhotoScreen/PhotoScreen';
-import Mail from '../components/Mail/Mail';
+import Mail from '../Screens/Mail/Mail';
 import Search from '../Screens/Search/Search';
 import TopScreen from '../Screens/TopScreen/TopScreen';
 import { colors, sizes } from '../utils/style';

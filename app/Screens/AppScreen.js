@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 // Navigation
 import NavigatorMain from '../Routes/navigatorMain';
-import AppNavigator from '../Routes/AppNavigator';
 // Components
 import {StyleSheet, View, Dimensions, Image} from 'react-native';
 // import LoginScreen from './LoginScreen/LoginScreen';

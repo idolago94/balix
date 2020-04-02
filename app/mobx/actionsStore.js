@@ -1,5 +1,4 @@
 import { observable, action, computed, set, get } from "mobx";
-import db from "../database/db";
 import { persist } from "mobx-persist";
 
 
