@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Image, TouchableHighlight, Platform, Animated, Dimensions } from 'react-native';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import CameraRoll from "@react-native-community/cameraroll";
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import { colors, sizes } from '../../utils/style';
 
 const pictureButtonSize = 70;

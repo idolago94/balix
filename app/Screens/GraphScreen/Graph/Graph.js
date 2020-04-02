@@ -12,7 +12,7 @@ import UpdateService from '../../../Services/Updates';
 import { inject, observer } from "mobx-react";
 import { window_width } from '../../../utils/view';
 import { colors } from '../../../utils/style';
-import Routes from '../../../Routes/Routes';
+import Routes from '../../../utils/Routes';
 
 @inject('AuthStore', 'ActionsStore', 'GraphStore', 'NavigationStore')
 @observer

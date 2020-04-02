@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions, Animated, Text } from 'react-native';
 import ProfileSymbol from '../../../../components/ProfileSymbol/ProfileSymbol';
 import Popup from './Popup';
-import Routes from '../../../../Routes/Routes';
+import Routes from '../../../../utils/Routes';
 import Volunteer from './Volunteer';
 import { inject, observer } from "mobx-react";
 import { colors } from '../../../../utils/style';

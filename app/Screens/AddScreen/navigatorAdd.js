@@ -1,7 +1,7 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import CameraScreen from './CameraScreen';
 import PreviewPhoto from './PreviewPhoto';
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import { colors } from '../../utils/style';
 
 export default createStackNavigator(

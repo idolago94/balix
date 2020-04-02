@@ -7,7 +7,7 @@ import { inject, observer } from 'mobx-react';
 import ApiService from '../../../Services/Api';
 import moment from 'moment';
 import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
-import Routes from '../../../Routes/Routes';
+import Routes from '../../../utils/Routes';
 import { colors } from '../../../utils/style';
 
 @inject('AuthStore', 'UsersStore', 'ActionsStore', 'NavigationStore')

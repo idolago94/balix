@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
-import Routes from './Routes';
+import Routes from '../utils/Routes';
 import navigatorTabs from './navigatorTabs';
 import Header from '../components/Header/Header';
 

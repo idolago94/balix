@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions, Animated, Text } from 'react-native';
 import ProfileSymbol from '../../../../components/ProfileSymbol/ProfileSymbol';
 import { inject, observer } from "mobx-react";
-import Routes from '../../../../Routes/Routes';
+import Routes from '../../../../utils/Routes';
 import ApiService from '../../../../Services/Api';
 import Icon, {iconNames} from '../../../../components/Icon/Icon';
 import { colors } from '../../../../utils/style';

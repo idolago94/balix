@@ -6,7 +6,7 @@ import RadialGradient from 'react-native-radial-gradient';
 import db from "../../../database/db";
 import { inject, observer } from "mobx-react";
 import ApiService from '../../../Services/Api';
-import Routes from '../../../Routes/Routes';
+import Routes from '../../../utils/Routes';
 import { colors } from '../../../utils/style';
 
 @inject('AuthStore', 'NavigationStore')

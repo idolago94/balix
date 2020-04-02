@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, TouchableHighlight, Platform, Text } from 'react-native';
 import Icon, {iconNames} from '../../components/Icon/Icon';
-import Routes from "../../Routes/Routes";
+import Routes from "../../utils/Routes";
 import { inject, observer } from "mobx-react";
 import ApiService from '../../Services/Api';
 import { content_width, content_height, window_width } from '../../utils/view';

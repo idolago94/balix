@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { iconNames } from '../../../components/Icon/Icon';
 import ProfileSymbol from '../../../components/ProfileSymbol/ProfileSymbol';
-import Routes from '../../../Routes/Routes';
+import Routes from '../../../utils/Routes';
 import UserIndicators from './UserIndicators';
 import { colors } from '../../../utils/style';
 

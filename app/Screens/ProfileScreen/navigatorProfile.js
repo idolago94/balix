@@ -1,6 +1,6 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import commonRoutes from '../../Routes/commonRoutes';
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import { colors } from '../../utils/style';
 
 // export const profileRoutesName = {

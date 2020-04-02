@@ -2,7 +2,7 @@ import { observable, action, computed } from "mobx";
 import { NavigationActions } from 'react-navigation';
 import { DrawerActions } from 'react-navigation-drawer';
 import { Keyboard } from 'react-native';
-import Routes from "../Routes/Routes";
+import Routes from "../utils/Routes";
 import AuthStore from './authStore';
 import {Alert} from 'react-native';
 

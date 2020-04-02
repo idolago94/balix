@@ -5,7 +5,7 @@ import SingleComment from './Comments/SingleComment';
 import EmojiBox from './EmojiBox/EmojiBox';
 import PhotoIndicator from './PhotoIndicator';
 import Icon, {iconNames} from '../Icon/Icon';
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import { inject, observer } from "mobx-react";
 import ApiService from '../../Services/Api';
 import Buttons from './Buttons';

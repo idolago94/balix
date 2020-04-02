@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // Components
 import {StyleSheet, Text, View, TouchableHighlight, Image, Dimensions} from 'react-native';
 import FormField from '../../components/FormField/FormField';
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
 import { inject, observer } from 'mobx-react';
 import ApiService from '../../Services/Api';

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Animated, Platform } from 'react-native';
 import RequestPass from './RequestPass/RequestPass';
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import { inject } from "mobx-react";
 import { sizes, colors } from '../../utils/style';
 

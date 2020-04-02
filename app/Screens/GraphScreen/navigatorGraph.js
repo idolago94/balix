@@ -1,7 +1,7 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import Graph from './Graph/Graph';
 import commonRoutes from '../../Routes/commonRoutes';
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import { colors } from '../../utils/style';
 
 

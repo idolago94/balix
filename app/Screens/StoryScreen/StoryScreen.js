@@ -14,7 +14,7 @@ import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import { withComma } from '../../utils/emojis';
 import db from "../../database/db";
-import Routes from "../../Routes/Routes";
+import Routes from "../../utils/Routes";
 import StoryEmojiBox from "./StoryEmojiBox";
 import { inject, observer } from 'mobx-react';
 import { colors, sizes } from '../../utils/style';

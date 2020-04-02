@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, ScrollView, FlatList, SafeAreaView, Dimensions} 
 import Photo from '../../components/Photo/Photo';
 import Header from '../../components/Header/Header';
 // Navigator
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import { inject, observer } from "mobx-react";
 import UpdatesService from '../../Services/Updates';
 import ProfileIndicator from '../HomeScreen/ProfileIndicator';

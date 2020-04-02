@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {View, FlatList} from 'react-native';
 import Photo from '../../components/Photo/Photo';
 import Header from '../../components/Header/Header';
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import HomeEmpty from "./HomeEmpty";
 import { inject, observer } from "mobx-react";
 import UpdatesService from '../../Services/Updates';

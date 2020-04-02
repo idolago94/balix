@@ -3,7 +3,7 @@ import {Text, View} from 'react-native';
 import { inject, observer } from "mobx-react";
 import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 import { sliceString } from '../../utils/view';
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import { colors } from '../../utils/style';
 
 @inject('UsersStore', 'NavigationStore', 'ContentsStore')

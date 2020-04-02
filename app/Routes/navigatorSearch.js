@@ -1,7 +1,7 @@
 import {createStackNavigator} from 'react-navigation-stack';
 
 import commonRoutes, {commonRouteConfig} from './commonRoutes';
-import Routes from './Routes';
+import Routes from '../utils/Routes';
 import Search from '../Screens/Search/Search';
 import { colors } from '../utils/style';
 

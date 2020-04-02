@@ -4,7 +4,7 @@ import {StyleSheet, View, TouchableHighlight, Platform, Animated, Dimensions, Te
 import Icon, {iconNames} from '../Icon/Icon';
 import CashIndicator from './CashIndicator/CashIndicator';
 // Navigator
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 
 import { inject, observer } from "mobx-react";
 import HeaderButton from './HeaderButton/HeaderButton';

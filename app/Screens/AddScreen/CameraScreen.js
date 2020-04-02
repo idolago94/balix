@@ -5,7 +5,7 @@ import AddHeader from './AddHeader';
 import AddBottomBar from './AddBottomBar';
 import { RNCamera } from 'react-native-camera';
 import CameraRoll from "@react-native-community/cameraroll";
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import ImagePicker from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';

@@ -1,7 +1,7 @@
 import Comments from "../components/Photo/Comments/Comments";
 import ProfileView from "../Screens/ProfileScreen/ProfileView/ProfileView";
 import ConversationView from "../components/Mail/ConversationView/ConversationView";
-import Routes from './Routes';
+import Routes from '../utils/Routes';
 import PhotoScreen from "../Screens/PhotoScreen/PhotoScreen/PhotoScreen";
 
 export const commonRouteConfig = {

@@ -1,7 +1,7 @@
 import {createStackNavigator} from 'react-navigation-stack';
 
 import commonRoutes, {commonRouteConfig} from '../../Routes/commonRoutes';
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import Mail from './Mail';
 import { colors } from '../../utils/style';
 

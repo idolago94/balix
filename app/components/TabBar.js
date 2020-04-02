@@ -130,7 +130,7 @@ import LinearGradient from 'react-native-linear-gradient';
 // Components
 import { StyleSheet, View, TouchableHighlight, Platform } from 'react-native';
 import Icon, {iconNames} from './Icon/Icon';
-import Routes from '../Routes/Routes';
+import Routes from '../utils/Routes';
 import { inject, observer } from "mobx-react";
 import { colors, sizes } from '../utils/style';
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {StyleSheet, Text, View, TouchableHighlight, TextInput, Animated, Platform} from 'react-native';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager} from 'react-native-fbsdk';
 import FormField from '../../components/FormField/FormField';
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
 import TextButton from '../../components/TextButton/TextButton';
 import { inject, observer } from "mobx-react";

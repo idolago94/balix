@@ -1,7 +1,7 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import commonRoutes, {commonRoutesName, commonRouteConfig} from '../../Routes/commonRoutes';
 import RecentActions from './RecentActions/RecentActions';
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import { colors } from '../../utils/style';
 
 // export const recentActionsRoutesName = {

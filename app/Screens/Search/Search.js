@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View, TouchableHighlight, FlatList, Text} from 'react-native';
 import Header from '../../components/Header/Header';
 import Result from './Result';
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import SearchEmpty from "./SearchEmpty";
 import NotFound from "./NotFound";
 import { inject, observer } from 'mobx-react';

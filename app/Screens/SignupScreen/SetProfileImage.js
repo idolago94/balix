@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, TouchableHighlight, TextInput, Animated, Platfor
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import ImagePicker from 'react-native-image-picker';
 import db from "../../database/db";
-import Routes from '../../Routes/Routes';
+import Routes from '../../utils/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
 import TextButton from '../../components/TextButton/TextButton';
 import { inject, observer } from 'mobx-react';

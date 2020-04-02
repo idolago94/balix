@@ -2,7 +2,7 @@ import {createAppContainer} from 'react-navigation';
 import LiveScreen from '../Screens/LiveScreen/LiveScreen';
 import StoryScreen from '../Screens/StoryScreen/StoryScreen';
 import NavigatorAdd from '../Screens/AddScreen/navigatorAdd';
-import Routes from './Routes';
+import Routes from '../utils/Routes';
 import BuyPackage from '../Screens/BuyPackage/BuyPackage';
 import WithdrawScreen from '../Screens/WithdrawScreen/WithdrawScreen';
 import { createDrawerNavigator } from 'react-navigation-drawer';

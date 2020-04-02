@@ -8,7 +8,7 @@ import {StyleSheet, View, Dimensions, Image} from 'react-native';
 import CashButtons from '../components/CashButtons/CashButtons';
 
 import { inject, observer } from "mobx-react";
-import Routes from '../Routes/Routes';
+import Routes from '../utils/Routes';
 import LottieView from 'lottie-react-native';
 import { window_width, window_height } from '../utils/view';
 

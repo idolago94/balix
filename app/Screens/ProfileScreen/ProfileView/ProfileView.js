@@ -5,7 +5,7 @@ import Photos from './Photos';
 import Header from '../../../components/Header/Header';
 import ProfileButton from './ProfileButton';
 import { inject, observer } from "mobx-react";
-import Routes from '../../../Routes/Routes';
+import Routes from '../../../utils/Routes';
 import ApiService from '../../../Services/Api';
 import { window_width } from '../../../utils/view';
 import { iconNames } from '../../../components/Icon/Icon';
