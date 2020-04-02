@@ -193,13 +193,14 @@ class ApiService {
         return bufferResponse;
     }
 
+    // erver_url = 'http://34.69.232.216:8080'; // google server 
+    server_url = 'http://127.0.0.1:8080'; // local server
+
     sendRequest(method, route, body) {
         return new Promise((resolve, reject) => {
             console.log('ApiService -> sendRequest -> ', method, route, body);
             LoaderStore.showLoader();
-            // let server_url = 'http://34.69.232.216:8080'; // google server 
-            let server_url = 'http://127.0.0.1:8080'; // local server
-            fetch(server_url + route, {
+            fetch(this.server_url + route, {
                 method: method,
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(body)
@@ -221,9 +222,7 @@ class ApiService {
         return new Promise((resolve, reject) => {
             console.log('ApiService -> sendRequest -> ', route, body);
             LoaderStore.showLoader();
-            // let server_url = 'http://34.69.232.216:8080'; // google server 
-            let server_url = 'http://127.0.0.1:8080'; // local server
-            fetch(server_url + route, {
+            fetch(this.server_url + route, {
                 method: 'POST',
                 headers: {'Content-Type': 'multipart/form-data'},
                 body: body
