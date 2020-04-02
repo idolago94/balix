@@ -1,4 +1,4 @@
-export const emojis = {
+export default {
     ANGEL: { url: require('../assets/emojis/angel.png'), value: 2 } ,
     BROKEN_HEART: { url: require('../assets/emojis/broken-heart.png'), value: 4 },
     CHICKEN: { url: require('../assets/emojis/chicken.png'), value: 3 },

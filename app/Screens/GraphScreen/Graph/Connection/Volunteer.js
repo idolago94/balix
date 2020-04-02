@@ -5,8 +5,8 @@ import { inject, observer } from "mobx-react";
 import Routes from '../../../../Routes/Routes';
 import ApiService from '../../../../Services/Api';
 import Icon, {iconNames} from '../../../../components/Icon/Icon';
-import { withComma } from '../../../../common/numberMethods';
 import { colors } from '../../../../utils/style';
+import { thousandsWithCommas } from '../../../../utils/Tools';
 
 @inject('NavigationStore', 'UsersStore')
 @observer
@@ -35,7 +35,7 @@ export default class Volunteer extends Component {
                 />
                 <View style={s.cashBox}>
                     <Icon name={iconNames.DOLLAR} size={size/4} color={colors.darkMain}/>
-                    <Text style={{...s.cash, fontSize: size/4}}>{withComma(amount)}</Text>
+                    <Text style={{...s.cash, fontSize: size/4}}>{thousandsWithCommas(amount)}</Text>
                 </View>
             </View>
         )

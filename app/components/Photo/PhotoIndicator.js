@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Icon, {iconNames} from '../Icon/Icon';
-import { withComma } from '../../common/numberMethods';
 import ProfileSymbol from '../ProfileSymbol/ProfileSymbol';
 import { colors } from '../../utils/style';
+import { thousandsWithCommas } from '../../utils/Tools';
 
 export default function PhotoIndicator(props) {
   // Props = [ indicators: {cash: number, hearts: number} ]
@@ -18,11 +18,11 @@ export default function PhotoIndicator(props) {
         /> */}
         <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 10, padding: 4}}>
           <Icon color={colors.text} name={iconNames.DOLLAR} size={22} />
-          <Text style={{color: colors.text}}>{withComma(props.cash)}</Text>
+          <Text style={{color: colors.text}}>{thousandsWithCommas(props.cash)}</Text>
         </View>
         <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 10, padding: 4}}>
           <Icon color={colors.text} name={iconNames.FULL_HEART} size={22} />
-          <Text style={{color: colors.text}}>{withComma(props.hearts)}</Text>
+          <Text style={{color: colors.text}}>{thousandsWithCommas(props.hearts)}</Text>
         </View>
       </View>
     );

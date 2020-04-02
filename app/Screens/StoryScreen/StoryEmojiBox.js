@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // Components
 import { StyleSheet, View, Animated, TouchableHighlight, Dimensions } from 'react-native';
 import Emoji from '../../components/Photo/EmojiBox/Emoji';
-import { emojis } from '../../common/emojiVariables';
+import { emojis } from '../../utils/emojis';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import { colors } from '../../utils/style';
 

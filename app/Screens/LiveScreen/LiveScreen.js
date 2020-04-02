@@ -13,10 +13,10 @@ import {
 import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 import Video from 'react-native-video';
 import Icon, { iconNames } from '../../components/Icon/Icon';
-import { withComma } from '../../common/numberMethods';
 import Emoji from '../../components/Photo/EmojiBox/Emoji';
-import { emojis } from '../../common/emojiVariables';
+import { emojis } from '../../utils/emojis';
 import { colors, sizes } from '../../utils/style';
+import { thousandsWithCommas } from '../../utils/Tools';
 
 export default class LiveScreen extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -306,7 +306,7 @@ export default class LiveScreen extends Component {
           </View>
           <View style={styles.rightSide}>
             {/* <Image style={{height: 90, width: 150}} source={require('../../../assets/live.png')} /> */}
-            <Text style={styles.cashBox}>{withComma(this.state.cash)}$</Text>
+            <Text style={styles.cashBox}>{thousandsWithCommas(this.state.cash)}$</Text>
             <Text style={{padding: 5, fontWeight: 'bold', color: colors.text, backgroundColor: 'red', borderRadius: 5, fontSize: 10}}>LIVE</Text>
             <TouchableHighlight onPress={this.exitLive.bind(this)}>
               <Icon style={{padding: 10}} name={iconNames.CLOSE} size={sizes.icon-5} color={colors.icon} />

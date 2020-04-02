@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { textColor } from '../../../common/style';
+import { colors } from '../../../utils/style';
 
 export default function SingleComment(props) {
     // Props = [ data ]
@@ -16,11 +16,11 @@ export default function SingleComment(props) {
 const styles = StyleSheet.create({
     name: {
         fontSize: 16,
-        color: textColor,
+        color: colors.text,
         fontWeight: 'bold'
     },
     content: {
         fontSize: 16,
-        color: textColor
+        color: colors.text
     }
 });

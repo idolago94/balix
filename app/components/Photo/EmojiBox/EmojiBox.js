@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 // Components
 import { StyleSheet, View, Image, Animated, TouchableHighlight, Text } from 'react-native';
 import Emoji from './Emoji';
-import { emojis } from '../../../common/emojiVariables';
 import Icon, { iconNames } from '../../Icon/Icon';
 import { colors } from '../../../utils/style';
+import emojis from '../../../utils/emojis';
 
 export default class EmojiBox extends Component {
     // Props = [ emojiSize, emojiPress, heartPress, includeHeart ]

@@ -4,16 +4,14 @@ import Icon, {iconNames} from '../../../components/Icon/Icon';
 import SingleComment from '../../../components/Photo/Comments/SingleComment';
 import EmojiBox from '../../../components/Photo/EmojiBox/EmojiBox';
 import PhotoIndicator from '../../../components/Photo/PhotoIndicator';
-import ProfileSymbol from '../../../components/ProfileSymbol/ProfileSymbol';
-import {withComma} from '../../../common/numberMethods';
 import Routes from '../../../Routes/Routes';
-import db from "../../../database/db";
 import { inject, observer } from "mobx-react";
 import ApiService from '../../../Services/Api';
 import Buttons from '../../../components/Photo/Buttons';
 import DoubleClick from 'react-native-double-click';
 import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
 import { photo_box, content, emoji_popup_box, colors } from '../../../utils/style';
+import { thousandsWithCommas } from '../../../utils/Tools';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'BuffersStore')
 @observer
@@ -281,7 +279,7 @@ export default class PhotoScreen extends Component {
                   comments: comments,
                 })}>
               <Text
-                  style={styles.allCommentsLink}>View {withComma(comments.length)} Comments</Text>
+                  style={styles.allCommentsLink}>View {thousandsWithCommas(comments.length)} Comments</Text>
             </TouchableHighlight>
             <SingleComment data={comments[this.state.comments.length - 1]}/>
           </View>

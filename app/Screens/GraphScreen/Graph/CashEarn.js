@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import InfoTitle from './InfoTitle';
 import { BarChart } from 'react-native-svg-charts';
-import { withComma } from '../../../common/numberMethods';
+import { thousandsWithCommas } from '../../../utils/Tools';
 
 export default function CashEarn(props) {
     return (
       <View style={[props.style, {width: props.width, height: props.height}]}>
-      <InfoTitle title={`${withComma(23674)}$`} />
+      <InfoTitle title={`${thousandsWithCommas(23674)}$`} />
         <BarChart
           style={{ height: props.height-40 }}
           data={[45, 60, 90, 99, 130]}

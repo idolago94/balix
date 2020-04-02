@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 import Icon, {iconNames} from '../../Icon/Icon';
-import {withComma} from '../../../common/numberMethods';
 import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../../../utils/style';
+import { thousandsWithCommas } from '../../../utils/Tools';
 
 
 export default function CashIndicator(props) {
@@ -14,7 +14,7 @@ export default function CashIndicator(props) {
 				<View style={{flexDirection: 'row', alignItems: 'center'}}>
 					<View style={[s.box, {transform: [{translateX: 8}]}]}>
 						<Icon style={{transform: [{translateX: 9}], ...s.icon}} name={iconNames.FULL_MONEY_BAG} size={side_icon_size} color={'yellow'}/>
-						<Text style={[s.number]}>{withComma(props.cash)}</Text>
+						<Text style={[s.number]}>{thousandsWithCommas(props.cash)}</Text>
 					</View>
 					<View style={{zIndex: 999, padding: 2, backgroundColor: colors.bar, borderRadius: 999}}>
 					<LinearGradient style={s.centerBox} colors={[colors.lightMain, colors.darkMain]}>
@@ -26,7 +26,7 @@ export default function CashIndicator(props) {
 					</View>
 					<View style={[s.box, {flexDirection: 'row-reverse', transform: [{translateX: -8}]}]}>
 						<Icon style={{transform: [{translateX: -9}], ...s.icon}} name={iconNames.FULL_HEART} size={side_icon_size} color={'red'}/>
-						<Text style={[s.number]}>{withComma(props.hearts)}</Text>
+						<Text style={[s.number]}>{thousandsWithCommas(props.hearts)}</Text>
 					</View>
 				</View>
 			</TouchableHighlight>

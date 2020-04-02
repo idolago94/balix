@@ -1,5 +1,5 @@
 import actionsType from './actions.type';
-import { emojis } from '../../common/emojiVariables';
+import { emojis } from '../../utils/emojis';
 
 export default Users = [
     {

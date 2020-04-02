@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 import Icon, { iconNames } from '../../components/Icon/Icon';
-import { withComma } from '../../common/numberMethods';
+import { withComma } from '../../utils/emojis';
 import db from "../../database/db";
 import Routes from "../../Routes/Routes";
 import StoryEmojiBox from "./StoryEmojiBox";
