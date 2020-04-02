@@ -5,13 +5,13 @@ class CompressService {
 
     async compressFile(file) {
         console.log('CompressService -> buildImageForUpload');
-        let resizeImage = null;
+        let resizedFile = null;
         if(file.type) {
-            resizedImage = await this.resizeImage(file.uri, 1080, 100);
+            resizedFile = await this.resizeImage(file.uri, 1080, 100);
         } else {
-            this.resizeVideo(file.uri);
+            resizedFile = await this.resizeVideo(file.uri);
         }
-        return resizedImage;
+        return resizedFile;
     }
 
     async buildProfileImage(imageData) {
