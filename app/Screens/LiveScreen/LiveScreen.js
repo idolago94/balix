@@ -14,10 +14,11 @@ import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 import Video from 'react-native-video';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import Emoji from '../../components/Photo/EmojiBox/Emoji';
-import { emojis } from '../../utils/emojis';
 import { colors, sizes } from '../../utils/style';
 import { thousandsWithCommas } from '../../utils/Tools';
+import { inject } from 'mobx-react';
 
+@inject('AppStore')
 export default class LiveScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
@@ -36,6 +37,7 @@ export default class LiveScreen extends Component {
       openEmojiBar: false
     }
 
+    this.emojis = props.AppStore.getEmojis;
     this.emojiBarTimer = undefined;
     this.heartTransform = new Animated.Value(0);
     this.heartOpacity = new Animated.Value(1);
@@ -145,14 +147,14 @@ export default class LiveScreen extends Component {
       this.emojiBarAnimation(Dimensions.get('window').width*(-2)).start(() => this.setState({ openEmojiBar: false }));
     }, 10000);
     let randomNum = Math.floor(Math.random() * 2);
-    this.setState({ sendEmoji: { url: emojis[emojiKey].url, animType: randomNum } });
+    this.setState({ sendEmoji: { url: this.emojis[emojiKey].url, animType: randomNum } });
     switch (randomNum) {
       case 0:
         this.emojiSizeAnimation(200)
         .start(() => {
           setTimeout(() => {
             this.emojiSize.setValue(0);
-            this.setState({ sendEmoji: undefined, cash: this.state.cash+emojis[emojiKey].value });
+            this.setState({ sendEmoji: undefined, cash: this.state.cash+this.emojis[emojiKey].value });
           }, 1000)
         });
         break;
@@ -161,7 +163,7 @@ export default class LiveScreen extends Component {
         .start(() => {
           setTimeout(() => {
             this.groupEmojiPosition.setValue(0)
-            this.setState({ sendEmoji: undefined, cash: this.state.cash+emojis[emojiKey].value });
+            this.setState({ sendEmoji: undefined, cash: this.state.cash+this.emojis[emojiKey].value });
           }, 1000)
         });
         break;
@@ -319,9 +321,9 @@ export default class LiveScreen extends Component {
             <Icon name={iconNames.FULL_HEART} size={20} color={'red'} />
           </TouchableHighlight>
           {
-            Object.keys(emojis).map((key, i) => (
+            Object.keys(this.emojis).map((key, i) => (
               <TouchableHighlight onPress={this.emojiPress.bind(this, key)} style={styles.emojiBox} key={i}>
-                <Emoji data={emojis[key]} size={20} />
+                <Emoji data={this.emojis[key]} size={20} />
               </TouchableHighlight>
             ))
           }

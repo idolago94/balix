@@ -175,6 +175,11 @@ class ApiService {
         return searchResponse;
     }
 
+    async getEmojis() {
+        let emojisResponse = await this.sendRequest('GET', '/emoji_urls');
+        return emojisResponse;
+    }
+
     // erver_url = 'http://34.69.232.216:8080'; // google server 
     server_url = 'http://127.0.0.1:8080'; // local server
 

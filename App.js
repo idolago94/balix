@@ -36,14 +36,16 @@ export default class App extends Component {
 	}
 }
 
-@inject("AuthStore", 'ActionsStore', 'NavigationStore')
+@inject("AuthStore", 'ActionsStore', 'NavigationStore', 'AppStore')
 @observer
 class RootComponent extends Component {
 
 	async componentDidMount() {
 		let actionsType = await ApiService.getActionsTypes();
-		if(!actionsType.error) {
+		let emojis = await ApiService.getEmojis();
+		if(!actionsType.error && !emojis.error) {
 			this.props.ActionsStore.setTypes(actionsType);
+			this.props.AppStore.setEmojis(emojis);
 			SplashScreen.hide();
 		}
 	}

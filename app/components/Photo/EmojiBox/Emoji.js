@@ -10,7 +10,7 @@ export default function Emoji(props) {
         return (
             <View style={{alignItems: 'center', margin: 7}}>
                 <Image
-                    source={props.data.url}
+                    source={{uri: props.data.url}}
                     style={{
                         height: props.size,
                         width: props.size

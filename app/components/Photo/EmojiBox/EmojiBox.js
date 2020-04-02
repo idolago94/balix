@@ -4,8 +4,9 @@ import { StyleSheet, View, Image, Animated, TouchableHighlight, Text } from 'rea
 import Emoji from './Emoji';
 import Icon, { iconNames } from '../../Icon/Icon';
 import { colors } from '../../../utils/style';
-import emojis from '../../../utils/emojis';
+import { inject } from 'mobx-react';
 
+@inject('AppStore')
 export default class EmojiBox extends Component {
     // Props = [ emojiSize, emojiPress, heartPress, includeHeart ]
 
@@ -21,14 +22,14 @@ export default class EmojiBox extends Component {
         Animated.spring(this.animation, {
            toValue: 999,
         }).start();
-        this.setState({emojis: emojis})
+        this.setState({emojis: this.props.AppStore.getEmojis})
     }
 
     componentWillUnMount() {
         Animated.spring(this.animation, {
             toValue: 0,
          }).start();
-         this.setState({emojis: emojis})
+         this.setState({emojis: []})
     }
 
     render() {

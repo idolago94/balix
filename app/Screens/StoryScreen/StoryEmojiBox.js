@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 // Components
 import { StyleSheet, View, Animated, TouchableHighlight, Dimensions } from 'react-native';
 import Emoji from '../../components/Photo/EmojiBox/Emoji';
-import { emojis } from '../../utils/emojis';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import { colors } from '../../utils/style';
+import { inject } from 'mobx-react';
 
+@inject('AppStore')
 export default class StoryEmojiBox extends Component {
     // Props = [ emojiSize, emojiPress ]
 
@@ -21,14 +22,14 @@ export default class StoryEmojiBox extends Component {
         Animated.spring(this.animation, {
             toValue: 180,
         }).start();
-        this.setState({emojis: emojis})
+        this.setState({emojis: this.props.AppStore.getEmojis})
     }
 
     componentWillUnMount() {
         Animated.spring(this.animation, {
             toValue: 0,
         }).start();
-        this.setState({emojis: emojis})
+        this.setState({emojis: []})
     }
 
     render() {

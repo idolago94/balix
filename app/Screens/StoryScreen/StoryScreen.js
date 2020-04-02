@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 import Icon, { iconNames } from '../../components/Icon/Icon';
-import { withComma } from '../../utils/emojis';
+import { thousandsWithCommas } from '../../utils/Tools';
 import Routes from "../../utils/Routes";
 import StoryEmojiBox from "./StoryEmojiBox";
 import { inject, observer } from 'mobx-react';
@@ -425,9 +425,9 @@ export default class StoryScreen extends Component {
             <Text style={styles.userName}>{this.state.userData.username}</Text>
           </View>
           <View style={styles.rightSide}>
-            <Text style={[styles.cashBox, {borderColor: colors.lightMain}]}>{withComma(this.state.userData.story[this.state.currentImageIndex].cash)}$</Text>
+            <Text style={[styles.cashBox, {borderColor: colors.lightMain}]}>{thousandsWithCommas(this.state.userData.story[this.state.currentImageIndex].cash)}$</Text>
             <Text style={[styles.cashBox, {borderColor: colors.text}]}>
-              {withComma(this.state.userData.story[this.state.currentImageIndex].hearts)}
+              {thousandsWithCommas(this.state.userData.story[this.state.currentImageIndex].hearts)}
               <Icon name={iconNames.FULL_HEART} size={8} color={colors.heart} />
             </Text>
             <TouchableHighlight onPress={this.exitStory.bind(this)}>

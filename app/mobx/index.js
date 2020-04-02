@@ -7,6 +7,7 @@ import NavigationStore from './navigationStore';
 import ContentsStore from './contentsStore';
 import IdentifierStore from './identifierStore';
 import GraphStore from './GraphStore';
+import AppStore from './appStore';
 
 export {
     ActionsStore,
@@ -17,5 +18,6 @@ export {
     NavigationStore,
     ContentsStore,
     IdentifierStore,
-    GraphStore
+    GraphStore,
+    AppStore
 }
