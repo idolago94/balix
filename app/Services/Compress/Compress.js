@@ -1,6 +1,5 @@
 import ImageResizer from 'react-native-image-resizer';
 var RNFS = require('react-native-fs');
-import RNVideoHelper from 'react-native-video-helper';
 
 class CompressService {
 
@@ -36,13 +35,7 @@ class CompressService {
     }
 
     resizeVideo(videoURI) {
-        // RNVideoHelper.compress(videoURI, {
-        //     quality: 'low', // default low, can be medium or high
-        //     defaultOrientation: 0 // By default is 0, some devices not save this property in metadata. Can be between 0 - 360
-        // }).then(compressedUri => {
-        //     debugger;
-        //     console.warn('compressedUri', compressedUri); // String with path to temporary compressed video
-        // });
+        
     }
 }
 
