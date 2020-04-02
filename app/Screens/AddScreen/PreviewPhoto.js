@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, TouchableHighlight, Platform, Text } from 'react-native';
-import Style from '../../helpers/style/style';
 import Icon, {iconNames} from '../../components/Icon/Icon';
 import Routes from "../../Routes/Routes";
 import { inject, observer } from "mobx-react";
@@ -10,13 +9,14 @@ import UpdateService from '../../Services/Updates';
 import IconButton from '../../components/IconButton/IconButton';
 import Slider from '@react-native-community/slider';
 import Video from 'react-native-video';
+import { colors } from '../../utils/style';
 
 @inject('AuthStore', 'NavigationStore', 'ContentsStore', 'LoaderStore')
 export default class PreviewPhoto extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
         style: {
-          backgroundColor: Style.colors.bar
+          backgroundColor: colors.bar
         }
     };
   }
@@ -85,25 +85,25 @@ export default class PreviewPhoto extends Component {
       return (<View></View>)
     }
     return (
-      <View style={{flex: 1, backgroundColor: Style.colors.background, paddingTop: (Platform.OS == 'ios') ? (40):(0)}}>
+      <View style={{flex: 1, backgroundColor: colors.background, paddingTop: (Platform.OS == 'ios') ? (40):(0)}}>
         <View style={{alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row', width: window_width}}>
-          {isSecret && <Icon name={iconNames.LOCK} size={buttonSize} color={Style.colors.icon} />}
+          {isSecret && <Icon name={iconNames.LOCK} size={buttonSize} color={colors.icon} />}
           <IconButton style={styles.btn} onPress={() => this.doUpload()} icon={iconNames.CONFIRM} size={buttonSize} />
         </View>
         <View style={styles.container}>
           {isSecret && <View>
-            <Text style={{color: Style.colors.text}}>Select the price to enter your secret:</Text>
+            <Text style={{color: colors.text}}>Select the price to enter your secret:</Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Slider
                 style={{margin: 10, flexGrow: 1}}
                 minimumValue={1}
                 maximumValue={200}
-                minimumTrackTintColor={Style.colors.lightMain}
-                maximumTrackTintColor={Style.colors.text}
+                minimumTrackTintColor={colors.lightMain}
+                maximumTrackTintColor={colors.text}
                 value={this.state.entranceSecret}
                 onValueChange={(value) => this.setState({entranceSecret: Math.round(value)})}
               />
-              <Text style={{color: Style.colors.lightMain, fontSize: 30}}>{this.state.entranceSecret}$</Text>
+              <Text style={{color: colors.lightMain, fontSize: 30}}>{this.state.entranceSecret}$</Text>
             </View>
           </View>}
 

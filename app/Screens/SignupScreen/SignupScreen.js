@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import Style from '../../helpers/style/style';
 // Components
 import {StyleSheet, Text, View, TouchableHighlight, Image, Dimensions} from 'react-native';
-import db from "../../database/db";
 import FormField from '../../components/FormField/FormField';
 import Routes from '../../Routes/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
@@ -10,6 +8,7 @@ import { inject, observer } from 'mobx-react';
 import ApiService from '../../Services/Api';
 import HandleError from '../../components/HandleError/HandleError';
 import ValidationService from '../../Services/Validation';
+import { colors, sizes } from '../../utils/style';
 
 @inject('AuthStore')
 export default class SignupScreen extends Component {
@@ -45,7 +44,7 @@ export default class SignupScreen extends Component {
     render() {
         const {navigation} = this.props;
         return (
-            <View style={{flex: 1, position: 'relative', backgroundColor: Style.colors.background}}>
+            <View style={{flex: 1, position: 'relative', backgroundColor: colors.background}}>
                 <Image
                     style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, position: 'absolute', top: 0, left: 0, opacity: 0.188}}
                     source={require('../../assets/background1.jpeg')}
@@ -98,7 +97,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 10,
         alignItems: 'center',
-        // backgroundColor: Style.colors.background
+        // backgroundColor: colors.background
     },
     appName: {
         fontSize: 70,
@@ -106,11 +105,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     form: {
-        width: Style.sizes.fieldWidth,
+        width: sizes.fieldWidth,
         alignItems: 'center',
     },
     title: {
-        color: Style.colors.text,
+        color: colors.text,
         alignSelf: 'flex-start',
         fontSize: 25,
         fontWeight: 'bold',
@@ -120,20 +119,20 @@ const styles = StyleSheet.create({
     signupButton: {
         width: '100%',
         borderWidth: 1,
-        borderColor: Style.colors.formField,
-        borderRadius: Style.sizes.border_radius,
+        borderColor: colors.formField,
+        borderRadius: sizes.border_radius,
         padding: 10,
         alignItems: 'center'
     },
     loginText: {
-        color: Style.colors.text
+        color: colors.text
     },
     errorBox: {
-        borderRadius: Style.sizes.border_radius,
+        borderRadius: sizes.border_radius,
         borderWidth: 1,
-        borderColor: Style.colors.errorBorder,
+        borderColor: colors.errorBorder,
         width: '100%',
         padding: 10,
-        backgroundColor: Style.colors.errorBackground
+        backgroundColor: colors.errorBackground
     }
 });

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
-import Style from '../../../helpers/style/style';
 import UserDetails from './UserDetails';
 import Photos from './Photos';
 import Header from '../../../components/Header/Header';
@@ -12,6 +11,7 @@ import { window_width } from '../../../utils/view';
 import { iconNames } from '../../../components/Icon/Icon';
 import FollowButton from './FollowButton';
 import SecretView from './SecretView';
+import { colors } from '../../../utils/style';
 
 @inject('AuthStore', 'NavigationStore', 'UsersStore')
 @observer
@@ -108,9 +108,9 @@ export default class ProfileView extends Component {
             user={userData}
           />
           <View style={s.buttons}>
-            {myProfile ? (<ProfileButton style={{backgroundColor: Style.colors.text}} title='Extra Photo' onPress={() => this.pressExtra()} icon={iconNames.PLUS} />)
+            {myProfile ? (<ProfileButton style={{backgroundColor: colors.text}} title='Extra Photo' onPress={() => this.pressExtra()} icon={iconNames.PLUS} />)
               :(<FollowButton onPress={this.updateFollow.bind(this)} follow={AuthStore.isFollow(userData._id)} />)}
-            <ProfileButton style={{backgroundColor: this.state.showScret ? (Style.colors.background):(Style.colors.text)}} title='Secret' icon={iconNames.LOCK} onPress={() => this.setState({showScret: !this.state.showScret})} />
+            <ProfileButton style={{backgroundColor: this.state.showScret ? (colors.background):(colors.text)}} title='Secret' icon={iconNames.LOCK} onPress={() => this.setState({showScret: !this.state.showScret})} />
           </View>
           {this.state.showScret ? (
             <SecretView
@@ -137,7 +137,7 @@ export default class ProfileView extends Component {
 const s = StyleSheet.create({
   viewContainer: {
     alignItems: 'center',
-    backgroundColor: Style.colors.background,
+    backgroundColor: colors.background,
     flex: 1
   },
   buttons: {

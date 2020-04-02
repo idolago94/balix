@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableHighlight, Alert } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Style from '../../../helpers/style/style';
 import Icon, { iconNames } from '../../../components/Icon/Icon';
 import RadialGradient from 'react-native-radial-gradient';
 import db from "../../../database/db";
 import { inject, observer } from "mobx-react";
 import ApiService from '../../../Services/Api';
 import Routes from '../../../Routes/Routes';
+import { colors } from '../../../utils/style';
 
 @inject('AuthStore', 'NavigationStore')
 export default class Package extends Component {
@@ -30,7 +30,7 @@ export default class Package extends Component {
         <TouchableHighlight onPress={this.packagePress.bind(this)}>
             <LinearGradient
                 start={{x: 0.9, y: 1}} end={{x: 0.1, y: 1}}
-                colors={['transparent', Style.colors.darkMain, 'transparent']}
+                colors={['transparent', colors.darkMain, 'transparent']}
                 style={styles.container}
             >
                 <Image style={{height: '70%', width: 90}} source={require('../../../assets/coins.png')} />
@@ -49,7 +49,7 @@ export default class Package extends Component {
                     colors={['white', 'transparent']}
                     style={{padding: 7}}
                 >
-                    <LinearGradient colors={[Style.colors.darkMain, Style.colors.lightMain]} style={styles.cost}>
+                    <LinearGradient colors={[colors.darkMain, colors.lightMain]} style={styles.cost}>
                         <Text style={{color: 'white', fontSize: 18}}>{this.props.data.cost}$</Text>
                     </LinearGradient>
                 </RadialGradient>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '85%',
         maxHeight: 60,
-        borderColor: Style.colors.lightMain,
+        borderColor: colors.lightMain,
         overflow: 'visible'
     },
     values: {

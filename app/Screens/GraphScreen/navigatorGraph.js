@@ -1,8 +1,8 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import Graph from './Graph/Graph';
 import commonRoutes from '../../Routes/commonRoutes';
-import Style from '../../helpers/style/style';
 import Routes from '../../Routes/Routes';
+import { colors } from '../../utils/style';
 
 
 export default createStackNavigator(
@@ -17,9 +17,9 @@ export default createStackNavigator(
 		initialRouteName: Routes.Screens.GRAPH.routeName,
 		defaultNavigationOptions: {
 			headerStyle: {
-				backgroundColor: Style.colors.bar,
+				backgroundColor: colors.bar,
 			},
-			headerTintColor: Style.colors.icon,
+			headerTintColor: colors.icon,
 		},
 	},
 );

@@ -6,19 +6,18 @@ import {
   Image,
   TouchableHighlight,
   Animated,
-  ScrollView,
   Dimensions,
   Platform,
   Alert
 } from 'react-native';
 import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
-import Style from '../../helpers/style/style';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import { withComma } from '../../common/numberMethods';
 import db from "../../database/db";
 import Routes from "../../Routes/Routes";
 import StoryEmojiBox from "./StoryEmojiBox";
 import { inject, observer } from 'mobx-react';
+import { colors, sizes } from '../../utils/style';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore')
 @observer
@@ -427,13 +426,13 @@ export default class StoryScreen extends Component {
             <Text style={styles.userName}>{this.state.userData.username}</Text>
           </View>
           <View style={styles.rightSide}>
-            <Text style={[styles.cashBox, {borderColor: Style.colors.lightMain}]}>{withComma(this.state.userData.story[this.state.currentImageIndex].cash)}$</Text>
-            <Text style={[styles.cashBox, {borderColor: Style.colors.text}]}>
+            <Text style={[styles.cashBox, {borderColor: colors.lightMain}]}>{withComma(this.state.userData.story[this.state.currentImageIndex].cash)}$</Text>
+            <Text style={[styles.cashBox, {borderColor: colors.text}]}>
               {withComma(this.state.userData.story[this.state.currentImageIndex].hearts)}
-              <Icon name={iconNames.FULL_HEART} size={8} color={Style.colors.heart} />
+              <Icon name={iconNames.FULL_HEART} size={8} color={colors.heart} />
             </Text>
             <TouchableHighlight onPress={this.exitStory.bind(this)}>
-              <Icon style={{padding: 10}} name={iconNames.CLOSE} size={Style.sizes.icon-5} color={Style.colors.icon} />
+              <Icon style={{padding: 10}} name={iconNames.CLOSE} size={sizes.icon-5} color={colors.icon} />
             </TouchableHighlight>
           </View>
         </View>
@@ -446,13 +445,13 @@ export default class StoryScreen extends Component {
                 size={this.buttonSize}
             />
             <TouchableHighlight style={styles.btn}>
-              <Icon color={Style.colors.text} name={iconNames.SEND} size={this.buttonSize} />
+              <Icon color={colors.text} name={iconNames.SEND} size={this.buttonSize} />
             </TouchableHighlight>
             <TouchableHighlight style={styles.btn}>
-              <Icon color={Style.colors.text} name={iconNames.COMMENT_SQUARE} size={this.buttonSize} />
+              <Icon color={colors.text} name={iconNames.COMMENT_SQUARE} size={this.buttonSize} />
             </TouchableHighlight>
             <TouchableHighlight onPress={() => this.toggleEmoji()} style={styles.btn}>
-              <Icon color={Style.colors.text} name={iconNames.EARN} size={this.buttonSize} />
+              <Icon color={colors.text} name={iconNames.EARN} size={this.buttonSize} />
             </TouchableHighlight>
           </View>
           {
@@ -489,7 +488,7 @@ export default class StoryScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Style.colors.background,
+    backgroundColor: colors.background,
     justifyContent: 'space-between',
     position: 'relative',
     paddingTop: (Platform.OS == 'ios') ? (37):(0)
@@ -521,7 +520,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   userName: {
-    color: Style.colors.text,
+    color: colors.text,
     fontWeight: 'bold',
     padding: 5
   },
@@ -536,10 +535,10 @@ const styles = StyleSheet.create({
   cashBox: {
     padding: 5,
     fontWeight: 'bold',
-    color: Style.colors.text,
+    color: colors.text,
     borderRadius: 5,
     fontSize: 10,
-    borderColor: Style.colors.lightMain,
+    borderColor: colors.lightMain,
     borderWidth: 1,
     margin: 10
   },

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {View, ScrollView, Image, TouchableHighlight, Platform, Dimensions} from 'react-native';
-import Style from '../../helpers/style/style';
 import Package from './Package/Package';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import {getAvailablePurchases, getProducts, initConnection} from "react-native-iap";
 import { inject, observer } from "mobx-react";
+import { colors } from '../../utils/style';
 
 @inject('AuthStore')
 export default class BuyPackage extends Component {
@@ -23,8 +23,8 @@ export default class BuyPackage extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, position: 'relative', backgroundColor: Style.colors.background}}>
-        {Platform.OS == 'ios' && <View style={{height: 30, backgroundColor: Style.colors.background}}></View>}
+      <View style={{flex: 1, position: 'relative', backgroundColor: colors.background}}>
+        {Platform.OS == 'ios' && <View style={{height: 30, backgroundColor: colors.background}}></View>}
         {/* {this.props.AuthStore.getUserLogin.profileImage && (
               <Image
                 style={{height: '100%', width: '100%', position: 'absolute', top: 0, left: 0, opacity: 0.1}}

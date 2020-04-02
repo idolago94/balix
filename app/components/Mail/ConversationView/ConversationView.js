@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Style from '../../../helpers/style/style';
 import Message from './Message/Message';
+import { colors } from '../../../utils/style';
 
 
 export default class ConversationView extends Component {
@@ -44,6 +44,6 @@ export default class ConversationView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Style.colors.background,
+    backgroundColor: colors.background,
   }
 });

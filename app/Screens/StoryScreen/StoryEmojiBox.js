@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 // Components
-import { StyleSheet, View, Image, Animated, TouchableHighlight, Text, Dimensions } from 'react-native';
-import Style from '../../helpers/style/style';
+import { StyleSheet, View, Animated, TouchableHighlight, Dimensions } from 'react-native';
 import Emoji from '../../components/Photo/EmojiBox/Emoji';
 import { emojis } from '../../common/emojiVariables';
 import Icon, { iconNames } from '../../components/Icon/Icon';
+import { colors } from '../../utils/style';
 
 export default class StoryEmojiBox extends Component {
     // Props = [ emojiSize, emojiPress ]
@@ -42,7 +42,7 @@ export default class StoryEmojiBox extends Component {
                 {this.props.includeHeart && (
                     <TouchableHighlight style={styles.emoji} onPress={(ev) => this.props.heartPress(ev)}>
                         <View>
-                            <Icon name={iconNames.FULL_HEART} size={this.props.emojiSize} color={Style.colors.heart} />
+                            <Icon name={iconNames.FULL_HEART} size={this.props.emojiSize} color={colors.heart} />
                             <View style={{width: '100%', height: 13}}></View>
                         </View>
                     </TouchableHighlight>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     container: {
         width: Dimensions.get('window').width,
         padding: 10,
-        backgroundColor: Style.colors.popup,
+        backgroundColor: colors.popup,
         flexWrap: 'wrap',
         flexDirection: 'row',
         justifyContent: 'flex-start',

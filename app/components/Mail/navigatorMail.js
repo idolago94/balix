@@ -1,9 +1,9 @@
 import {createStackNavigator} from 'react-navigation-stack';
 
 import commonRoutes, {commonRouteConfig} from '../../Routes/commonRoutes';
-import Style from '../../helpers/style/style';
 import Routes from '../../Routes/Routes';
 import Mail from './Mail';
+import { colors } from '../../utils/style';
 
 
 export default createStackNavigator(
@@ -18,9 +18,9 @@ export default createStackNavigator(
 		initialRouteName: Routes.Screens.MAIL.routeName,
 		defaultNavigationOptions: {
 			headerStyle: {
-				backgroundColor: Style.colors.bar,
+				backgroundColor: colors.bar,
 			},
-			headerTintColor: Style.colors.icon,
+			headerTintColor: colors.icon,
 		},
 	},
 );

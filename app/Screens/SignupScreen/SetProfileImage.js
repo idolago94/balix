@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Style from '../../helpers/style/style';
 // Components
 import {StyleSheet, Text, View, TouchableHighlight, TextInput, Animated, Platform, Alert, Dimensions, Image} from 'react-native';
 import Icon, { iconNames } from '../../components/Icon/Icon';
@@ -12,6 +11,7 @@ import { inject, observer } from 'mobx-react';
 import ApiService from '../../Services/Api';
 import HandleError from '../../components/HandleError/HandleError';
 import FooterButton from './FooterButton';
+import { colors, sizes } from '../../utils/style';
 
 @inject('AuthStore', 'NavigationStore')
 @observer
@@ -98,23 +98,23 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         alignItems: 'center',
-        backgroundColor: Style.colors.background
+        backgroundColor: colors.background
     },
     form: {
-        width: Style.sizes.fieldWidth,
+        width: sizes.fieldWidth,
         alignItems: 'center',
         justifyContent: 'space-between',
         flexGrow: 1
     },
     title: {
-        color: Style.colors.text,
+        color: colors.text,
         fontSize: 20,
         fontWeight: 'bold',
         paddingVertical: 20,
         letterSpacing: 2
     },
     label: {
-        color: Style.colors.text,
+        color: colors.text,
         fontSize: 15,
         fontWeight: 'bold',
         padding: 10,
@@ -129,14 +129,14 @@ const styles = StyleSheet.create({
     setButton: {
         width: '100%',
         borderWidth: 1,
-        borderColor: Style.colors.formField,
-        borderRadius: Style.sizes.border_radius,
+        borderColor: colors.formField,
+        borderRadius: sizes.border_radius,
         padding: 15,
         paddingHorizontal: 40,
         alignItems: 'center'
     },
     setText: {
-        color: Style.colors.text
+        color: colors.text
     },
     keywordsBox: {
       marginTop: 70,
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     keyword: {
         paddingHorizontal: 15,
         paddingVertical: 5,
-        color: Style.colors.text,
+        color: colors.text,
         backgroundColor: 'gray',
         borderRadius: 999,
         margin: 3
@@ -160,11 +160,11 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     errorBox: {
-        borderRadius: Style.sizes.border_radius,
+        borderRadius: sizes.border_radius,
         borderWidth: 1,
-        borderColor: Style.colors.errorBorder,
+        borderColor: colors.errorBorder,
         width: '100%',
         padding: 10,
-        backgroundColor: Style.colors.errorBackground
+        backgroundColor: colors.errorBackground
     }
 });

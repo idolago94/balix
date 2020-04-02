@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import Style from '../../helpers/style/style';
 // Components
 import {StyleSheet, Text, View, TouchableHighlight, TextInput, Animated, Platform} from 'react-native';
-import Icon, { iconNames } from '../../components/Icon/Icon';
-import { LinearTextGradient } from "react-native-text-gradient";
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager} from 'react-native-fbsdk';
 import FormField from '../../components/FormField/FormField';
 import Routes from '../../Routes/Routes';
@@ -11,6 +8,7 @@ import AppTitle from '../../components/AppTitle/AppTitle';
 import TextButton from '../../components/TextButton/TextButton';
 import { inject, observer } from "mobx-react";
 import HandleError from '../../components/HandleError/HandleError';
+import { colors, sizes } from '../../utils/style';
 
 @inject('AuthStore')
 @observer
@@ -77,7 +75,6 @@ export default class LoginScreen extends Component {
 
                 <TextButton onPress={() => AuthStore.login({username: 'Test', password: '1234'})} content={'Log Test'} />
                 <TextButton onPress={() => AuthStore.login({username: 'Test2', password: '1234'})} content={'Log Test2'} />
-
         </View>
     );
   }
@@ -89,7 +86,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 10,
     alignItems: 'center',
-    backgroundColor: Style.colors.background,
+    backgroundColor: colors.background,
   },
   title: {
     fontSize: 70,
@@ -97,38 +94,38 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   form: {
-    width: Style.sizes.fieldWidth,
+    width: sizes.fieldWidth,
     alignItems: 'center',
   },
   field: {
     width: '100%',
-    backgroundColor: Style.colors.formField,
+    backgroundColor: colors.formField,
     margin: 10,
-    borderRadius: Style.sizes.border_radius,
+    borderRadius: sizes.border_radius,
     flexDirection: 'row',
     alignItems: 'center'
   },
   input: {
-    color: Style.colors.text,
+    color: colors.text,
     flexGrow: 1
   },
   loginButton: {
     width: '100%',
     borderWidth: 1,
-    borderColor: Style.colors.formField,
-    borderRadius: Style.sizes.border_radius,
+    borderColor: colors.formField,
+    borderRadius: sizes.border_radius,
     padding: 10,
     alignItems: 'center'
   },
   loginText: {
-      color: Style.colors.text
+      color: colors.text
   },
   errorBox: {
-      borderRadius: Style.sizes.border_radius,
+      borderRadius: sizes.border_radius,
       borderWidth: 1,
-      borderColor: Style.colors.errorBorder,
+      borderColor: colors.errorBorder,
       width: '100%',
       padding: 10,
-      backgroundColor: Style.colors.errorBackground
+      backgroundColor: colors.errorBackground
   }
 });

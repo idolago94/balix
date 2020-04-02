@@ -1,7 +1,7 @@
 import {createStackNavigator} from 'react-navigation-stack';
-import Style from '../../helpers/style/style';
-import commonRoutes, {commonRoutesName, commonRouteConfig} from '../../Routes/commonRoutes';
+import commonRoutes from '../../Routes/commonRoutes';
 import Routes from '../../Routes/Routes';
+import { colors } from '../../utils/style';
 
 // export const profileRoutesName = {
 // 	PROFILE_VIEW: 'ProfileView',
@@ -20,9 +20,9 @@ export default createStackNavigator(
 		initialRouteName: Routes.Screens.PROFILE.routeName,
 		defaultNavigationOptions: {
 			headerStyle: {
-				backgroundColor: Style.colors.bar,
+				backgroundColor: colors.bar,
 			},
-			headerTintColor: Style.colors.icon,
+			headerTintColor: colors.icon,
 		},
 	},
 );

@@ -5,14 +5,12 @@ import SingleComment from './Comments/SingleComment';
 import EmojiBox from './EmojiBox/EmojiBox';
 import PhotoIndicator from './PhotoIndicator';
 import Icon, {iconNames} from '../Icon/Icon';
-import Style from '../../helpers/style/style';
-import {withComma} from '../../common/numberMethods';
 import Routes from '../../Routes/Routes';
 import { inject, observer } from "mobx-react";
 import ApiService from '../../Services/Api';
 import Buttons from './Buttons';
 import ProgressiveImage from '../ProgressiveImage/PreogressiveImage';
-import { content_height, content_width } from '../../utils/view';
+import { photo_box, content, emoji_popup_box, colors } from '../../utils/style';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
 @observer
@@ -200,9 +198,9 @@ export default class Photo extends Component {
     const imageData = ContentsStore.getContentById(data.content_id);
     const userData = UsersStore.getUserById(imageData.user_id);
     return (!userData) ? null :
-        <View style={[this.props.style, styles.photoBox]}>
+        <View style={[this.props.style, photo_box]}>
           <ProgressiveImage 
-            style={{width: content_width, height: content_height}}
+            style={content}
             onDoubleClick={this.toggleEmoji.bind(this)}
             url={imageData.url}
           />
@@ -214,7 +212,7 @@ export default class Photo extends Component {
           />
           
           {/* emoji box */}
-          <View style={styles.emoji}>
+          <View style={emoji_popup_box}>
             {openEmoji && <EmojiBox 
               includeHeart={true} 
               emojiSize={this.emojiBoxSize} 
@@ -254,7 +252,7 @@ export default class Photo extends Component {
                 left: heartSendPosition.x
               }}
           >
-            <Icon color={Style.colors.heart} name={iconNames.FULL_HEART} size={this.emojiBoxSize} />
+            <Icon color={colors.heart} name={iconNames.FULL_HEART} size={this.emojiBoxSize} />
           </Animated.View>
           {/* sparkle animation */}
           {this.sparkleAnimation.map((anim, i) => (
@@ -273,8 +271,8 @@ export default class Photo extends Component {
               }),
             }}/>
           ))}
+          <Buttons onOpenEmoji={() => this.toggleEmoji()} />
         </View>
-        {/* <Buttons onOpenEmoji={() => this.toggleEmoji()} /> */}
         {/* comments */}
         {/* <View style={styles.commentsBox}>
           <View style={{flexDirection: 'row', marginBottom: 5}}>
@@ -294,32 +292,10 @@ export default class Photo extends Component {
 }
 
 const styles = StyleSheet.create({
-  emoji: {
-    position: 'absolute',
-    bottom: -20,
-    alignItems: 'center',
-    width: '100%',
-  },
-  container: {
-    backgroundColor: Style.colors.background,
-    position: 'relative',
-  },
-  photoBox: {
-    width: Dimensions.get('window').width,
-    position: 'relative',
-    marginBottom: 10
-  },
-  photo: {
-    width: '100%',
-    height: '100%',
-  },
-  icon: {
-    padding: 10,
-  },
 
   username: {
     fontSize: 16,
-    color: Style.colors.text,
+    color: colors.text,
     fontWeight: 'bold'
   },
   commentsBox: {
@@ -327,10 +303,10 @@ const styles = StyleSheet.create({
   },
   content: {
     fontSize: 16,
-    color: Style.colors.text,
+    color: colors.text,
   },
   allCommentsLink: {
     fontSize: 16,
-    color: Style.colors.text,
+    color: colors.text,
   },
 });

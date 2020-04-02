@@ -1,6 +1,5 @@
 import React from 'react';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import Style from '../helpers/style/style';
 import TabBar from '../components/TabBar';
 import Routes from './Routes';
 import Home from '../Screens/HomeScreen/Home';
@@ -11,6 +10,7 @@ import PhotoScreen from '../Screens/PhotoScreen/PhotoScreen/PhotoScreen';
 import Mail from '../components/Mail/Mail';
 import Search from '../Screens/Search/Search';
 import TopScreen from '../Screens/TopScreen/TopScreen';
+import { colors, sizes } from '../utils/style';
 
 export default createBottomTabNavigator(
   {
@@ -45,14 +45,14 @@ export default createBottomTabNavigator(
       <TabBar {...props} />
     ),
     tabBarOptions: {
-      inactiveTintColor: Style.colors.icon,
-      activeTintColor: Style.colors.lightMain,
+      inactiveTintColor: colors.icon,
+      activeTintColor: colors.lightMain,
       style: {
-        backgroundColor: Style.colors.bar,
+        // backgroundColor: colors.bar,
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        height: Style.sizes.barHeight,
+        height: sizes.barHeight,
       },
     },
   },

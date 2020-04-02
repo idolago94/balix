@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Platform} from 'react-native';
-import Style from '../../helpers/style/style';
+import { sizes } from '../../utils/style';
 
 export default class Banner extends Component {
 
@@ -33,7 +33,7 @@ export default class Banner extends Component {
                     maxHeight: this.animation,
                 }]}
             >
-                <View style={{height: Platform.OS == 'ios' ? (Style.sizes.iphone_notch):(0)}} />
+                <View style={{height: Platform.OS == 'ios' ? (sizes.iphone_notch):(0)}} />
                 <View style={s.contentBox}>
                     {typeof this.props.content == 'string' ? (
                     <Text style={{color: 'white', fontWeight: 'bold'}}>{this.props.content}</Text>
@@ -46,7 +46,6 @@ export default class Banner extends Component {
 
 const s = StyleSheet.create({
     container: {
-        // paddingTop: Platform.OS == 'ios' ? (Style.sizes.iphone_notch):(0),
         width: Dimensions.get('window').width,
         position: 'absolute',
         top: 0,

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Style from '../../helpers/style/style';
 import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 import { inject, observer } from 'mobx-react';
+import { colors } from '../../utils/style';
 
 @inject('UsersStore')
 @observer
@@ -17,10 +17,10 @@ export default class Result extends Component {
           <Text style={styles.name}>{userData.username}</Text>
           <View style={styles.infoBox}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={{color: Style.colors.text}}>Following: {userData.following.length},  </Text>
+                <Text style={{color: colors.text}}>Following: {userData.following.length},  </Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={{color: Style.colors.text}}>Followers: {userData.followers.length}</Text>
+                <Text style={{color: colors.text}}>Followers: {userData.followers.length}</Text>
             </View>
           </View>
         </View>
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     name: {
-        color: Style.colors.text,
+        color: colors.text,
         fontWeight: 'bold'
     },
     infoBox: {

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions, Animated, Text } from 'react-native';
-import Style from '../../../../helpers/style/style';
 import ProfileSymbol from '../../../../components/ProfileSymbol/ProfileSymbol';
 import Popup from './Popup';
 import Routes from '../../../../Routes/Routes';
 import Volunteer from './Volunteer';
 import { inject, observer } from "mobx-react";
+import { colors } from '../../../../utils/style';
 
 @inject('AuthStore', 'NavigationStore', 'UsersStore')
 @observer
@@ -114,19 +114,6 @@ export default class Connection extends Component {
                         left: symbolPosition.x
                       }}
                     />
-                      // <View key={i} style={{
-                      //     position: 'absolute',
-                      //     top: symbolPosition.y,
-                      //     left: symbolPosition.x
-                      // }}>
-                      //   {/* <ProfileSymbol
-                      //       src={vol.user.profileImage}
-                      //       size={this.symbolSize+10}
-                      //       press={this.navigateToProfile.bind(this, vol.user)}
-                      //       showCash={true}
-                      //       cash={vol.amount}
-                      //   /> */}
-                      // </View>
                   )
                 })
               }
@@ -159,12 +146,12 @@ const styles = StyleSheet.create({
     padding: 1,
     borderRadius: 999,
     borderWidth: 2,
-    borderColor: Style.colors.lightMain
+    borderColor: colors.lightMain
   },
 
   pop: {
     width: 100,
-    backgroundColor: Style.colors.popup,
+    backgroundColor: colors.popup,
     borderRadius: 20,
     position: 'absolute'
   }

@@ -1,7 +1,4 @@
-import React from 'react';
 import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
-import NavigatorTabs from './navigatorTabs';
 import LiveScreen from '../Screens/LiveScreen/LiveScreen';
 import StoryScreen from '../Screens/StoryScreen/StoryScreen';
 import NavigatorAdd from '../Screens/AddScreen/navigatorAdd';
@@ -9,8 +6,8 @@ import Routes from './Routes';
 import BuyPackage from '../Screens/BuyPackage/BuyPackage';
 import WithdrawScreen from '../Screens/WithdrawScreen/WithdrawScreen';
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import Style from '../helpers/style/style';
 import NavigatorStack from './navigatorStack';
+import { colors } from '../utils/style';
 
 export default createAppContainer(createDrawerNavigator(
   {
@@ -35,11 +32,11 @@ export default createAppContainer(createDrawerNavigator(
   },
   {
     // mode: 'modal', //must be modal for transparent background
-    drawerBackgroundColor: Style.colors.background,
+    drawerBackgroundColor: colors.background,
     drawerPosition: 'right',
     drawerType: 'slide',
     contentOptions: {
-      inactiveTintColor: Style.colors.text
+      inactiveTintColor: colors.text
     },
 		// headerMode: 'none',
         initialRouteName: Routes.Navigators.STACK.routeName,

@@ -5,13 +5,13 @@ import Icon, {iconNames} from '../Icon/Icon';
 import CashIndicator from './CashIndicator/CashIndicator';
 // Navigator
 import Routes from '../../Routes/Routes';
-// Helper
-import Style from '../../helpers/style/style';
 
 import { inject, observer } from "mobx-react";
 import HeaderButton from './HeaderButton/HeaderButton';
 import SearchInput from './SearchInput/SearchInput';
 import BackButton from './BackButton/BackButton';
+import LinearGradient from 'react-native-linear-gradient';
+import { colors, sizes } from '../../utils/style';
 
 @inject('CashButtonsStore', 'AuthStore', 'NavigationStore')
 @observer
@@ -38,51 +38,53 @@ export default class Header extends Component {
 	render() {
 		const {AuthStore, CashButtonsStore, NavigationStore} = this.props;
 		return (
-			<View>
-				{Platform.OS == 'ios' && <View style={{height: Style.sizes.iphone_notch, backgroundColor: Style.colors.bar}} />}
-				<View style={styles.header}>
-					<View style={styles.leftSide}>
-						{(NavigationStore.isBack && !NavigationStore.isMyProfile) && <BackButton onPress={() => NavigationStore.goBack()} color={Style.colors.icon} size={Style.sizes.icon}/>}
-						{NavigationStore.isCashIndicator && (
-							<Animated.View style={{...styles.leftSide, opacity: this.indicatorOpacity, maxWidth: this.indicatorWidth, maxHeight: this.indicatorWidth}}>
-								<CashIndicator
-									onPress={() => CashButtonsStore.toggleButtons()}
-									cash={AuthStore.getUserLogin.cash} hearts={AuthStore.getUserLogin.hearts}
-								/>
-							</Animated.View>
-						)}
-					</View>
-
-					<View style={styles.rightSide}>
-						<View style={{flex: NavigationStore.isSearch ? (1):(0)}}>
-							{NavigationStore.isSearch ? (<SearchInput />) : (
-							NavigationStore.isHeaderButton && <HeaderButton
-								onPress={this.navigateTo.bind(this, Routes.Screens.SEARCH.routeName)}
-								color={Style.colors.icon}
-								icon={iconNames.SEARCH}
-								size={Style.sizes.icon}
-							/>
+			<LinearGradient colors={['black', colors.bar]}>
+				<View>
+					{Platform.OS == 'ios' && <View style={{height: sizes.iphone_notch, }} />}
+					<View style={styles.header}>
+						<View style={styles.leftSide}>
+							{(NavigationStore.isBack && !NavigationStore.isMyProfile) && <BackButton onPress={() => NavigationStore.goBack()} color={colors.icon} size={sizes.icon}/>}
+							{NavigationStore.isCashIndicator && (
+								<Animated.View style={{...styles.leftSide, opacity: this.indicatorOpacity, maxWidth: this.indicatorWidth, maxHeight: this.indicatorWidth}}>
+									<CashIndicator
+										onPress={() => CashButtonsStore.toggleButtons()}
+										cash={AuthStore.getUserLogin.cash} hearts={AuthStore.getUserLogin.hearts}
+										/>
+								</Animated.View>
 							)}
 						</View>
 
-						{(!NavigationStore.isHeaderButton && !NavigationStore.isSearch) ? (<Text style={styles.title}>{NavigationStore.whoProfile}</Text>) : (
-							!NavigationStore.isSearch && <HeaderButton
-								onPress={this.navigateTo.bind(this, Routes.Screens.MAIL.routeName)}
-								color={Style.colors.icon}
-								icon={iconNames.LETTER}
-								size={Style.sizes.icon}
-							/>)}
+						<View style={styles.rightSide}>
+							<View style={{flex: NavigationStore.isSearch ? (1):(0)}}>
+								{NavigationStore.isSearch ? (<SearchInput />) : (
+									NavigationStore.isHeaderButton && <HeaderButton
+									onPress={this.navigateTo.bind(this, Routes.Screens.SEARCH.routeName)}
+									color={colors.icon}
+									icon={iconNames.SEARCH}
+									size={sizes.icon}
+									/>
+									)}
+							</View>
 
-						{!NavigationStore.isSearch && (<HeaderButton
-							onPress={() => NavigationStore.toggleDrawer()}
-							color={Style.colors.icon}
-							icon={iconNames.MENU}
-							size={Style.sizes.icon}
-						/>)}
-						
+							{(!NavigationStore.isHeaderButton && !NavigationStore.isSearch) ? (<Text style={styles.title}>{NavigationStore.whoProfile}</Text>) : (
+								!NavigationStore.isSearch && <HeaderButton
+								onPress={this.navigateTo.bind(this, Routes.Screens.MAIL.routeName)}
+								color={colors.icon}
+								icon={iconNames.LETTER}
+								size={sizes.icon}
+								/>)}
+
+							{!NavigationStore.isSearch && (<HeaderButton
+								onPress={() => NavigationStore.toggleDrawer()}
+								color={colors.icon}
+								icon={iconNames.MENU}
+								size={sizes.icon}
+								/>)}
+							
+						</View>
 					</View>
 				</View>
-			</View>
+			</LinearGradient>
 
 		);
 	}
@@ -94,8 +96,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		width: Dimensions.get('window').width,
-		backgroundColor: Style.colors.bar,
-		height: Style.sizes.barHeight,
+		// backgroundColor: colors.bar,
+		height: sizes.barHeight,
 	},
 	rightSide: {
 		flexDirection: 'row',
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	cash: {
-		color: Style.colors.text,
+		color: colors.text,
 		fontSize: 16,
 		letterSpacing: 1,
 		marginLeft: 3,
@@ -128,7 +130,7 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-end',
 		borderTopLeftRadius: 999,
 		borderBottomLeftRadius: 999,
-		backgroundColor: Style.colors.background,
+		backgroundColor: colors.background,
 		transform: [
 			{translateX: 10},
 		],
@@ -138,12 +140,12 @@ const styles = StyleSheet.create({
 		height: '90%',
 		borderTopLeftRadius: 999,
 		borderBottomLeftRadius: 999,
-		color: Style.colors.text,
+		color: colors.text,
 		fontSize: 14,
-		backgroundColor: Style.colors.background,
+		backgroundColor: colors.background,
 	},
 	title: {
-		color: Style.colors.text,
+		color: colors.text,
 		fontWeight: 'bold',
 		fontSize: 16,
 		letterSpacing: 1

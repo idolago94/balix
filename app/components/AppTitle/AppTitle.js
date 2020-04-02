@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Platform } from 'react-native';
-import Style from '../../helpers/style/style';
 import { LinearTextGradient } from "react-native-text-gradient";
+import { colors } from '../../utils/style';
 
 export default function AppTitle(props) {
 
@@ -13,7 +13,7 @@ export default function AppTitle(props) {
         <LinearTextGradient
             style={styles.appName}
             locations={[0, 1]}
-            colors={[Style.colors.lightMain, Style.colors.darkMain]}
+            colors={[colors.lightMain, colors.darkMain]}
         >
             <Text>Balix</Text>
         </LinearTextGradient>

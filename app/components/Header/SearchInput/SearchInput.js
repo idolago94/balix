@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, TouchableHighlight, Animated, TextInput} from 'react-native';
-import Style from '../../../helpers/style/style';
 import Icon, {iconNames} from '../../Icon/Icon';
 import { inject, observer } from "mobx-react";
 import ApiService from '../../../Services/Api';
+import { colors, sizes } from '../../../utils/style';
 
 @inject('UsersStore', 'IdentifierStore')
 export default class SearchInput extends Component {
@@ -85,8 +85,8 @@ export default class SearchInput extends Component {
                         outputRange: ['rgba(125,125,125,0)', 'gray'],
                     }),
                 }}>
-                    <Icon color={Style.colors.icon} name={iconNames.SEARCH}
-                        size={Style.sizes.icon} style={styles.icon}/>
+                    <Icon color={colors.icon} name={iconNames.SEARCH}
+                        size={sizes.icon} style={styles.icon}/>
                 </Animated.View>
             </View>
         );
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
 		height: '80%',
 		borderTopLeftRadius: 999,
 		borderBottomLeftRadius: 999,
-		backgroundColor: Style.colors.background,
+		backgroundColor: colors.background,
 		transform: [
 			{translateX: 10},
 		],
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
 		height: '90%',
 		borderTopLeftRadius: 999,
 		borderBottomLeftRadius: 999,
-		color: Style.colors.text,
+		color: colors.text,
 		fontSize: 14,
-		backgroundColor: Style.colors.background,
+		backgroundColor: colors.background,
 	},
 });

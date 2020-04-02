@@ -1,8 +1,8 @@
 import React, { Component, useState } from 'react';
 import {StyleSheet, Text, TextInput, TouchableHighlight, View} from 'react-native';
-import Style from '../../helpers/style/style';
 import Icon, {iconNames} from '../Icon/Icon';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import { colors, sizes } from '../../utils/style';
 
 export default function FormField(props) {
 
@@ -21,7 +21,7 @@ export default function FormField(props) {
                     <TextInput
                         secureTextEntry={securePassword}
                         onChangeText={(value) => props.onChange(value)}
-                        placeholderTextColor={Style.colors.text}
+                        placeholderTextColor={colors.text}
                         style={styles.input} placeholder={props.placeholder}
                     />
                     <TouchableHighlight style={{paddingHorizontal: 15}} onPress={() => setSecure(!securePassword)}>
@@ -34,7 +34,7 @@ export default function FormField(props) {
                             <TextInput
                                 secureTextEntry={securePassword}
                                 onChangeText={(confirmPassword) => props.confirm(confirmPassword)}
-                                placeholderTextColor={Style.colors.text} style={styles.input}
+                                placeholderTextColor={colors.text} style={styles.input}
                                 placeholder='Password Confirm'
                             />
                         </View>
@@ -58,8 +58,8 @@ export default function FormField(props) {
                                     isSelected={props.value == obj.value}
                                     onPress={() => props.onChange(obj.value)}
                                     borderWidth={2}
-                                    buttonInnerColor={Style.colors.darkMain}
-                                    buttonOuterColor={Style.colors.text}
+                                    buttonInnerColor={colors.darkMain}
+                                    buttonOuterColor={colors.text}
                                     buttonOuterSize={18}
                                     buttonStyle={{}}
                                     buttonWrapStyle={{marginLeft: 10}}
@@ -69,7 +69,7 @@ export default function FormField(props) {
                                     index={i}
                                     labelHorizontal={true}
                                     onPress={() => props.onChange(obj.value)}
-                                    labelStyle={{fontSize: 20, color: Style.colors.text}}
+                                    labelStyle={{fontSize: 20, color: colors.text}}
                                     labelWrapStyle={{}}
                                 />
                             </RadioButton>
@@ -84,7 +84,7 @@ export default function FormField(props) {
                 <TextInput
                     value={keyword}
                     onChangeText={(value) => setKeyword(value)}
-                    placeholderTextColor={Style.colors.text}
+                    placeholderTextColor={colors.text}
                     style={styles.input} placeholder={props.placeholder}
                 />
                 <TouchableHighlight style={{paddingHorizontal: 15}} onPress={() => pressAdd()}>
@@ -98,7 +98,7 @@ export default function FormField(props) {
         <View style={styles.field}>
             <TextInput
                 onChangeText={(value) => props.onChange(value)}
-                placeholderTextColor={Style.colors.text}
+                placeholderTextColor={colors.text}
                 style={styles.input}
                 placeholder={props.placeholder}
             />
@@ -110,15 +110,15 @@ export default function FormField(props) {
 const styles = StyleSheet.create({
     field: {
         width: '100%',
-        backgroundColor: Style.colors.formField,
+        backgroundColor: colors.formField,
         margin: 10,
-        borderRadius: Style.sizes.border_radius,
+        borderRadius: sizes.border_radius,
         flexDirection: 'row',
         alignItems: 'center',
         padding: 10
     },
     input: {
-        color: Style.colors.text,
+        color: colors.text,
         flexGrow: 1
     },
 });

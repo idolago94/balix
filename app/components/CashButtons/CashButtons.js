@@ -3,9 +3,8 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Animated, Platform } from 'react-native';
 import RequestPass from './RequestPass/RequestPass';
 import Routes from '../../Routes/Routes';
-import AppNavigator from '../../Routes/AppNavigator';
 import { inject } from "mobx-react";
-import Style from '../../helpers/style/style';
+import { sizes, colors } from '../../utils/style';
 
 @inject('AuthStore', 'CashButtonsStore', 'NavigationStore')
 export default class CashButtons extends Component {
@@ -45,7 +44,7 @@ export default class CashButtons extends Component {
 
   openDropDown() {
       Animated.spring(this.dropDownBottom, {
-        toValue: Platform.OS == 'ios' ? (Style.sizes.barHeight+Style.sizes.iphone_notch):(Style.sizes.barHeight)
+        toValue: Platform.OS == 'ios' ? (sizes.barHeight+sizes.iphone_notch):(sizes.barHeight)
       }).start();
   }
 
@@ -60,10 +59,10 @@ export default class CashButtons extends Component {
         <Animated.View style={{...styles.dropDownBox, transform: [ {translateY: this.dropDownBottom} ]}}>
           <View style={{flexDirection: 'row'}}>
             <TouchableHighlight onPress={() => this.navigateTo(Routes.Screens.BUY_PACKAGE.routeName)} style={styles.dropDownButton}>
-              <Text style={{color: Style.colors.text, letterSpacing: 1}}>Buy Cash</Text>
+              <Text style={{color: colors.text, letterSpacing: 1}}>Buy Cash</Text>
             </TouchableHighlight>
             <TouchableHighlight onPress={() => this.setState({ showAuthBox: !this.state.showAuthBox })} style={styles.dropDownButton}>
-              <Text style={{color: Style.colors.text, letterSpacing: 1}}>Get Your Money</Text>
+              <Text style={{color: colors.text, letterSpacing: 1}}>Get Your Money</Text>
             </TouchableHighlight>
           </View>
           {
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
       padding: 6,
       marginHorizontal: 5,
       height: 30,
-      backgroundColor: Style.colors.darkMain,
+      backgroundColor: colors.darkMain,
       alignItems: 'center',
       position: 'relative',
       zIndex: 999

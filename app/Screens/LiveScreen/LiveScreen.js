@@ -11,13 +11,12 @@ import {
   Platform
 } from 'react-native';
 import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
-import Style from '../../helpers/style/style';
 import Video from 'react-native-video';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import { withComma } from '../../common/numberMethods';
-import { connect } from 'react-redux';
 import Emoji from '../../components/Photo/EmojiBox/Emoji';
 import { emojis } from '../../common/emojiVariables';
+import { colors, sizes } from '../../utils/style';
 
 export default class LiveScreen extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -308,9 +307,9 @@ export default class LiveScreen extends Component {
           <View style={styles.rightSide}>
             {/* <Image style={{height: 90, width: 150}} source={require('../../../assets/live.png')} /> */}
             <Text style={styles.cashBox}>{withComma(this.state.cash)}$</Text>
-            <Text style={{padding: 5, fontWeight: 'bold', color: Style.colors.text, backgroundColor: 'red', borderRadius: 5, fontSize: 10}}>LIVE</Text>
+            <Text style={{padding: 5, fontWeight: 'bold', color: colors.text, backgroundColor: 'red', borderRadius: 5, fontSize: 10}}>LIVE</Text>
             <TouchableHighlight onPress={this.exitLive.bind(this)}>
-              <Icon style={{padding: 10}} name={iconNames.CLOSE} size={Style.sizes.icon-5} color={Style.colors.icon} />
+              <Icon style={{padding: 10}} name={iconNames.CLOSE} size={sizes.icon-5} color={colors.icon} />
             </TouchableHighlight>
           </View>
         </View>
@@ -330,7 +329,7 @@ export default class LiveScreen extends Component {
           <View style={styles.buttons}>
             <View style={{flexDirection: 'row-reverse'}}>
               <TouchableHighlight onPress={() => this.toggleEmojiBar()}>
-                <Icon name={iconNames.LIKE} size={Style.sizes.icon+10} color={Style.colors.icon} />
+                <Icon name={iconNames.LIKE} size={sizes.icon+10} color={colors.icon} />
               </TouchableHighlight>
             </View>
           </View>
@@ -356,7 +355,7 @@ export default class LiveScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Style.colors.background,
+    backgroundColor: colors.background,
     justifyContent: 'space-between',
     position: 'relative'
   },
@@ -380,7 +379,7 @@ const styles = StyleSheet.create({
     padding: 12
   },
   userName: {
-    color: Style.colors.text,
+    color: colors.text,
     fontWeight: 'bold',
     padding: 5
   },
@@ -395,10 +394,10 @@ const styles = StyleSheet.create({
   cashBox: {
     padding: 5,
     fontWeight: 'bold',
-    color: Style.colors.text,
+    color: colors.text,
     borderRadius: 5,
     fontSize: 10,
-    borderColor: Style.colors.lightMain,
+    borderColor: colors.lightMain,
     borderWidth: 1,
     margin: 10
   },

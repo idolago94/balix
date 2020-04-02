@@ -8,7 +8,6 @@ import {StyleSheet, View, Dimensions, Image} from 'react-native';
 import CashButtons from '../components/CashButtons/CashButtons';
 
 import { inject, observer } from "mobx-react";
-import Header from '../components/Header/Header';
 import Routes from '../Routes/Routes';
 import LottieView from 'lottie-react-native';
 import { window_width, window_height } from '../utils/view';
@@ -41,7 +40,7 @@ export default class AppScreen extends Component {
           {CashButtonsStore.isVisible && <CashButtons />}
           {/* <LottieView 
             style={{position: 'absolute', top: 0, left: 0, zIndex: 999, width: window_width, height: window_height}} 
-            source={require('../assets/tongue.json')}
+            source={require('./data2.json')}
             autoPlay
             loop
           /> */}
@@ -60,13 +59,8 @@ export default class AppScreen extends Component {
 
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    height: '100%',
-    width: Dimensions.get('window').width * 1.75
-  },
   screen: {
     flex: 1,
-    flexGrow: 1,
+    height: window_height
   },
 });

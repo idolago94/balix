@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, TouchableHighlight, Platform, Animated, Dimensions } from 'react-native';
-import Style from '../../helpers/style/style';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import CameraRoll from "@react-native-community/cameraroll";
 import Routes from '../../Routes/Routes';
+import { colors, sizes } from '../../utils/style';
 
 const pictureButtonSize = 70;
 
@@ -77,10 +77,10 @@ export default class AddBottomBar extends Component {
                 })}]} />
               </TouchableHighlight>
               <TouchableHighlight onPress={() => this.props.onSwitch()} style={styles.switchCameraButton}>
-                <Icon name={iconNames.FLIP} size={Style.sizes.icon} color={Style.colors.icon} />
+                <Icon name={iconNames.FLIP} size={sizes.icon} color={colors.icon} />
               </TouchableHighlight>
             </View>
-            {Platform.os == 'ios' && <View style={{height: 15, backgroundColor: Style.colors.addBar}}></View>}
+            {Platform.os == 'ios' && <View style={{height: 15, backgroundColor: colors.addBar}}></View>}
         </View>
     );
   }
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   container: {
-    backgroundColor: Style.colors.addBar,
+    backgroundColor: colors.addBar,
     position: 'absolute',
     bottom: 0,
     left: 0,

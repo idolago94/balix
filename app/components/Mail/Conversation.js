@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import userService from '../../demoDB/Users/userService';
 import messageService from '../../demoDB/Messages/messageService';
 import ProfileSymbol from '../ProfileSymbol/ProfileSymbol';
-import Style from '../../helpers/style/style';
 import Routes from '../../Routes/Routes';
 import { inject, observer } from "mobx-react";
+import { colors } from '../../utils/style';
 
 @inject('AuthStore', 'NavigationStore')
 export default class Conversation extends Component {
@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
     },
     name: {
         fontWeight: 'bold',
-        color: Style.colors.text
+        color: colors.text
     },
     action: {
-        color: Style.colors.text
+        color: colors.text
     }
 });

@@ -1,9 +1,8 @@
 import React, {Component, useState} from 'react';
-import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Platform} from 'react-native';
-import Style from '../../helpers/style/style';
+import {StyleSheet, Text, View} from 'react-native';
 import { window_width, window_height } from '../../utils/view';
-import NavigationStore from '../../mobx/navigationStore';
 import Slider from '@react-native-community/slider';
+import { colors } from '../../utils/style';
 
 export default function Modal(props) {
     return (
@@ -30,9 +29,9 @@ const s = StyleSheet.create({
     modalBox: {
         minHeight: window_height*0.2,
         minWidth: window_width*0.7,
-        backgroundColor: Style.colors.background,
+        backgroundColor: colors.background,
         borderWidth: 1,
-        borderColor: Style.colors.text,
+        borderColor: colors.text,
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center'
@@ -42,17 +41,17 @@ const s = StyleSheet.create({
 export const rangeModal = (title, confirmCallback, cancelCallback) => {
     return (
         <View style={{}}>
-            <Text style={{margin: 10, color: Style.colors.text, fontSize: 20, borderBottomwidth: 1, borderBottomColor: 'lightgray'}}>{title}</Text>
+            <Text style={{margin: 10, color: colors.text, fontSize: 20, borderBottomwidth: 1, borderBottomColor: 'lightgray'}}>{title}</Text>
             <View style={{flexDirection: 'row'}}>
                 <Slider
                     style={{margin: 10, flexGrow: 1}}
                     minimumValue={1}
                     maximumValue={200}
-                    minimumTrackTintColor={Style.colors.lightMain}
-                    maximumTrackTintColor={Style.colors.text}
+                    minimumTrackTintColor={colors.lightMain}
+                    maximumTrackTintColor={colors.text}
                     value={value}
                 />
-                <Text style={{color: Style.colors.lightMain, fontSize: 20}}>{value}</Text>
+                <Text style={{color: colors.lightMain, fontSize: 20}}>{value}</Text>
             </View>
         </View>
     )

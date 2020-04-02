@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import Style from '../../helpers/style/style';
 import Icon, {iconNames} from "../../components/Icon/Icon";
+import { colors } from '../../utils/style';
 
 export default function HomeEmpty() {
 
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: Dimensions.get('window').height*0.5,
-        backgroundColor: Style.colors.background,
+        backgroundColor: colors.background,
         alignItems: 'center',
         justifyContent: 'center'
     },

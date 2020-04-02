@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TextInput, Image, Text, ScrollView, TouchableHighlight, Alert, Button, Modal, Dimensions, Platform } from 'react-native';
-import Style from '../../helpers/style/style';
-import { connect } from 'react-redux';
 import { Dropdown } from 'react-native-material-dropdown';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import { Formik } from 'formik';
 import { WebView } from 'react-native-webview';
 import Slider from '@react-native-community/slider';
-import db from "../../database/db";
 import { inject, observer } from 'mobx-react';
+import { colors } from '../../utils/style';
 
 @inject('AuthStore', 'UsersStore')
 export default class WithdrawScreen extends Component {
@@ -75,8 +73,8 @@ export default class WithdrawScreen extends Component {
         </View>
 
         <View style={styles.paypal_instructions}>
-          <Text style={{color: Style.colors.text, padding: 10, fontWeight: 'bold'}}>Send us a request payment to our paypal account:</Text>
-          <TextInput style={{color: Style.colors.text, padding: 5, backgroundColor: 'gray', borderRadius: 10, alignSelf: 'center'}} value={'balix833@gmail.com'} editable={false}/>
+          <Text style={{color: colors.text, padding: 10, fontWeight: 'bold'}}>Send us a request payment to our paypal account:</Text>
+          <TextInput style={{color: colors.text, padding: 5, backgroundColor: 'gray', borderRadius: 10, alignSelf: 'center'}} value={'balix833@gmail.com'} editable={false}/>
           <View style={styles.notesBox}>
             <Text style={styles.note}>* Pay attention that the paypal email campatible with your Balix account email.</Text>
             <Text style={styles.note}>* Pay attention that the amount request campatible with the cash you have in your account.</Text>
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',
-    backgroundColor: Style.colors.background,
+    backgroundColor: colors.background,
     height: Dimensions.get('window').height,
     alignItems: 'center'
   },
@@ -141,26 +139,26 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     backgroundColor: 'rgba(11,178,178,0.3)',
     borderRadius: 10,
-    borderColor: Style.colors.darkMain,
+    borderColor: colors.darkMain,
     borderWidth: 1,
     padding: 15
   },
   title: {
-    color: Style.colors.text,
+    color: colors.text,
     fontSize: 20,
     marginTop: 10
   },
   sub_title: {
-    color: Style.colors.text,
+    color: colors.text,
     marginTop: 6,
     marginBottom: 30
   },
   input: {
-    color: Style.colors.text,
+    color: colors.text,
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
-    borderColor: Style.colors.text,
+    borderColor: colors.text,
     borderWidth: 1,
     backgroundColor: 'rgba(0,0,0,0.3)',
     marginBottom: 10

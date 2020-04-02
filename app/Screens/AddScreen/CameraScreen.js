@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableHighlight, Platform, Text, Dimensions } from 'react-native';
 import Icon, {iconNames} from '../../components/Icon/Icon';
-import Style from '../../helpers/style/style';
 import AddHeader from './AddHeader';
 import AddBottomBar from './AddBottomBar';
 import { RNCamera } from 'react-native-camera';
@@ -11,6 +10,7 @@ import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import ImagePicker from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 import { inject } from 'mobx-react';
+import { colors, sizes } from '../../utils/style';
 
 @inject('NavigationStore')
 export default class CameraScreen extends Component {
@@ -123,8 +123,8 @@ export default class CameraScreen extends Component {
       <View style={styles.container}>
         {/* cash indicators for live */}
         {this.state.story_live != 'live' && (
-          <View style={{position: 'absolute', top: 40, right: 10, borderWidth: 1, borderRadius: 10, borderColor: Style.colors.lightMain}}>
-            <Text style={{color: Style.colors.text, padding: 10}}>10$</Text>
+          <View style={{position: 'absolute', top: 40, right: 10, borderWidth: 1, borderRadius: 10, borderColor: colors.lightMain}}>
+            <Text style={{color: colors.text, padding: 10}}>10$</Text>
           </View>
         )}
         {/*  */}
@@ -141,14 +141,14 @@ export default class CameraScreen extends Component {
           (
             <TouchableHighlight onPress={() => this.toggleFlash()} style={{
               ...styles.flashBox,
-              borderColor: Style.colors.icon,
+              borderColor: colors.icon,
             }}>
-              <Icon name={iconNames.FLASH} size={Style.sizes.icon} color={Style.colors.icon} />
+              <Icon name={iconNames.FLASH} size={sizes.icon} color={colors.icon} />
             </TouchableHighlight>
           ) :
           (
-            <TouchableHighlight onPress={() => this.toggleFlash()} style={{...styles.flashBox, borderColor: Style.colors.lightMain}}>
-              <Icon name={iconNames.FLASH} size={Style.sizes.icon} color={Style.colors.lightMain} />
+            <TouchableHighlight onPress={() => this.toggleFlash()} style={{...styles.flashBox, borderColor: colors.lightMain}}>
+              <Icon name={iconNames.FLASH} size={sizes.icon} color={colors.lightMain} />
             </TouchableHighlight>
           )
         }
@@ -158,8 +158,8 @@ export default class CameraScreen extends Component {
               (
                 // live button
                 <TouchableHighlight style={styles.liveButton}>
-                  <LinearGradient colors={[Style.colors.lightMain, Style.colors.darkMain]} style={{borderRadius: 10, padding: 10, paddingHorizontal: 30}}>
-                    <Text style={{color: Style.colors.text, fontSize: 20, letterSpacing: 3}}>{'>> GO LIVE <<'}</Text>
+                  <LinearGradient colors={[colors.lightMain, colors.darkMain]} style={{borderRadius: 10, padding: 10, paddingHorizontal: 30}}>
+                    <Text style={{color: colors.text, fontSize: 20, letterSpacing: 3}}>{'>> GO LIVE <<'}</Text>
                   </LinearGradient>
                 </TouchableHighlight>
                 // 
@@ -181,7 +181,7 @@ export default class CameraScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Style.colors.background,
+    backgroundColor: colors.background,
     position: 'relative'
   },
   liveButton: {

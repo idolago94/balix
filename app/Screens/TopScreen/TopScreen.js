@@ -5,14 +5,12 @@ import Photo from '../../components/Photo/Photo';
 import Header from '../../components/Header/Header';
 // Navigator
 import Routes from '../../Routes/Routes';
-
-import Style from '../../helpers/style/style';
-
 import { inject, observer } from "mobx-react";
 import UpdatesService from '../../Services/Updates';
 import ProfileIndicator from '../HomeScreen/ProfileIndicator';
 import {content_height, window_height, window_width} from '../../utils/view';
 import {Bar} from 'react-native-progress';
+import { roller, roller_container, main_view, colors } from '../../utils/style';
 
 @inject('NavigationStore', 'IdentifierStore')
 @observer
@@ -84,15 +82,15 @@ export default class TopScreen extends Component {
 
 	render() {
 		return (
-			<View style={{flex: 1, backgroundColor: Style.colors.background}}>
+			<View style={{flex: 1, backgroundColor: colors.background}}>
 				<View style={{zIndex: 999}}>
 					<FlatList 
 						ref={(ref) => this._roller = ref}
-						style={{overflow: 'visible', backgroundColor: Style.colors.background, paddingVertical: 3, borderBottomWidth: 1, borderColor: 'gray'}}
+						style={roller}
 						horizontal={true}
 						keyExtractor={(item, index) => index.toString()}
 						data={this.props.IdentifierStore.getTop}
-						contentContainerStyle={styles.profileIndicator}
+						contentContainerStyle={roller_container}
 						renderItem={({item, index}) => (
 							<ProfileIndicator 
 								index={index}
@@ -107,15 +105,15 @@ export default class TopScreen extends Component {
 					indeterminate 
 					height={3} 
 					width={window_width} 
-					color={Style.colors.darkMain} 
-					unfilledColor={Style.colors.background} 
+					color={colors.darkMain} 
+					unfilledColor={colors.background} 
 					borderWidth={0} 
 				/>}
 				<View>
 					<FlatList
 						ref={(ref) => this._view = ref}
 						onScroll={(e) => this.handleScroll(e)}
-						style={styles.following}
+						style={main_view}
 						showsVerticalScrollIndicator={false}
 						keyExtractor={(item, index) => index.toString()}
 						data={this.props.IdentifierStore.getTop}
@@ -133,22 +131,3 @@ export default class TopScreen extends Component {
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: Style.colors.background,
-	},
-	storyContainer: {
-		flexDirection: 'row',
-		borderTopColor: 'white',
-		borderTopWidth: 4,
-		backgroundColor: Style.colors.bar
-	},
-	following: {
-		backgroundColor: Style.colors.background
-	},
-	profileIndicator: {
-		alignItems: 'flex-end',
-	}
-});

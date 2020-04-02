@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import Style from '../../../helpers/style/style';
-import Icon, { iconNames } from '../../../components/Icon/Icon';
+import { iconNames } from '../../../components/Icon/Icon';
 import ProfileSymbol from '../../../components/ProfileSymbol/ProfileSymbol';
 import Routes from '../../../Routes/Routes';
-import FollowButton from './FollowButton';
 import UserIndicators from './UserIndicators';
+import { colors } from '../../../utils/style';
 
 export default function UserDetails(props) {
 
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   name: {
-    color: Style.colors.text,
+    color: colors.text,
     paddingVertical: 7,
     fontWeight: 'bold',
     letterSpacing: 1
@@ -51,12 +50,12 @@ const styles = StyleSheet.create({
   extraButton: {
     width: '70%',
     borderRadius: 5,
-    borderColor: Style.colors.text,
+    borderColor: colors.text,
     borderWidth: 1,
     alignItems: 'center'
   },
   buttonContent: {
-    color: Style.colors.text,
+    color: colors.text,
     paddingVertical: 8
   }
 });

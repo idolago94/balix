@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, Animated } from 'react-native';
-import Style from '../../../../helpers/style/style';
+import { colors } from '../../../../utils/style';
 
 export default class Popup extends Component {
 
@@ -38,7 +38,7 @@ export default class Popup extends Component {
 const styles = StyleSheet.create({
     pop: {
         width: 100,
-        backgroundColor: Style.colors.popup,
+        backgroundColor: colors.popup,
         borderRadius: 20,
         position: 'absolute'
       }

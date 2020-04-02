@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 // Components
 import {StyleSheet, View, ScrollView, FlatList, TouchableHighlight} from 'react-native';
 import Action from './Action';
-import Style from '../../../helpers/style/style';
 import Header from '../../../components/Header/Header';
 import ActionsEmpty from "./ActionsEmpty";
 import { inject, observer } from 'mobx-react';
 import UpdateService from '../../../Services/Updates';
+import { colors } from '../../../utils/style';
 
 @inject('AuthStore', 'ActionsStore', 'IdentifierStore')
 @observer
@@ -50,6 +50,6 @@ export default class RecentActions extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Style.colors.background
+    backgroundColor: colors.background
   }
 });

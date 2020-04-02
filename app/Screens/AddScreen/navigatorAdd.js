@@ -1,8 +1,8 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import CameraScreen from './CameraScreen';
 import PreviewPhoto from './PreviewPhoto';
-import Style from '../../helpers/style/style';
 import Routes from '../../Routes/Routes';
+import { colors } from '../../utils/style';
 
 export default createStackNavigator(
 	{
@@ -17,10 +17,10 @@ export default createStackNavigator(
 		initialRouteName: Routes.Screens.CAMERA.routeName,
 		defaultNavigationOptions: {
 			headerStyle: {
-				backgroundColor: Style.colors.addBar,
+				backgroundColor: colors.addBar,
 			},
 			headerTransparent: true,
-			headerTintColor: Style.colors.icon,
+			headerTintColor: colors.icon,
 		},
 	},
 );

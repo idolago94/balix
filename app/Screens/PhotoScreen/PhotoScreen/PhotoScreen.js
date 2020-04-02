@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Alert} from 'react-native';
-import Style from '../../../helpers/style/style';
 import Icon, {iconNames} from '../../../components/Icon/Icon';
 import SingleComment from '../../../components/Photo/Comments/SingleComment';
 import EmojiBox from '../../../components/Photo/EmojiBox/EmojiBox';
@@ -14,6 +13,7 @@ import ApiService from '../../../Services/Api';
 import Buttons from '../../../components/Photo/Buttons';
 import DoubleClick from 'react-native-double-click';
 import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
+import { photo_box, content, emoji_popup_box, colors } from '../../../utils/style';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'BuffersStore')
 @observer
@@ -197,9 +197,9 @@ export default class PhotoScreen extends Component {
     const imageData = ContentsStore.getContentById(navigation.getParam('id'));
     return (!userData || !imageData) ? null :
         <ScrollView style={styles.container}>
-          <View style={styles.photoBox}>
+          <View style={photo_box}>
             <ProgressiveImage 
-              style={{width: '100%', height: '100%'}}
+              style={content}
               url={imageData.url}
               onDoubleClick={this.toggleEmoji.bind(this)}
             />
@@ -208,7 +208,7 @@ export default class PhotoScreen extends Component {
               cash={imageData.cash}
               hearts={imageData.hearts}
             />
-            <View style={styles.emoji}>
+            <View style={emoji_popup_box}>
               {
                 !openEmoji ? null :
                     <EmojiBox includeHeart={true} emojiSize={this.emojiBoxSize} heartPress={this.heartPress.bind(this)} emojiPress={this.emojiPress.bind(this)}/>
@@ -246,7 +246,7 @@ export default class PhotoScreen extends Component {
                   left: heartSendPosition.x
                 }}
             >
-              <Icon color={Style.colors.heart} name={iconNames.FULL_HEART} size={this.emojiBoxSize} />
+              <Icon color={colors.heart} name={iconNames.FULL_HEART} size={this.emojiBoxSize} />
             </Animated.View>
             {/* sparkle animation */}
             {
@@ -297,80 +297,24 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   container: {
-    backgroundColor: Style.colors.background,
+    backgroundColor: colors.background,
     position: 'relative',
   },
-  userName: {
+
+  username: {
     fontSize: 16,
-    color: Style.colors.text,
-    fontWeight: 'bold',
+    color: colors.text,
+    fontWeight: 'bold'
   },
-  photoBox: {
-    width: '100%',
-    aspectRatio: 1,
-    // padding: 8,
-    position: 'relative',
-  },
-  photo: {
-    width: '100%',
-    height: '100%',
-  },
-  photoEarn: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    margin: 20,
-    borderRadius: 999,
-    backgroundColor: 'rgba(128, 128, 128, 0.4)',
-    flexDirection: 'row-reverse',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    maxHeight: 22,
-  },
-  iconBagBox: {
-    padding: 5,
-    backgroundColor: Style.colors.darkMain,
-    borderRadius: 999,
-  },
-  number: {
-    color: Style.colors.text,
-    paddingHorizontal: 8,
-  },
-
-  buttonsBox: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginTop: 10,
-    position: 'relative',
-  },
-  leftSide: {
-    flexDirection: 'row',
-  },
-  icon: {
-    padding: 10,
-  },
-
-  anotherPhotos: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    opacity: 0.6,
-  },
-  smallPhoto: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 10,
-  },
-
   commentsBox: {
     padding: 10,
   },
   content: {
     fontSize: 16,
-    color: Style.colors.text,
+    color: colors.text,
   },
   allCommentsLink: {
     fontSize: 16,
-    color: Style.colors.text,
+    color: colors.text,
   },
 });

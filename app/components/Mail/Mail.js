@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Conversation from './Conversation';
-import Style from '../../helpers/style/style';
 import { inject, observer } from "mobx-react";
+import { colors } from '../../utils/style';
 
 @inject('AuthStore')
 export default class Mail extends Component {
@@ -24,6 +24,6 @@ export default class Mail extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Style.colors.background,
+    backgroundColor: colors.background,
   }
 });

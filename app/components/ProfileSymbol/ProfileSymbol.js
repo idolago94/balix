@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
 import Icon, { iconNames } from '../Icon/Icon';
-import Style from '../../helpers/style/style';
 import LiveIndicator from './LiveIndicator';
-import { withComma } from '../../common/numberMethods';
-import bufferToBase64 from '../../helpers/convert/Buffer';
 import ProgressiveImage from '../ProgressiveImage/PreogressiveImage';
+import { colors } from '../../utils/style';
 
 export default function ProfileSymbol(props) {
   // Props = [
@@ -94,14 +92,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   cash: {
-    color: Style.colors.text
+    color: colors.text
   },
   icon: {
     position: 'absolute',
     // padding: 12, 
     borderRadius:999, 
-    backgroundColor: Style.colors.text,
-    borderColor: Style.colors.background,
+    backgroundColor: colors.text,
+    borderColor: colors.background,
     borderWidth: 3
   }
 });

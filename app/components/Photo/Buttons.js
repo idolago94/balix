@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 // Componenta
-import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Alert} from 'react-native';
+import {StyleSheet, View, TouchableHighlight, Dimensions} from 'react-native';
 import Icon, {iconNames} from '../Icon/Icon';
-import Style from '../../helpers/style/style';
+import { sizes, colors } from '../../utils/style';
 
 export default function Buttons(props) {
 
@@ -10,13 +10,13 @@ export default function Buttons(props) {
         <View style={styles.buttonsBox}>
           <View style={styles.leftSide}>
             <TouchableHighlight onPress={() => props.onOpenEmoji()}>
-              <Icon style={styles.icon} name={iconNames.FULL_EARN} size={Style.sizes.icon}
-                    color={Style.colors.icon}/>
+              <Icon style={styles.icon} name={iconNames.FULL_EARN} size={sizes.icon}
+                    color={colors.icon}/>
             </TouchableHighlight>
-            <Icon style={styles.icon} name={iconNames.FULL_COMMENT} size={Style.sizes.icon}
-                  color={Style.colors.icon}/>
-            <Icon style={styles.icon} name={iconNames.FULL_SHARE} size={Style.sizes.icon}
-                  color={Style.colors.icon}/>
+            <Icon style={styles.icon} name={iconNames.FULL_COMMENT} size={sizes.icon}
+                  color={colors.icon}/>
+            <Icon style={styles.icon} name={iconNames.FULL_SHARE} size={sizes.icon}
+                  color={colors.icon}/>
           </View>
           <View style={styles.rightSide}>
           </View>

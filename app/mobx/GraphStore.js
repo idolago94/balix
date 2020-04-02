@@ -1,11 +1,11 @@
 import { observable, action, computed } from "mobx";
 import {persist} from 'mobx-persist';
-import Style from '../helpers/style/style';
+import { colors } from "../utils/style";
 
 class GraphStore {
     @persist @observable mostVolunteers = [];
     @persist @observable gendersData = [
-        {count: 0, color: Style.colors.darkMain, label: 'Male'},
+        {count: 0, color: colors.darkMain, label: 'Male'},
         {count: 0, color: "#993188", label: 'Female'}
     ];
     
@@ -31,8 +31,8 @@ class GraphStore {
     @action
     setGendersData(data) {
         this.gendersData = [
-            {count: data.male, color: Style.colors.darkMain, label: 'Male'},
-            {count: data.female, color: "#993188", label: 'Female'}
+            {count: data.male, color: colors.lightMain, label: 'Male'},
+            {count: data.female, color: "#df1bb5", label: 'Female'}
         ]
     }
  }

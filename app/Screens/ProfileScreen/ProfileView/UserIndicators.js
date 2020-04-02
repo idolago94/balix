@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import Style from '../../../helpers/style/style';
-import Icon, { iconNames } from '../../../components/Icon/Icon';
+import { colors } from '../../../utils/style';
 
 export default function UserIndicators(props) {
     return (
@@ -36,14 +35,14 @@ const s = StyleSheet.create({
       paddingHorizontal: 35,
     },
     number: {
-      color: Style.colors.text,
+      color: colors.text,
       fontWeight: 'bold'
     },  
     type: {
-      color: Style.colors.text
+      color: colors.text
     },
     username: {
-        color: Style.colors.text,
+        color: colors.text,
         fontWeight: 'bold',
         letterSpacing: 1
     }

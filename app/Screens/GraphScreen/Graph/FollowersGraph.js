@@ -6,25 +6,16 @@ import * as shape from 'd3-shape';
 
 export default function FollowersGraph(props) {
     return (
-        <View style={styles.container}>
+        <View style={[props.style, {width: props.width}]}>
           <InfoTitle title="23K Followers" />
-          <View style={props.style}>
             <AreaChart
-              style={{ height: props.height, width: props.width }}
+              style={{ height: props.height-40 }}
               data={[45, 60, 55, 73, 70]}
               svg={{ fill: props.fill }}
               curve={shape.curveNatural}
               >
                 <Grid />
             </AreaChart>
-          </View>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 2,
-    alignItems: 'center',
-  }
-});

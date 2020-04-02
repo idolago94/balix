@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import SingleComment from './SingleComment';
-import { backgroundColor } from '../../../common/style';
+import { colors } from '../../../utils/style';
 
 export default class Comments extends Component {
   // Params = [ comments ]
@@ -24,7 +24,7 @@ export default class Comments extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: backgroundColor,
+    backgroundColor: colors.background,
     padding: 10
   }
 });

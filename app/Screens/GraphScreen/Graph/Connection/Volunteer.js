@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions, Animated, Text } from 'react-native';
-import Style from '../../../../helpers/style/style';
 import ProfileSymbol from '../../../../components/ProfileSymbol/ProfileSymbol';
 import { inject, observer } from "mobx-react";
 import Routes from '../../../../Routes/Routes';
 import ApiService from '../../../../Services/Api';
 import Icon, {iconNames} from '../../../../components/Icon/Icon';
 import { withComma } from '../../../../common/numberMethods';
+import { colors } from '../../../../utils/style';
 
 @inject('NavigationStore', 'UsersStore')
 @observer
@@ -34,7 +34,7 @@ export default class Volunteer extends Component {
                     press={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: user_id})}
                 />
                 <View style={s.cashBox}>
-                    <Icon name={iconNames.DOLLAR} size={size/4} color={Style.colors.darkMain}/>
+                    <Icon name={iconNames.DOLLAR} size={size/4} color={colors.darkMain}/>
                     <Text style={{...s.cash, fontSize: size/4}}>{withComma(amount)}</Text>
                 </View>
             </View>
@@ -52,7 +52,7 @@ const s = StyleSheet.create({
       justifyContent: 'center'
     },
     cash: {
-      color: Style.colors.text
+      color: colors.text
     },
   });
   

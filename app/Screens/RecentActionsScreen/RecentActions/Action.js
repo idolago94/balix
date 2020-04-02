@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import Style from '../../../helpers/style/style';
 // Components
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import ProfileSymbol from '../../../components/ProfileSymbol/ProfileSymbol';
-import db from "../../../database/db";
 import Icon, {iconNames} from "../../../components/Icon/Icon";
 import { inject, observer } from 'mobx-react';
 import ApiService from '../../../Services/Api';
 import moment from 'moment';
 import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
 import Routes from '../../../Routes/Routes';
+import { colors } from '../../../utils/style';
 
 @inject('AuthStore', 'UsersStore', 'ActionsStore', 'NavigationStore')
 @observer
@@ -334,12 +333,12 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 16,
-        color: Style.colors.text,
+        color: colors.text,
         fontWeight: 'bold'
     },
     action: {
         fontSize: 16,
-        color: Style.colors.text
+        color: colors.text
     },
     otherUserProfile: {
         // marginLeft: 10

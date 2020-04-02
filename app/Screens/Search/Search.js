@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, TouchableHighlight, FlatList, Text} from 'react-native';
 import Header from '../../components/Header/Header';
-import Style from '../../helpers/style/style';
-import {connect} from 'react-redux';
 import Result from './Result';
 import Routes from '../../Routes/Routes';
 import SearchEmpty from "./SearchEmpty";
 import NotFound from "./NotFound";
-import db from '../../database/db';
 import { inject, observer } from 'mobx-react';
+import { colors } from '../../utils/style';
 
 @inject('NavigationStore', 'IdentifierStore', 'LoaderStore')
 @observer
@@ -51,10 +49,10 @@ export default class Search extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: Style.colors.background
+		backgroundColor: colors.background
 	},
 	textBox: {
 		fontSize: 70,
-		color: Style.colors.text,
+		color: colors.text,
 	},
 });

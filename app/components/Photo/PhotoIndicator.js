@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Style from '../../helpers/style/style';
 import Icon, {iconNames} from '../Icon/Icon';
 import { withComma } from '../../common/numberMethods';
 import ProfileSymbol from '../ProfileSymbol/ProfileSymbol';
+import { colors } from '../../utils/style';
 
 export default function PhotoIndicator(props) {
   // Props = [ indicators: {cash: number, hearts: number} ]
@@ -17,12 +17,12 @@ export default function PhotoIndicator(props) {
           press={() => props.onSymbol()}
         /> */}
         <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 10, padding: 4}}>
-          <Icon color={Style.colors.text} name={iconNames.DOLLAR} size={22} />
-          <Text style={{color: Style.colors.text}}>{withComma(props.cash)}</Text>
+          <Icon color={colors.text} name={iconNames.DOLLAR} size={22} />
+          <Text style={{color: colors.text}}>{withComma(props.cash)}</Text>
         </View>
         <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 10, padding: 4}}>
-          <Icon color={Style.colors.text} name={iconNames.FULL_HEART} size={22} />
-          <Text style={{color: Style.colors.text}}>{withComma(props.hearts)}</Text>
+          <Icon color={colors.text} name={iconNames.FULL_HEART} size={22} />
+          <Text style={{color: colors.text}}>{withComma(props.hearts)}</Text>
         </View>
       </View>
     );

@@ -26,7 +26,7 @@ class NavigationStore {
     ]
     @observable nonBack = [
         Routes.Screens.HOME.routeName,
-        Routes.Screens.RECENT_ACTIONS.routeName,
+        Routes.Screens.TOP.routeName,
         Routes.Screens.GRAPH.routeName
     ]
     @observable nonHeaderButton = [

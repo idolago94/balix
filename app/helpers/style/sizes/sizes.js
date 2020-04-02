@@ -1,6 +1,6 @@
 export default sizes = {
-    icon: 20,
-    barHeight: 50,
+    icon: 23,
+    barHeight: 60,
     fieldWidth: '80%',
     border_radius: 5,
     iphone_notch: 30
