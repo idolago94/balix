@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Alert} from 'react-native';
+import {Text, View} from 'react-native';
 import { inject, observer } from "mobx-react";
-import { FlatList } from 'react-native-gesture-handler';
 import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
-import style from '../../helpers/style/style';
 import { sliceString } from '../../utils/view';
 import Routes from '../../Routes/Routes';
-import { backgroundColor } from '../../common/style';
+import { colors } from '../../utils/style';
 
 @inject('UsersStore', 'NavigationStore', 'ContentsStore')
 @observer
@@ -25,7 +23,7 @@ export default class ProfileIndicator extends Component {
                     src={userData.profileImage}
                     size={inView ? (83):(50)}
                 />
-                <Text style={{color: style.colors.text, fontSize: inView ? (16):(10)}}>{sliceString(userData.username, 12)}</Text>
+                <Text style={{color: colors.text, fontSize: inView ? (16):(10)}}>{sliceString(userData.username, 12)}</Text>
             </View>
         );
     }

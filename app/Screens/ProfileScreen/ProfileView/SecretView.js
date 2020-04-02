@@ -1,10 +1,10 @@
 import React, { Component, useState } from 'react';
 import { StyleSheet, Text, View, Image, Button, TouchableHighlight, ScrollView  } from 'react-native';
 import SmallPhoto from './SmallPhoto';
-import style from '../../../helpers/style/style';
 import Icon, { iconNames } from '../../../components/Icon/Icon';
 import { window_width } from '../../../utils/view';
 import IconButton from '../../../components/IconButton/IconButton';
+import { colors } from '../../../utils/style';
 
 export default function SecretView(props) {
     let morePhotos = [];
@@ -18,8 +18,8 @@ export default function SecretView(props) {
                 {props.isMy && morePhotos.map((e, i) => (
                 <View key={i} style={s.imageBox}>
                     <IconButton style={s.touchable} onPress={() => props.toAdd()} icon={iconNames.PLUS} color={'lightgray'} size={50} />
-                    <View style={{position: 'absolute', bottom: -3, right: -3, borderRadius: 5, backgroundColor: style.colors.text}}>
-                        <Icon name={iconNames.LOCK} color={style.colors.background} size={18} style={{padding: 3}} />
+                    <View style={{position: 'absolute', bottom: -3, right: -3, borderRadius: 5, backgroundColor: colors.text}}>
+                        <Icon name={iconNames.LOCK} color={colors.background} size={18} style={{padding: 3}} />
                     </View>
                 </View>
                 ))}
@@ -41,7 +41,7 @@ const s = StyleSheet.create({
         aspectRatio: 1,
         borderWidth: 1,
         borderStyle: 'dashed',
-        borderColor: style.colors.text,
+        borderColor: colors.text,
         borderRadius: 10,
         opacity: 0.35
     },

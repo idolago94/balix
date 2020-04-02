@@ -1,10 +1,10 @@
 import React, { Component, useState } from 'react';
 import { StyleSheet, Text, View, Image, Button, TouchableHighlight, ScrollView  } from 'react-native';
 import SmallPhoto from './SmallPhoto';
-import style from '../../../helpers/style/style';
 import Icon, { iconNames } from '../../../components/Icon/Icon';
 import { window_width } from '../../../utils/view';
 import IconButton from '../../../components/IconButton/IconButton';
+import { colors } from '../../../utils/style';
 
 export default function Photos(props) {
 
@@ -39,7 +39,7 @@ const s = StyleSheet.create({
         aspectRatio: 1,
         borderWidth: 1,
         borderStyle: 'dashed',
-        borderColor: style.colors.text,
+        borderColor: colors.text,
         borderRadius: 10,
         opacity: 0.35
     },
