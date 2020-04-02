@@ -1,6 +1,5 @@
 import { observable, action, computed, get, set } from "mobx";
 import {persist} from 'mobx-persist';
-import bufferToBase64 from '../helpers/convert/Buffer';
 
 class BuffersStore {
     @persist('object') @observable buffers = {};
@@ -24,7 +23,7 @@ class BuffersStore {
     @action
     async setBuffers(buf_array) {
         console.log('BuffersStore -> setBuffer');
-        buf_array.map(buf => set(this.buffers, buf._id, `data:image/png;base64,${bufferToBase64(buf.data)}`));
+        buf_array.map(buf => set(this.buffers, buf._id, buf.data));
     }
 
     @action
