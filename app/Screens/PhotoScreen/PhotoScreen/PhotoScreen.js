@@ -200,6 +200,8 @@ export default class PhotoScreen extends Component {
               style={content}
               url={imageData.url}
               onDoubleClick={this.toggleEmoji.bind(this)}
+              contentType={imageData.contentType}
+
             />
             <PhotoIndicator 
               user={userData}

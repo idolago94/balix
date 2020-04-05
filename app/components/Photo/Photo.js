@@ -203,6 +203,7 @@ export default class Photo extends Component {
             style={content}
             onDoubleClick={this.toggleEmoji.bind(this)}
             url={imageData.url}
+            contentType={imageData.contentType}
           />
           <PhotoIndicator 
             user={userData}

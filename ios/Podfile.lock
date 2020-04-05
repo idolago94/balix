@@ -39,6 +39,7 @@ PODS:
   - lottie-react-native (2.6.1):
     - lottie-ios (~> 2.5.0)
     - React
+  - mobile-ffmpeg-https (4.3.1)
   - Permission-Camera (2.0.9):
     - RNPermissions
   - Permission-MediaLibrary (2.0.9):
@@ -236,6 +237,12 @@ PODS:
   - react-native-fbsdk/Share (1.1.2):
     - FBSDKShareKit (= 5.8)
     - React
+  - react-native-ffmpeg (0.4.4):
+    - React
+    - react-native-ffmpeg/https (= 0.4.4)
+  - react-native-ffmpeg/https (0.4.4):
+    - mobile-ffmpeg-https (= 4.3.1)
+    - React
   - react-native-image-picker (2.2.1):
     - React
   - react-native-image-resizer (1.2.0):
@@ -343,6 +350,7 @@ DEPENDENCIES:
   - react-native-camera (from `../node_modules/react-native-camera`)
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
+  - react-native-ffmpeg (from `../node_modules/react-native-ffmpeg`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -382,6 +390,7 @@ SPEC REPOS:
     - FBSDKLoginKit
     - FBSDKShareKit
     - lottie-ios
+    - mobile-ffmpeg-https
     - Shimmer
 
 EXTERNAL SOURCES:
@@ -433,6 +442,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/cameraroll"
   react-native-fbsdk:
     :path: "../node_modules/react-native-fbsdk"
+  react-native-ffmpeg:
+    :path: "../node_modules/react-native-ffmpeg"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-image-resizer:
@@ -507,6 +518,7 @@ SPEC CHECKSUMS:
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   lottie-react-native: 3d8181d43619b1fe804c828bd5a09d20fe8bdea7
+  mobile-ffmpeg-https: c4a3c255163ddb1abc4b4dfc613c2d885f8c46eb
   Permission-Camera: b0fec577b27488314a885f9c74433e02f3585b9b
   Permission-MediaLibrary: 82e374f494221a6202836293448995c927c6603b
   Permission-Microphone: c46ef776bd65d251d3bcb544bedaf7160c1afe06
@@ -524,6 +536,7 @@ SPEC CHECKSUMS:
   react-native-camera: 6eaa78f9afda93fab531ba92f597c0b137244777
   react-native-cameraroll: ad20f5a93c25cb83a76455df57a2c62fbb63aaed
   react-native-fbsdk: c35d42169e64aaf66f01713c1e18d0674f7f6519
+  react-native-ffmpeg: f9a60452aaa5d478aac205b248224994f3bde416
   react-native-image-picker: 7e19aefccd42aad840a758181e16ce05d4e95578
   react-native-image-resizer: b718335229b7be37c809bf9ed81d7a066fbfd2dd
   react-native-safe-area-context: a1d322930b8c5d04ebeb77cc47cc97575ad27203
@@ -556,6 +569,6 @@ SPEC CHECKSUMS:
   SRSRadialGradient: c8ab040309de2b2c1fc3f5c4804f2436c2df1f1a
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: c3d99c9943a20b5a50f1a5b17c1e49b7f95eafdd
+PODFILE CHECKSUM: 86f93a5e543dae6cb40c6b57c1ed270253a5838b
 
 COCOAPODS: 1.8.4

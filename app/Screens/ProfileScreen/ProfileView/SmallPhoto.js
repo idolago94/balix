@@ -67,6 +67,7 @@ export default class SmallPhoto extends Component {
                 <ProgressiveImage 
                     style={s.photo}
                     url={imageData.url}
+                    contentType={imageData.contentType}
                 />
                 {this.props.secret && !this.props.isMy && !isViewed && <BlurView 
                   style={[s.photo, {position: 'absolute', top: 0, left: 0}]}
