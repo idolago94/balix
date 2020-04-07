@@ -8,6 +8,8 @@ import WithdrawScreen from '../Screens/WithdrawScreen/WithdrawScreen';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import NavigatorStack from './navigatorStack';
 import { colors } from '../utils/style';
+import Drawer from '../components/Drawer/Drawer';
+import EditProfileScreen from '../Screens/EditProfileScreen/EditProfileScreen';
 
 export default createAppContainer(createDrawerNavigator(
   {
@@ -29,6 +31,9 @@ export default createAppContainer(createDrawerNavigator(
     [Routes.Screens.WITHDRAW.routeName]: {
       screen: WithdrawScreen
     },
+    [Routes.Screens.EDIT_PROFILE.routeName]: {
+      screen: EditProfileScreen
+    }
   },
   {
     // mode: 'modal', //must be modal for transparent background
@@ -39,11 +44,12 @@ export default createAppContainer(createDrawerNavigator(
       inactiveTintColor: colors.text
     },
 		// headerMode: 'none',
-        initialRouteName: Routes.Navigators.STACK.routeName,
-        defaultNavigationOptions: {
+    initialRouteName: Routes.Navigators.STACK.routeName,
+    defaultNavigationOptions: {
 			gestureEnabled: false,
 			cardShadowEnabled: false,
 			animationEnabled: false,
     },
+    contentComponent: Drawer
   },
 ));
