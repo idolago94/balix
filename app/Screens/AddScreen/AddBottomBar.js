@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, TouchableHighlight, Platform, Animated, Dimensions } from 'react-native';
+import { StyleSheet, View, Image, TouchableHighlight, Animated, Dimensions } from 'react-native';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import CameraRoll from "@react-native-community/cameraroll";
 import Routes from '../../utils/Routes';
@@ -80,7 +80,6 @@ export default class AddBottomBar extends Component {
                 <Icon name={iconNames.FLIP} size={sizes.icon} color={colors.icon} />
               </TouchableHighlight>
             </View>
-            {Platform.os == 'ios' && <View style={{height: 15, backgroundColor: colors.addBar}}></View>}
         </View>
     );
   }

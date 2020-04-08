@@ -19,7 +19,7 @@ export const colors = {
 
 export const sizes = {
     icon: 23,
-    barHeight: 60,
+    barHeight: 50,
     fieldWidth: '80%',
     border_radius: 5,
     iphone_notch: 30

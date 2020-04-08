@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Platform} from 'react-native';
+import {StyleSheet, Text, View, Animated, Dimensions, Platform} from 'react-native';
 import { sizes } from '../../utils/style';
 
 export default class Banner extends Component {

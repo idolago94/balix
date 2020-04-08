@@ -1,6 +1,6 @@
 // Components
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, Animated, Platform } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Animated } from 'react-native';
 import RequestPass from './RequestPass/RequestPass';
 import Routes from '../../utils/Routes';
 import { inject } from "mobx-react";
@@ -44,7 +44,7 @@ export default class CashButtons extends Component {
 
   openDropDown() {
       Animated.spring(this.dropDownBottom, {
-        toValue: Platform.OS == 'ios' ? (sizes.barHeight+sizes.iphone_notch):(sizes.barHeight)
+        toValue: sizes.barHeight
       }).start();
   }
 

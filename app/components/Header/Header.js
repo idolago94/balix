@@ -1,6 +1,6 @@
 // Components
 import React, {Component} from 'react';
-import {StyleSheet, View, TouchableHighlight, Platform, Animated, Dimensions, Text} from 'react-native';
+import {StyleSheet, View, Animated, Dimensions, Text} from 'react-native';
 import Icon, {iconNames} from '../Icon/Icon';
 import CashIndicator from './CashIndicator/CashIndicator';
 // Navigator

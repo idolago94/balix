@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, TouchableHighlight, Platform, Text } from 'react-native';
+import { StyleSheet, View, Image, Text } from 'react-native';
 import Icon, {iconNames} from '../../components/Icon/Icon';
 import Routes from "../../utils/Routes";
 import { inject, observer } from "mobx-react";
@@ -85,7 +85,7 @@ export default class PreviewPhoto extends Component {
       return (<View></View>)
     }
     return (
-      <View style={{flex: 1, backgroundColor: colors.background, paddingTop: (Platform.OS == 'ios') ? (40):(0)}}>
+      <View style={{flex: 1, backgroundColor: colors.background}}>
         <View style={{alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row', width: window_width}}>
           {isSecret && <Icon name={iconNames.LOCK} size={buttonSize} color={colors.icon} />}
           <IconButton style={styles.btn} onPress={() => this.doUpload()} icon={iconNames.CONFIRM} size={buttonSize} />

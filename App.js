@@ -5,11 +5,12 @@ import * as Stores from './app/mobx';
 import AppScreen from './app/Screens/AppScreen';
 import { Provider, inject, observer } from "mobx-react";
 import {create} from 'mobx-persist';
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage, SafeAreaView} from 'react-native';
 import ApiService from './app/Services/Api';
 import Banner from './app/components/Banner/Banner';
 import Modal from './app/components/Modal/Modal';
 import SplashScreen from 'react-native-splash-screen'
+import { colors } from './app/utils/style';
 
 // const hydrate = create({
 //     storage: AsyncStorage,
@@ -54,11 +55,11 @@ class RootComponent extends Component {
 		const {NavigationStore, AuthStore} = this.props;
 		const Root = AuthStore.getUserLogin._id ? AppScreen : LoginNavigator;
         return (
-			<View style={{flex: 1}}>
+			<SafeAreaView style={{flex: 1, backgroundColor: colors.bar}}>
 				{NavigationStore.isBanner && <Banner color={NavigationStore.getBanner.color} content={NavigationStore.getBanner.data} />}
 				{NavigationStore.isModal && <Modal content={NavigationStore.getModal} />}
 				<Root />
-			</View>
+			</SafeAreaView>
         )
     }
 }

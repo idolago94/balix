@@ -26,32 +26,34 @@ export default class Package extends Component {
   render() {
     return (
         <TouchableHighlight onPress={this.packagePress.bind(this)}>
-            <LinearGradient
-                start={{x: 0.9, y: 1}} end={{x: 0.1, y: 1}}
-                colors={['transparent', colors.darkMain, 'transparent']}
-                style={styles.container}
-            >
-                <Image style={{height: '70%', width: 90}} source={require('../../../assets/coins.png')} />
-                <View style={styles.values}>
-                    <View style={styles.cashValue}>
-                        <Icon name={iconNames.DOLLAR} size={21} color='white' />
-                        <Text style={{color: 'yellow', fontSize: 25}}>{this.props.data.cash}</Text>
-                        <Text style={{color: 'white', fontSize: 20}}>+</Text>
-                    </View>
-                    <View style={styles.heartValue}>
-                        <Icon name={iconNames.HEART} size={21} color='white' />
-                        <Text style={{color: 'yellow', fontSize: 25}}>{this.props.data.hearts}</Text>
-                    </View>
-                </View>
-                <RadialGradient
-                    colors={['white', 'transparent']}
-                    style={{padding: 7}}
+            <View style={{alignItems: 'center', marginVertical: 5}}>
+                <LinearGradient
+                    start={{x: 0.9, y: 1}} end={{x: 0.1, y: 1}}
+                    colors={['transparent', colors.darkMain, 'transparent']}
+                    style={styles.container}
                 >
-                    <LinearGradient colors={[colors.darkMain, colors.lightMain]} style={styles.cost}>
-                        <Text style={{color: 'white', fontSize: 18}}>{this.props.data.cost}$</Text>
-                    </LinearGradient>
-                </RadialGradient>
-            </LinearGradient>
+                    <Image style={{height: '70%', width: 90}} source={require('../../../assets/coins.png')} />
+                    <View style={styles.values}>
+                        <View style={styles.cashValue}>
+                            <Icon name={iconNames.DOLLAR} size={21} color='white' />
+                            <Text style={{color: 'yellow', fontSize: 25}}>{this.props.data.cash}</Text>
+                            <Text style={{color: 'white', fontSize: 20}}>+</Text>
+                        </View>
+                        <View style={styles.heartValue}>
+                            <Icon name={iconNames.HEART} size={21} color='white' />
+                            <Text style={{color: 'yellow', fontSize: 25}}>{this.props.data.hearts}</Text>
+                        </View>
+                    </View>
+                    <RadialGradient
+                        colors={['white', 'transparent']}
+                        style={{padding: 7}}
+                    >
+                        <LinearGradient colors={[colors.darkMain, colors.lightMain]} style={styles.cost}>
+                            <Text style={{color: 'white', fontSize: 18}}>{this.props.data.cost}$</Text>
+                        </LinearGradient>
+                    </RadialGradient>
+                </LinearGradient>
+            </View>
         </TouchableHighlight>
     );
   }

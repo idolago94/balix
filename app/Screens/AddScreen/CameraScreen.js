@@ -196,6 +196,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 999,
     margin: 7,
-    top: (Platform.OS == 'ios') ? (40):(10)
   }
 });

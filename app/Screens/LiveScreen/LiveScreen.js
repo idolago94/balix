@@ -6,9 +6,7 @@ import {
   Image,
   TouchableHighlight,
   Animated,
-  ScrollView,
-  Dimensions,
-  Platform
+  Dimensions
 } from 'react-native';
 import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 import Video from 'react-native-video';

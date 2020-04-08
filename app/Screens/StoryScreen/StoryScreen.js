@@ -7,7 +7,6 @@ import {
   TouchableHighlight,
   Animated,
   Dimensions,
-  Platform,
   Alert
 } from 'react-native';
 import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
@@ -490,7 +489,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     justifyContent: 'space-between',
     position: 'relative',
-    paddingTop: (Platform.OS == 'ios') ? (37):(0)
   },
   storyBar: {
     flexDirection: 'row',
@@ -498,7 +496,6 @@ const styles = StyleSheet.create({
   },
   header: {
     position: 'absolute',
-    top: (Platform.OS == 'ios') ? (35):(0),
     left: 0,
     width: '100%',
 

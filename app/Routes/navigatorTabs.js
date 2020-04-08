@@ -1,6 +1,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import TabBar from '../components/TabBar';
+import TabBar from '../components/TabBar/TabBar';
 import Routes from '../utils/Routes';
 import Home from '../Screens/HomeScreen/Home';
 import ProfileView from '../Screens/ProfileScreen/ProfileView/ProfileView';
@@ -10,7 +10,6 @@ import PhotoScreen from '../Screens/PhotoScreen/PhotoScreen/PhotoScreen';
 import Mail from '../Screens/Mail/Mail';
 import Search from '../Screens/Search/Search';
 import TopScreen from '../Screens/TopScreen/TopScreen';
-import { colors, sizes } from '../utils/style';
 
 export default createBottomTabNavigator(
   {
@@ -43,17 +42,6 @@ export default createBottomTabNavigator(
     initialRouteName: Routes.Screens.HOME.routeName,
     tabBarComponent: props => (
       <TabBar {...props} />
-    ),
-    tabBarOptions: {
-      inactiveTintColor: colors.icon,
-      activeTintColor: colors.lightMain,
-      style: {
-        // backgroundColor: colors.bar,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        height: sizes.barHeight,
-      },
-    },
+    )
   },
 );

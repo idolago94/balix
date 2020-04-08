@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import {View, ScrollView, Image, TouchableHighlight, Platform, Dimensions} from 'react-native';
+import {View, ScrollView, Image, TouchableHighlight} from 'react-native';
 import Package from './Package/Package';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import {getAvailablePurchases, getProducts, initConnection} from "react-native-iap";
 import { inject, observer } from "mobx-react";
 import { colors } from '../../utils/style';
+import { window_width } from '../../utils/view';
 
 @inject('AuthStore')
 export default class BuyPackage extends Component {
@@ -24,20 +25,19 @@ export default class BuyPackage extends Component {
   render() {
     return (
       <View style={{flex: 1, position: 'relative', backgroundColor: colors.background}}>
-        {Platform.OS == 'ios' && <View style={{height: 30, backgroundColor: colors.background}}></View>}
-        {/* {this.props.AuthStore.getUserLogin.profileImage && (
+        {this.props.AuthStore.getUserLogin.profileImage && (
               <Image
-                style={{height: '100%', width: '100%', position: 'absolute', top: 0, left: 0, opacity: 0.1}}
+                style={{height: '100%', width: '100%', position: 'absolute', top: 0, left: 0, opacity: 0.17}}
                 source={{uri: this.props.AuthStore.getUserLogin.profileImage}}
               />
-        )} */}
+        )}
         <View>
           <TouchableHighlight onPress={() => this.props.navigation.goBack()} style={{padding: 15}}>
             <Icon name={iconNames.LEFT_CHEVRON} size={25} color={'white'} />
           </TouchableHighlight>
         </View>
         <ScrollView>
-          <View style={{width: Dimensions.get('window').width, alignItems: 'center'}}>
+          <View style={{width: window_width, alignItems: 'center'}}>
             {
               Packages.map((p, i) => (
                 <Package data={p} key={i} />

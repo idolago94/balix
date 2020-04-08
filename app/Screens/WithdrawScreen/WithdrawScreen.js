@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TextInput, Image, Text, ScrollView, TouchableHighlight, Alert, Button, Modal, Dimensions, Platform } from 'react-native';
-import { Dropdown } from 'react-native-material-dropdown';
+import { StyleSheet, View, TextInput, Image, Text, TouchableHighlight, Dimensions } from 'react-native';
 import Icon, { iconNames } from '../../components/Icon/Icon';
-import { Formik } from 'formik';
 import { WebView } from 'react-native-webview';
 import { inject, observer } from 'mobx-react';
 import { colors } from '../../utils/style';
@@ -25,18 +23,6 @@ export default class WithdrawScreen extends Component {
       withdrawAmount: 10,
       accessToken: null
     }
-  }
-
-  getAllCountries() {
-    fetch('https://restcountries.eu/rest/v2/all').then((response) => response.json())
-        .then((result) => {
-          let allCountries = result.map((c) => {
-            return {
-              value: c.name
-            }
-          });
-          this.setState({ countries: allCountries });
-        });
   }
 
   withPaypal() {
@@ -123,7 +109,6 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   header: {
-    marginTop: (Platform.OS == 'ios') ? (30):(0),
     alignSelf: 'flex-start'
   },
   sliderBox: {

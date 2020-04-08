@@ -68,8 +68,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.popup,
         flexWrap: 'wrap',
         flexDirection: 'row',
-        justifyContent: 'flex-start',
-        paddingBottom: (Platform.OS == 'ios') ? (30):(0)
+        justifyContent: 'flex-start'
     },
     emoji: {
         margin: 7
