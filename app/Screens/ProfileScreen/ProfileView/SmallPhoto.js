@@ -68,6 +68,7 @@ export default class SmallPhoto extends Component {
                     style={s.photo}
                     url={imageData.url}
                     contentType={imageData.contentType}
+                    smallView={true}
                 />
                 {this.props.secret && !this.props.isMy && !isViewed && <BlurView 
                   style={[s.photo, {position: 'absolute', top: 0, left: 0}]}

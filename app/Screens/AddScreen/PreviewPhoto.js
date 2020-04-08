@@ -25,6 +25,7 @@ export default class PreviewPhoto extends Component {
     super(props);
     this.state = {
       imageData: undefined,
+      videoMuted: false,
       rotateDeg: 0,
       entranceSecret: 10
     }
@@ -57,13 +58,13 @@ export default class PreviewPhoto extends Component {
     let secretMode = navigation.getParam('secret');
     NavigationStore.setProgress(true);
     NavigationStore.navigate(secretMode ? (Routes.Screens.PROFILE.routeName):(Routes.Screens.HOME.routeName), secretMode ? ({id: AuthStore.getUserLogin._id}):({}));
+    this.setState({videoMuted: true});
     let uploadResponse = null; // new upload object(contents collection)
     if(secretMode) {
       uploadResponse = await ApiService.uploadSecret(AuthStore.getUserLogin._id, this.state.imageData, this.state.entranceSecret);
     } else {
       uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, this.state.imageData);
     }
-
     if(uploadResponse.error) {
       NavigationStore.setBanner(uploadResponse.error);
     } else {
@@ -82,7 +83,7 @@ export default class PreviewPhoto extends Component {
     const isSecret = this.props.navigation.getParam('secret');
     let buttonSize = 30;
     if(!this.state.imageData) {
-      return (<View></View>)
+      return null;
     }
     return (
       <View style={{flex: 1, backgroundColor: colors.background}}>
@@ -116,6 +117,7 @@ export default class PreviewPhoto extends Component {
             <Video 
               source={{uri: this.state.imageData.uri}} 
               style={[styles.image, {transform: [{ rotate: `${this.state.rotateDeg}deg` }]}]}
+              muted={this.state.videoMuted}
               repeat
             />
           )}
