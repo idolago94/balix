@@ -7,7 +7,7 @@ class CompressService {
     async compressFile(file) {
         console.log('CompressService -> buildImageForUpload');
         let resizedFile = null;
-        if(file.type) {
+        if(file.uri.includes('.png') || file.uri.includes('.jpg') || file.uri.includes('.jpeg')) {
             resizedFile = await this.resizeImage(file.uri, 1080, 100);
         } else {
             resizedFile = await this.resizeVideo(file.uri, file.fileName);

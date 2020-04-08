@@ -235,7 +235,6 @@ class ApiService {
             .catch(err => {
                 LoaderStore.hideLoader();
                 NavigationStore.setBanner(err.message);
-                // resolve({error: err.message});
             });
         });
     }
