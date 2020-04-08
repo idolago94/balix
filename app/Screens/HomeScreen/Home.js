@@ -59,18 +59,18 @@ export default class Home extends Component {
 				index = 0;
 			}
 			if(this.state.currentContentIndex != index) {
-				this._roller.scrollToIndex({index: index > 0 ? (index-1):(0)});
+				this._roller.scrollToIndex({index: index > 0 ? (index):(0)});
 				this.setState({currentContentIndex: index})
 			}
 		}
 	}
 
 	getCurrentIndexInView(y) {
-		let pointMove = content_height*0.6;
-		let n = content_height - pointMove;
-		let index = Math.floor(y / n);
-		// console.log(y);
-		// console.log(index);
+		let pointBreak = (content_height+10)*0.6;
+		let n = content_height - (pointBreak);
+		let index = Math.floor(y / (pointBreak));
+		console.log('y', y);
+		console.log('index', index);
 		return index;
 	}
 

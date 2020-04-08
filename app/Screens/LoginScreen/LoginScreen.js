@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // Components
-import {StyleSheet, Text, View, TouchableHighlight, TextInput, Animated, Platform} from 'react-native';
+import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager} from 'react-native-fbsdk';
 import FormField from '../../components/FormField/FormField';
 import Routes from '../../utils/Routes';
@@ -73,8 +73,8 @@ export default class LoginScreen extends Component {
 
                 </View>
 
-                {/* <TextButton onPress={() => AuthStore.login({username: 'Test', password: '1234'})} content={'Log Test'} />
-                <TextButton onPress={() => AuthStore.login({username: 'Test2', password: '1234'})} content={'Log Test2'} /> */}
+                <TextButton onPress={() => AuthStore.login({username: 'Test', password: '1234'})} content={'Log Test'} />
+                <TextButton onPress={() => AuthStore.login({username: 'Test2', password: '1234'})} content={'Log Test2'} />
         </View>
     );
   }

@@ -272,7 +272,7 @@ export default class Photo extends Component {
               }),
             }}/>
           ))}
-          <Buttons onOpenEmoji={() => this.toggleEmoji()} />
+          {/* <Buttons onOpenEmoji={() => this.toggleEmoji()} /> */}
         </View>
         {/* comments */}
         {/* <View style={styles.commentsBox}>
