@@ -40,7 +40,6 @@ export default class SetProfileImage extends Component {
             const {profileImage} = this.state;
             let signupUser = navigation.getParam('user');
             let setProfileResponse = await ApiService.updateProfileImage(signupUser._id, profileImage);
-            debugger;
             signupUser.profileImage = setProfileResponse._id;
             navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {user: signupUser});
         }

@@ -151,7 +151,7 @@ export default class TabBar extends Component {
     const {NavigationStore, AuthStore} = this.props;
     return (
       <View style={[this.props.style, {backgroundColor: colors.bar}]}>
-          <View style={{...this.props.style, width: '100%', marginBottom: (Platform.OS == 'ios') ? (20):(0)}}>
+          <View style={{...this.props.style, width: '100%'}}>
 
             <TouchableHighlight 
               onPress={() => this.navigateTo(Routes.Screens.HOME.routeName)} 

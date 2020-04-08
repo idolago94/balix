@@ -25,6 +25,15 @@ class ValidationService {
         return null;
     }
 
+    edit(data) {
+        let errors = [];
+        data.first_name && !ONLY_CHARACTER.test(data.first_name) && errors.push('First name not valid(only characters).');
+        data.last_name && !ONLY_CHARACTER.test(data.last_name) && errors.push('Last name not valid(only characters).');
+        data.username && !NON_WHITESPACE.test(data.username) && errors.push('Username not valid(whitespace not allowed).');
+        data.email && !EMAIL.test(data.email) && errors.push('Email not valid.');
+        return errors.length > 0 ? ({errors}):(null);
+    }
+
     name(first, last) {
         if(ONLY_CHARACTER.test(first) && ONLY_CHARACTER.test(last)) {
             return null;

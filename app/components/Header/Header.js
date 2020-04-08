@@ -40,7 +40,6 @@ export default class Header extends Component {
 		return (
 			<LinearGradient colors={['black', colors.bar]}>
 				<View>
-					{Platform.OS == 'ios' && <View style={{height: sizes.iphone_notch, }} />}
 					<View style={styles.header}>
 						<View style={styles.leftSide}>
 							{(NavigationStore.isBack && !NavigationStore.isMyProfile) && <BackButton onPress={() => NavigationStore.goBack()} color={colors.icon} size={sizes.icon}/>}

@@ -17,7 +17,7 @@ class CompressService {
 
     async buildProfileImage(imageData) {
         console.log('CompressService -> buildProfileImage');
-        let resizedImage= await this.resizeImage(imageData.uri, 800, 800);
+        let resizedImage= await this.resizeImage(imageData.uri, 800, 100);
         return resizedImage;
     }
 

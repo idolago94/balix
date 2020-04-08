@@ -4,7 +4,6 @@ import { Dropdown } from 'react-native-material-dropdown';
 import Icon, { iconNames } from '../../components/Icon/Icon';
 import { Formik } from 'formik';
 import { WebView } from 'react-native-webview';
-import Slider from '@react-native-community/slider';
 import { inject, observer } from 'mobx-react';
 import { colors } from '../../utils/style';
 

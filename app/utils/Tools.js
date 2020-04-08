@@ -192,3 +192,17 @@ export const isValidIsraeliID = id => /\d{9}/.test(id) && Array.from(id, Number)
 //     }
 //     // }
 // }
+
+export const getCountryList = () => {
+    return new Promise(resolve => {
+        fetch('https://restcountries.eu/rest/v2/all').then((response) => response.json())
+        .then((result) => {
+          let allCountries = result.map((c) => {
+            return {
+              value: c.name
+            }
+          });
+          resolve(allCountries);
+        });
+    })
+}

@@ -1,6 +1,7 @@
 import { LoaderStore, NavigationStore } from "../../mobx";
 import { Platform } from 'react-native';
 import CompressService from "../Compress";
+import ValidationService from "../Validation";
 
 class ApiService {
 
@@ -82,6 +83,18 @@ class ApiService {
     async addExtraContent(user_id, cost) {
         let extraResponse = await this.sendRequest('PUT', '/users/addExtra?id=' + user_id, {cost});
         return extraResponse;
+    }
+
+    async updateUser(user_id, fields_to_update) {
+        if(!fields_to_update || fields_to_update.length < 1) {
+            return null;
+        }
+        let validation = ValidationService.edit(fields_to_update);
+        if(validation) {
+            return validation;
+        }
+        let updateResponse = await this.sendRequest('PUT', '/users/update?id=' + user_id, fields_to_update);
+        return updateResponse;
     }
 
     // Route: /content

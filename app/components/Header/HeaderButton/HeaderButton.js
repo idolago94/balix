@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, TouchableHighlight, Animated} from 'react-native';
 import Icon, {iconNames} from '../../Icon/Icon';
-import { inject, observer } from "mobx-react";
 
 export default class HeaderButton extends Component {
 
