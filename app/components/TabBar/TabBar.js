@@ -195,13 +195,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: colors.bar
+    backgroundColor: colors.bar,
+    height: sizes.barHeight
   },
   tab: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    flexGrow: 1
+    flexGrow: 1,
   },
   plusTabBox: {
     transform: [
