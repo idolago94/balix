@@ -28,10 +28,6 @@ export default class LoginScreen extends Component {
       username: this.state.username,
       password: this.state.password
     };
-      // let auth = {
-      //   username: 'Idoalgo94',
-      //   password: 'ido312546534'
-      // }
     AuthStore.login(auth);
   }
 
@@ -73,8 +69,8 @@ export default class LoginScreen extends Component {
 
                 </View>
 
-                <TextButton onPress={() => AuthStore.login({username: 'Test', password: '1234'})} content={'Log Test'} />
-                <TextButton onPress={() => AuthStore.login({username: 'Test2', password: '1234'})} content={'Log Test2'} />
+                {/* <TextButton onPress={() => AuthStore.login({username: 'Idolago94', password: 'ido312546534'})} content={'Log Idolago94'} />
+                <TextButton onPress={() => AuthStore.login({username: 'Test2', password: '1234'})} content={'Log Test2'} /> */}
         </View>
     );
   }

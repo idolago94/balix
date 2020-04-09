@@ -39,7 +39,7 @@ export default class AppScreen extends Component {
           {CashButtonsStore.isVisible && <CashButtons />}
           {/* <LottieView 
             style={{position: 'absolute', top: 0, left: 0, zIndex: 999, width: window_width, height: window_height}} 
-            source={require('./data2.json')}
+            source={require('../assets/anim2.json')}
             autoPlay
             loop
           /> */}
