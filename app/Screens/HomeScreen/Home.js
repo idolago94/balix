@@ -10,7 +10,7 @@ import UpdatesService from '../../Services/Updates';
 import ProfileIndicator from './ProfileIndicator';
 import {content_height, window_height, window_width} from '../../utils/view';
 import {Bar} from 'react-native-progress';
-import {roller, roller_container, main_view, colors} from '../../utils/style';
+import {roller, roller_container, main_view, colors, photo_box} from '../../utils/style';
 
 @inject('NavigationStore', 'IdentifierStore')
 @observer
@@ -66,17 +66,14 @@ export default class Home extends Component {
 	}
 
 	getCurrentIndexInView(y) {
-		let pointBreak = (content_height+10)*0.6;
-		let n = content_height - (pointBreak);
-		let index = Math.floor(y / (pointBreak));
-		console.log('y', y);
-		console.log('index', index);
-		return index;
+		let pointBreak = (content_height+photo_box.marginBottom)*0.6;
+		let index = Math.floor((y-pointBreak) / (content_height+photo_box.marginBottom));
+		return index+1;
 	}
 
 	onRollerItem(i) {
 		this._view.scrollToIndex({index: i});
-		this._roller.scrollToIndex({index: i > 0 ? (i-1):(0)});
+		this._roller.scrollToIndex({index: i > 0 ? (i):(0)});
 		this.setState({currentContentIndex: i})
 	}
 
