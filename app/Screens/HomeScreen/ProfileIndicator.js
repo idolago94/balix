@@ -24,7 +24,7 @@ export default class ProfileIndicator extends Component {
                     src={userData.profileImage}
                     size={inView ? (83):(isBack ? (20):(50))}
                 />
-                <Text style={{color: colors.text, fontSize: inView ? (16):(10)}}>{sliceString(userData.username, 12)}#{this.props.index}</Text>
+                <Text style={{color: colors.text, fontSize: inView ? (16):(10)}}>{sliceString(userData.username, 12)}</Text>
             </Animated.View>
         );
     }

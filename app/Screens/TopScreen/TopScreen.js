@@ -118,6 +118,7 @@ export default class TopScreen extends Component {
 								navigation={this.props.navigation} 
 								titlePress={this.onTitlePress.bind(this)}
 								data={item}
+								isLast={index == this.props.IdentifierStore.getTop.length-1}
 							/>
 						)}
 					/>

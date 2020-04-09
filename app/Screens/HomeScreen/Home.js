@@ -120,6 +120,7 @@ export default class Home extends Component {
 								navigation={this.props.navigation} 
 								titlePress={this.onTitlePress.bind(this)}
 								data={item}
+								isLast={index == this.props.IdentifierStore.getFollowing.length-1}
 							/>
 						)}
 					/>
