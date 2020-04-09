@@ -10,11 +10,11 @@ export default function CurveSvg(props) {
     const pw = 130;
     const h = -25;
     return (
-      <Svg height={160} width={window_width} style={{position: 'absolute', top: -70, left: 0}}>
+      <Svg height={130} width={window_width} style={{position: 'absolute', top: -70, left: 0}}>
         <Defs>
-            <LinearGradient id="grad" x1="0" y1="8%" x2="0" y2="1">
-                <Stop offset="30%" stopColor={'gray'} stopOpacity="1" />
-                <Stop offset="10%" stopColor="black" stopOpacity="1" />
+            <LinearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+                <Stop offset="22%" stopColor={colors.notch} stopOpacity="1" />
+                <Stop offset="5%" stopColor={'#676262'} stopOpacity="1" />
             </LinearGradient>
         </Defs>
         <Path 

@@ -38,7 +38,7 @@ export default class Header extends Component {
 	render() {
 		const {AuthStore, CashButtonsStore, NavigationStore} = this.props;
 		return (
-			<LinearGradient colors={['black', colors.bar]}>
+			<LinearGradient colors={[colors.notch, colors.bar]}>
 				<View>
 					<View style={styles.header}>
 						<View style={styles.leftSide}>
