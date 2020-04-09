@@ -193,12 +193,12 @@ export default class Photo extends Component {
 
   render() {
     console.log('Photo -> render');
-    const {NavigationStore, ContentsStore, UsersStore, data, height} = this.props;
+    const {NavigationStore, ContentsStore, UsersStore, data, isLast} = this.props;
     const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments} = this.state;
     const imageData = ContentsStore.getContentById(data.content_id);
     const userData = UsersStore.getUserById(imageData.user_id);
     return (!userData) ? null :
-        <View style={[this.props.style, photo_box]}>
+        <View style={[this.props.style, {marginBottom: isLast ? (70):(photo_box.marginBottom)}]}>
           <ProgressiveImage 
             style={content}
             onDoubleClick={this.toggleEmoji.bind(this)}
@@ -211,7 +211,6 @@ export default class Photo extends Component {
             hearts={imageData.hearts}
             onSymbol={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})}
           />
-          <Text style={{fontSize: 20, color: 'red', position: 'absolute', top: 10, left: 10}}>#{this.props.index}</Text>
           
           {/* emoji box */}
           <View style={emoji_popup_box}>

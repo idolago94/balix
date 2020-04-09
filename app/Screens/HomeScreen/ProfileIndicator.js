@@ -17,7 +17,7 @@ export default class ProfileIndicator extends Component {
         let contentData = ContentsStore.getContentById(data.content_id);
         let userData = UsersStore.getUserById(contentData.user_id);
         return (
-            <Animated.View style={[style, s.box, {transform: [{translateY: inView ? (50):(0)}], opacity: inView ? (1):(0.5)}]}>
+            <Animated.View style={[style, s.box, {transform: [{translateY: inView ? (50):(isBack ? (-25):(0))}], opacity: inView ? (1):(0.5)}]}>
                 <ProfileSymbol 
                     press={inView ? (() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})):(() => this.props.onPress())}
                     style={[s.profile, {borderColor: inView ? (colors.text):('transparent')}]} 
