@@ -11,6 +11,7 @@ import ProfileIndicator from './ProfileIndicator';
 import {content_height, window_height, window_width} from '../../utils/view';
 import {Bar} from 'react-native-progress';
 import {roller, roller_container, main_view, colors, photo_box} from '../../utils/style';
+import { getCurrenIndexInFlatList } from '../../utils/Tools';
 
 @inject('NavigationStore', 'IdentifierStore')
 @observer
@@ -24,7 +25,7 @@ export default class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentContentIndex: 0
+			currentContentIndex: 0,
 		};
 		this.focusListener = null;
 		this._roller = null;
@@ -50,50 +51,48 @@ export default class Home extends Component {
 	}
 
 	handleScroll(event) {
+		console.log('handleScroll');
 		let listLength = this.props.IdentifierStore.getFollowing.length-1;
 		if(listLength > 0) {
-			let index = this.getCurrentIndexInView(event.nativeEvent.contentOffset.y);
+			let index = getCurrenIndexInFlatList(event.nativeEvent.contentOffset.y);
 			if(index > listLength) {
 				index = listLength;
 			} else if(index < 0) {
 				index = 0;
 			}
 			if(this.state.currentContentIndex != index) {
-				this._roller.scrollToIndex({index: index > 0 ? (index):(0)});
+				this._view.scrollToIndex({index: index > 0 ? (index):(0)});
 				this.setState({currentContentIndex: index})
 			}
 		}
 	}
 
-	getCurrentIndexInView(y) {
-		let pointBreak = (content_height+photo_box.marginBottom)*0.6;
-		let index = Math.floor((y-pointBreak) / (content_height+photo_box.marginBottom));
-		return index+1;
-	}
-
 	onRollerItem(i) {
+		console.log('onRollerItem -> ', i);
 		this._view.scrollToIndex({index: i});
-		this._roller.scrollToIndex({index: i > 0 ? (i):(0)});
 		this.setState({currentContentIndex: i})
 	}
 
 	render() {
+		const currentIndex = this.state.currentContentIndex;
+		const rollerItems = currentIndex > 0 ? (this.props.IdentifierStore.getFollowing.slice(currentIndex-1)):(this.props.IdentifierStore.getFollowing);
 		return (
 			<View style={{flex: 1, backgroundColor: colors.background}}>
 				<View style={{zIndex: 999}}>
 					<FlatList 
 						ref={(ref) => this._roller = ref}
-						style={roller}
+						style={[roller]}
 						horizontal={true}
 						keyExtractor={(item, index) => index.toString()}
-						data={this.props.IdentifierStore.getFollowing}
-						contentContainerStyle={roller_container}
+						data={rollerItems}
+						contentContainerStyle={[roller_container]}
 						renderItem={({item, index}) => (
 							<ProfileIndicator 
-								index={index}
-								onPress={() => this.onRollerItem(index)}
-								inView={this.state.currentContentIndex == index}
+								index={index+this.state.currentContentIndex-1 < 0 ? (0):(index+this.state.currentContentIndex-1)}
+								onPress={() => this.onRollerItem(index+this.state.currentContentIndex-1 < 0 ? (0):(index+this.state.currentContentIndex-1))}
+								inView={0 == this.state.currentContentIndex && index == 0 || 0 < this.state.currentContentIndex && index == 1}
 								data={item}
+								isBack={0 < this.state.currentContentIndex && index == 0}
 							/>
 						)}			
 					/>

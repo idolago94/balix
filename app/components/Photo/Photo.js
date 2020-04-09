@@ -211,6 +211,7 @@ export default class Photo extends Component {
             hearts={imageData.hearts}
             onSymbol={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})}
           />
+          <Text style={{fontSize: 20, color: 'red', position: 'absolute', top: 10, left: 10}}>#{this.props.index}</Text>
           
           {/* emoji box */}
           <View style={emoji_popup_box}>

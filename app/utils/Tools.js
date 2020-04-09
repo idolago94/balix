@@ -1,4 +1,6 @@
 import { Animated, Dimensions, Easing, PixelRatio } from 'react-native'
+import { content_height } from './view';
+import { photo_box } from './style';
 // import Color from 'color';
 // import EStyleSheet from "react-native-extended-stylesheet";
 
@@ -205,4 +207,11 @@ export const getCountryList = () => {
           resolve(allCountries);
         });
     })
+}
+
+export const getCurrenIndexInFlatList = (y) => {
+    let view = content_height + photo_box.marginBottom;
+    let pointBreak = view*0.6;
+    let index = Math.floor((y-pointBreak) / view);
+    return index+1;
 }
