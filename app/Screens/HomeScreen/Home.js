@@ -108,7 +108,7 @@ export default class Home extends Component {
 				<View>
 					<FlatList
 						ref={(ref) => this._view = ref}
-						onScroll={(e) => this.handleScroll(e)}
+						onScrollEndDrag={(e) => this.handleScroll(e)}
 						style={main_view}
 						showsVerticalScrollIndicator={false}
 						keyExtractor={(item, index) => index.toString()}
