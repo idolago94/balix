@@ -134,6 +134,7 @@ import Routes from '../../utils/Routes';
 import { inject, observer } from "mobx-react";
 import { colors, sizes } from '../../utils/style';
 import TabButton from './TabButton';
+import CurveSvg from './CurveSvg';
 
 @inject('NavigationStore', 'AuthStore')
 @observer
@@ -150,7 +151,11 @@ export default class TabBar extends Component {
 
   render() {
     const {NavigationStore, AuthStore} = this.props;
+    const l1 = 120;
+    const pw = 47;
     return (
+        <View>
+          <CurveSvg />
           <View style={styles.container}>
             <TabButton 
               style={styles.tab}
@@ -184,6 +189,7 @@ export default class TabBar extends Component {
               onPress={() => this.navigateTo(Routes.Screens.PROFILE.routeName, {id: AuthStore.getUserLogin._id})}
             />
           </View>
+        </View>
     );
   }
 
@@ -195,7 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: colors.bar,
+    backgroundColor: 'transparent',
     height: sizes.barHeight
   },
   tab: {
@@ -206,10 +212,10 @@ const styles = StyleSheet.create({
   },
   plusTabBox: {
     transform: [
-      {translateY: -20}
+      {translateY: -27}
     ],
     borderRadius: 99,
-    backgroundColor: colors.bar,
+    // backgroundColor: colors.bar,
     padding: 10,
     aspectRatio: 1/1
   },
