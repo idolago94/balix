@@ -55,7 +55,7 @@ class RootComponent extends Component {
 		const {NavigationStore, AuthStore} = this.props;
 		const Root = AuthStore.getUserLogin._id ? AppScreen : LoginNavigator;
         return (
-			<SafeAreaView style={{flex: 1, backgroundColor: colors.bar}}>
+			<SafeAreaView style={{flex: 1, backgroundColor: colors.notch}}>
 				{NavigationStore.isBanner && <Banner color={NavigationStore.getBanner.color} content={NavigationStore.getBanner.data} />}
 				{NavigationStore.isModal && <Modal content={NavigationStore.getModal} />}
 				<Root />
