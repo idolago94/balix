@@ -14,7 +14,8 @@ export default function CurveSvg(props) {
         <Defs>
             <LinearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
                 <Stop offset="22%" stopColor={colors.notch} stopOpacity="1" />
-                <Stop offset="5%" stopColor={'#676262'} stopOpacity="1" />
+                <Stop offset="15%" stopColor={'black'} stopOpacity="1" />
+                {/* <Stop offset="5%" stopColor={'#676262'} stopOpacity="1" /> */}
             </LinearGradient>
         </Defs>
         <Path 
