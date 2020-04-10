@@ -30,7 +30,8 @@ export default class EmojiBox extends Component {
     }
 
     render() {
-        const {emojiSize, emojiPress, heartPress, includeHeart} = this.props;
+        const {emojiSize, emojiPress, heartPress, includeHeart, AppStore} = this.props;
+        const emojis = AppStore.getEmojis;
         return (
             <Animated.View
               style={{
@@ -52,9 +53,9 @@ export default class EmojiBox extends Component {
                     </TouchableHighlight>
                 )}
                 {
-                    Object.keys(this.props.AppStore.getEmojis).map((key, i) => (
-                        <TouchableHighlight key={i} onPress={(ev) => emojiPress(this.props.AppStore.getEmojis[key], ev)}>
-                            <Emoji data={this.props.AppStore.getEmojis[key]} size={emojiSize} />
+                    Object.keys(emojis).map((key, i) => (
+                        <TouchableHighlight key={i} onPress={(ev) => emojiPress(emojis[key], ev)}>
+                            <Emoji data={emojis[key]} size={emojiSize} />
                         </TouchableHighlight>
                     ))
                 }

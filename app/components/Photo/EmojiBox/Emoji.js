@@ -6,7 +6,6 @@ import { colors } from '../../../utils/style';
 
 export default function Emoji(props) {
     // Props = [ data: {url: url, value: number} ]
-
         return (
             <View style={{alignItems: 'center', margin: 7}}>
                 <Image

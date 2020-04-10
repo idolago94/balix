@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import userService from '../../demoDB/Users/userService';
-import messageService from '../../demoDB/Messages/messageService';
 import ProfileSymbol from '../../components/ProfileSymbol/ProfileSymbol';
 import Routes from '../../utils/Routes';
 import { inject, observer } from "mobx-react";
@@ -18,15 +16,15 @@ export default class Conversation extends Component {
         }
     }
 
-    componentDidMount() {
-        let messages = messageService.getConversationMessages(this.props.conversationId);
-        let talkWith = (messages[0].senderId == this.props.AuthStore.getUserLogin._id) ? (messages[0].receiverId) : (messages[0].senderId);
-        talkWith = userService.getUserById(talkWith);
-        this.setState({
-            messages: messages,
-            talkWith: talkWith
-        })
-    }
+    // componentDidMount() {
+    //     let messages = messageService.getConversationMessages(this.props.conversationId);
+    //     let talkWith = (messages[0].senderId == this.props.AuthStore.getUserLogin._id) ? (messages[0].receiverId) : (messages[0].senderId);
+    //     talkWith = userService.getUserById(talkWith);
+    //     this.setState({
+    //         messages: messages,
+    //         talkWith: talkWith
+    //     })
+    // }
 
   render() {
     return (
