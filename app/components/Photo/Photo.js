@@ -194,6 +194,12 @@ export default class Photo extends Component {
             hearts={imageData.hearts}
             onSymbol={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})}
           />
+
+          <Buttons 
+            content_title={imageData.title}
+            onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
+            onComments={() => this.setState({openComments: !this.state.openComments})}
+          />
           
           {/* emoji box */}
           {openEmoji && <EmojiBox 
@@ -201,7 +207,7 @@ export default class Photo extends Component {
             emojiSize={this.emojiBoxSize} 
             heartPress={this.heartPress.bind(this)} 
             emojiPress={this.emojiPress.bind(this)}
-          />}
+            />}
 
           {openComments && <CommentsBox content_id={data.content_id} />}
 
@@ -256,10 +262,6 @@ export default class Photo extends Component {
               }),
             }}/>
           ))}
-          <Buttons 
-            onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
-            onComments={() => this.setState({openComments: !this.state.openComments})}
-          />
         </View>
   }
 }

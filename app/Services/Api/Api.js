@@ -99,7 +99,7 @@ class ApiService {
 
     // Route: /content
 
-    async upload(user_id, content) {
+    async upload(user_id, content, extraData) {
         let upload_obj = await CompressService.compressFile(content);
         let data = new FormData();
         data.append('file', {
@@ -108,6 +108,7 @@ class ApiService {
             uri:
               Platform.OS === "android" ? upload_obj.uri : upload_obj.uri.replace("file://", "")
         })
+        Object.keys(extraData).map(k => data.append(k, extraData[k]));
         let updateResponse = await this.sendUploadRequest(`/content/upload?id=${user_id}`, data);
         return updateResponse;
     }
@@ -138,7 +139,7 @@ class ApiService {
         return contentsResponse;
     }
 
-    async uploadSecret(user_id, content, secretEntrance) {
+    async uploadSecret(user_id, content, extraData) {
         let upload_obj = await CompressService.compressFile(content);
         let data = new FormData();
         data.append('file', {
@@ -147,7 +148,7 @@ class ApiService {
             uri:
               Platform.OS === "android" ? upload_obj.uri : upload_obj.uri.replace("file://", "")
         });
-        data.append('entrance', secretEntrance);
+        Object.keys(extraData).map(k => data.append(k, extraData[k]));
         let updateResponse = await this.sendUploadRequest(`/content/upload?id=${user_id}&secret=true`, data);
         return updateResponse;
     }

@@ -10,6 +10,7 @@ import IconButton from '../../components/IconButton/IconButton';
 import Slider from '@react-native-community/slider';
 import Video from 'react-native-video';
 import { colors } from '../../utils/style';
+import EditField from '../EditProfileScreen/EditField';
 
 @inject('AuthStore', 'NavigationStore', 'ContentsStore', 'LoaderStore')
 export default class PreviewPhoto extends Component {
@@ -27,7 +28,8 @@ export default class PreviewPhoto extends Component {
       imageData: undefined,
       videoMuted: false,
       rotateDeg: 0,
-      entranceSecret: 10
+      entranceSecret: 10,
+      title: ''
     }
     this.focusListener = null;
   }
@@ -54,16 +56,16 @@ export default class PreviewPhoto extends Component {
 
   async doUpload() {
     console.log('PreviewPhoto -> doUpload');
-    const {AuthStore, NavigationStore, ContentsStore, navigation} = this.props;
+    const {AuthStore, NavigationStore, navigation} = this.props;
     let secretMode = navigation.getParam('secret');
     NavigationStore.setProgress(true);
     NavigationStore.navigate(secretMode ? (Routes.Screens.PROFILE.routeName):(Routes.Screens.HOME.routeName), secretMode ? ({id: AuthStore.getUserLogin._id}):({}));
     this.setState({videoMuted: true});
     let uploadResponse = null; // new upload object(contents collection)
     if(secretMode) {
-      uploadResponse = await ApiService.uploadSecret(AuthStore.getUserLogin._id, this.state.imageData, this.state.entranceSecret);
+      uploadResponse = await ApiService.uploadSecret(AuthStore.getUserLogin._id, this.state.imageData, {entrance: this.state.entranceSecret, title: this.state.title});
     } else {
-      uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, this.state.imageData);
+      uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, this.state.imageData, {title: this.state.title});
     }
     if(uploadResponse.error) {
       NavigationStore.setBanner(uploadResponse.error);
@@ -92,6 +94,12 @@ export default class PreviewPhoto extends Component {
           <IconButton style={styles.btn} onPress={() => this.doUpload()} icon={iconNames.CONFIRM} size={buttonSize} />
         </View>
         <View style={styles.container}>
+          <EditField 
+          style={{margin: 5}}
+            label={'Title:'}
+            value={this.state.title} 
+            onChange={value => this.setState({title: value})}
+          />
           {isSecret && <View>
             <Text style={{color: colors.text}}>Select the price to enter your secret:</Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -139,7 +147,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20
+    // padding: 10
   },
   btn: {
     padding: 10
