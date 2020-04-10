@@ -4,6 +4,7 @@ import Icon, {iconNames} from '../../Icon/Icon';
 import { inject, observer } from "mobx-react";
 import ApiService from '../../../Services/Api';
 import { colors, sizes } from '../../../utils/style';
+import { window_width } from '../../../utils/view';
 
 @inject('UsersStore', 'IdentifierStore')
 export default class SearchInput extends Component {
@@ -11,9 +12,7 @@ export default class SearchInput extends Component {
     constructor(props) {
         super(props);
         this.inputGrow = new Animated.Value(0);
-        this.inputPaddingHorizontal = new Animated.Value(0);
-        this.inputOpacity = new Animated.Value(0);
-        this.iconBackground = new Animated.Value(0);
+        this.iconPadding = new Animated.Value(0);
     }
 
     componentDidMount() {
@@ -21,14 +20,8 @@ export default class SearchInput extends Component {
             Animated.timing(this.inputGrow, {
                 toValue: 1
             }),
-            Animated.timing(this.inputPaddingHorizontal, {
+            Animated.timing(this.iconPadding, {
                 toValue: 10
-            }),
-            Animated.timing(this.inputOpacity, {
-                toValue: 1
-            }),
-            Animated.timing(this.iconBackground, {
-                toValue: 1
             })
         ]).start();
     }
@@ -38,13 +31,7 @@ export default class SearchInput extends Component {
             Animated.timing(this.inputGrow, {
                 toValue: 0
             }),
-            Animated.timing(this.inputPaddingHorizontal, {
-                toValue: 0
-            }),
-            Animated.timing(this.inputOpacity, {
-                toValue: 0
-            }),
-            Animated.timing(this.iconBackground, {
+            Animated.timing(this.iconPadding, {
                 toValue: 0
             })
         ]).start();
@@ -65,62 +52,48 @@ export default class SearchInput extends Component {
 
     render() {
         return (
-            <View style={styles.searchBox}>
-                <Animated.View style={
-                    {
-                        ...styles.inputBox,
-                        flexGrow: this.inputGrow,
-                        paddingHorizontal: this.inputPaddingHorizontal,
-                        opacity: this.inputOpacity,
-                    }}>
-                    <TextInput autoFocus value={this.props.wordSearch}
-                            onChangeText={(text) => this.handleSearch(text)}
-                            style={styles.input}/>
+            <View style={s.searchBox}>
+
+                <Animated.View style={[s.inputBox, {flexGrow: this.inputGrow}]}>
+                    <TextInput  
+                        autoFocus 
+                        style={s.input}
+                        value={this.props.wordSearch} 
+                        onChangeText={(text) => this.handleSearch(text)}
+                    />
                 </Animated.View>
-                <Animated.View style={{
-                    ...styles.searchIconBox,
-                    padding: this.inputPaddingHorizontal,
-                    backgroundColor: this.iconBackground.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: ['rgba(125,125,125,0)', 'gray'],
-                    }),
-                }}>
-                    <Icon color={colors.icon} name={iconNames.SEARCH}
-                        size={sizes.icon} style={styles.icon}/>
+
+                <Animated.View style={[s.iconBox, {padding: this.iconPadding}]}>
+                    <Icon color={colors.icon} name={iconNames.SEARCH} size={sizes.icon} />
                 </Animated.View>
             </View>
         );
     }
 }
 
-const styles = StyleSheet.create({
-	searchIconBox: {
-		padding: 2,
-		borderRadius: 999,
-	},
-	searchBox: {
-		// flex: 1,
-		justifyContent: 'flex-end',
-		alignItems: 'center',
-		flexDirection: 'row',
-        marginRight: 15,
-	},
-	inputBox: {
-		height: '80%',
-		borderTopLeftRadius: 999,
-		borderBottomLeftRadius: 999,
-		backgroundColor: colors.background,
-		transform: [
-			{translateX: 10},
-		],
-	},
-	input: {
-		// width: '100%',
-		height: '90%',
-		borderTopLeftRadius: 999,
-		borderBottomLeftRadius: 999,
-		color: colors.text,
-		fontSize: 14,
-		backgroundColor: colors.background,
+const s = StyleSheet.create({
+    searchBox: {
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        flexDirection: 'row',
+        width: window_width-sizes.icon-15
+    },
+    inputBox: {
+        borderRadius: 999,
+        backgroundColor: colors.background,
+        padding: 10
+    },
+    input: {
+        borderTopLeftRadius: 999,   
+        borderBottomLeftRadius: 999,
+        color: colors.text,
+        fontSize: 14,
+        backgroundColor: colors.background,
+    },
+	iconBox: {
+		padding: 10,
+        borderRadius: 999,
+        backgroundColor: 'gray',
+        transform: [{translateX: -15}]
 	},
 });

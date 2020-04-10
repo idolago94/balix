@@ -58,10 +58,10 @@ export default class Header extends Component {
 							<View style={{flex: NavigationStore.isSearch ? (1):(0)}}>
 								{NavigationStore.isSearch ? (<SearchInput />) : (
 									NavigationStore.isHeaderButton && <HeaderButton
-									onPress={this.navigateTo.bind(this, Routes.Screens.SEARCH.routeName)}
-									color={colors.icon}
-									icon={iconNames.SEARCH}
-									size={sizes.icon}
+										onPress={this.navigateTo.bind(this, Routes.Screens.SEARCH.routeName)}
+										color={colors.icon}
+										icon={iconNames.SEARCH}
+										size={sizes.icon}
 									/>
 									)}
 							</View>
