@@ -11,7 +11,7 @@ import Routes from '../utils/Routes';
 import LottieView from 'lottie-react-native';
 import { window_width, window_height } from '../utils/view';
 
-@inject('CashButtonsStore', 'AuthStore', 'NavigationStore')
+@inject('AuthStore', 'NavigationStore')
 @observer
 export default class AppScreen extends Component {
 
@@ -33,10 +33,9 @@ export default class AppScreen extends Component {
   };
 
   render() {
-    const {CashButtonsStore, AuthStore, NavigationStore} = this.props;
+    const {NavigationStore} = this.props;
       return (
         <View style={styles.screen}>
-          {CashButtonsStore.isVisible && <CashButtons />}
           {/* <LottieView 
             style={{position: 'absolute', top: 0, left: 0, zIndex: 999, width: window_width, height: window_height}} 
             source={require('../assets/anim2.json')}

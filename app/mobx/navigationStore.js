@@ -16,6 +16,7 @@ class NavigationStore {
     @observable.shallow banner = null;
     @observable.shallow modal = null;
     @observable showProgress = false;
+    @observable showCashButtons = false;
     @observable tabs = [
         Routes.Screens.GRAPH.routeName,
         // Routes.Screens.RECENT_ACTIONS.routeName,
@@ -45,6 +46,11 @@ class NavigationStore {
     @computed
     get getCurrentScreen() {
         return this.currentScreen;
+    }
+
+    @computed
+    get isCashButtons() {
+        return this.showCashButtons;
     }
     
     @computed
@@ -171,7 +177,8 @@ class NavigationStore {
 
     @action
     updateCurrentScreen = (data) => {
-        console.log('NavigationStore -> updateCurrentScreen');
+        console.log('NavigationStore -> updateCurrentScreen', data);
+        this.showCashButtons = false;
         if(this.tabs.includes(data.routeName) || 
         (data.routeName == Routes.Screens.PROFILE.routeName && data.params.id == AuthStore.getUserLogin._id)) {
             if(data.routeName == Routes.Screens.PROFILE.routeName && data.params.id == AuthStore.getUserLogin._id) {
@@ -204,9 +211,10 @@ class NavigationStore {
         let { routeName, params } = data;
         const navigateAction = NavigationActions.navigate(
             routeName
-                ? { routeName, params }
-                : { routeName: data, params: { ..._params } });
+            ? { routeName, params }
+            : { routeName: data, params: { ..._params } });
         this._navigator.dispatch(navigateAction)
+        // this.showCashButtons = false;
     };
 
     @action
@@ -216,12 +224,18 @@ class NavigationStore {
         }
         const navigateAction = NavigationActions.back();
         this._navigator.dispatch(navigateAction)
+        // this.showCashButtons = false;
     };
 
     @action 
     toggleDrawer() {
         Keyboard.dismiss();
         this._navigator.dispatch(DrawerActions.toggleDrawer());
+    }
+
+    @action
+    toggleCashButtons() {
+        this.showCashButtons = !this.showCashButtons;
     }
 }
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
+import {StyleSheet, Text, View, TouchableWithoutFeedback} from 'react-native';
 import Icon, {iconNames} from '../../Icon/Icon';
 import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../../../utils/style';
@@ -10,7 +10,7 @@ export default function CashIndicator(props) {
 
 	let side_icon_size = 22;
 		return (
-			<TouchableHighlight onPress={() => props.onPress()}>
+			<TouchableWithoutFeedback onPress={() => props.onPress()}>
 				<View style={{flexDirection: 'row', alignItems: 'center'}}>
 					<View style={[s.box, {transform: [{translateX: 8}]}]}>
 						<Icon style={{transform: [{translateX: 9}], ...s.icon}} name={iconNames.FULL_MONEY_BAG} size={side_icon_size} color={'yellow'}/>
@@ -29,7 +29,7 @@ export default function CashIndicator(props) {
 						<Text style={[s.number]}>{thousandsWithCommas(props.hearts)}</Text>
 					</View>
 				</View>
-			</TouchableHighlight>
+			</TouchableWithoutFeedback>
 		);
 }
 

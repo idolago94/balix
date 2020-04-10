@@ -11,6 +11,7 @@ import Banner from './app/components/Banner/Banner';
 import Modal from './app/components/Modal/Modal';
 import SplashScreen from 'react-native-splash-screen'
 import { colors } from './app/utils/style';
+import CashButtons from './app/components/CashButtons/CashButtons';
 
 // const hydrate = create({
 //     storage: AsyncStorage,
@@ -56,6 +57,7 @@ class RootComponent extends Component {
 		const Root = AuthStore.getUserLogin._id ? AppScreen : LoginNavigator;
         return (
 			<SafeAreaView style={{flex: 1, backgroundColor: colors.notch}}>
+				{NavigationStore.isCashButtons && <CashButtons />}
 				{NavigationStore.isBanner && <Banner color={NavigationStore.getBanner.color} content={NavigationStore.getBanner.data} />}
 				{NavigationStore.isModal && <Modal content={NavigationStore.getModal} />}
 				<Root />

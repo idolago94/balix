@@ -14,7 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { colors, sizes } from '../../utils/style';
 import { window_width } from '../../utils/view';
 
-@inject('CashButtonsStore', 'AuthStore', 'NavigationStore')
+@inject('AuthStore', 'NavigationStore')
 @observer
 export default class Header extends Component {
 	constructor(props) {
@@ -37,7 +37,7 @@ export default class Header extends Component {
 	}
 
 	render() {
-		const {AuthStore, CashButtonsStore, NavigationStore} = this.props;
+		const {AuthStore, NavigationStore} = this.props;
 		return (
 			<LinearGradient colors={[colors.notch, colors.bar]}>
 				<View>
@@ -47,7 +47,7 @@ export default class Header extends Component {
 							{NavigationStore.isCashIndicator && (
 								<Animated.View style={{...styles.leftSide, opacity: this.indicatorOpacity, maxWidth: this.indicatorWidth, maxHeight: this.indicatorWidth}}>
 									<CashIndicator
-										onPress={() => CashButtonsStore.toggleButtons()}
+										onPress={() => NavigationStore.toggleCashButtons()}
 										cash={AuthStore.getUserLogin.cash} hearts={AuthStore.getUserLogin.hearts}
 										/>
 								</Animated.View>

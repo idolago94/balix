@@ -6,7 +6,7 @@ import Routes from '../../utils/Routes';
 import { inject } from "mobx-react";
 import { sizes, colors } from '../../utils/style';
 
-@inject('AuthStore', 'CashButtonsStore', 'NavigationStore')
+@inject('AuthStore', 'NavigationStore')
 export default class CashButtons extends Component {
 
   constructor(props) {
@@ -37,14 +37,14 @@ export default class CashButtons extends Component {
   }
 
   navigateTo(routeName) {
-    const {CashButtonsStore, NavigationStore} = this.props;
-    CashButtonsStore.hideButtons();
+    const {NavigationStore} = this.props;
+    NavigationStore.toggleCashButtons();
     NavigationStore.navigate(routeName);
   }
 
   openDropDown() {
       Animated.spring(this.dropDownBottom, {
-        toValue: sizes.barHeight
+        toValue: sizes.barHeight*2+7
       }).start();
   }
 
