@@ -75,7 +75,8 @@ export default class Home extends Component {
 
 	render() {
 		const currentIndex = this.state.currentContentIndex;
-		const rollerItems = currentIndex > 0 ? (this.props.IdentifierStore.getFollowing.slice(currentIndex-1)):(this.props.IdentifierStore.getFollowing);
+		const rollerItems = currentIndex > 0 ? (this.props.IdentifierStore.getFollowing.slice(currentIndex)):(this.props.IdentifierStore.getFollowing);
+		// const rollerItems = currentIndex > 0 ? (this.props.IdentifierStore.getFollowing.slice(currentIndex-1)):(this.props.IdentifierStore.getFollowing);
 		return (
 			<View style={{flex: 1, backgroundColor: colors.background}}>
 				<View style={{zIndex: 999}}>
@@ -90,9 +91,10 @@ export default class Home extends Component {
 							<ProfileIndicator 
 								index={index+this.state.currentContentIndex-1 < 0 ? (0):(index+this.state.currentContentIndex-1)}
 								onPress={() => this.onRollerItem(index+this.state.currentContentIndex-1 < 0 ? (0):(index+this.state.currentContentIndex-1))}
-								inView={0 == this.state.currentContentIndex && index == 0 || 0 < this.state.currentContentIndex && index == 1}
+								inView={0 == this.state.currentContentIndex && index == 0 || 0 < this.state.currentContentIndex && index == 0}
+								// inView={0 == this.state.currentContentIndex && index == 0 || 0 < this.state.currentContentIndex && index == 1}
 								data={item}
-								isBack={0 < this.state.currentContentIndex && index == 0}
+								// isBack={0 < this.state.currentContentIndex && index == 0}
 							/>
 						)}			
 					/>
