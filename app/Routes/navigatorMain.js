@@ -10,6 +10,7 @@ import NavigatorStack from './navigatorStack';
 import { colors } from '../utils/style';
 import Drawer from '../components/Drawer/Drawer';
 import EditProfileScreen from '../Screens/EditProfileScreen/EditProfileScreen';
+import PolicyScreen from '../Screens/PolicyScreen/PolicyScreen';
 
 export default createAppContainer(createDrawerNavigator(
   {
@@ -33,6 +34,9 @@ export default createAppContainer(createDrawerNavigator(
     },
     [Routes.Screens.EDIT_PROFILE.routeName]: {
       screen: EditProfileScreen
+    },
+    [Routes.Screens.POLICY.routeName]: {
+      screen: PolicyScreen
     }
   },
   {

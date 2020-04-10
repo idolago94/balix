@@ -19,6 +19,11 @@ export default class Drawer extends Component {
                     title={'Edit Profile'} 
                     icon={iconNames.AVATAR}
                 />
+                <DrawerTab 
+                    onPress={() => this.props.NavigationStore.navigate(Routes.Screens.POLICY.routeName)} 
+                    title={'App Policy'} 
+                    icon={iconNames.TIMER}
+                />
             </SafeAreaView>
         )
     }
