@@ -188,6 +188,17 @@ class ApiService {
         return searchResponse;
     }
 
+    // Route: /comment
+    async getContentComments(content_id) {
+        let commentsResponse = await this.sendRequest('GET', '/comment/content?id=' + content_id);
+        return commentsResponse;
+    }
+
+    async sendComment(user_id, content_id, comment) {
+        let sendResponse = await this.sendRequest('POST', '/comment/add?id=' + user_id, {content_id, comment});
+        return sendResponse;
+    }
+
     async getEmojis() {
         let emojisResponse = await this.sendRequest('GET', '/emoji_urls');
         return emojisResponse;

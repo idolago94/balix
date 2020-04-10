@@ -5,6 +5,7 @@ import Emoji from './Emoji';
 import Icon, { iconNames } from '../../Icon/Icon';
 import { colors } from '../../../utils/style';
 import { inject } from 'mobx-react';
+import { window_width } from '../../../utils/view';
 
 @inject('AppStore')
 export default class EmojiBox extends Component {
@@ -12,9 +13,6 @@ export default class EmojiBox extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            emojis: []
-        }
         this.animation = new Animated.Value(0);
     }
 
@@ -22,14 +20,12 @@ export default class EmojiBox extends Component {
         Animated.spring(this.animation, {
            toValue: 999,
         }).start();
-        this.setState({emojis: this.props.AppStore.getEmojis})
     }
 
     componentWillUnMount() {
         Animated.spring(this.animation, {
             toValue: 0,
          }).start();
-         this.setState({emojis: []})
     }
 
     render() {
@@ -54,9 +50,9 @@ export default class EmojiBox extends Component {
                     </TouchableHighlight>
                 )}
                 {
-                    Object.keys(this.state.emojis).map((key, i) => (
-                        <TouchableHighlight key={i} onPress={(ev) => emojiPress(this.state.emojis[key], ev)}>
-                            <Emoji data={this.state.emojis[key]} size={emojiSize} />
+                    Object.keys(this.props.AppStore.getEmojis).map((key, i) => (
+                        <TouchableHighlight key={i} onPress={(ev) => emojiPress(this.props.AppStore.getEmojis[key], ev)}>
+                            <Emoji data={this.props.AppStore.getEmojis[key]} size={emojiSize} />
                         </TouchableHighlight>
                     ))
                 }
@@ -73,6 +69,10 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         flexWrap: 'wrap',
         justifyContent: 'flex-start',
+        position: 'absolute',
+        bottom: 0,
+        alignItems: 'center',
+        width: window_width,
     },
     emoji: {
         margin: 7

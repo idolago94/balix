@@ -12,6 +12,7 @@ import DoubleClick from 'react-native-double-click';
 import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
 import { photo_box, content, emoji_popup_box, colors } from '../../../utils/style';
 import { thousandsWithCommas } from '../../../utils/Tools';
+import CommentsBox from '../../../components/Photo/Comments/CommentsBox';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
 @observer
@@ -22,18 +23,11 @@ export default class PhotoScreen extends Component {
     super(props);
     this.state = {
       openEmoji: false,
+      openComments: false,
       emojiSendPosition: {x: 0, y: 0},
       heartSendPosition: {x: 0, y:0},
       emojiSend: undefined,
       userImages: undefined,
-      comments: [
-        {user: 'simon', comment: 'com1'},
-        {user: 'avi', comment: 'com2'},
-        {user: 'joh', comment: 'com3'},
-        {user: 'IdoLago94', comment: 'com4'},
-        {user: 'shlomi', comment: 'com5'},
-        {user: 'simon', comment: 'com6'},
-      ],
     };
     this.emojiBoxSize = 25;
     this.moveEmoji = new Animated.Value(0);
@@ -189,13 +183,12 @@ export default class PhotoScreen extends Component {
   }
 
   render() {
-    const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments, userImages} = this.state;
+    const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, openComments, userImages} = this.state;
     const {NavigationStore, ContentsStore, UsersStore, navigation} = this.props;
     const userData = UsersStore.getUserById(navigation.getParam('user_id'));
     const imageData = ContentsStore.getContentById(navigation.getParam('id'));
     return (!userData || !imageData) ? null :
-        <ScrollView style={styles.container}>
-          <View style={photo_box}>
+          <View style={{paddingBottom: 100, backgroundColor: colors.background}}>
             <ProgressiveImage 
               style={content}
               url={imageData.url}
@@ -208,12 +201,16 @@ export default class PhotoScreen extends Component {
               cash={imageData.cash}
               hearts={imageData.hearts}
             />
-            <View style={emoji_popup_box}>
-              {
-                !openEmoji ? null :
-                    <EmojiBox includeHeart={true} emojiSize={this.emojiBoxSize} heartPress={this.heartPress.bind(this)} emojiPress={this.emojiPress.bind(this)}/>
-              }
-            </View>
+
+            {openEmoji &&<EmojiBox 
+              includeHeart={true} 
+              emojiSize={this.emojiBoxSize} 
+              heartPress={this.heartPress.bind(this)} 
+              emojiPress={this.emojiPress.bind(this)}
+            />}
+
+            {openComments && <CommentsBox content_id={imageData._id} />}
+
             {/* emoji sent */}
             <Animated.Image
               source={emojiSend}
@@ -267,54 +264,10 @@ export default class PhotoScreen extends Component {
                   }}/>
               ))
             }
-          </View>
           <Buttons
-            onOpenEmoji={() => this.toggleEmoji()}
+            onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
+            onComments={() => this.setState({openComments: !this.state.openComments})}
           />
-          <View style={styles.commentsBox}>
-            <View style={{flexDirection: 'row', marginBottom: 5}}>
-              <Text style={styles.username}>{userData.username}: </Text>
-              <Text style={styles.content}>{imageData.title}</Text>
-            </View>
-            <TouchableHighlight
-                onPress={() => NavigationStore.navigate(Routes.Screens.COMMENTS.routeName, {
-                  comments: comments,
-                })}>
-              <Text
-                  style={styles.allCommentsLink}>View {thousandsWithCommas(comments.length)} Comments</Text>
-            </TouchableHighlight>
-            <SingleComment data={comments[this.state.comments.length - 1]}/>
-          </View>
-        </ScrollView>;
+        </View>
   }
 }
-
-const styles = StyleSheet.create({
-  emoji: {
-    position: 'absolute',
-    bottom: -20,
-    alignItems: 'center',
-    width: '100%',
-  },
-  container: {
-    backgroundColor: colors.background,
-    position: 'relative',
-  },
-
-  username: {
-    fontSize: 16,
-    color: colors.text,
-    fontWeight: 'bold'
-  },
-  commentsBox: {
-    padding: 10,
-  },
-  content: {
-    fontSize: 16,
-    color: colors.text,
-  },
-  allCommentsLink: {
-    fontSize: 16,
-    color: colors.text,
-  },
-});

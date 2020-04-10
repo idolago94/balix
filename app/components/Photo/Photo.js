@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 // Componenta
 import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Alert} from 'react-native';
-import SingleComment from './Comments/SingleComment';
 import EmojiBox from './EmojiBox/EmojiBox';
 import PhotoIndicator from './PhotoIndicator';
 import Icon, {iconNames} from '../Icon/Icon';
@@ -11,6 +10,7 @@ import ApiService from '../../Services/Api';
 import Buttons from './Buttons';
 import ProgressiveImage from '../ProgressiveImage/PreogressiveImage';
 import { photo_box, content, emoji_popup_box, colors } from '../../utils/style';
+import CommentsBox from './Comments/CommentsBox';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
 @observer
@@ -22,6 +22,7 @@ export default class Photo extends Component {
     super(props);
     this.state = {
       openEmoji: false,
+      openComments: false,
       emojiSendPosition: {x: 0, y: 0},
       heartSendPosition: {x: 0, y:0},
       emojiSend: undefined,
@@ -29,14 +30,6 @@ export default class Photo extends Component {
       userData: undefined,
       imageData: undefined,
       userImages: undefined,
-      comments: [
-        {user: 'simon', comment: 'com1'},
-        {user: 'avi', comment: 'com2'},
-        {user: 'joh', comment: 'com3'},
-        {user: 'IdoLago94', comment: 'com4'},
-        {user: 'shlomi', comment: 'com5'},
-        {user: 'simon', comment: 'com6'},
-      ],
     };
     this.emojiBoxSize = 25;
     this.moveEmoji = new Animated.Value(0);
@@ -51,16 +44,6 @@ export default class Photo extends Component {
       new Animated.Value(0), new Animated.Value(0), new Animated.Value(0), new Animated.Value(0),
       new Animated.Value(0), new Animated.Value(0),
     ];
-  }
-
-  toggleEmoji() {
-    console.log('Photo -> toggleEmoji');
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        openEmoji: !prevState.openEmoji,
-      };
-    });
   }
 
   getPressPosition(event) {
@@ -194,14 +177,14 @@ export default class Photo extends Component {
   render() {
     console.log('Photo -> render');
     const {NavigationStore, ContentsStore, UsersStore, data, isLast} = this.props;
-    const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, comments} = this.state;
+    const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, openComments} = this.state;
     const imageData = ContentsStore.getContentById(data.content_id);
     const userData = UsersStore.getUserById(imageData.user_id);
     return (!userData) ? null :
         <View style={[this.props.style, {marginBottom: isLast ? (70):(photo_box.marginBottom)}]}>
           <ProgressiveImage 
             style={content}
-            onDoubleClick={this.toggleEmoji.bind(this)}
+            onDoubleClick={() => this.setState({openEmoji: !this.state.openEmoji})}
             url={imageData.url}
             contentType={imageData.contentType}
           />
@@ -213,14 +196,15 @@ export default class Photo extends Component {
           />
           
           {/* emoji box */}
-          <View style={emoji_popup_box}>
-            {openEmoji && <EmojiBox 
-              includeHeart={true} 
-              emojiSize={this.emojiBoxSize} 
-              heartPress={this.heartPress.bind(this)} 
-              emojiPress={this.emojiPress.bind(this)}
-            />}
-          </View>
+          {openEmoji && <EmojiBox 
+            includeHeart={true} 
+            emojiSize={this.emojiBoxSize} 
+            heartPress={this.heartPress.bind(this)} 
+            emojiPress={this.emojiPress.bind(this)}
+          />}
+
+          {openComments && <CommentsBox content_id={data.content_id} />}
+
           {/* emoji sent */}
           <Animated.Image
             source={emojiSend}
@@ -272,42 +256,10 @@ export default class Photo extends Component {
               }),
             }}/>
           ))}
-          <Buttons onOpenEmoji={() => this.toggleEmoji()} />
+          <Buttons 
+            onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
+            onComments={() => this.setState({openComments: !this.state.openComments})}
+          />
         </View>
-        {/* comments */}
-        {/* <View style={styles.commentsBox}>
-          <View style={{flexDirection: 'row', marginBottom: 5}}>
-            <Text style={styles.username}>{userData.username}: </Text>
-            <Text style={styles.content}>{imageData.title}My first photo</Text>
-          </View>
-          <TouchableHighlight
-            onPress={() => this.props.NavigationStore.navigate(Routes.Screens.COMMENTS.routeName, {
-              comments: comments,
-            })}>
-            <Text
-              style={styles.allCommentsLink}>View {withComma(comments.length)} Comments</Text>
-          </TouchableHighlight>
-          <SingleComment data={comments[comments.length - 1]}/>
-        </View> */}
   }
 }
-
-const styles = StyleSheet.create({
-
-  username: {
-    fontSize: 16,
-    color: colors.text,
-    fontWeight: 'bold'
-  },
-  commentsBox: {
-    padding: 10,
-  },
-  content: {
-    fontSize: 16,
-    color: colors.text,
-  },
-  allCommentsLink: {
-    fontSize: 16,
-    color: colors.text,
-  },
-});

@@ -28,7 +28,6 @@ export default Routes = {
         GALLERY: {routeName: 'SCREEN_GALLERY'},
         MAIL: {routeName: 'SCREEN_MAIL'},
         SEARCH: {routeName: 'SCREEN_SEARCH'},
-        COMMENTS: {routeName: 'SCREEN_COMMENTS'},
         CONVERSATION: {routeName: 'SCREEN_CONVERSATION'},
         SET_PROFILE: {routeName: 'SET_PROFILE'},
         REGISTER: {routeName: 'REGISTER'},

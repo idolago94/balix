@@ -7,16 +7,8 @@ import IconButton from '../IconButton/IconButton';
 
 export default function Buttons(props) {
 
-    const iconColor = 'rgba(210,210,210,0.5)';
     return (
         <View style={styles.buttonsBox}>
-          <IconButton 
-            style={[styles.icon, {alignSelf: 'flex-start'}]} 
-            icon={iconNames.FULL_SHARE} 
-            size={sizes.icon-7} 
-            color={colors.icon} 
-            onPress={() => props.onOpenEmoji()}
-          />
           <View style={{flexDirection: 'row'}}>
             <IconButton 
               style={styles.icon} 
@@ -26,13 +18,20 @@ export default function Buttons(props) {
               onPress={() => props.onOpenEmoji()}
             />
             <IconButton 
-              style={[styles.icon, {alignSelf: 'flex-end'}]} 
+              style={[styles.icon, {alignSelf: 'flex-start'}]} 
               icon={iconNames.FULL_COMMENT} 
               size={sizes.icon-7} 
               color={colors.icon} 
-              onPress={() => props.onOpenEmoji()}
+              onPress={() => props.onComments()}
             />            
           </View>
+          <IconButton 
+            style={[styles.icon, {alignSelf: 'flex-start'}]} 
+            icon={iconNames.FULL_SHARE} 
+            size={sizes.icon-7} 
+            color={colors.icon} 
+            onPress={() => props.onOpenEmoji()}
+          />
         </View>
     );
 }
@@ -40,7 +39,7 @@ export default function Buttons(props) {
 const styles = StyleSheet.create({
     buttonsBox: {
       position: 'absolute',
-      bottom: 0,
+      top: 60,
     },
     icon: {
       padding: 10,
