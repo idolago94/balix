@@ -7,8 +7,8 @@ export const colors = {
     darkMain: '#0A555F',
     popup: 'rgba(30,33,35,0.5)',
     notch: '#1a1a1a',
-    bar: '#242323',
-    // bar: '#3c0550',
+    // bar: '#242323',
+    bar: '#2D2C2C',
     icon: 'white',
     addBar: 'rgba(56, 56, 56, 0.5)',
     formField: 'rgba(200, 200, 200, 0.2)',
@@ -20,7 +20,7 @@ export const colors = {
 
 export const sizes = {
     icon: 23,
-    barHeight: 60,
+    barHeight: 40,
     fieldWidth: '80%',
     border_radius: 5,
     iphone_notch: 30

@@ -151,8 +151,6 @@ export default class TabBar extends Component {
 
   render() {
     const {NavigationStore, AuthStore} = this.props;
-    const l1 = 120;
-    const pw = 47;
     return (
         <View>
           <CurveSvg />
@@ -201,26 +199,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: 'transparent',
-    height: sizes.barHeight
+    maxHeight: sizes.barHeight,
   },
   tab: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
+    alignSelf: 'stretch',
     flexGrow: 1,
   },
   plusTabBox: {
     transform: [
-      {translateY: -27}
+      {translateY: sizes.barHeight/2*-1}
     ],
     borderRadius: 99,
-    // backgroundColor: colors.bar,
     padding: 10,
-    aspectRatio: 1/1
+    aspectRatio: 1/1,
   },
   plusTab: {
     padding: 15,
-    borderRadius: 999
+    borderRadius: 999,
   }
 });

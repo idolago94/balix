@@ -12,10 +12,7 @@ export default function TaabButton(props) {
         onPress={() => props.onPress()} 
         style={props.style}
       >
-      {props.isSelected ?
-        (<Icon size={iconSize} name={props.icon} color={activeColor} />) :
-        (<Icon size={iconSize} name={props.icon} color={inactiveColor} />)
-      }
+        <Icon size={iconSize} name={props.icon} color={props.isSelected ? activeColor:inactiveColor} />
       </TouchableHighlight>
     )
 }

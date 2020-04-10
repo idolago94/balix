@@ -12,6 +12,7 @@ import SearchInput from './SearchInput/SearchInput';
 import BackButton from './BackButton/BackButton';
 import LinearGradient from 'react-native-linear-gradient';
 import { colors, sizes } from '../../utils/style';
+import { window_width } from '../../utils/view';
 
 @inject('CashButtonsStore', 'AuthStore', 'NavigationStore')
 @observer
@@ -94,9 +95,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		width: Dimensions.get('window').width,
-		// backgroundColor: colors.bar,
-		height: sizes.barHeight,
+		width: window_width,
 	},
 	rightSide: {
 		flexDirection: 'row',
@@ -111,37 +110,6 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		letterSpacing: 1,
 		marginLeft: 3,
-	},
-
-	searchIconBox: {
-		padding: 2,
-		borderRadius: 999,
-	},
-	searchBox: {
-		flex: 1,
-		justifyContent: 'flex-end',
-		alignItems: 'center',
-		flexDirection: 'row',
-		marginRight: 15
-	},
-	inputBox: {
-		height: '80%',
-		alignItems: 'flex-end',
-		borderTopLeftRadius: 999,
-		borderBottomLeftRadius: 999,
-		backgroundColor: colors.background,
-		transform: [
-			{translateX: 10},
-		],
-	},
-	input: {
-		width: '100%',
-		height: '90%',
-		borderTopLeftRadius: 999,
-		borderBottomLeftRadius: 999,
-		color: colors.text,
-		fontSize: 14,
-		backgroundColor: colors.background,
 	},
 	title: {
 		color: colors.text,
