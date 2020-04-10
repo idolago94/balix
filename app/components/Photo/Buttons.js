@@ -7,7 +7,8 @@ import IconButton from '../IconButton/IconButton';
 import { window_width, sliceString, content_height } from '../../utils/view';
 
 export default function Buttons(props) {
-    const heightAnim = useRef(new Animated.Value(50)).current;
+    const initialHeight = 50;
+    const heightAnim = useRef(new Animated.Value(initialHeight)).current;
     const [more, setMore] = useState(false);
 
     function increaseHeight() {
@@ -18,16 +19,17 @@ export default function Buttons(props) {
 
     function decreaseHeight() {
       Animated.timing(heightAnim, {
-        toValue: 50
+        toValue: initialHeight
       }).start(() => setMore(false))
     }
 
+    const titleLength = 20;
     return (
         <Animated.View style={[styles.buttonsBox, {maxHeight: heightAnim}]}>
           <View style={{maxWidth: window_width*0.37}}>
             <Text style={styles.title}>
-              {more ? (props.content_title):(sliceString(props.content_title, 20))}
-              {!more && <TouchableWithoutFeedback onPress={() => increaseHeight()}>
+              {more ? (props.content_title):(sliceString(props.content_title, titleLength))}
+              {!more && props.content_title.length > titleLength && <TouchableWithoutFeedback onPress={() => increaseHeight()}>
                 <Text style={{color: 'lightgray', fontSize: 14, fontStyle: 'italic'}}>See More</Text>
               </TouchableWithoutFeedback>}
             </Text>

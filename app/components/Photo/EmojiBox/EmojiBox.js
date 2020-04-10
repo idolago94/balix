@@ -6,6 +6,7 @@ import Icon, { iconNames } from '../../Icon/Icon';
 import { colors } from '../../../utils/style';
 import { inject } from 'mobx-react';
 import { window_width } from '../../../utils/view';
+import IconButton from '../../IconButton/IconButton';
 
 @inject('AppStore')
 export default class EmojiBox extends Component {
@@ -41,6 +42,7 @@ export default class EmojiBox extends Component {
                 })
               }}
             >
+                <IconButton onPress={() => this.props.onClose()} style={styles.closeIcon} icon={iconNames.CLOSE} size={13} />
                 {includeHeart && (
                     <TouchableHighlight style={{margin: 7}} onPress={(ev) => heartPress(ev)}>
                         <View >
@@ -76,5 +78,13 @@ const styles = StyleSheet.create({
     },
     emoji: {
         margin: 7
+    },
+    closeIcon: {
+        position: 'absolute', 
+        top: -35, 
+        left: 10,
+        borderRadius: 999,
+        padding: 7,
+        backgroundColor: colors.popup
     }
 });

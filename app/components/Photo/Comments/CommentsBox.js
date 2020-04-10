@@ -8,6 +8,8 @@ import { TextInput } from 'react-native-gesture-handler';
 import EditField from '../../../Screens/EditProfileScreen/EditField';
 import CommentInput from './CommentInput';
 import { inject, observer } from "mobx-react";
+import IconButton from '../../IconButton/IconButton';
+import { iconNames } from '../../Icon/Icon';
 
 @inject('AuthStore')
 export default class CommentsBox extends Component {
@@ -46,6 +48,7 @@ export default class CommentsBox extends Component {
   render() {
     return (
       <Animated.View style={[s.container, {maxHeight: this.animation}]}>
+        <IconButton onPress={() => this.props.onClose()} style={s.closeIcon} icon={iconNames.CLOSE} size={13} />
         <CommentInput onSend={c => this.sendComment(c)}/>
         <ScrollView>
           {this.state.comments.length < 1 && <Text style={s.no_comments}>No Comments</Text>}
@@ -64,11 +67,12 @@ export default class CommentsBox extends Component {
 
 }
 
+const background = 'rgba(210,210,210,0.4)';
 
 const s = StyleSheet.create({
   container: {
     width: window_width,
-    backgroundColor: 'rgba(210,210,210,0.6)',
+    backgroundColor: background,
     padding: 10,
     position: 'absolute',
     bottom: 0,
@@ -84,5 +88,13 @@ const s = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 1,
     color: colors.text
-  }
+  },
+  closeIcon: {
+    position: 'absolute', 
+    top: -35, 
+    left: 10,
+    borderRadius: 999,
+    padding: 7,
+    backgroundColor: background
+}
 });

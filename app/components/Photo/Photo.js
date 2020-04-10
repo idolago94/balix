@@ -184,7 +184,7 @@ export default class Photo extends Component {
         <View style={[this.props.style, {marginBottom: isLast ? (70):(photo_box.marginBottom)}]}>
           <ProgressiveImage 
             style={content}
-            onDoubleClick={() => this.setState({openEmoji: !this.state.openEmoji})}
+            onDoubleClick={() => this.setState({openEmoji: !this.state.openEmoji, openComments: false})}
             url={imageData.url}
             contentType={imageData.contentType}
           />
@@ -195,11 +195,11 @@ export default class Photo extends Component {
             onSymbol={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})}
           />
 
-          <Buttons 
+          {!openComments && !openEmoji && <Buttons 
             content_title={imageData.title}
             onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
             onComments={() => this.setState({openComments: !this.state.openComments})}
-          />
+          />}
           
           {/* emoji box */}
           {openEmoji && <EmojiBox 
@@ -207,9 +207,13 @@ export default class Photo extends Component {
             emojiSize={this.emojiBoxSize} 
             heartPress={this.heartPress.bind(this)} 
             emojiPress={this.emojiPress.bind(this)}
-            />}
+            onClose={() => this.setState({openEmoji: false})}
+          />}
 
-          {openComments && <CommentsBox content_id={data.content_id} />}
+          {openComments && <CommentsBox 
+            onClose={() => this.setState({openComments: false})} 
+            content_id={data.content_id} 
+          />}
 
           {/* emoji sent */}
           <Animated.Image
