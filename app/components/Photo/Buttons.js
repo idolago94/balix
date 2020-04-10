@@ -7,13 +7,19 @@ import IconButton from '../IconButton/IconButton';
 import { window_width, sliceString, content_height } from '../../utils/view';
 
 export default function Buttons(props) {
-    const heightAnim = useRef(new Animated.Value(70)).current;
+    const heightAnim = useRef(new Animated.Value(50)).current;
     const [more, setMore] = useState(false);
 
     function increaseHeight() {
       Animated.timing(heightAnim, {
         toValue: content_height-200
-      }).start(setMore(true))
+      }).start(() => setMore(true))
+    }
+
+    function decreaseHeight() {
+      Animated.timing(heightAnim, {
+        toValue: 50
+      }).start(() => setMore(false))
     }
 
     return (
@@ -22,10 +28,16 @@ export default function Buttons(props) {
             <Text style={styles.title}>
               {more ? (props.content_title):(sliceString(props.content_title, 20))}
               {!more && <TouchableWithoutFeedback onPress={() => increaseHeight()}>
-                <Text style={{color: 'lightgray', fontSize: 14}}>See More</Text>
+                <Text style={{color: 'lightgray', fontSize: 14, fontStyle: 'italic'}}>See More</Text>
               </TouchableWithoutFeedback>}
             </Text>
           </View>
+          {more && <IconButton 
+            style={{alignSelf: 'flex-start', padding: 10, transform: [{ rotate: '90deg'}]}} 
+            icon={iconNames.RIGHT_CHEVRON} 
+            size={15} 
+            onPress={() => decreaseHeight()}
+          />}
           <View style={{flexDirection: 'row'}}>
             <IconButton 
               style={styles.icon} 
