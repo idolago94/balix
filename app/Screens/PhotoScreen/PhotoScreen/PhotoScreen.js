@@ -13,6 +13,7 @@ import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveI
 import { photo_box, content, emoji_popup_box, colors } from '../../../utils/style';
 import { thousandsWithCommas } from '../../../utils/Tools';
 import CommentsBox from '../../../components/Photo/Comments/CommentsBox';
+import { window_height } from '../../../utils/view';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
 @observer
@@ -183,16 +184,18 @@ export default class PhotoScreen extends Component {
   }
 
   render() {
-    const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, openComments, userImages} = this.state;
+    const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, openComments} = this.state;
     const {NavigationStore, ContentsStore, UsersStore, navigation} = this.props;
     const userData = UsersStore.getUserById(navigation.getParam('user_id'));
     const imageData = ContentsStore.getContentById(navigation.getParam('id'));
-    return (!userData || !imageData) ? null :
-          <View style={{paddingBottom: 100, backgroundColor: colors.background}}>
+    return (
+      <View style={{backgroundColor: colors.background, height: window_height}}>
+      {(!userData || !imageData) ? null :
+          <View>
             <ProgressiveImage 
-              style={content}
+              style={[content, {height: window_height-160}]}
               url={imageData.url}
-              onDoubleClick={this.toggleEmoji.bind(this)}
+              onDoubleClick={() => this.setState({openEmoji: !this.state.openEmoji, openComments: false})}
               contentType={imageData.contentType}
 
             />
@@ -202,14 +205,25 @@ export default class PhotoScreen extends Component {
               hearts={imageData.hearts}
             />
 
+            {!openComments && !openEmoji && <Buttons
+              content_title={imageData.title}
+              onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
+              onComments={() => this.setState({openComments: !this.state.openComments})}
+            />}
+
             {openEmoji &&<EmojiBox 
               includeHeart={true} 
               emojiSize={this.emojiBoxSize} 
               heartPress={this.heartPress.bind(this)} 
               emojiPress={this.emojiPress.bind(this)}
+              onClose={() => this.setState({openEmoji: false})}
             />}
 
-            {openComments && <CommentsBox content_id={imageData._id} />}
+            {openComments && <CommentsBox 
+              onClose={() => this.setState({openComments: false})} 
+              content_id={imageData._id} 
+              />}
+
 
             {/* emoji sent */}
             <Animated.Image
@@ -264,10 +278,8 @@ export default class PhotoScreen extends Component {
                   }}/>
               ))
             }
-          <Buttons
-            onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
-            onComments={() => this.setState({openComments: !this.state.openComments})}
-          />
-        </View>
+        </View>}
+      </View>
+    )
   }
 }
