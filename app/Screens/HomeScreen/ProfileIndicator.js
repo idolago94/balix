@@ -13,17 +13,17 @@ export default class ProfileIndicator extends Component {
 
 
     render() {
-        const {UsersStore, NavigationStore, ContentsStore, data, inView, style, isBack} = this.props;
+        const {UsersStore, NavigationStore, ContentsStore, data, inView, isBack} = this.props;
         let contentData = ContentsStore.getContentById(data.content_id);
         let userData = UsersStore.getUserById(contentData.user_id);
         return (
-            <Animated.View style={[style, s.box, {transform: [{translateY: inView ? (50):(isBack ? (-25):(0))}], opacity: inView ? (1):(0.5)}]}>
+            <Animated.View style={[s.box, {transform: [{translateY: inView ? (50):(isBack ? (-25):(0))}], opacity: inView ? (1):(0.5)}]}>
                 <ProfileSymbol 
                     press={inView ? (() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})):(() => this.props.onPress())}
-                    style={[s.profile, {borderColor: inView ? (colors.text):('transparent')}]} 
                     src={userData.profileImage}
                     size={inView ? (83):(isBack ? (20):(50))}
-                />
+                    style={[s.profile, {borderColor: inView ? (colors.text):('transparent')}]} 
+                    />
                 <Text style={{color: colors.text, fontSize: inView ? (16):(10)}}>{sliceString(userData.username, 12)}</Text>
             </Animated.View>
         );
@@ -33,11 +33,10 @@ export default class ProfileIndicator extends Component {
 const s = {
     box: {
         marginLeft: 7, 
-        alignItems: 'center'
+        alignItems: 'center',
     },
     profile : {
         borderRadius: 999, 
-        marginTop: 2, 
-        borderWidth: 1
+        borderWidth: 1,
     }
 }
