@@ -3,22 +3,35 @@ import React, {Component} from 'react';
 import {StyleSheet, View, TouchableHighlight, Dimensions} from 'react-native';
 import Icon, {iconNames} from '../Icon/Icon';
 import { sizes, colors } from '../../utils/style';
+import IconButton from '../IconButton/IconButton';
 
 export default function Buttons(props) {
 
+    const iconColor = 'rgba(210,210,210,0.5)';
     return (
         <View style={styles.buttonsBox}>
-          <View style={styles.leftSide}>
-            <TouchableHighlight onPress={() => props.onOpenEmoji()}>
-              <Icon style={styles.icon} name={iconNames.FULL_EARN} size={sizes.icon}
-                    color={colors.icon}/>
-            </TouchableHighlight>
-            <Icon style={styles.icon} name={iconNames.FULL_COMMENT} size={sizes.icon}
-                  color={colors.icon}/>
-            <Icon style={styles.icon} name={iconNames.FULL_SHARE} size={sizes.icon}
-                  color={colors.icon}/>
-          </View>
-          <View style={styles.rightSide}>
+          <IconButton 
+            style={[styles.icon, {alignSelf: 'flex-start'}]} 
+            icon={iconNames.FULL_SHARE} 
+            size={sizes.icon-7} 
+            color={colors.icon} 
+            onPress={() => props.onOpenEmoji()}
+          />
+          <View style={{flexDirection: 'row'}}>
+            <IconButton 
+              style={styles.icon} 
+              icon={iconNames.FULL_EARN} 
+              size={sizes.icon+10} 
+              color={colors.icon} 
+              onPress={() => props.onOpenEmoji()}
+            />
+            <IconButton 
+              style={[styles.icon, {alignSelf: 'flex-end'}]} 
+              icon={iconNames.FULL_COMMENT} 
+              size={sizes.icon-7} 
+              color={colors.icon} 
+              onPress={() => props.onOpenEmoji()}
+            />            
           </View>
         </View>
     );
@@ -26,16 +39,14 @@ export default function Buttons(props) {
 
 const styles = StyleSheet.create({
     buttonsBox: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      width: Dimensions.get('window').width,
-      marginTop: 10,
-      alignItems: 'center'
-    },
-    leftSide: {
-      flexDirection: 'row',
+      position: 'absolute',
+      bottom: 0,
     },
     icon: {
       padding: 10,
+      borderRadius: 999,
+      backgroundColor: 'rgba(210,210,210,0.3)',
+      // alignSelf: 'flex-start',
+      margin: 3
     }
   });

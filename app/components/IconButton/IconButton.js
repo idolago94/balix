@@ -5,7 +5,7 @@ import { colors } from '../../utils/style';
 
 export default function IconButton(props) {
     return (
-        <TouchableHighlight onPress={() => props.onPress()} style={props.style}>
+        <TouchableHighlight onPress={() => props.onPress()} style={[props.style, {alignItems: 'center', justifyContent: 'center'}]}>
             <Icon name={props.icon} color={props.color || colors.icon} size={props.size} />
         </TouchableHighlight>
     )
