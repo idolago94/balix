@@ -55,6 +55,9 @@ export default class CommentsBox extends Component {
                 ))
             }
         </ScrollView>
+        <View style={{height: 40, flexDirection: 'row-reverse', alignItems: 'center'}}>
+            <Text style={{fontWeight: 'bold'}}>{this.state.comments.length} Comments</Text>
+        </View>
       </Animated.View>
     );
   }
@@ -71,7 +74,8 @@ const s = StyleSheet.create({
     bottom: 0,
     left: 0,
     borderTopLeftRadius: 20,
-    borderTopRightRadius: 20
+    borderTopRightRadius: 20,
+    paddingBottom: 0
   },
   no_comments: {
     fontSize: 20,
