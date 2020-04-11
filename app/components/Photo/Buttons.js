@@ -44,21 +44,21 @@ export default function Buttons(props) {
             <IconButton 
               style={styles.icon} 
               icon={iconNames.FULL_EARN} 
-              size={sizes.icon} 
+              size={sizes.icon+6} 
               color={colors.icon} 
               onPress={() => props.onOpenEmoji()}
             />
             <IconButton 
               style={[styles.icon]} 
               icon={iconNames.FULL_COMMENT} 
-              size={sizes.icon} 
+              size={sizes.icon+6} 
               color={colors.icon} 
               onPress={() => props.onComments()}
             />            
             <IconButton 
               style={[styles.icon]} 
               icon={iconNames.FULL_SHARE} 
-              size={sizes.icon} 
+              size={sizes.icon+6} 
               color={colors.icon} 
               onPress={() => props.onOpenEmoji()}
             />
@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     icon: {
       padding: 10,
       borderRadius: 999,
-      margin: 3
     },
     title: {
       fontSize: 16,
