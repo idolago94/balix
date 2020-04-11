@@ -69,8 +69,9 @@ export default class LoginScreen extends Component {
 
                 </View>
 
-                {/* <TextButton onPress={() => AuthStore.login({username: 'Idolago94', password: 'ido312546534'})} content={'Log Idolago94'} />
-                <TextButton onPress={() => AuthStore.login({username: 'Test2', password: '1234'})} content={'Log Test2'} /> */}
+                <TextButton onPress={() => AuthStore.login({username: 'Idolago94', password: 'ido312546534'})} content={'Log Idolago94'} />
+                <TextButton onPress={() => AuthStore.login({username: 'Test', password: 't12345678'})} content={'Log Test2'} />
+                <TextButton onPress={() => AuthStore.login({username: 'Test4', password: 't12345678'})} content={'Log Test4'} />
         </View>
     );
   }

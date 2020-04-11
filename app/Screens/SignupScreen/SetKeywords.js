@@ -30,7 +30,7 @@ export default class SetKeywords extends Component {
         const {navigation} = this.props;
         let authData = navigation.getParam('auth');
         if(keywords.length > 0) {
-            let keywordsResponse = await ApiService.updateKeywords(authData.user._id, keywords);
+            let keywordsResponse = await ApiService.updateKeywords(authData.user._id, keywords, authData.token);
             authData.user.keywords = keywordsResponse;
         }
         this.toApp(authData);

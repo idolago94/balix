@@ -1,4 +1,4 @@
-import { LoaderStore, NavigationStore } from "../../mobx";
+import { LoaderStore, NavigationStore, AuthStore } from "../../mobx";
 import { Platform } from 'react-native';
 import CompressService from "../Compress";
 import ValidationService from "../Validation";
@@ -57,7 +57,7 @@ class ApiService {
         return buyResponse;
     }
 
-    async updateProfileImage(user_id, image) {
+    async updateProfileImage(user_id, image, token) {
         if(!user_id || !image) {
             return null;
         }
@@ -68,15 +68,15 @@ class ApiService {
             uri:
               Platform.OS === "android" ? resizedImage.uri : resizedImage.uri.replace("file://", "")
         })
-        let updateResponse = await this.sendUploadRequest('/users/updateProfileImage?id=' + user_id, data);
+        let updateResponse = await this.sendUploadRequest('/users/updateProfileImage?id=' + user_id, data, token);
         return updateResponse;
     }
 
-    async updateKeywords(user_id, keywords_array) {
+    async updateKeywords(user_id, keywords_array, token) {
         if(!keywords_array || keywords_array.length < 1) {
             return null;
         }
-        let keywordsResponse = await this.sendRequest('PUT', '/users/updateKeywords?id=' + user_id, {keywords: keywords_array});
+        let keywordsResponse = await this.sendRequest('PUT', '/users/updateKeywords?id=' + user_id, {keywords: keywords_array}, token);
         return keywordsResponse;
     }
 
@@ -208,13 +208,16 @@ class ApiService {
     // erver_url = 'http://34.69.232.216:8080'; // google server 
     server_url = 'http://127.0.0.1:8080'; // local server
 
-    sendRequest(method, route, body) {
+    sendRequest(method, route, body, token) {
         return new Promise((resolve, reject) => {
             console.log('ApiService -> sendRequest -> ', method, route, body);
             LoaderStore.showLoader();
             fetch(this.server_url + route, {
                 method: method,
-                headers: {'Content-Type': 'application/json'},
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token || AuthStore.getToken}`
+                },
                 body: JSON.stringify(body)
             })
             .then(res => res.json()).then(response => {
@@ -225,18 +228,20 @@ class ApiService {
             .catch(err => {
                 LoaderStore.hideLoader();
                 NavigationStore.setBanner(err.message);
-                // resolve({error: err.message});
             });
         });
     }
 
-    sendUploadRequest(route, body) {
+    sendUploadRequest(route, body, token) {
         return new Promise((resolve, reject) => {
             console.log('ApiService -> sendRequest -> ', route, body);
             LoaderStore.showLoader();
             fetch(this.server_url + route, {
                 method: 'POST',
-                headers: {'Content-Type': 'multipart/form-data'},
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token || AuthStore.getToken}`
+                },
                 body: body
             })
             .then(res => res.json()).then(response => {

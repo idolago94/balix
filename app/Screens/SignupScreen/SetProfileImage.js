@@ -39,7 +39,7 @@ export default class SetProfileImage extends Component {
             const {navigation, AuthStore} = this.props;
             const {profileImage} = this.state;
             let authData = navigation.getParam('auth');
-            let setProfileResponse = await ApiService.updateProfileImage(authData.user._id, profileImage);
+            let setProfileResponse = await ApiService.updateProfileImage(authData.user._id, profileImage, authData.token);
             authData.user.profileImage = setProfileResponse._id;
             navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {auth: authData});
         }
