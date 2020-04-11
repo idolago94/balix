@@ -38,10 +38,10 @@ export default class SetProfileImage extends Component {
         if(validate.length <= 0) {
             const {navigation, AuthStore} = this.props;
             const {profileImage} = this.state;
-            let signupUser = navigation.getParam('user');
-            let setProfileResponse = await ApiService.updateProfileImage(signupUser._id, profileImage);
-            signupUser.profileImage = setProfileResponse._id;
-            navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {user: signupUser});
+            let authData = navigation.getParam('auth');
+            let setProfileResponse = await ApiService.updateProfileImage(authData.user._id, profileImage);
+            authData.user.profileImage = setProfileResponse._id;
+            navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {auth: authData});
         }
     }
 
@@ -59,7 +59,7 @@ export default class SetProfileImage extends Component {
 
     render() {
         const {navigation, AuthStore} = this.props;
-        const newUser = navigation.getParam('user');
+        const newUser = navigation.getParam('auth').user;
         return (
             <View style={styles.container}>
                 <AppTitle />

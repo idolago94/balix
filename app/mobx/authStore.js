@@ -7,10 +7,16 @@ class AuthStore {
     @observable status = false;
     @persist('object') @observable userLogin = undefined;
     @observable errors = [];
+    @observable token = null;
 
     @computed
     get getUserLogin() {
         return Object.assign({}, this.userLogin);
+    }
+
+    @computed
+    get getToken() {
+        return this.token;
     }
 
     @computed
@@ -29,11 +35,12 @@ class AuthStore {
     }
 
     @action
-    setUserLogin(user) {
-        console.log('authStore -> setUserLogin -> ', user._id);
+    setUserLogin(auth) {
+        console.log('authStore -> setUserLogin -> ', auth);
         this.status = true;
         this.setErrors([]);
-        this.userLogin = user;
+        this.userLogin = auth.user;
+        this.token = auth.token;
     }
 
     @action
@@ -52,7 +59,7 @@ class AuthStore {
         } else {
             this.status = 'PENDING';
             let auth = await ApiService.login(authData.username, authData.password);
-            auth._id && this.setUserLogin(auth);
+            auth.token && this.setUserLogin(auth);
             auth.error && this.setErrors([auth.error]);
         }
     }
@@ -66,6 +73,7 @@ class AuthStore {
     @action
     logout() {
         this.setUserLogin(undefined);
+        this.token = null;
     }
 }
 

@@ -34,7 +34,9 @@ export default class SignupScreen extends Component {
             if(signupResponse.error) {
                 this.setState({errors: [signupResponse.error]});
             } else {
-                navigation.navigate(Routes.Screens.SET_PROFILE.routeName, {user: signupResponse});
+                this.setState({errors: []});
+                debugger;
+                navigation.navigate(Routes.Screens.SET_PROFILE.routeName, {auth: signupResponse});
             }
         } else {
             this.setState({errors: validate});

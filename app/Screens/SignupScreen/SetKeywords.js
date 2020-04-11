@@ -28,16 +28,16 @@ export default class SetKeywords extends Component {
     async onSave() {
         const {keywords} = this.state;
         const {navigation} = this.props;
-        let signupUser = navigation.getParam('user');
+        let authData = navigation.getParam('auth');
         if(keywords.length > 0) {
-            let keywordsResponse = await ApiService.updateKeywords(signupUser._id, keywords);
-            signupUser.keywords = keywordsResponse;
+            let keywordsResponse = await ApiService.updateKeywords(authData.user._id, keywords);
+            authData.user.keywords = keywordsResponse;
         }
-        this.toApp(signupUser);
+        this.toApp(authData);
     }
 
-    toApp(user) {
-        this.props.AuthStore.setUserLogin(user);
+    toApp(auth) {
+        this.props.AuthStore.setUserLogin(auth);
         this.props.navigation.navigate(Routes.Screens.LOGIN.routeName);
     }
 
