@@ -44,13 +44,13 @@ export default function ProfileSymbol(props) {
               />
             </TouchableOpacity>
             {props.icon && <TouchableOpacity
-              style={[styles.icon, {top: iconPosition.y, left: iconPosition.x, padding: props.iconSize*0.5 || (props.size/5.5)*0.5}]}
+              style={[styles.icon, props.iconStyle, {top: iconPosition.y, left: iconPosition.x, padding: props.iconSize*0.5 || (props.size/5.5)*0.5}]}
               onPress={props.iconPress ? (props.iconPress.bind(this)):(() => console.log('icon press'))}
             >
               <Icon
                 size={props.iconSize || props.size/5.5}
                 name={props.icon}
-                color={props.iconColor || 'black'}
+                color={props.iconColor || colors.icon}
               />
             </TouchableOpacity>}
           </View>
@@ -63,5 +63,9 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 999,
     backgroundColor: 'gray'
+  },
+  icon: {
+    position: 'absolute',
+    borderRadius: 999
   }
 });
