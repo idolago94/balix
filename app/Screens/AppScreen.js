@@ -38,7 +38,7 @@ export default class AppScreen extends Component {
         <View style={styles.screen}>
           {/* <LottieView 
             style={{position: 'absolute', top: 0, left: 0, zIndex: 999, width: window_width, height: window_height}} 
-            source={require('../assets/anim2.json')}
+            source={require('../assets/test2.json')}
             autoPlay
             loop
           /> */}

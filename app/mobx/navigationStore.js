@@ -151,7 +151,7 @@ class NavigationStore {
     }
 
     setModal(view) {
-        // view = component
+        // view = Component
         this.modal = view;
     }
 

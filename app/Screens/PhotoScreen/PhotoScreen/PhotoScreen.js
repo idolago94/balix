@@ -183,9 +183,21 @@ export default class PhotoScreen extends Component {
     this.props.NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: this.props.navigation.getParam('user_id')});
   }
 
+  async onDelete() {
+    const {AuthStore, ContentsStore, NavigationStore, navigation} = this.props;
+    const imageData = ContentsStore.getContentById(navigation.getParam('id'));
+    const secret = navigation.getParam('secret');
+    let updateResponse = await ApiService.deleteContent(AuthStore.getUserLogin._id, [imageData._id], secret);
+    if(updateResponse.length) {
+        AuthStore.updateUserLogin({[secret ? 'secrets':'uploads']: updateResponse});
+        NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: imageData.user_id});
+        NavigationStore.setBanner(`You deleted one image.`, 'lightgreen');
+    }
+}
+
   render() {
     const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, openComments} = this.state;
-    const {NavigationStore, ContentsStore, UsersStore, navigation} = this.props;
+    const {AuthStore, NavigationStore, ContentsStore, UsersStore, navigation} = this.props;
     const userData = UsersStore.getUserById(navigation.getParam('user_id'));
     const imageData = ContentsStore.getContentById(navigation.getParam('id'));
     return (
@@ -203,6 +215,7 @@ export default class PhotoScreen extends Component {
               user={userData}
               cash={imageData.cash}
               hearts={imageData.hearts}
+              onMore={AuthStore.getUserLogin._id == userData._id ? (() => NavigationStore.showAlert('Delete image?', null, () => this.onDelete())):(null)}
             />
 
             {!openComments && !openEmoji && <Buttons

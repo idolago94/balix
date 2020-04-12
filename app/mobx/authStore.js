@@ -2,6 +2,7 @@ import { observable, action, computed, get, set } from "mobx";
 import ApiService from "../Services/Api";
 import { persist } from "mobx-persist";
 import ValidationService from "../Services/Validation";
+import { UsersStore } from ".";
 
 class AuthStore {
     @observable status = false;
@@ -67,6 +68,7 @@ class AuthStore {
     @action
     updateUserLogin(field_to_update) {
         console.log('AuthStore -> updateUserLogin -> ', field_to_update);
+        UsersStore.updateUser(this.userLogin._id, field_to_update);
         this.userLogin = {...this.userLogin, ...field_to_update};
     }
 

@@ -5,6 +5,7 @@ import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveI
 import ApiService from '../../../Services/Api';
 import SecretIndicator from './SecretIndicator';
 import { BlurView, VibrancyView } from "@react-native-community/blur";
+import DeleteIndicator from './DeleteIndicator';
 
 @inject('NavigationStore', 'ContentsStore', 'AuthStore')
 @observer
@@ -27,17 +28,21 @@ export default class SmallPhoto extends Component {
     }
 
     onPhotoPress() {
-        const {AuthStore, ContentsStore, NavigationStore, data, secret, onPress, isMy} = this.props;
-        const imageData = ContentsStore.getContentById(data.content_id);
-        const isViewed = imageData.views.includes(AuthStore.getUserLogin._id);
-        if(!secret || isViewed || isMy) {
-            onPress({id: data.content_id})
+        const {AuthStore, ContentsStore, NavigationStore, data, secret, onPress, isMy, deleteMode} = this.props;
+        if(deleteMode) {
+            onPress();
         } else {
-            NavigationStore.showAlert(
-                `You want to pay ${imageData.entrance}USD to see this secret?`,
-                null,
-                () => this.openPhoto()
-            );
+            const imageData = ContentsStore.getContentById(data.content_id);
+            const isViewed = imageData.views.includes(AuthStore.getUserLogin._id);
+            if(!secret || isViewed || isMy) {
+                onPress({id: data.content_id, secret});
+            } else {
+                NavigationStore.showAlert(
+                    `You want to pay ${imageData.entrance}USD to see this secret?`,
+                    null,
+                    () => this.openPhoto()
+                );
+            }
         }
     }
 
@@ -59,9 +64,10 @@ export default class SmallPhoto extends Component {
             return null;
         }
         const isViewed = imageData.views.includes(AuthStore.getUserLogin._id);
+        console.log(this.props.isSelected);
         return (
             <TouchableOpacity
-                style={s.imageBox}
+                style={[s.imageBox, this.props.style]}
                 onPress={() => this.onPhotoPress()}
             >
                 <ProgressiveImage 
@@ -76,6 +82,7 @@ export default class SmallPhoto extends Component {
                   blurType="light"
                 />}
                 {this.props.secret && <SecretIndicator views={imageData.views.length} />}
+                {this.props.isSelected && <DeleteIndicator />}
             </TouchableOpacity>
         )
     }
@@ -86,6 +93,8 @@ const s = StyleSheet.create({
         margin: 3,
         width: '31%',
         aspectRatio: 1,
+        backgroundColor: 'rgba(210,210,210,0.5)',
+        borderRadius: 10
     },
     photo: {
       height: '100%',

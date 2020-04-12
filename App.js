@@ -59,7 +59,7 @@ class RootComponent extends Component {
 			<SafeAreaView style={{flex: 1, backgroundColor: colors.notch}}>
 				{NavigationStore.isCashButtons && <CashButtons />}
 				{NavigationStore.isBanner && <Banner color={NavigationStore.getBanner.color} content={NavigationStore.getBanner.data} />}
-				{NavigationStore.isModal && <Modal content={NavigationStore.getModal} />}
+				{NavigationStore.isModal && <Modal type={NavigationStore.getModal.type} mode={NavigationStore.getModal.mode} content={NavigationStore.getModal.data} />}
 				<Root />
 			</SafeAreaView>
         )

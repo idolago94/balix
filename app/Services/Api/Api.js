@@ -164,6 +164,11 @@ class ApiService {
         return topResponse;
     }
 
+    async deleteContent(user_id, content_ids, secret_bool) {
+        let deleteResponse = await this.sendRequest('PUT', `/content/delete?id=${user_id}${secret_bool ? ('&secret=true'):('')}`, content_ids);
+        return deleteResponse;
+    }
+
     // Route: /actions
 
     async getUserActions(user_id) {
@@ -205,8 +210,8 @@ class ApiService {
         return emojisResponse;
     }
 
-    server_url = 'http://34.69.232.216:8080'; // google server 
-    // server_url = 'http://127.0.0.1:8080'; // local server
+    // server_url = 'http://34.69.232.216:8080'; // google server 
+    server_url = 'http://127.0.0.1:8080'; // local server
 
     sendRequest(method, route, body, token) {
         return new Promise((resolve, reject) => {

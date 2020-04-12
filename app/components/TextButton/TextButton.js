@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         borderRadius: sizes.border_radius,
         padding: 15,
         paddingHorizontal: 40,
-        alignItems: 'center'
+        alignItems: 'center' 
     },
     setText: {
         color: colors.text

@@ -35,7 +35,7 @@ export default class ProfileIndicator extends Component {
                         src={userData.profileImage}
                         size={inView ? (83):(isBack ? (20):(50))}
                         style={[s.profile, {borderColor: inView ? (colors.text):('transparent')}]} 
-                        icon={!AuthStore.isFollow(userData._id) ? (iconNames.PLUS):(null)}
+                        icon={!AuthStore.isFollow(userData._id) && AuthStore.getUserLogin._id != userData._id ? (iconNames.PLUS):(null)}
                         iconStyle={{backgroundColor: colors.darkMain}}
                         iconSize={inView ? (10):(7)}
                         />

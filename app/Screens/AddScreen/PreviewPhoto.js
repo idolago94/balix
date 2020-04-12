@@ -58,26 +58,30 @@ export default class PreviewPhoto extends Component {
     console.log('PreviewPhoto -> doUpload');
     const {AuthStore, NavigationStore, navigation} = this.props;
     let secretMode = navigation.getParam('secret');
-    NavigationStore.setProgress(true);
-    NavigationStore.navigate(secretMode ? (Routes.Screens.PROFILE.routeName):(Routes.Screens.HOME.routeName), secretMode ? ({id: AuthStore.getUserLogin._id}):({}));
-    this.setState({videoMuted: true});
-    let uploadResponse = null; // new upload object(contents collection)
-    if(secretMode) {
-      uploadResponse = await ApiService.uploadSecret(AuthStore.getUserLogin._id, this.state.imageData, {entrance: this.state.entranceSecret, title: this.state.title});
+    if(secretMode && AuthStore.getUserLogin.secrets.length >= 9 || !secretMode && AuthStore.getUserLogin.uploads.length >= AuthStore.getUserLogin.limit_of_contents) {
+      NavigationStore.setModal({type: 'delete_content', data: AuthStore.getUserLogin[secretMode ? ('secrets'):('uploads')], mode: secretMode ? ('secrets'):('uploads')});
     } else {
-      uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, this.state.imageData, {title: this.state.title});
-    }
-    if(uploadResponse.error) {
-      NavigationStore.setBanner(uploadResponse.error);
-    } else {
-      let myUploads = AuthStore.getUserLogin[secretMode ? ('secrets'):('uploads')];
-      myUploads.push({
-        content_id: uploadResponse._id,
-        uploadDate: uploadResponse.uploadDate,
-        lastUpdate: uploadResponse.lastUpdate
-      });
-      AuthStore.updateUserLogin({[secretMode ? ('secrets'):('uploads')]: myUploads});
-      UpdateService.checkFollowingUpdates();
+      NavigationStore.setProgress(true);
+      NavigationStore.navigate(secretMode ? (Routes.Screens.PROFILE.routeName):(Routes.Screens.HOME.routeName), secretMode ? ({id: AuthStore.getUserLogin._id}):({}));
+      this.setState({videoMuted: true});
+      let uploadResponse = null; // new upload object(contents collection)
+      if(secretMode) {
+        uploadResponse = await ApiService.uploadSecret(AuthStore.getUserLogin._id, this.state.imageData, {entrance: this.state.entranceSecret, title: this.state.title});
+      } else {
+        uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, this.state.imageData, {title: this.state.title});
+      }
+      if(uploadResponse.error) {
+        NavigationStore.setBanner(uploadResponse.error);
+      } else {
+        let myUploads = AuthStore.getUserLogin[secretMode ? ('secrets'):('uploads')];
+        myUploads.push({
+          content_id: uploadResponse._id,
+          uploadDate: uploadResponse.uploadDate,
+          lastUpdate: uploadResponse.lastUpdate
+        });
+        AuthStore.updateUserLogin({[secretMode ? ('secrets'):('uploads')]: myUploads});
+        UpdateService.checkFollowingUpdates();
+      }
     }
   }
 
@@ -147,7 +151,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // padding: 10
   },
   btn: {
     padding: 10

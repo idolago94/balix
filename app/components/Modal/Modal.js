@@ -3,15 +3,80 @@ import {StyleSheet, Text, View} from 'react-native';
 import { window_width, window_height } from '../../utils/view';
 import Slider from '@react-native-community/slider';
 import { colors } from '../../utils/style';
+import SmallPhoto from '../../Screens/ProfileScreen/ProfileView/SmallPhoto';
+import ModalButton from './ModalButton';
+import { inject, observer } from "mobx-react";
+import ApiService from '../../Services/Api';
 
-export default function Modal(props) {
-    return (
-        <View style={[s.container]}>
-            <View style={s.modalBox}>
-                {props.content}
+@inject('AuthStore', 'NavigationStore', 'ContentsStore', 'LoaderStore')
+export default class Modal extends Component{
+    // Props = {type: String, data}
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            selected: []
+        }
+    }
+
+    photoSelected(content_id) {
+        console.log('Modal -> photoSelected', content_id);
+        let newSelect = this.state.selected;
+        if(newSelect.includes(content_id)) {
+            newSelect = newSelect.filter(id => id != content_id);
+            console.log('Modal -> photoSelected', newSelect);
+        } else {
+            newSelect.push(content_id);
+        }
+        console.log('Modal -> photoSelected', newSelect);
+        this.setState({selected: newSelect})
+    }
+
+    async onDelete() {
+        const {AuthStore} = this.props;
+        let updateResponse = await ApiService.deleteContent(AuthStore.getUserLogin._id, this.state.selected, this.props.mode == 'secrets');
+        if(updateResponse.length) {
+            this.props.AuthStore.updateUserLogin({[this.props.mode == 'secrets' ? 'secrets':'uploads']: updateResponse});
+            this.props.NavigationStore.setBanner(`You deleted ${this.state.selected.length} images.`, 'lightgreen');
+            this.props.NavigationStore.setModal(null);
+        }
+    }
+
+    renderModal() {
+        switch (this.props.type) {
+            case 'delete_content':
+                return (
+                    <View>
+                        <Text style={{color: colors.text}}>You got your limit of uploads.{'\n'}You can buy extra photo to your profile or delete one of your photo.</Text>
+                        <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingVertical: 5}}>
+                            {this.props.content.map((c, i) => (
+                            <SmallPhoto 
+                                key={i} 
+                                deleteMode={true} 
+                                onPress={() => this.photoSelected(c.content_id)} 
+                                isSelected={this.state.selected.includes(c.content_id)} 
+                                data={c} 
+                            />
+                            ))}
+                        </View>
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <ModalButton onPress={() => this.props.NavigationStore.setModal(null)} title={'Cancel'} color={'gray'} />
+                            <ModalButton onPress={() => this.onDelete()} title={'Delete'} color={'red'} />
+                        </View>
+                    </View>
+                )
+        }
+    }
+
+    render() {
+        return (
+            <View style={[s.container]}>
+                <View style={[s.modalBox]}>
+                    {this.renderModal()}
+                </View>
             </View>
-        </View>
-    )
+        )
+    }
 }
 
 const s = StyleSheet.create({
@@ -27,14 +92,14 @@ const s = StyleSheet.create({
         justifyContent: 'center'
     },
     modalBox: {
-        minHeight: window_height*0.2,
-        minWidth: window_width*0.7,
+        maxWidth: window_width*0.7,
         backgroundColor: colors.background,
         borderWidth: 1,
         borderColor: colors.text,
         borderRadius: 10,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        padding: 8
     }
 })
 
