@@ -176,7 +176,7 @@ export default class Photo extends Component {
 
   render() {
     console.log('Photo -> render');
-    const {NavigationStore, ContentsStore, UsersStore, data, isLast} = this.props;
+    const {AuthStore, NavigationStore, ContentsStore, UsersStore, data, isLast} = this.props;
     const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, openComments} = this.state;
     const imageData = ContentsStore.getContentById(data.content_id);
     const userData = UsersStore.getUserById(imageData.user_id);
@@ -184,7 +184,7 @@ export default class Photo extends Component {
         <View style={[this.props.style, {marginBottom: isLast ? (70):(photo_box.marginBottom)}]}>
           <ProgressiveImage 
             style={content}
-            onDoubleClick={() => this.setState({openEmoji: !this.state.openEmoji, openComments: false})}
+            onDoubleClick={AuthStore.getUserLogin._id == userData._id ? (null):(() => this.setState({openEmoji: !this.state.openEmoji, openComments: false}))}
             url={imageData.url}
             contentType={imageData.contentType}
           />
@@ -199,6 +199,7 @@ export default class Photo extends Component {
             content_title={imageData.title}
             onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
             onComments={() => this.setState({openComments: !this.state.openComments})}
+            onDelete={AuthStore.getUserLogin._id == userData._id ? (() => NavigationStore.showAlert('Delete image?', null, () => this.onDelete())):(null)}
           />}
           
           {/* emoji box */}

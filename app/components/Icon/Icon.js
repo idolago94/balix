@@ -53,5 +53,6 @@ export const iconNames = {
     BANK2: 'bank-2',
     TOP: 'award',
     FULL_TOP: 'full-top',
-    CALENDAR: 'calendar'
+    CALENDAR: 'calendar',
+    TRASH: 'trash'
 }

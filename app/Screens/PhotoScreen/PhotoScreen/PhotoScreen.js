@@ -207,7 +207,7 @@ export default class PhotoScreen extends Component {
             <ProgressiveImage 
               style={[content, {height: window_height-160}]}
               url={imageData.url}
-              onDoubleClick={() => this.setState({openEmoji: !this.state.openEmoji, openComments: false})}
+              onDoubleClick={AuthStore.getUserLogin._id == userData._id ? (null):(() => this.setState({openEmoji: !this.state.openEmoji, openComments: false}))}
               contentType={imageData.contentType}
 
             />
@@ -215,13 +215,13 @@ export default class PhotoScreen extends Component {
               user={userData}
               cash={imageData.cash}
               hearts={imageData.hearts}
-              onMore={AuthStore.getUserLogin._id == userData._id ? (() => NavigationStore.showAlert('Delete image?', null, () => this.onDelete())):(null)}
             />
 
             {!openComments && !openEmoji && <Buttons
               content_title={imageData.title}
               onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
               onComments={() => this.setState({openComments: !this.state.openComments})}
+              onDelete={AuthStore.getUserLogin._id == userData._id ? (() => NavigationStore.showAlert('Delete image?', null, () => this.onDelete())):(null)}
             />}
 
             {openEmoji &&<EmojiBox 

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
-import {iconNames} from '../Icon/Icon';
 import { colors } from '../../utils/style';
 import { thousandsWithCommas } from '../../utils/Tools';
-import IconButton from '../IconButton/IconButton';
 
 export default function PhotoIndicator(props) {
   // Props = [ indicators: {cash: number, hearts: number} ]
@@ -20,7 +18,6 @@ export default function PhotoIndicator(props) {
           <Image style={{height: 22, aspectRatio: 1}} source={require('../../assets/heart_indicator.png')} />
           <Text style={{color: colors.text}}>{thousandsWithCommas(props.hearts)}</Text>
         </View>
-        {props.onMore && <IconButton icon={iconNames.TIMER} size={20} color={colors.icon} onPress={() => props.onMore()} />}
       </View>
     );
 }

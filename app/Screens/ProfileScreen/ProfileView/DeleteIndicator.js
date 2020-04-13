@@ -6,7 +6,7 @@ import { colors } from '../../../utils/style';
 export default function DeleteIndicator(props) {
     return (
         <View style={s.indicator}>
-            <Icon name={iconNames.CONFIRM} size={40} color={colors.icon} />
+            <Icon name={iconNames.TRASH} size={40} color={colors.icon} />
         </View>
     )
 }
