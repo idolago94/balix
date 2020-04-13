@@ -58,6 +58,9 @@
 		2D02E47B1E0B4A5D006451C7 /* balix-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "balix-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* balix-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "balix-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3423078A14D75EE5F565F8E9 /* Pods-balixTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-balixTests.release.xcconfig"; path = "Target Support Files/Pods-balixTests/Pods-balixTests.release.xcconfig"; sourceTree = "<group>"; };
+		5A0478AF2444A3CC00A298A6 /* libreact-native-ffmpeg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-ffmpeg.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A7C58A42443A6440083EE99 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		5A7C58A62443A6ED0083EE99 /* libreact-native-ffmpeg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-ffmpeg.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A8956B024324EBE007DD03B /* liblottie-react-native.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "liblottie-react-native.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A913E2F2405182B006DECDD /* fontello.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = fontello.ttf; path = ../app/assets/fonts/fontello.ttf; sourceTree = "<group>"; };
 		7294DC376D242FC6A1FF044A /* libPods-balix-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-balix-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +145,9 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5A0478AF2444A3CC00A298A6 /* libreact-native-ffmpeg.a */,
+				5A7C58A62443A6ED0083EE99 /* libreact-native-ffmpeg.a */,
+				5A7C58A42443A6440083EE99 /* SystemConfiguration.framework */,
 				5A8956B024324EBE007DD03B /* liblottie-react-native.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
@@ -382,7 +388,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		08898A226C9DB92FE0333146 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -672,6 +678,7 @@
 				INFOPLIST_FILE = balixTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -687,12 +694,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04FA287F6B5FBE76599DBA29 /* Pods-balix.debug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 6M48UM8M75;
+				FRAMEWORK_SEARCH_PATHS = "\"${PODS_ROOT}/mobile-ffmpeg-https\"";
 				INFOPLIST_FILE = balix/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -711,13 +720,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ED066812BEEC78A9269EEB21 /* Pods-balix.release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6M48UM8M75;
+				FRAMEWORK_SEARCH_PATHS = "\"${PODS_ROOT}/mobile-ffmpeg-https\"";
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "\"${PODS_ROOT}/mobile-ffmpeg-https\"";
 				INFOPLIST_FILE = balix/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
