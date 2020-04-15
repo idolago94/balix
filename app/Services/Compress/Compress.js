@@ -10,7 +10,11 @@ class CompressService {
         if(file.uri.includes('.png') || file.uri.includes('.jpg') || file.uri.includes('.jpeg')) {
             resizedFile = await this.resizeImage(file.uri, 1080, 100);
         } else {
-            resizedFile = await this.resizeVideo(file.uri, file.fileName);
+            // resizedFile = await this.resizeVideo(file.uri, file.fileName);
+            resizedFile = {
+                uri: file.uri,
+                name: file.fileName
+            };
         }
         return resizedFile;
     }
