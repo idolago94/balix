@@ -198,7 +198,7 @@ export default class Photo extends Component {
             style={content}
             onDoubleClick={AuthStore.getUserLogin._id == userData._id ? (null):(() => this.setState({openEmoji: !this.state.openEmoji, openComments: false}))}
             url={imageData.url}
-            contentType={imageData.contentType}
+            contentType={imageData.mimetype}
           />
           <PhotoIndicator 
             user={userData}
