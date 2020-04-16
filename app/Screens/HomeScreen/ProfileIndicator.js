@@ -29,7 +29,7 @@ export default class ProfileIndicator extends Component {
         let userData = UsersStore.getUserById(contentData.user_id);
         return (
             <Animated.View style={[s.box, {transform: [{translateY: inView ? (50):(isBack ? (-25):(0))}], opacity: inView ? (1):(0.5)}]}>
-                {userData && <View>
+                {userData && <View style={{alignItems: 'center'}}>
                     <ProfileSymbol 
                         press={inView ? (() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})):(() => this.props.onPress())}
                         src={userData.profileImage}
