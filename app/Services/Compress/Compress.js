@@ -1,5 +1,5 @@
 import ImageResizer from 'react-native-image-resizer';
-import { RNFFmpeg, RNFFprobe } from 'react-native-ffmpeg';
+// import { RNFFmpeg, RNFFprobe } from 'react-native-ffmpeg';
 import { NavigationStore } from '../../mobx';
 
 class CompressService {
@@ -39,23 +39,23 @@ class CompressService {
         });
     }
 
-    resizeVideo(videoURI, name) {
-        return new Promise(resolve => {
-            let output = videoURI.replace('.MOV', `-${new Date().getTime()}.MOV`);
-            let command = `-i ${videoURI} -vcodec h264 -acodec aac ${output}`;
-            RNFFmpeg.execute(command).then(result => {
-                console.log('ffmpeg result', result);
-                if(result.rc == 0) {
-                    resolve({
-                        uri: output,
-                        name
-                    })
-                } else {
-                    NavigationStore.setBanner('Video compress failed.');
-                }
-            });
-        })
-    }
+    // resizeVideo(videoURI, name) {
+    //     return new Promise(resolve => {
+    //         let output = videoURI.replace('.MOV', `-${new Date().getTime()}.MOV`);
+    //         let command = `-i ${videoURI} -vcodec h264 -acodec aac ${output}`;
+    //         RNFFmpeg.execute(command).then(result => {
+    //             console.log('ffmpeg result', result);
+    //             if(result.rc == 0) {
+    //                 resolve({
+    //                     uri: output,
+    //                     name
+    //                 })
+    //             } else {
+    //                 NavigationStore.setBanner('Video compress failed.');
+    //             }
+    //         });
+    //     })
+    // }
 }
 
 export default new CompressService();
