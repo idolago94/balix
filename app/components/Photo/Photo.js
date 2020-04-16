@@ -16,7 +16,7 @@ import UpdateService from '../../Services/Updates';
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
 @observer
 export default class Photo extends Component {
-  // Props = [ data, titlePress ]
+  // Props = [ data, index, isLast ]
 
   constructor(props) {
     console.log('Photo -> constructor');
@@ -176,7 +176,7 @@ export default class Photo extends Component {
   }
 
   async onDelete() {
-    const {AuthStore, ContentsStore, NavigationStore, navigation, data} = this.props;
+    const {AuthStore, ContentsStore, NavigationStore, data} = this.props;
     const imageData = ContentsStore.getContentById(data.content_id);
     let updateResponse = await ApiService.deleteContent(AuthStore.getUserLogin._id, [imageData._id]);
     if(updateResponse.length) {

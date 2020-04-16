@@ -28,7 +28,7 @@ export default class ProfileIndicator extends Component {
         let contentData = ContentsStore.getContentById(data.content_id);
         let userData = UsersStore.getUserById(contentData.user_id);
         return (
-            <Animated.View style={[s.box, {transform: [{translateY: inView ? (50):(isBack ? (-25):(0))}], opacity: inView ? (1):(0.5)}]}>
+            <Animated.View style={[s.box, {transform: [{translateY: inView ? (37):(isBack ? (-25):(0))}], opacity: inView ? (1):(0.5)}]}>
                 {userData && <View style={{alignItems: 'center'}}>
                     <ProfileSymbol 
                         press={inView ? (() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})):(() => this.props.onPress())}
@@ -50,6 +50,7 @@ const s = {
     box: {
         marginLeft: 7, 
         alignItems: 'center',
+        borderRadius: 999
     },
     profile : {
         borderRadius: 999, 

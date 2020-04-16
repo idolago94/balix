@@ -46,10 +46,6 @@ export default class Home extends Component {
 		this.focusListener.remove();
 	}
 
-	onTitlePress(user) {
-		this.props.NavigationStore.navigate(Routes.Screens.PROFILE, {userData: user});
-	}
-
 	handleScroll(event) {
 		console.log('handleScroll');
 		let listLength = this.props.IdentifierStore.getFollowing.length-1;
@@ -75,11 +71,15 @@ export default class Home extends Component {
 
 	render() {
 		const currentIndex = this.state.currentContentIndex;
-		const rollerItems = currentIndex > 0 ? (this.props.IdentifierStore.getFollowing.slice(currentIndex)):(this.props.IdentifierStore.getFollowing);
+		const rollerItems = currentIndex > 0 ? (this.props.IdentifierStore.getFollowing.slice(currentIndex+1)):(this.props.IdentifierStore.getFollowing.slice(1));
 		// const rollerItems = currentIndex > 0 ? (this.props.IdentifierStore.getFollowing.slice(currentIndex-1)):(this.props.IdentifierStore.getFollowing);
 		return (
 			<View style={{flex: 1, backgroundColor: colors.background}}>
-				<View style={{zIndex: 999}}>
+				<View style={{zIndex: 999, flexDirection: 'row', maxHeight: roller_container.maxHeight}}>
+					{this.props.IdentifierStore.getFollowing.length > 0 && <ProfileIndicator 
+						inView={true}								
+						data={this.props.IdentifierStore.getFollowing[currentIndex]}
+					/>}
 					<FlatList 
 						ref={(ref) => this._roller = ref}
 						style={[roller]}
@@ -91,7 +91,7 @@ export default class Home extends Component {
 							<ProfileIndicator 
 								index={index+this.state.currentContentIndex-1 < 0 ? (0):(index+this.state.currentContentIndex-1)}
 								onPress={() => this.onRollerItem(index+this.state.currentContentIndex-1 < 0 ? (0):(index+this.state.currentContentIndex-1))}
-								inView={0 == this.state.currentContentIndex && index == 0 || 0 < this.state.currentContentIndex && index == 0}
+								// inView={0 == this.state.currentContentIndex && index == 0 || 0 < this.state.currentContentIndex && index == 0}
 								// inView={0 == this.state.currentContentIndex && index == 0 || 0 < this.state.currentContentIndex && index == 1}
 								data={item}
 								// isBack={0 < this.state.currentContentIndex && index == 0}
@@ -119,8 +119,6 @@ export default class Home extends Component {
 						renderItem={({item, index}) => (
 							<Photo 
 								index={index}
-								navigation={this.props.navigation} 
-								titlePress={this.onTitlePress.bind(this)}
 								data={item}
 								isLast={index == this.props.IdentifierStore.getFollowing.length-1}
 							/>
