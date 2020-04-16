@@ -17,6 +17,7 @@ class NavigationStore {
     @observable.shallow modal = null;
     @observable showProgress = false;
     @observable showCashButtons = false;
+    @observable searchStatus = false;
     @observable tabs = [
         Routes.Screens.GRAPH.routeName,
         // Routes.Screens.RECENT_ACTIONS.routeName,
@@ -46,6 +47,11 @@ class NavigationStore {
     @computed
     get getCurrentScreen() {
         return this.currentScreen;
+    }
+
+    @computed
+    get getSearchStatus() {
+        return this.searchStatus;
     }
 
     @computed
@@ -129,6 +135,11 @@ class NavigationStore {
     }
 
     //SET
+
+    @action
+    setSearch(status) {
+        this.searchStatus = status;
+    }
 
     @action
     setProgress(bool) {

@@ -8,7 +8,7 @@ import NotFound from "./NotFound";
 import { inject, observer } from 'mobx-react';
 import { colors } from '../../utils/style';
 
-@inject('NavigationStore', 'IdentifierStore', 'LoaderStore')
+@inject('NavigationStore', 'IdentifierStore')
 @observer
 export default class Search extends Component {
 	static navigationOptions = ({navigation}) => {
@@ -22,9 +22,9 @@ export default class Search extends Component {
 	}
 
 	render() {
-		if(this.props.LoaderStore.isVisible) {
+		if(this.props.NavigationStore.getSearchStatus == 'PENDING') {
 			return <Text>Loader</Text>
-		} else if(!this.props.IdentifierStore.isHandleSearch) {
+		} else if(!this.props.NavigationStore.getSearchStatus) {
 			return (<SearchEmpty/>)
 		}
 		return (

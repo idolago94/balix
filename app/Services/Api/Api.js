@@ -1,4 +1,4 @@
-import { LoaderStore, NavigationStore, AuthStore } from "../../mobx";
+import { NavigationStore, AuthStore } from "../../mobx";
 import { Platform } from 'react-native';
 import CompressService from "../Compress";
 import ValidationService from "../Validation";
@@ -188,9 +188,12 @@ class ApiService {
 
     async handleSearch(word) {
         if(!word || word.length < 3) {
+            NavigationStore.setSearch(false);
             return [];
         }
+        NavigationStore.setSearch('PENDING');
         let searchResponse = await this.sendRequest('GET', '/search/?word=' + word);
+        NavigationStore.setSearch(true);
         return searchResponse;
     }
 
@@ -210,13 +213,12 @@ class ApiService {
         return emojisResponse;
     }
 
-    // server_url = 'http://34.69.232.216:8080'; // google server 
-    server_url = 'http://127.0.0.1:8080'; // local server
+    server_url = 'http://34.69.232.216:8080'; // google server 
+    // server_url = 'http://127.0.0.1:8080'; // local server
 
     sendRequest(method, route, body, token) {
         return new Promise((resolve, reject) => {
             console.log('ApiService -> sendRequest -> ', method, route, body);
-            LoaderStore.showLoader();
             fetch(this.server_url + route, {
                 method: method,
                 headers: {
@@ -227,11 +229,9 @@ class ApiService {
             })
             .then(res => res.json()).then(response => {
                 console.log('Api Response: ', response.toString().slice(0, 100));
-                LoaderStore.hideLoader();
                 resolve(response);
             })
             .catch(err => {
-                LoaderStore.hideLoader();
                 NavigationStore.setBanner(err.message);
             });
         });
@@ -240,7 +240,6 @@ class ApiService {
     sendUploadRequest(route, body, token) {
         return new Promise((resolve, reject) => {
             console.log('ApiService -> sendRequest -> ', route, body);
-            LoaderStore.showLoader();
             fetch(this.server_url + route, {
                 method: 'POST',
                 headers: {
@@ -251,11 +250,9 @@ class ApiService {
             })
             .then(res => res.json()).then(response => {
                 console.log('Api Response: ', response.toString().slice(0, 100));
-                LoaderStore.hideLoader();
                 resolve(response);
             })
             .catch(err => {
-                LoaderStore.hideLoader();
                 NavigationStore.setBanner(err.message);
             });
         });

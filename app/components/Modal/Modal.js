@@ -8,7 +8,7 @@ import ModalButton from './ModalButton';
 import { inject, observer } from "mobx-react";
 import ApiService from '../../Services/Api';
 
-@inject('AuthStore', 'NavigationStore', 'ContentsStore', 'LoaderStore')
+@inject('AuthStore', 'NavigationStore', 'ContentsStore')
 export default class Modal extends Component{
     // Props = {type: String, data}
 
