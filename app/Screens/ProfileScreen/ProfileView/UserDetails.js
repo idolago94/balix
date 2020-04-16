@@ -16,6 +16,8 @@ export default function UserDetails(props) {
             iconPress={(props.isMy) ? (() => props.onNavigate(Routes.Screens.CAMERA.routeName, {story_live: 'live'})) : (() => props.onNavigate(Routes.Screens.CONVERSATION.routeName))}
             src={props.user.profileImage}
             icon={(props.isMy) ? (iconNames.LIVE) : (iconNames.LETTER)}
+            iconStyle={{backgroundColor: colors.text, borderColor: colors.background, borderWidth: 2}}
+            iconColor={colors.background}
             size={220}
             iconSize={20}
             iconDeg={273}
