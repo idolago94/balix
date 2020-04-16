@@ -132,6 +132,7 @@ class NavigationStore {
 
     @action
     setProgress(bool) {
+        console.log('NavigationStore -> setProgress', bool);
         this.showProgress = bool;
     }
 

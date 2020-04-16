@@ -36,7 +36,7 @@ export default class Home extends Component {
 		console.log('content_height', content_height);
 		this.focusListener = this.props.navigation.addListener('willFocus', () => {
 			console.log('HomeScreen -> willFocus');
-			if(!this.props.NavigationStore.isProgress) {
+			if(!this.props.NavigationStore.inProgress) {
 				UpdatesService.checkFollowingUpdates();
 			}
 		})

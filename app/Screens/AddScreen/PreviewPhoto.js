@@ -12,7 +12,7 @@ import Video from 'react-native-video';
 import { colors } from '../../utils/style';
 import EditField from '../EditProfileScreen/EditField';
 
-@inject('AuthStore', 'NavigationStore', 'ContentsStore', 'LoaderStore')
+@inject('AuthStore', 'NavigationStore', 'ContentsStore')
 export default class PreviewPhoto extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
