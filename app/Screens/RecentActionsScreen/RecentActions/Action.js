@@ -62,7 +62,7 @@ export default class Action extends Component {
                                 }
                             </Text>
                             <Text style={styles.action}>sent </Text>
-                            <Image style={{width: 15, height: 16}} source={actionData.emoji.url} />
+                            <Image style={{width: 15, height: 16}} source={{uri: actionData.emoji.url}} />
                             <Text style={styles.action}> to </Text>
                             <Text style={{...styles.action, fontWeight: (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
                                     ('') : ('bold')}}>
