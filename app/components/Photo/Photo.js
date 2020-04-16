@@ -230,7 +230,7 @@ export default class Photo extends Component {
 
           {/* emoji sent */}
           <Animated.Image
-            source={emojiSend}
+            source={{uri: emojiSend}}
             style={{
               position: 'absolute',
               width: this.sizeEmoji,
@@ -242,7 +242,7 @@ export default class Photo extends Component {
               }),
               left: this.moveEmoji.interpolate({
                 inputRange: [0, 1],
-                outputRange: [emojiSendPosition.x, Dimensions.get('window').width * 0.1],
+                outputRange: [emojiSendPosition.x, Dimensions.get('window').width * 0.9],
               }),
             }}
           />
