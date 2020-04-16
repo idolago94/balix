@@ -11,7 +11,7 @@ class NavigationStore {
     @observable prevPage = null;
     @observable currentScreen = null;
     @observable prevTab = null;
-    @observable currentTab = Routes.Screens.HOME.routeName;
+    @observable currentTab = null;
     @observable profileName = null;
     @observable.shallow banner = null;
     @observable.shallow modal = null;
@@ -20,7 +20,6 @@ class NavigationStore {
     @observable searchStatus = false;
     @observable tabs = [
         Routes.Screens.GRAPH.routeName,
-        // Routes.Screens.RECENT_ACTIONS.routeName,
         Routes.Screens.HOME.routeName,
         Routes.Screens.SEARCH.routeName,
         Routes.Screens.MAIL.routeName,

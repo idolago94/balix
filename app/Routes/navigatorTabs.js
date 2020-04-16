@@ -39,7 +39,7 @@ export default createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: Routes.Screens.HOME.routeName,
+    initialRouteName: Routes.Screens.TOP.routeName,
     tabBarComponent: props => (
       <TabBar {...props} />
     )

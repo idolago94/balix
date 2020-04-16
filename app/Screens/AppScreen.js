@@ -35,17 +35,18 @@ export default class AppScreen extends Component {
   render() {
     const {NavigationStore} = this.props;
       return (
-        <View style={styles.screen}>
+        <View style={s.screen}>
           {/* <LottieView 
-            style={{position: 'absolute', top: 0, left: 0, zIndex: 999, width: window_width, height: window_height}} 
-            source={require('../assets/animations/tongue.json')}
+            style={s.animation} 
+            source={require('../assets/animations/Hand_claping.json')}
             autoPlay
+            autoSize={true}
             loop
           /> */}
           <NavigatorMain                 
             ref={ref => {
               NavigationStore.setMainNavigation(ref);
-              NavigationStore.updateCurrentScreen({routeName: Routes.Screens.HOME.routeName});
+              NavigationStore.updateCurrentScreen({routeName: Routes.Screens.TOP.routeName});
               NavigationStore.updatePrevPage(null);
             }}
             onNavigationStateChange={this.onNavigationStateChange}
@@ -56,9 +57,19 @@ export default class AppScreen extends Component {
 }
 
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   screen: {
     flex: 1,
     height: window_height
   },
+  animation: {
+    position: 'absolute', 
+    top: 0, 
+    left: 0, 
+    zIndex: 999, 
+    width: window_width, 
+    height: window_height,
+    borderWidth: 2, 
+    borderColor: 'red',
+  }
 });
