@@ -9,6 +9,7 @@ import moment from 'moment';
 import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
 import Routes from '../../../utils/Routes';
 import { colors } from '../../../utils/style';
+import { window_width } from '../../../utils/view';
 
 @inject('AuthStore', 'UsersStore', 'ActionsStore', 'NavigationStore')
 @observer
@@ -114,24 +115,30 @@ export default class Action extends Component {
                 break;
             case actionTypes.HEART:
                 return (
-                    <View style={{flexDirection: 'row'}}>
-                        <Text style={{...styles.action, fontWeight: (actionData.active_user_id == AuthStore.getUserLogin._id) ?
-                                ('') : (`bold`)}}>
-                            {
-                                (actionData.active_user_id == AuthStore.getUserLogin._id) ?
-                                    ('You ') : (`${otherUserData.username} `)
-                            }
-                        </Text>
-                        <Text style={styles.action}>sent </Text>
-                        <Icon size={15} color={'red'} name={iconNames.FULL_HEART} />
-                        <Text style={styles.action}> to </Text>
-                        <Text style={{...styles.action, fontWeight: (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
-                                ('') : ('bold')}}>
-                            {
-                                (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
-                                    ('you') : (otherUserData.username)
-                            }.
-                        </Text>
+                    <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={{...styles.action, fontWeight: (actionData.active_user_id == AuthStore.getUserLogin._id) ?
+                                    ('') : (`bold`)}}>
+                                {
+                                    (actionData.active_user_id == AuthStore.getUserLogin._id) ?
+                                        ('You ') : (`${otherUserData.username} `)
+                                }
+                            </Text>
+                            <Text style={styles.action}>sent </Text>
+                            <Icon size={15} color={'red'} name={iconNames.FULL_HEART} />
+                            <Text style={styles.action}> to </Text>
+                            <Text style={{...styles.action, fontWeight: (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
+                                    ('') : ('bold')}}>
+                                {
+                                    (actionData.disactive_user_id == AuthStore.getUserLogin._id) ?
+                                        ('you') : (otherUserData.username)
+                                }.
+                            </Text>
+                        </View>
+                        {actionData.image_url && <ProgressiveImage 
+                            style={{width: 30, height: 30, borderRadius: 5}}
+                            url={actionData.image_url}
+                        />}
                     </View>
                 )
                 break;
