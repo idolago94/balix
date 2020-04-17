@@ -40,6 +40,7 @@ class AuthStore {
         console.log('authStore -> setUserLogin -> ', auth);
         this.status = true;
         this.setErrors([]);
+        UsersStore.setUsers([auth.user]);
         this.userLogin = auth.user;
         this.token = auth.token;
     }
