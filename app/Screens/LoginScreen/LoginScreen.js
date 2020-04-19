@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // Components
 import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager} from 'react-native-fbsdk';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import FormField from '../../components/FormField/FormField';
 import Routes from '../../utils/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
@@ -9,6 +10,7 @@ import TextButton from '../../components/TextButton/TextButton';
 import { inject, observer } from "mobx-react";
 import HandleError from '../../components/HandleError/HandleError';
 import { colors, sizes } from '../../utils/style';
+import { window_width } from '../../utils/view';
 
 @inject('AuthStore')
 @observer
@@ -20,6 +22,7 @@ export default class LoginScreen extends Component {
     this.state = {
       securePassword: true
     }
+    this.passwordInput = null;
   }
 
   onLogin() {
@@ -47,31 +50,38 @@ export default class LoginScreen extends Component {
     return (
         <View style={styles.container}>
           <AppTitle />
-            <View style={styles.form}>
-              {AuthStore.getErrors.length > 0 && <HandleError data={AuthStore.getErrors}/>}
+          <KeyboardAwareScrollView
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            contentContainerStyle={styles.form}
+            scrollEnabled={true}
+          >
+            {AuthStore.getErrors.length > 0 && <HandleError data={AuthStore.getErrors}/>}
               
-                <FormField
-                    placeholder={'Username or Email'}
-                    onChange={(username) => this.setState({username})}
-                />
+            <FormField
+              placeholder={'Username or Email'}
+              onChange={(username) => this.setState({username})}
+              keyType={'next'}
+            />
 
-                <FormField
-                    type={'password'}
-                    placeholder={'Password'}
-                    onChange={(password) => this.setState({password})}
-                />
+            <FormField
+              inputRef={(ref) => this.passwordInput = ref}
+              type={'password'}
+              placeholder={'Password'}
+              onChange={(password) => this.setState({password})}
+            />
 
-                <TextButton onPress={this.onLogin.bind(this)} content={'Log In'} />
+            <TextButton onPress={this.onLogin.bind(this)} content={'Log In'} />
 
-                <TouchableHighlight style={{alignSelf: 'flex-start'}} onPress={() => navigation.navigate(Routes.Screens.REGISTER.routeName)}>
-                    <Text style={{color: 'gray', fontSize: 10}}>Create Account</Text>
-                </TouchableHighlight>
+            <TouchableHighlight style={{alignSelf: 'flex-start'}} onPress={() => navigation.navigate(Routes.Screens.REGISTER.routeName)}>
+              <Text style={{color: 'gray', fontSize: 10}}>Create Account</Text>
+            </TouchableHighlight>
+          </KeyboardAwareScrollView>
 
-                </View>
 
-                {/* <TextButton onPress={() => AuthStore.login({username: 'Idolago94', password: 'ido312546534'})} content={'Log Idolago94'} />
-                <TextButton onPress={() => AuthStore.login({username: 'Test', password: 't12345678'})} content={'Log Test2'} />
-                <TextButton onPress={() => AuthStore.login({username: 'Test4', password: 't12345678'})} content={'Log Test4'} /> */}
+          {/* <TextButton onPress={() => AuthStore.login({username: 'Idolago94', password: 'ido312546534'})} content={'Log Idolago94'} /> */}
+          {/* <TextButton onPress={() => AuthStore.login({username: 'Test2', password: 't12345678'})} content={'Log Test2'} /> */}
+          {/* <TextButton onPress={() => AuthStore.login({username: 'Test4', password: 't12345678'})} content={'Log Test4'} /> */}
+
         </View>
     );
   }
@@ -91,7 +101,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   form: {
-    width: sizes.fieldWidth,
+    width: window_width*0.8,
     alignItems: 'center',
   },
   field: {

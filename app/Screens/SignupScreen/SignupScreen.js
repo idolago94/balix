@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // Components
-import {StyleSheet, Text, View, TouchableHighlight, Image, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, TouchableHighlight, Image} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import FormField from '../../components/FormField/FormField';
 import Routes from '../../utils/Routes';
 import AppTitle from '../../components/AppTitle/AppTitle';
@@ -9,6 +10,8 @@ import ApiService from '../../Services/Api';
 import HandleError from '../../components/HandleError/HandleError';
 import ValidationService from '../../Services/Validation';
 import { colors, sizes } from '../../utils/style';
+import { window_height, window_width } from '../../utils/view';
+import { TextInput } from 'react-native-gesture-handler';
 
 @inject('AuthStore')
 export default class SignupScreen extends Component {
@@ -47,12 +50,16 @@ export default class SignupScreen extends Component {
         return (
             <View style={{flex: 1, position: 'relative', backgroundColor: colors.background}}>
                 <Image
-                    style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, position: 'absolute', top: 0, left: 0, opacity: 0.188}}
+                    style={{height: window_height, width: window_width, position: 'absolute', top: 0, left: 0, opacity: 0.188}}
                     source={require('../../assets/background1.jpeg')}
                 />
                 <View style={styles.container}>
                     <AppTitle />
-                    <View style={styles.form}>
+                    <KeyboardAwareScrollView
+                        resetScrollToCoords={{ x: 0, y: 0 }}
+                        contentContainerStyle={styles.form}
+                        scrollEnabled={true}
+                    >
                         <Text style={styles.title}>Create New Account:</Text>
                         {this.state.errors.length > 0 && <HandleError data={this.state.errors} />}
 
@@ -84,7 +91,7 @@ export default class SignupScreen extends Component {
                         <TouchableHighlight style={{alignSelf: 'flex-start'}} onPress={() => navigation.navigate(Routes.Screens.LOGIN.routeName)}>
                             <Text style={{color: 'gray', fontSize: 10}}>Login to existing account</Text>
                         </TouchableHighlight>
-                    </View>
+                    </KeyboardAwareScrollView>
                 </View>
             </View>
 
@@ -98,7 +105,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 10,
         alignItems: 'center',
-        // backgroundColor: colors.background
     },
     appName: {
         fontSize: 70,
@@ -106,7 +112,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     form: {
-        width: sizes.fieldWidth,
+        width: window_width*0.8,
         alignItems: 'center',
     },
     title: {

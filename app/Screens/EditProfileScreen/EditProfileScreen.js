@@ -11,6 +11,7 @@ import { getCountryList } from '../../utils/Tools';
 import { Dropdown } from 'react-native-material-dropdown';
 import ApiService from '../../Services/Api';
 import HandleError from '../../components/HandleError/HandleError';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 @inject('NavigationStore', 'AuthStore')
 @observer
@@ -115,79 +116,85 @@ export default class EditProfileScreen extends Component {
 					onSave={() => this.saveUpdates()}
 					edit={edit}
 				/>
-				<View>
-					<ProfileSymbol
-						src={edit_profile_image ? (edit_profile_image.uri):(AuthStore.getUserLogin.profileImage)}
-						press={() => this.onImagePress()}
-						size={140}
-					/>
-					{edit_profile_image && <TouchableHighlight onPress={() => this.saveProfileImage()} style={{position: 'absolute', bottom: 0, right: 0, paddingVertical: 3, paddingHorizontal: 20, borderRadius: 999, backgroundColor: colors.darkMain}}>
-						<Text style={{color: colors.text, fontWeight: 'bold'}}>Save new profile image</Text>
-					</TouchableHighlight>}
-				</View>
-
-				{this.state.errors.length > 0 && <HandleError data={this.state.errors} />}
-				<View style={{flexDirection: 'row'}}>
+					
+				<KeyboardAwareScrollView
+					resetScrollToCoords={{ x: 0, y: 0 }}
+					scrollEnabled={true}
+				>
+					<View style={{padding: 10}}>
+						<ProfileSymbol
+							src={edit_profile_image ? (edit_profile_image.uri):(AuthStore.getUserLogin.profileImage)}
+							press={() => this.onImagePress()}
+							size={140}
+						/>
+						{edit_profile_image && <TouchableHighlight onPress={() => this.saveProfileImage()} style={{position: 'absolute', bottom: 0, right: 0, paddingVertical: 3, paddingHorizontal: 20, borderRadius: 999, backgroundColor: colors.darkMain}}>
+							<Text style={{color: colors.text, fontWeight: 'bold'}}>Save new profile image</Text>
+						</TouchableHighlight>}
+					</View>
+					
+					{this.state.errors.length > 0 && <HandleError data={this.state.errors} />}
+					<View style={{flexDirection: 'row'}}>
+						<EditField
+							style={{...s.field, flexGrow: 1}} 
+							label={'First Name:'}
+							value={edit_fields.first_name || AuthStore.getUserLogin.first_name} 
+							onChange={value => this.updateField(value, 'first_name')}
+						/>
+						<EditField
+							style={{...s.field, flexGrow: 1}} 
+							label={'Last Name:'}
+							value={edit_fields.last_name || AuthStore.getUserLogin.last_name} 
+							onChange={value => this.updateField(value, 'last_name')}
+						/>
+					</View>
 					<EditField
-						style={{...s.field, flexGrow: 1}} 
-						label={'First Name:'}
-						value={edit_fields.first_name || AuthStore.getUserLogin.first_name} 
-						onChange={value => this.updateField(value, 'first_name')}
+						style={s.field}
+						label={'Username:'}
+						value={edit_fields.username || AuthStore.getUserLogin.username} 
+						onChange={value => this.updateField(value, 'username')}
 					/>
 					<EditField
-						style={{...s.field, flexGrow: 1}} 
-						label={'Last Name:'}
-						value={edit_fields.last_name || AuthStore.getUserLogin.last_name} 
-						onChange={value => this.updateField(value, 'last_name')}
+						style={s.field}
+						label={'Email:'}
+						value={edit_fields.email || AuthStore.getUserLogin.email} 
+						onChange={value => this.updateField(value, 'email')}
 					/>
-				</View>
-				<EditField
-					style={s.field}
-					label={'Username:'}
-					value={edit_fields.username || AuthStore.getUserLogin.username} 
-					onChange={value => this.updateField(value, 'username')}
-				/>
-				<EditField
-					style={s.field}
-					label={'Email:'}
-					value={edit_fields.email || AuthStore.getUserLogin.email} 
-					onChange={value => this.updateField(value, 'email')}
-				/>
-				<EditField
-					style={s.field}
-					label={'Gender:'}
-					type={'radio'}
-					value={edit_fields.gender || AuthStore.getUserLogin.gender} 
-					onChange={value => this.updateField(value, 'gender')}
-				/>
-				<View style={s.field}>
-					<Dropdown 
-						pickerStyle={{backgroundColor: colors.bar}} 
-						baseColor={colors.text}
-						textColor={colors.text}
-						selectedItemColor={colors.text}
-						itemColor={'gray'}
-						label='Country' 
-						value={edit_fields.country || AuthStore.getUserLogin.country} 
-						data={countries} 
-						onChangeText={value => this.updateField(value, 'country')}
+					<EditField
+						style={s.field}
+						label={'Gender:'}
+						type={'radio'}
+						value={edit_fields.gender || AuthStore.getUserLogin.gender} 
+						onChange={value => this.updateField(value, 'gender')}
 					/>
-				</View>
-				<EditField
-					style={s.field}
-					label={'Date of birth:'}
-					type={'datepicker'}
-					value={edit_fields.date_of_birth || AuthStore.getUserLogin.date_of_birth} 
-					onChange={value => this.updateField(value, 'date_of_birth')}
-				/>
-				<EditField
-					style={s.field}
-					label={'Keywords:'}
-					type={'keywords'}
-					value={edit_fields.keywords || AuthStore.getUserLogin.keywords} 
-					onAdd={value => this.addKeyword(value)}
-					onRemove={index => this.removeKeyword(index)}
-				/>
+					<View style={s.field}>
+						<Dropdown 
+							pickerStyle={{backgroundColor: colors.bar}} 
+							baseColor={colors.text}
+							textColor={colors.text}
+							selectedItemColor={colors.text}
+							itemColor={'gray'}
+							label='Country' 
+							value={edit_fields.country || AuthStore.getUserLogin.country} 
+							data={countries} 
+							onChangeText={value => this.updateField(value, 'country')}
+						/>
+					</View>
+					<EditField
+						style={s.field}
+						label={'Date of birth:'}
+						type={'datepicker'}
+						value={edit_fields.date_of_birth || AuthStore.getUserLogin.date_of_birth} 
+						onChange={value => this.updateField(value, 'date_of_birth')}
+					/>
+					<EditField
+						style={s.field}
+						label={'Keywords:'}
+						type={'keywords'}
+						value={edit_fields.keywords || AuthStore.getUserLogin.keywords} 
+						onAdd={value => this.addKeyword(value)}
+						onRemove={index => this.removeKeyword(index)}
+					/>
+				</KeyboardAwareScrollView>
 			</View>
 		);
 	}
