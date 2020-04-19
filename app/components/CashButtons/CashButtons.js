@@ -5,6 +5,7 @@ import RequestPass from './RequestPass/RequestPass';
 import Routes from '../../utils/Routes';
 import { inject } from "mobx-react";
 import { sizes, colors } from '../../utils/style';
+import ApiService from '../../Services/Api';
 
 @inject('AuthStore', 'NavigationStore')
 export default class CashButtons extends Component {
@@ -26,14 +27,13 @@ export default class CashButtons extends Component {
     this.closeDropDown();
   }
 
-  checkPassword(pass) {
+  async checkPassword(pass) {
     const {AuthStore} = this.props;
-    if(pass == AuthStore.getUserLogin.password) {
+    let auth = await ApiService.login(AuthStore.getUserLogin.username, pass);
+    if(auth.token) {
       this.setState({ authError: '', showAuthBox: false });
       this.navigateTo(Routes.Screens.WITHDRAW.routeName);
-    } else {
-      this.setState({ authError: 'Password wrong' })
-    }
+    } else this.setState({ authError: 'Password wrong' })
   }
 
   navigateTo(routeName) {
