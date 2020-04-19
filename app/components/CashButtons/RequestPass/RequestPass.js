@@ -41,6 +41,8 @@ export default class RequestPass extends Component {
                   placeholderTextColor={'gray'}
                   autoFocus={true}
                   secureTextEntry={true}
+                  returnKeyType={'done'}
+                  onSubmitEditing={() => this.confirmPress(this.state.confirmPassword)}
                 />
                 <Text style={{color: 'red', fontSize: 10}}>{this.props.error}</Text>
                 <View style={{alignItems: 'center', paddingTop: 5}}>
