@@ -25,6 +25,10 @@ export default class EditProfileScreen extends Component {
 			edit: false,
 			edit_fields: {}
 		}
+		this.first_nameRef = null;
+		this.last_nameRef = null;
+		this.usernameRef = null;
+		this.emailRef = null;
 	}
 
 	async componentDidMount() {
@@ -135,28 +139,39 @@ export default class EditProfileScreen extends Component {
 					{this.state.errors.length > 0 && <HandleError data={this.state.errors} />}
 					<View style={{flexDirection: 'row'}}>
 						<EditField
+							inputRef={(ref) => this.first_nameRef = ref}
 							style={{...s.field, flexGrow: 1}} 
 							label={'First Name:'}
 							value={edit_fields.first_name || AuthStore.getUserLogin.first_name} 
 							onChange={value => this.updateField(value, 'first_name')}
+                            keyType={'next'}							
+                            onSubmit={() => this.last_nameRef.focus()}
 						/>
 						<EditField
+							inputRef={(ref) => this.last_nameRef = ref}
 							style={{...s.field, flexGrow: 1}} 
 							label={'Last Name:'}
 							value={edit_fields.last_name || AuthStore.getUserLogin.last_name} 
 							onChange={value => this.updateField(value, 'last_name')}
+                            keyType={'next'}
+                            onSubmit={() => this.usernameRef.focus()}
 						/>
 					</View>
 					<EditField
+						inputRef={(ref) => this.usernameRef = ref}
 						style={s.field}
 						label={'Username:'}
 						value={edit_fields.username || AuthStore.getUserLogin.username} 
 						onChange={value => this.updateField(value, 'username')}
+						keyType={'next'}
+						onSubmit={() => this.emailRef.focus()}
 					/>
 					<EditField
+						inputRef={(ref) => this.emailRef = ref}					
 						style={s.field}
 						label={'Email:'}
 						value={edit_fields.email || AuthStore.getUserLogin.email} 
+						keyType={'next'}						
 						onChange={value => this.updateField(value, 'email')}
 					/>
 					<EditField

@@ -14,6 +14,7 @@ export default function EditField(props) {
         case 'radio': 
             field = (
                 <RadioForm
+                    ref={(ref) => props.inputRef && props.inputRef(ref)}
                     formHorizontal={true}
                     animation={true}
                 >
@@ -49,7 +50,8 @@ export default function EditField(props) {
         case 'datepicker': 
             field = (
                 <DatePicker
-                style={{width: '100%'}}
+                    ref={(ref) => props.inputRef && props.inputRef(ref)}
+                    style={{width: '100%'}}
                     date={props.value}
                     maxDate={new Date()}
                     confirmBtnText="Confirm"
@@ -72,7 +74,14 @@ export default function EditField(props) {
             field = (
                 <View>
                     <View style={{flexDirection: 'row'}}>
-                        <TextInput style={[s.input, {flexGrow: 1}]} value={keyword} onChangeText={s => setKeyword(s)} />
+                        <TextInput 
+                            ref={(ref) => props.inputRef && props.inputRef(ref)} 
+                            style={[s.input, {flexGrow: 1}]} 
+                            value={keyword} 
+                            onChangeText={s => setKeyword(s)} 
+                            returnKeyType={props.keyType}
+                            onSubmitEditing={() => props.onSubmit && props.onSubmit()}
+                        />
                         <IconButton style={{paddingLeft: 10}} icon={iconNames.PLUS} size={23} color={colors.text} onPress={() => {props.onAdd(keyword);setKeyword('')}}/>
                     </View>
                     <View style={s.keywordsBox}>
@@ -92,7 +101,14 @@ export default function EditField(props) {
                 </View>
             );
         break;
-        default: field = <TextInput style={s.input} value={props.value} onChangeText={(s) => props.onChange(s)} />
+        default: field = <TextInput 
+            ref={(ref) => props.inputRef && props.inputRef(ref)} 
+            style={s.input} 
+            value={props.value} 
+            onChangeText={(s) => props.onChange(s)} 
+            returnKeyType={props.keyType}
+            onSubmitEditing={() => props.onSubmit && props.onSubmit()}
+        />
     }
     return (
         <View style={[props.style]}>
