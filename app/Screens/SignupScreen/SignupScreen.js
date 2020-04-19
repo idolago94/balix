@@ -26,6 +26,11 @@ export default class SignupScreen extends Component {
             confirmPassword: '',
             errors: []
         }
+        this.first_nameRef = null;
+        this.last_nameRef = null;
+        this.emailRef = null;
+        this.usernameRef = null;
+        this.passwordRef = null;
     }
 
     async onCreateAccount() {
@@ -63,19 +68,50 @@ export default class SignupScreen extends Component {
                         <Text style={styles.title}>Create New Account:</Text>
                         {this.state.errors.length > 0 && <HandleError data={this.state.errors} />}
 
-                        <FormField type={'text'} placeholder={'First Name'} onChange={(first_name) => this.setState({first_name: first_name})}/>
+                        <FormField 
+                            inputRef={(ref) => this.first_nameRef = ref}
+                            type={'text'} 
+                            placeholder={'First Name'} 
+                            onChange={(first_name) => this.setState({first_name: first_name})}
+                            keyType={'next'}
+                            onSubmit={() => this.last_nameRef.focus()}
+                        />
 
-                        <FormField type={'text'} placeholder={'Last Name'} onChange={(last_name) => this.setState({last_name: last_name})}/>
+                        <FormField 
+                            inputRef={(ref) => this.last_nameRef = ref}
+                            type={'text'} 
+                            placeholder={'Last Name'} 
+                            onChange={(last_name) => this.setState({last_name: last_name})}
+                            keyType={'next'}
+                            onSubmit={() => this.usernameRef.focus()}
+                        />
 
-                        <FormField type={'text'} placeholder={'Username'} onChange={(username) => this.setState({username: username})}/>
+                        <FormField 
+                            inputRef={(ref) => this.usernameRef = ref}
+                            type={'text'} 
+                            placeholder={'Username'} 
+                            onChange={(username) => this.setState({username: username})}
+                            keyType={'next'}
+                            onSubmit={() => this.emailRef.focus()}
+                        />
 
-                        <FormField type={'text'} placeholder={'Email'} onChange={(email) => this.setState({email: email})}/>
+                        <FormField 
+                            inputRef={(ref) => this.emailRef = ref}
+                            type={'text'} 
+                            placeholder={'Email'} 
+                            onChange={(email) => this.setState({email: email})}
+                            keyType={'next'}
+                            onSubmit={() => this.passwordRef.focus()}
+                        />
 
                         <FormField
+                            inputRef={(ref) => this.passwordRef = ref}
                             type={'password'}
                             placeholder={'Password'}
                             onChange={(password) => this.setState({password: password})}
                             confirm={(confirmPassword) => this.setState({confirmPassword: confirmPassword})}
+                            keyType={'next'}
+                            // onSubmit={() => this.onLogin()}
                         />
 
                         <FormField

@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useRef } from 'react';
 import {StyleSheet, Text, TextInput, TouchableHighlight, View} from 'react-native';
 import Icon, {iconNames} from '../Icon/Icon';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
@@ -8,6 +8,7 @@ export default function FormField(props) {
 
     const [securePassword, setSecure] = useState(true);
     const [keyword, setKeyword] = useState('');
+    const nextInput = useRef(null);
 
     const pressAdd = () => {
         props.onAdd(keyword);
@@ -19,10 +20,13 @@ export default function FormField(props) {
             <View>
                 <View style={styles.field}>
                     <TextInput
+                        ref={(ref) => props.inputRef && props.inputRef(ref)}
                         secureTextEntry={securePassword}
                         onChangeText={(value) => props.onChange(value)}
                         placeholderTextColor={colors.text}
                         style={styles.input} placeholder={props.placeholder}
+                        returnKeyType={props.confirm ? ('next'):(props.keyType)}
+                        onSubmitEditing={() => props.confirm ? nextInput.current.focus() : (props.onSubmit && props.onSubmit())}
                     />
                     <TouchableHighlight style={{paddingHorizontal: 15}} onPress={() => setSecure(!securePassword)}>
                         <Icon name={(securePassword) ? (iconNames.INVISIBLE):(iconNames.VISIBLE)} size={15} color='white' />
@@ -32,10 +36,13 @@ export default function FormField(props) {
                     props.confirm && (
                         <View style={styles.field}>
                             <TextInput
+                                ref={nextInput}                            
                                 secureTextEntry={securePassword}
                                 onChangeText={(confirmPassword) => props.confirm(confirmPassword)}
                                 placeholderTextColor={colors.text} style={styles.input}
                                 placeholder='Password Confirm'
+                                returnKeyType={props.keyType}
+                            onSubmitEditing={() => props.onSubmit && props.onSubmit()}
                             />
                         </View>
                     )
@@ -97,10 +104,13 @@ export default function FormField(props) {
     return (
         <View style={styles.field}>
             <TextInput
+                ref={(ref) => props.inputRef && props.inputRef(ref)}
                 onChangeText={(value) => props.onChange(value)}
                 placeholderTextColor={colors.text}
                 style={styles.input}
                 placeholder={props.placeholder}
+                returnKeyType={props.keyType}
+                onSubmitEditing={() => props.onSubmit && props.onSubmit()}
             />
         </View>
     )

@@ -61,6 +61,7 @@ export default class LoginScreen extends Component {
               placeholder={'Username or Email'}
               onChange={(username) => this.setState({username})}
               keyType={'next'}
+              onSubmit={() => this.passwordInput.focus()}
             />
 
             <FormField
@@ -68,9 +69,11 @@ export default class LoginScreen extends Component {
               type={'password'}
               placeholder={'Password'}
               onChange={(password) => this.setState({password})}
+              keyType={'done'}
+              onSubmit={() => this.onLogin()}
             />
 
-            <TextButton onPress={this.onLogin.bind(this)} content={'Log In'} />
+            <TextButton onPress={() => this.onLogin()} content={'Log In'} />
 
             <TouchableHighlight style={{alignSelf: 'flex-start'}} onPress={() => navigation.navigate(Routes.Screens.REGISTER.routeName)}>
               <Text style={{color: 'gray', fontSize: 10}}>Create Account</Text>
