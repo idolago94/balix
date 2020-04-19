@@ -34,7 +34,8 @@ export default class ProfileIndicator extends Component {
         const {AuthStore, UsersStore, NavigationStore, ContentsStore, data, inView, isBack} = this.props;
         let contentData = ContentsStore.getContentById(data.content_id);
         let userData = UsersStore.getUserById(contentData.user_id);
-        const isFollow = userData && AuthStore.isFollow(userData._id) && AuthStore.getUserLogin._id != userData._id;
+        const isMy = userData && AuthStore.getUserLogin._id == userData._id
+        const isFollow = userData && AuthStore.isFollow(userData._id);
         return (
             <Animated.View style={[s.box, {transform: [{translateY: inView ? (37):(isBack ? (-25):(0))}], opacity: inView ? (1):(0.5)}]}>
                 {userData && <View style={{alignItems: 'center'}}>
@@ -43,10 +44,10 @@ export default class ProfileIndicator extends Component {
                         src={userData.profileImage}
                         size={inView ? (83):(isBack ? (20):(50))}
                         style={[s.profile, {borderColor: inView ? (colors.text):('transparent')}]} 
-                        icon={!isFollow ? (iconNames.PLUS):(null)}
+                        icon={!isMy && !isFollow ? (iconNames.PLUS):(null)}
                         iconStyle={{backgroundColor: colors.darkMain}}
                         iconSize={inView ? (10):(7)}
-                        iconPress={() => !isFollow && this.startFollow() }
+                        iconPress={() => !isMy && !isFollow && this.startFollow() }
                         />
                     <Text style={{color: colors.text, fontSize: inView ? (16):(10)}}>{sliceString(userData.username, 12)}</Text>
                 </View>}
