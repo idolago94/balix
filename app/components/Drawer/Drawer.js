@@ -24,6 +24,11 @@ export default class Drawer extends Component {
                     title={'App Policy'} 
                     icon={iconNames.TIMER}
                 />
+                <DrawerTab 
+                    onPress={() => this.props.AuthStore.logout()} 
+                    title={'Logout'} 
+                    icon={iconNames.LOGOUT}
+                />
             </SafeAreaView>
         )
     }
