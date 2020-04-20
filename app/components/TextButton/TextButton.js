@@ -6,7 +6,7 @@ export default function TextButton(props) {
 
   return (
     <TouchableHighlight style={styles.button} onPress={() => props.onPress()}>
-        <Text style={styles.text}>{props.content}</Text>
+        <Text style={styles.text}>{props.title}</Text>
     </TouchableHighlight>
   )
 }
