@@ -5,6 +5,7 @@ import { Keyboard } from 'react-native';
 import Routes from "../utils/Routes";
 import AuthStore from './authStore';
 import {Alert} from 'react-native';
+import AppStore from "./appStore";
 
 class NavigationStore {
     @observable _navigator = null;
@@ -192,11 +193,10 @@ class NavigationStore {
         this.showCashButtons = false;
         if(this.tabs.includes(data.routeName) || 
         (data.routeName == Routes.Screens.PROFILE.routeName && data.params.id == AuthStore.getUserLogin._id)) {
-            if(data.routeName == Routes.Screens.PROFILE.routeName && data.params.id == AuthStore.getUserLogin._id) {
-                this.profileName = AuthStore.getUserLogin.username;
-            }
+            this.profileName = AuthStore.getUserLogin.username;
             this.currentTab = data.routeName;
         }
+        AppStore.setVideoVolume(null);
         this.prevPage = this.currentScreen
         this.currentScreen = data.routeName;
     }

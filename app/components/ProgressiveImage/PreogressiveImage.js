@@ -3,7 +3,10 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, Image, ScrollView, TouchableWithoutFeedback, Animated, Dimensions, Alert} from 'react-native';
 import DoubleClick from 'react-native-double-click';
 import Video from 'react-native-video';
+import {inject, observer} from 'mobx-react';
 
+@inject('AppStore')
+@observer
 export default class ProgressiveImage extends Component {
 
   constructor(props) {
@@ -21,11 +24,20 @@ export default class ProgressiveImage extends Component {
     }).start();
   }
 
+  toggleVideoVolume() {
+    if(!this.props.AppStore.inVolume(this.props.url)) {
+      this.props.AppStore.setVideoVolume(this.props.url);
+    } else {
+      this.props.AppStore.setVideoVolume(null);
+    }
+  }
+
   render() {
     console.log('Photo -> render');
+    const inVolume = this.props.AppStore.inVolume(this.props.url);
     if(this.props.smallView) {
       return (
-        <View>
+        <View style={{backgroundColor: '#dddddd', borderRadius: 10}}>
           {!this.props.contentType || !this.props.contentType.includes('video') ? (
             <Animated.Image
                 style={[this.props.style, {opacity: this.imageLoad}]}
@@ -53,11 +65,11 @@ export default class ProgressiveImage extends Component {
                   onLoad={() => this.onImageLoad()}
                 />
               ):(
-                <TouchableWithoutFeedback onPress={() => this.setState({videoMuted: !this.state.videoMuted})}>
+                <TouchableWithoutFeedback onPress={() => this.toggleVideoVolume()}>
                   <Video 
                     style={[this.props.style]}
                     source={{uri: this.props.url}}
-                    muted={this.state.videoMuted}
+                    muted={!inVolume}
                     repeat
                   />
                 </TouchableWithoutFeedback>
@@ -74,11 +86,11 @@ export default class ProgressiveImage extends Component {
               onLoad={() => this.onImageLoad()}
           />
         ):(
-          <TouchableWithoutFeedback onPress={() => this.setState({videoMuted: !this.state.videoMuted})}>
+          <TouchableWithoutFeedback onPress={() => this.toggleVideoVolume()}>
             <Video 
               style={[this.props.style]}
               source={{uri: this.props.url}}
-              muted={this.state.videoMuted}
+              muted={!inVolume}
               repeat
             />
           </TouchableWithoutFeedback>

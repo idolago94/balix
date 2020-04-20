@@ -12,7 +12,7 @@ import Video from 'react-native-video';
 import { colors } from '../../utils/style';
 import EditField from '../EditProfileScreen/EditField';
 
-@inject('AuthStore', 'NavigationStore', 'ContentsStore')
+@inject('AuthStore', 'NavigationStore', 'ContentsStore', 'AppStore')
 export default class PreviewPhoto extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -26,7 +26,6 @@ export default class PreviewPhoto extends Component {
     super(props);
     this.state = {
       imageData: undefined,
-      videoMuted: false,
       rotateDeg: 0,
       entranceSecret: 10,
       title: ''
@@ -46,6 +45,7 @@ export default class PreviewPhoto extends Component {
   }
 
   getDataFromParams() {
+    this.props.AppStore.setVideoVolume('preview');
     let image = this.props.navigation.getParam('imageData');
     this.setState({ imageData: image});
   }
@@ -56,14 +56,14 @@ export default class PreviewPhoto extends Component {
 
   async doUpload() {
     console.log('PreviewPhoto -> doUpload');
-    const {AuthStore, NavigationStore, navigation} = this.props;
+    const {AuthStore, NavigationStore, AppStore, navigation} = this.props;
     let secretMode = navigation.getParam('secret');
     if(secretMode && AuthStore.getUserLogin.secrets.length >= 9 || !secretMode && AuthStore.getUserLogin.uploads.length >= AuthStore.getUserLogin.limit_of_contents) {
       NavigationStore.setModal({type: 'delete_content', data: AuthStore.getUserLogin[secretMode ? ('secrets'):('uploads')], mode: secretMode ? ('secrets'):('uploads')});
     } else {
       NavigationStore.setProgress(true);
       NavigationStore.navigate(secretMode ? (Routes.Screens.PROFILE.routeName):(Routes.Screens.HOME.routeName), secretMode ? ({id: AuthStore.getUserLogin._id}):({}));
-      this.setState({videoMuted: true});
+      AppStore.setVideoVolume(null);
       let uploadResponse = null; // new upload object(contents collection)
       if(secretMode) {
         uploadResponse = await ApiService.uploadSecret(AuthStore.getUserLogin._id, this.state.imageData, {entrance: this.state.entranceSecret, title: this.state.title});
@@ -129,7 +129,7 @@ export default class PreviewPhoto extends Component {
             <Video 
               source={{uri: this.state.imageData.uri}} 
               style={[styles.image, {transform: [{ rotate: `${this.state.rotateDeg}deg` }]}]}
-              muted={this.state.videoMuted}
+              muted={!this.props.AppStore.inVolume('preview')}
               repeat
             />
           )}
