@@ -89,8 +89,7 @@ export default class Home extends Component {
 						contentContainerStyle={[roller_container]}
 						renderItem={({item, index}) => (
 							<ProfileIndicator 
-								index={index+this.state.currentContentIndex-1 < 0 ? (0):(index+this.state.currentContentIndex-1)}
-								onPress={() => this.onRollerItem(index+this.state.currentContentIndex-1 < 0 ? (0):(index+this.state.currentContentIndex-1))}
+								onPress={() => this.onRollerItem(index+this.state.currentContentIndex+1 < 0 ? (0):(index+this.state.currentContentIndex+1))}
 								// inView={0 == this.state.currentContentIndex && index == 0 || 0 < this.state.currentContentIndex && index == 0}
 								// inView={0 == this.state.currentContentIndex && index == 0 || 0 < this.state.currentContentIndex && index == 1}
 								data={item}
