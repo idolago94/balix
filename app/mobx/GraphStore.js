@@ -3,8 +3,8 @@ import {persist} from 'mobx-persist';
 import { colors } from "../utils/style";
 
 class GraphStore {
-    @persist @observable mostVolunteers = [];
-    @persist @observable gendersData = [
+    @observable mostVolunteers = [];
+    @observable gendersData = [
         {count: 0, color: colors.darkMain, label: 'Male'},
         {count: 0, color: "#993188", label: 'Female'}
     ];

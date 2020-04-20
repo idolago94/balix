@@ -13,16 +13,11 @@ import SplashScreen from 'react-native-splash-screen'
 import { colors } from './app/utils/style';
 import CashButtons from './app/components/CashButtons/CashButtons';
 
-// const hydrate = create({
-//     storage: AsyncStorage,
-// });
+const hydrate = create({
+    storage: AsyncStorage,
+});
 
-// hydrate('AuthStore', Stores.AuthStore);
-// hydrate('ContentsStore', Stores.ContentsStore);
-// hydrate('UsersStore', Stores.UsersStore);
-// hydrate('IdentifierStore', Stores.IdentifierStore);
-// hydrate('ActionsStore', Stores.ActionsStore);
-
+hydrate('AuthStore', Stores.AuthStore);
 
 export default class App extends Component {
 
@@ -48,13 +43,14 @@ class RootComponent extends Component {
 		if(!actionsType.error && !emojis.error) {
 			this.props.ActionsStore.setTypes(actionsType);
 			this.props.AppStore.setEmojis(emojis);
+			// check valid token
 			SplashScreen.hide();
 		}
 	}
 
     render() {
 		const {NavigationStore, AuthStore} = this.props;
-		const Root = AuthStore.getUserLogin._id ? AppScreen : LoginNavigator;
+		const Root = AuthStore.getUserLogin._id && AuthStore.getToken ? AppScreen : LoginNavigator;
         return (
 			<SafeAreaView style={{flex: 1, backgroundColor: colors.notch}}>
 				{NavigationStore.isCashButtons && <CashButtons />}

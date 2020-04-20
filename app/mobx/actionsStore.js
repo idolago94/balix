@@ -4,7 +4,7 @@ import { persist } from "mobx-persist";
 
 class ActionsStore {
     @observable status = false;
-    @persist('object') @observable actions = {};
+    @observable actions = {};
     @observable types = {};
     @observable errors = [];
 

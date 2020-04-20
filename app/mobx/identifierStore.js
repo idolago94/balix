@@ -2,11 +2,11 @@ import { observable, action, computed } from "mobx";
 import {persist} from 'mobx-persist';
 
 class IdentifierStore {
-    @persist @observable followingContents = []; // array ids of my following users contents
-    @persist @observable topContents = []; // array ids of the top contents
-    @persist @observable searchUsers = []; // array ids of the search results users
-    @persist @observable actions = [];
-    @persist @observable mostVolunteers = [];
+    @observable followingContents = []; // array ids of my following users contents
+    @observable topContents = []; // array ids of the top contents
+    @observable searchUsers = []; // array ids of the search results users
+    @observable actions = [];
+    @observable mostVolunteers = [];
     @observable handleSearch = false;
     
     // GET

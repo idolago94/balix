@@ -8,7 +8,7 @@ class AuthStore {
     @observable status = false;
     @persist('object') @observable userLogin = undefined;
     @observable errors = [];
-    @observable token = null;
+    @persist @observable token = null;
 
     @computed
     get getUserLogin() {

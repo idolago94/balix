@@ -2,7 +2,7 @@ import { observable, action, computed, set, get } from "mobx";
 import {persist} from 'mobx-persist';
 
 class ContentsStore {
-    @persist('object') @observable contents = {};
+    @observable contents = {};
     @observable errors = [];
 
     @computed

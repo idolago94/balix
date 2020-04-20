@@ -4,7 +4,7 @@ import ApiService from "../Services/Api";
 
 class UsersStore {
     @observable usersStatus = false;
-    @persist('object') @observable users = {};
+    @observable users = {};
     @observable errors = [];
 
     @computed
