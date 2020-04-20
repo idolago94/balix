@@ -11,6 +11,7 @@ import { inject, observer } from "mobx-react";
 import HandleError from '../../components/HandleError/HandleError';
 import { colors, sizes } from '../../utils/style';
 import { window_width } from '../../utils/view';
+import CustomLink from '../../components/CustomLink/CustomLink';
 
 @inject('AuthStore')
 @observer
@@ -73,13 +74,10 @@ export default class LoginScreen extends Component {
               onSubmit={() => this.onLogin()}
             />
 
-            <TextButton onPress={() => this.onLogin()} content={'Log In'} />
+            <TextButton onPress={() => this.onLogin()} title={'Log In'} />
+            <CustomLink title={'Create Account'}  onPress={() => navigation.navigate(Routes.Screens.REGISTER.routeName)} />
 
-            <TouchableHighlight style={{alignSelf: 'flex-start'}} onPress={() => navigation.navigate(Routes.Screens.REGISTER.routeName)}>
-              <Text style={{color: 'gray', fontSize: 10}}>Create Account</Text>
-            </TouchableHighlight>
           </KeyboardAwareScrollView>
-
 
           {/* <TextButton onPress={() => AuthStore.login({username: 'Idolago94', password: 'ido312546534'})} content={'Log Idolago94'} /> */}
           {/* <TextButton onPress={() => AuthStore.login({username: 'Test2', password: 't12345678'})} content={'Log Test2'} /> */}

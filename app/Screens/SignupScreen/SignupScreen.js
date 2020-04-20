@@ -12,6 +12,8 @@ import ValidationService from '../../Services/Validation';
 import { colors, sizes } from '../../utils/style';
 import { window_height, window_width } from '../../utils/view';
 import { TextInput } from 'react-native-gesture-handler';
+import TextButton from '../../components/TextButton/TextButton';
+import CustomLink from '../../components/CustomLink/CustomLink';
 
 @inject('AuthStore')
 export default class SignupScreen extends Component {
@@ -111,7 +113,6 @@ export default class SignupScreen extends Component {
                             onChange={(password) => this.setState({password: password})}
                             confirm={(confirmPassword) => this.setState({confirmPassword: confirmPassword})}
                             keyType={'next'}
-                            // onSubmit={() => this.onLogin()}
                         />
 
                         <FormField
@@ -120,13 +121,9 @@ export default class SignupScreen extends Component {
                             onChange={(gender) => this.setState({gender: gender})}
                         />
 
-                        <TouchableHighlight style={styles.signupButton} onPress={this.onCreateAccount.bind(this)}>
-                            <Text style={styles.loginText}>Signup</Text>
-                        </TouchableHighlight>
+                        <TextButton onPress={this.onCreateAccount.bind(this)} title={'Signup'} />
+                        <CustomLink title={'Login to existing account'} onPress={() => navigation.navigate(Routes.Screens.LOGIN.routeName)} />
 
-                        <TouchableHighlight style={{alignSelf: 'flex-start'}} onPress={() => navigation.navigate(Routes.Screens.LOGIN.routeName)}>
-                            <Text style={{color: 'gray', fontSize: 10}}>Login to existing account</Text>
-                        </TouchableHighlight>
                     </KeyboardAwareScrollView>
                 </View>
             </View>

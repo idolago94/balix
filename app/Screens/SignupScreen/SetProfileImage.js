@@ -77,7 +77,7 @@ export default class SetProfileImage extends Component {
                         />
                     </TouchableHighlight>
 
-                    <TextButton onPress={this.onSetImage.bind(this)} content={'Set Profile Image'} />
+                    <TextButton onPress={this.onSetImage.bind(this)} title={'Set Profile Image'} />
 
                     <View style={styles.footerButtons}>
                         <FooterButton title={'SKIP'} onPress={() => navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {user: newUser})}/>

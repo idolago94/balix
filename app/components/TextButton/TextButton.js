@@ -5,15 +5,15 @@ import { colors, sizes } from '../../utils/style';
 export default function TextButton(props) {
 
   return (
-    <TouchableHighlight style={styles.setButton} onPress={() => props.onPress()}>
-        <Text style={styles.setText}>{props.content}</Text>
+    <TouchableHighlight style={styles.button} onPress={() => props.onPress()}>
+        <Text style={styles.text}>{props.content}</Text>
     </TouchableHighlight>
   )
 }
 
 
 const styles = StyleSheet.create({
-    setButton: {
+    button: {
         width: '100%',
         borderWidth: 1,
         borderColor: colors.formField,
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 40,
         alignItems: 'center' 
     },
-    setText: {
+    text: {
         color: colors.text
     },
 });
