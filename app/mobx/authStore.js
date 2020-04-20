@@ -46,6 +46,11 @@ class AuthStore {
     }
 
     @action
+    setToken(token) {
+        this.token = token;
+    }
+
+    @action
     setErrors(errors) {
         console.log('AuthStore -> setErrors -> ', errors)
         this.status = false;
@@ -75,8 +80,7 @@ class AuthStore {
 
     @action
     logout() {
-        this.setUserLogin(undefined);
-        this.token = null;
+        this.setUserLogin({user: undefined, token: null});
     }
 }
 

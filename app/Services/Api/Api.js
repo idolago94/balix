@@ -213,8 +213,13 @@ class ApiService {
         return emojisResponse;
     }
 
-    server_url = 'http://34.69.232.216:8080'; // google server 
-    // server_url = 'http://127.0.0.1:8080'; // local server
+    async refreshToken(user_id) {
+        let tokenResponse = await this.sendRequest('GET', '/refreshToken?id=' + user_id);
+        return tokenResponse;
+    }
+
+    // server_url = 'http://34.69.232.216:8080'; // google server 
+    server_url = 'http://127.0.0.1:8080'; // local server
 
     sendRequest(method, route, body, token) {
         return new Promise((resolve, reject) => {
@@ -227,8 +232,13 @@ class ApiService {
                 },
                 body: JSON.stringify(body)
             })
-            .then(res => res.json()).then(response => {
+            .then(res => res.json()).then(async(response) => {
                 console.log('Api Response: ', response.toString().slice(0, 100));
+                if(response.error && response.error == 'TokenExpiredError') {
+                    let refreshToken = await this.refreshToken(AuthStore.getUserLogin._id);
+                    AuthStore.setToken(refreshToken);
+                    resolve(this.sendRequest(method, route, body, refreshToken));
+                }
                 resolve(response);
             })
             .catch(err => {
@@ -248,8 +258,13 @@ class ApiService {
                 },
                 body: body
             })
-            .then(res => res.json()).then(response => {
+            .then(res => res.json()).then(async(response) => {
                 console.log('Api Response: ', response.toString().slice(0, 100));
+                if(response.error && response.error == 'TokenExpiredError') {
+                    let refreshToken = await this.refreshToken(AuthStore.getUserLogin._id);
+                    AuthStore.setToken(refreshToken);
+                    resolve(this.sendUploadRequest(route, body, refreshToken));
+                }
                 resolve(response);
             })
             .catch(err => {

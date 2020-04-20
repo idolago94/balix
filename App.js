@@ -43,7 +43,6 @@ class RootComponent extends Component {
 		if(!actionsType.error && !emojis.error) {
 			this.props.ActionsStore.setTypes(actionsType);
 			this.props.AppStore.setEmojis(emojis);
-			// check valid token
 			SplashScreen.hide();
 		}
 	}
