@@ -15,7 +15,7 @@ import { thousandsWithCommas } from '../../../utils/Tools';
 import CommentsBox from '../../../components/Photo/Comments/CommentsBox';
 import { window_height } from '../../../utils/view';
 
-@inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
+@inject('AppStore', 'AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
 @observer
 export default class PhotoScreen extends Component {
   // Params = [ userImages, selectedImage, userData ] ||
@@ -78,7 +78,8 @@ export default class PhotoScreen extends Component {
         emojiSendPosition: position,
         emojiSend: emoji.url,
       });
-      this.startEmojiAnimation(emoji);
+      // this.startEmojiAnimation(emoji);
+      this.updateValues({emoji: emoji, hearts: 0, cash: emoji.value});
     }
   }
 
@@ -173,14 +174,11 @@ export default class PhotoScreen extends Component {
   }
 
   async updateValues(values) {
-    const {AuthStore, ContentsStore, navigation} = this.props;
+    const {AuthStore, ContentsStore, AppStore, navigation} = this.props;
     let updateResponse = await ApiService.updateContent(AuthStore.getUserLogin._id, navigation.getParam('id'), values);// {user, owner, content}
+    AppStore.setAnimation(updateResponse.animationJson);    
     AuthStore.updateUserLogin(updateResponse.user);
     ContentsStore.updateContent(navigation.getParam('id'), updateResponse.content);
-  }
-
-  navigateToProfile() {
-    this.props.NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: this.props.navigation.getParam('user_id')});
   }
 
   async onDelete() {

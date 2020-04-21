@@ -13,7 +13,7 @@ import { photo_box, content, emoji_popup_box, colors } from '../../utils/style';
 import CommentsBox from './Comments/CommentsBox';
 import UpdateService from '../../Services/Updates';
 
-@inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
+@inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'AppStore')
 @observer
 export default class Photo extends Component {
   // Props = [ data, index, isLast ]
@@ -70,7 +70,8 @@ export default class Photo extends Component {
         emojiSendPosition: position,
         emojiSend: emoji.url,
       });
-      this.startEmojiAnimation(emoji);
+      // this.startEmojiAnimation(emoji);
+      this.updateValues({emoji: emoji, hearts: 0, cash: emoji.value})
     }
   }
 
@@ -169,8 +170,9 @@ export default class Photo extends Component {
 
   async updateValues(values) {
     console.log('Photo -> updateValues -> ', values);    
-    const {AuthStore, ContentsStore, data} = this.props;
-    let updateResponse = await ApiService.updateContent(AuthStore.getUserLogin._id, data.content_id, values);// {user, owner, content}
+    const {AppStore, AuthStore, ContentsStore, data} = this.props;
+    let updateResponse = await ApiService.updateContent(AuthStore.getUserLogin._id, data.content_id, values);
+    AppStore.setAnimation(updateResponse.animationJson);
     AuthStore.updateUserLogin(updateResponse.user);
     ContentsStore.updateContent(data.content_id, updateResponse.content);
   }

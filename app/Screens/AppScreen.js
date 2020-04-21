@@ -11,12 +11,13 @@ import Routes from '../utils/Routes';
 import LottieView from 'lottie-react-native';
 import { window_width, window_height } from '../utils/view';
 
-@inject('AuthStore', 'NavigationStore')
+@inject('AuthStore', 'NavigationStore', 'AppStore')
 @observer
 export default class AppScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.state = { lottieJson: '' }
   }
 
   _getCurrentRouteName(navState) {
@@ -33,20 +34,21 @@ export default class AppScreen extends Component {
   };
 
   render() {
-    const {NavigationStore} = this.props;
+    const {NavigationStore, AppStore} = this.props;
       return (
         <View style={s.screen}>
-          {/* <LottieView 
+          {AppStore.getAnimation && <LottieView 
             style={s.animation} 
-            source={require('../assets/animations/Hand_claping.json')}
+            source={JSON.parse(AppStore.getAnimation)}
             autoPlay
             autoSize={true}
-            loop
-          /> */}
+            loop={false}
+            onAnimationFinish={() => AppStore.setAnimation(null)}
+          />}
           <NavigatorMain                 
             ref={ref => {
               NavigationStore.setMainNavigation(ref);
-              NavigationStore.updateCurrentScreen({routeName: Routes.Screens.TOP.routeName});
+              // NavigationStore.updateCurrentScreen({routeName: Routes.Screens.TOP.routeName});
               NavigationStore.updatePrevPage(null);
             }}
             onNavigationStateChange={this.onNavigationStateChange}
@@ -69,7 +71,7 @@ const s = StyleSheet.create({
     zIndex: 999, 
     width: window_width, 
     height: window_height,
-    borderWidth: 2, 
-    borderColor: 'red',
+    // borderWidth: 2, 
+    // borderColor: 'red',
   }
 });

@@ -12,7 +12,7 @@ class NavigationStore {
     @observable prevPage = null;
     @observable currentScreen = null;
     @observable prevTab = null;
-    @observable currentTab = null;
+    @observable currentTab = Routes.Screens.TOP.routeName;
     @observable profileName = null;
     @observable.shallow banner = null;
     @observable.shallow modal = null;
