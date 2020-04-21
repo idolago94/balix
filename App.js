@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StatusBar, View, Text} from 'react-native';
+import {StatusBar, View, StyleSheet} from 'react-native';
 import LoginNavigator from './app/Routes/navigatorLogin';
 import * as Stores from './app/mobx';
 import AppScreen from './app/Screens/AppScreen';
@@ -12,6 +12,8 @@ import Modal from './app/components/Modal/Modal';
 import SplashScreen from 'react-native-splash-screen'
 import { colors } from './app/utils/style';
 import CashButtons from './app/components/CashButtons/CashButtons';
+import LottieView from 'lottie-react-native';
+import { window_width, window_height } from './app/utils/view';
 
 const hydrate = create({
     storage: AsyncStorage,
@@ -48,10 +50,18 @@ class RootComponent extends Component {
 	}
 
     render() {
-		const {NavigationStore, AuthStore} = this.props;
+		const {NavigationStore, AuthStore, AppStore} = this.props;
 		const Root = AuthStore.getUserLogin._id && AuthStore.getToken ? AppScreen : LoginNavigator;
         return (
 			<SafeAreaView style={{flex: 1, backgroundColor: colors.notch}}>
+				{AppStore.getAnimation && <LottieView 
+					style={s.animation} 
+					source={JSON.parse(AppStore.getAnimation)}
+					autoPlay
+					autoSize={true}
+					loop={false}
+					onAnimationFinish={() => AppStore.setAnimation(null)}
+				/>}
 				{NavigationStore.isCashButtons && <CashButtons />}
 				{NavigationStore.isBanner && <Banner color={NavigationStore.getBanner.color} content={NavigationStore.getBanner.data} />}
 				{NavigationStore.isModal && <Modal type={NavigationStore.getModal.type} mode={NavigationStore.getModal.mode} content={NavigationStore.getModal.data} />}
@@ -60,3 +70,17 @@ class RootComponent extends Component {
         )
     }
 }
+
+const s = StyleSheet.create({
+	animation: {
+	  position: 'absolute', 
+	  top: 0, 
+	  left: 0, 
+	  zIndex: 999, 
+	  width: window_width, 
+	  height: window_height,
+	  // borderWidth: 2, 
+	  // borderColor: 'red',
+	}
+  });
+  

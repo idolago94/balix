@@ -11,7 +11,7 @@ import Routes from '../utils/Routes';
 import LottieView from 'lottie-react-native';
 import { window_width, window_height } from '../utils/view';
 
-@inject('AuthStore', 'NavigationStore', 'AppStore')
+@inject('AuthStore', 'NavigationStore')
 @observer
 export default class AppScreen extends Component {
 
@@ -34,21 +34,13 @@ export default class AppScreen extends Component {
   };
 
   render() {
-    const {NavigationStore, AppStore} = this.props;
+    const {NavigationStore} = this.props;
       return (
         <View style={s.screen}>
-          {AppStore.getAnimation && <LottieView 
-            style={s.animation} 
-            source={JSON.parse(AppStore.getAnimation)}
-            autoPlay
-            autoSize={true}
-            loop={false}
-            onAnimationFinish={() => AppStore.setAnimation(null)}
-          />}
           <NavigatorMain                 
             ref={ref => {
               NavigationStore.setMainNavigation(ref);
-              // NavigationStore.updateCurrentScreen({routeName: Routes.Screens.TOP.routeName});
+              NavigationStore.updateCurrentScreen({routeName: Routes.Screens.TOP.routeName});
               NavigationStore.updatePrevPage(null);
             }}
             onNavigationStateChange={this.onNavigationStateChange}
@@ -63,15 +55,5 @@ const s = StyleSheet.create({
   screen: {
     flex: 1,
     height: window_height
-  },
-  animation: {
-    position: 'absolute', 
-    top: 0, 
-    left: 0, 
-    zIndex: 999, 
-    width: window_width, 
-    height: window_height,
-    // borderWidth: 2, 
-    // borderColor: 'red',
   }
 });
