@@ -36,6 +36,8 @@ export default class TopScreen extends Component {
 		console.log('content_height', content_height);
 		this.focusListener = this.props.navigation.addListener('willFocus', () => {
 			console.log('HomeScreen -> willFocus');
+			this._view && this._view.scrollToOffset({y: 0});
+			this.setState({currentContentIndex: 0});
 			if(!this.props.NavigationStore.inProgress) {
 				UpdatesService.updateTop();
 			}
