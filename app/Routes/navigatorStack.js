@@ -15,7 +15,7 @@ export default createStackNavigator(
     headerMode: 'screen',
     initialRouteName: Routes.Navigators.TABS.routeName,
     defaultNavigationOptions: {
-      header: () => <Header />,
+      header: (props) => <Header {...props}/>,
 			gestureEnabled: false,
 			cardShadowEnabled: false,
 			animationEnabled: false,
