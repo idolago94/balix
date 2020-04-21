@@ -213,13 +213,13 @@ export default class PhotoScreen extends Component {
               user={userData}
               cash={imageData.cash}
               hearts={imageData.hearts}
+              onDelete={AuthStore.getUserLogin._id == userData._id ? (() => NavigationStore.showAlert('Delete image?', null, () => this.onDelete())):(null)}
             />
 
             {!openComments && !openEmoji && <Buttons
               content_title={imageData.title}
               onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
               onComments={() => this.setState({openComments: !this.state.openComments})}
-              onDelete={AuthStore.getUserLogin._id == userData._id ? (() => NavigationStore.showAlert('Delete image?', null, () => this.onDelete())):(null)}
             />}
 
             {openEmoji &&<EmojiBox 

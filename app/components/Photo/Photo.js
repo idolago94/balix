@@ -206,14 +206,13 @@ export default class Photo extends Component {
             user={userData}
             cash={imageData.cash}
             hearts={imageData.hearts}
-            onSymbol={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})}
+            onDelete={AuthStore.getUserLogin._id == userData._id ? (() => NavigationStore.showAlert('Delete image?', null, () => this.onDelete())):(null)}
           />
 
           {!openComments && !openEmoji && <Buttons 
             content_title={imageData.title}
             onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
             onComments={() => this.setState({openComments: !this.state.openComments})}
-            onDelete={AuthStore.getUserLogin._id == userData._id ? (() => NavigationStore.showAlert('Delete image?', null, () => this.onDelete())):(null)}
           />}
           
           {/* emoji box */}

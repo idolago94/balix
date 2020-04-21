@@ -43,10 +43,10 @@ export default function Buttons(props) {
           <View style={{flexDirection: 'row'}}>
             <IconButton 
               style={styles.icon} 
-              icon={props.onDelete ? (iconNames.TRASH):(iconNames.FULL_EARN)} 
+              icon={iconNames.FULL_EARN} 
               size={sizes.icon+6} 
               color={colors.icon} 
-              onPress={props.onDelete ?(() => props.onDelete()):(() => props.onOpenEmoji())}
+              onPress={() => props.onOpenEmoji()}
             />
             <IconButton 
               style={[styles.icon]} 
