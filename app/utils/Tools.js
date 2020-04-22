@@ -215,3 +215,16 @@ export const getCurrenIndexInFlatList = (y) => {
     let index = Math.floor((y-pointBreak) / view);
     return index+1;
 }
+
+export const getScreenUrl = (routeName, params) => {
+    let url = 'balix://' + routeName;
+    if(params) {
+        url = url + '/';
+        Object.keys(params).map((k, i) => {
+            i != 0 && (url = url + '&');
+            url = url + `${k}=${params[k]}`;
+        });
+    }
+    console.log('balix link: ', url);
+    return url;
+}

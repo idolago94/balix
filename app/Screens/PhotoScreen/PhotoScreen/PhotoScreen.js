@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Alert} from 'react-native';
+import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Share} from 'react-native';
 import Icon, {iconNames} from '../../../components/Icon/Icon';
 import SingleComment from '../../../components/Photo/Comments/SingleComment';
 import EmojiBox from '../../../components/Photo/EmojiBox/EmojiBox';
@@ -11,9 +11,10 @@ import Buttons from '../../../components/Photo/Buttons';
 import DoubleClick from 'react-native-double-click';
 import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
 import { photo_box, content, emoji_popup_box, colors } from '../../../utils/style';
-import { thousandsWithCommas } from '../../../utils/Tools';
+import { thousandsWithCommas, getScreenUrl } from '../../../utils/Tools';
 import CommentsBox from '../../../components/Photo/Comments/CommentsBox';
 import { window_height } from '../../../utils/view';
+import { thisTypeAnnotation } from '@babel/types';
 
 @inject('AppStore', 'AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
 @observer
@@ -43,6 +44,36 @@ export default class PhotoScreen extends Component {
       new Animated.Value(0), new Animated.Value(0), new Animated.Value(0), new Animated.Value(0),
       new Animated.Value(0), new Animated.Value(0),
     ];
+    this.focusListener = null;
+  }
+
+  componentDidMount() {
+    const {openEmoji, openComments} = this.state;
+    const {NavigationStore, ContentsStore, UsersStore, navigation} = this.props;
+    this.focusListener = navigation.addListener(
+      'willFocus', 
+      async() => {
+        const userData = UsersStore.getUserById(navigation.getParam('user_id'));
+        const imageData = ContentsStore.getContentById(navigation.getParam('id'));
+        userData && NavigationStore.setProfileName(userData.username);
+        console.log('image id -> ', navigation.getParam('id'));
+        if(!userData) {
+          let user = await ApiService.getUser(navigation.getParam('user_id'));
+          NavigationStore.setProfileName(user.username);
+          UsersStore.setUsers([user]);
+        }
+        if(!imageData) {
+          let image = await ApiService.getSomeContents([navigation.getParam('id')]);
+          ContentsStore.setContents(image);
+        }
+        if(openEmoji || openComments) {
+          this.setState({openComments: false, openEmoji: false});
+        }
+      })
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
   }
 
   toggleEmoji() {
@@ -191,7 +222,25 @@ export default class PhotoScreen extends Component {
         NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: imageData.user_id});
         NavigationStore.setBanner(`You deleted one image.`, 'lightgreen');
     }
-}
+  }
+
+  async onShare() {
+    const imageData = this.props.ContentsStore.getContentById(this.props.navigation.getParam('id'));
+    let result = await Share.share({
+      message: imageData.title,
+      url: getScreenUrl(Routes.Screens.PHOTO.routeName, {id: imageData._id, user_id: imageData.user_id})
+    })
+    console.log('share response -> ', result);
+    if (result.action === Share.sharedAction) {
+      if (result.activityType) {
+        // shared with activity type of result.activityType
+      } else {
+        // shared
+      }
+    } else if (result.action === Share.dismissedAction) {
+      // dismissed
+    }
+  }
 
   render() {
     const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, openComments} = this.state;
@@ -220,6 +269,7 @@ export default class PhotoScreen extends Component {
               content_title={imageData.title}
               onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
               onComments={() => this.setState({openComments: !this.state.openComments})}
+              onShare={() => this.onShare()}
             />}
 
             {openEmoji &&<EmojiBox 

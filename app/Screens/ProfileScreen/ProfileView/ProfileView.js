@@ -40,10 +40,15 @@ export default class ProfileView extends Component {
   componentDidMount() {
     this.focusListener = this.props.navigation.addListener(
       'willFocus',
-      () => {
+      async() => {
         const {AuthStore, NavigationStore, UsersStore, navigation} = this.props;
         let id = navigation.getParam('id');
         let userData = UsersStore.getUserById(id);
+        console.log('profile id -> ', id);
+        if(!userData) {
+          userData = await ApiService.getUser(id);
+          UsersStore.setUsers([userData]);
+        }
         NavigationStore.setProfileName(userData.username);
         if(id == AuthStore.getUserLogin._id) {
           NavigationStore.setCurrentTab(Routes.Screens.PROFILE.routeName);
@@ -59,7 +64,6 @@ export default class ProfileView extends Component {
 
   async updateFollow() {
     const {AuthStore, UsersStore, navigation} = this.props;
-    // let userData = UsersStore.getUsers[navigation.getParam('id')];
     let userData = UsersStore.getUserById(navigation.getParam('id'));
     let followStatus = AuthStore.isFollow(userData._id);
     let followResponse;
@@ -97,7 +101,10 @@ export default class ProfileView extends Component {
   render() {
     const {UsersStore, AuthStore, navigation} = this.props;
     const userData = UsersStore.getUserById(navigation.getParam('id'));
-    const myProfile = AuthStore.isMyId(userData._id);
+    let myProfile = false;
+    if(userData) {
+      myProfile = AuthStore.isMyId(userData._id);
+    }
     return (
       <View style={{flex:1}}>
         {userData && <View style={s.viewContainer}>

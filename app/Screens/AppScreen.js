@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 // Navigation
 import NavigatorMain from '../Routes/navigatorMain';
 // Components
-import {StyleSheet, View, Dimensions, Image} from 'react-native';
+import {StyleSheet, View, Platform , Linking, Image} from 'react-native';
 // import LoginScreen from './LoginScreen/LoginScreen';
 import CashButtons from '../components/CashButtons/CashButtons';
 
@@ -18,6 +18,40 @@ export default class AppScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { lottieJson: '' }
+  }
+
+  componentDidMount() {
+    if (Platform.OS === 'android') {
+      Linking.getInitialURL().then(url => {
+        this.navigate(url);
+      });
+    } else {
+        Linking.addEventListener('url', this.handleOpenURL);
+      }
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenURL);
+  }
+
+  handleOpenURL = (event) => {
+    this.navigate(event.url);
+  }
+  
+  navigate = (url) => {
+    const { NavigationStore } = this.props;
+    const route = url.replace(/.*?:\/\//g, '');
+    const routeName = route.split('/')[0];
+    let params = {};
+    if(route.split('/').length > 1) {
+      let params_arr = [];
+      params_arr = route.split('/')[1]; // 'key1=value1&key2=value2
+      params_arr = params_arr.split('&');
+      params_arr.map(p => {
+        params[p.split('=')[0]] = p.split('=')[1];
+      });
+    }
+    NavigationStore.navigate(routeName, params);
   }
 
   _getCurrentRouteName(navState) {

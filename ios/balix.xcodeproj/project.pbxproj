@@ -18,6 +18,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* balixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* balixTests.m */; };
 		5A913E302405182B006DECDD /* fontello.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A913E2F2405182B006DECDD /* fontello.ttf */; };
+		5AFDEDA4244F1A5100F9139A /* liblottie-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AFDEDA3244F1A5100F9139A /* liblottie-ios.a */; };
 		74B84F64506D681C3B13419D /* libPods-balix-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7294DC376D242FC6A1FF044A /* libPods-balix-tvOSTests.a */; };
 		AFF8833AFD7E7D20CD043FD7 /* libPods-balixTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19FBCBA2DACC9C34B8B1A824 /* libPods-balixTests.a */; };
 		BB2213C83A180EF11B56B110 /* libPods-balix.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F17D9C2704484E8126FDA5E1 /* libPods-balix.a */; };
@@ -63,6 +64,7 @@
 		5A7C58A62443A6ED0083EE99 /* libreact-native-ffmpeg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-ffmpeg.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A8956B024324EBE007DD03B /* liblottie-react-native.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "liblottie-react-native.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A913E2F2405182B006DECDD /* fontello.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = fontello.ttf; path = ../app/assets/fonts/fontello.ttf; sourceTree = "<group>"; };
+		5AFDEDA3244F1A5100F9139A /* liblottie-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "liblottie-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7294DC376D242FC6A1FF044A /* libPods-balix-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-balix-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0266927A6FB540935D22132 /* Pods-balix-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-balix-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-balix-tvOS/Pods-balix-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		AC887999101621491421837E /* libPods-balix-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-balix-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AFDEDA4244F1A5100F9139A /* liblottie-ios.a in Frameworks */,
 				BB2213C83A180EF11B56B110 /* libPods-balix.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -145,6 +148,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5AFDEDA3244F1A5100F9139A /* liblottie-ios.a */,
 				5A0478AF2444A3CC00A298A6 /* libreact-native-ffmpeg.a */,
 				5A7C58A62443A6ED0083EE99 /* libreact-native-ffmpeg.a */,
 				5A7C58A42443A6440083EE99 /* SystemConfiguration.framework */,

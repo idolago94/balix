@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 // Componenta
-import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Alert} from 'react-native';
+import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Share} from 'react-native';
 import EmojiBox from './EmojiBox/EmojiBox';
 import PhotoIndicator from './PhotoIndicator';
 import Icon, {iconNames} from '../Icon/Icon';
@@ -12,6 +12,7 @@ import ProgressiveImage from '../ProgressiveImage/PreogressiveImage';
 import { photo_box, content, emoji_popup_box, colors } from '../../utils/style';
 import CommentsBox from './Comments/CommentsBox';
 import UpdateService from '../../Services/Updates';
+import { getScreenUrl } from '../../utils/Tools';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'AppStore')
 @observer
@@ -186,7 +187,25 @@ export default class Photo extends Component {
         NavigationStore.setBanner(`You deleted one image.`, 'lightgreen');
         UpdateService.checkFollowingUpdates();
     }
-}
+  }
+
+  async onShare() {
+    const imageData = this.props.ContentsStore.getContentById(this.props.data.content_id);
+    let result = await Share.share({
+      message: imageData.title,
+      url: getScreenUrl(Routes.Screens.PHOTO.routeName, {id: imageData._id, user_id: imageData.user_id})
+    })
+    console.log('share response -> ', result);
+    if (result.action === Share.sharedAction) {
+      if (result.activityType) {
+        // shared with activity type of result.activityType
+      } else {
+        // shared
+      }
+    } else if (result.action === Share.dismissedAction) {
+      // dismissed
+    }
+  }
 
   render() {
     console.log('Photo -> render');
@@ -213,6 +232,7 @@ export default class Photo extends Component {
             content_title={imageData.title}
             onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
             onComments={() => this.setState({openComments: !this.state.openComments})}
+            onShare={() => this.onShare()}
           />}
           
           {/* emoji box */}

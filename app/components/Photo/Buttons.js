@@ -60,7 +60,7 @@ export default function Buttons(props) {
               icon={iconNames.FULL_SHARE} 
               size={sizes.icon+6} 
               color={colors.icon} 
-              onPress={() => props.onOpenEmoji()}
+              onPress={() => props.onShare()}
             />
           </View>
         </Animated.View>

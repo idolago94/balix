@@ -36,6 +36,14 @@ export default class Header extends Component {
 		this.props.NavigationStore.navigate(routeName, params);
 	}
 
+	goBack() {
+		const {NavigationStore, navigation} = this.props;
+		if(NavigationStore.getCurrentScreen == Routes.Screens.PHOTO.routeName) {
+			let id = navigation.state.routes[navigation.state.index].params.user_id;
+			NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id});
+		} else NavigationStore.goBack();
+	}
+
 	render() {
 		const {AuthStore, NavigationStore} = this.props;
 		return (
@@ -43,7 +51,7 @@ export default class Header extends Component {
 				<View>
 					<View style={styles.header}>
 						<View style={styles.leftSide}>
-							{(NavigationStore.isBack && !NavigationStore.isMyProfile) && <BackButton onPress={() => NavigationStore.getCurrentScreen == Routes.Screens.PHOTO.routeName ? NavigationStore.navigate(Routes.Screens.PROFILE.routeName) : NavigationStore.goBack()} color={colors.icon} size={sizes.icon}/>}
+							{(NavigationStore.isBack && !NavigationStore.isMyProfile) && <BackButton onPress={() => this.goBack()} color={colors.icon} size={sizes.icon}/>}
 							{NavigationStore.isCashIndicator && (
 								<Animated.View style={{...styles.leftSide, opacity: this.indicatorOpacity, maxWidth: this.indicatorWidth, maxHeight: this.indicatorWidth}}>
 									<CashIndicator
