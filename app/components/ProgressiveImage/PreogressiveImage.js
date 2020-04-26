@@ -25,8 +25,8 @@ export default class ProgressiveImage extends Component {
   }
 
   toggleVideoVolume() {
-    if(!this.props.AppStore.inVolume(this.props.url)) {
-      this.props.AppStore.setVideoVolume(this.props.url);
+    if(!this.props.AppStore.inVolume(this.props.id)) {
+      this.props.AppStore.setVideoVolume(this.props.id);
     } else {
       this.props.AppStore.setVideoVolume(null);
     }
@@ -34,7 +34,7 @@ export default class ProgressiveImage extends Component {
 
   render() {
     console.log('Photo -> render');
-    const inVolume = this.props.AppStore.inVolume(this.props.url);
+    const inVolume = this.props.AppStore.inVolume(this.props.id);
     if(this.props.smallView) {
       return (
         <View style={{backgroundColor: '#dddddd', borderRadius: 10}}>

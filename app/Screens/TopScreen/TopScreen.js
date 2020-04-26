@@ -117,6 +117,7 @@ export default class TopScreen extends Component {
 						data={this.props.IdentifierStore.getTop}
 						renderItem={({item, index}) => (
 							<Photo 
+								id={`TOP_`}
 								index={index}
 								data={item}
 								isLast={index == this.props.IdentifierStore.getTop.length-1}

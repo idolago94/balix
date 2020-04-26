@@ -119,6 +119,7 @@ export default class Home extends Component {
 						data={this.props.IdentifierStore.getFollowing}
 						renderItem={({item, index}) => (
 							<Photo 
+								id={`HOME_`}
 								index={index}
 								data={item}
 								isLast={index == this.props.IdentifierStore.getFollowing.length-1}

@@ -216,6 +216,7 @@ export default class Photo extends Component {
     return (!userData) ? null :
         <View style={[this.props.style, {marginBottom: isLast ? (70):(photo_box.marginBottom)}]}>
           <ProgressiveImage 
+            id={`${this.props.id}${data.content_id}`}
             style={content}
             onDoubleClick={AuthStore.getUserLogin._id == userData._id ? (null):(() => this.setState({openEmoji: !this.state.openEmoji, openComments: false}))}
             url={imageData.url}
