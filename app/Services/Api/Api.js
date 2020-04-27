@@ -123,14 +123,6 @@ class ApiService {
         return updateResponse;
     }
 
-    async getUserContents(user_id) {
-        if(!user_id) {
-            return null
-        }
-        let contentsResponse = await this.sendRequest('GET', '/content/userContent?id=' + user_id);
-        return contentsResponse;
-    }
-
     async getSomeContents(ids_array) {
         if(!ids_array || ids_array.length < 1) {
             return [];
