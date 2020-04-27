@@ -1,6 +1,6 @@
 // Components
 import React, {Component} from 'react';
-import {View, FlatList} from 'react-native';
+import {View, FlatList, Keyboard} from 'react-native';
 import Photo from '../../components/Photo/Photo';
 import Header from '../../components/Header/Header';
 import Routes from '../../utils/Routes';

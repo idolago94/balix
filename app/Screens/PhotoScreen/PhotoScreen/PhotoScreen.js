@@ -48,11 +48,11 @@ export default class PhotoScreen extends Component {
   }
 
   componentDidMount() {
-    const {openEmoji, openComments} = this.state;
-    const {NavigationStore, ContentsStore, UsersStore, navigation} = this.props;
-    this.focusListener = navigation.addListener(
+    this.focusListener = this.props.navigation.addListener(
       'willFocus', 
       async() => {
+        const {openEmoji, openComments} = this.state;
+        const {NavigationStore, ContentsStore, UsersStore, navigation} = this.props;
         const userData = UsersStore.getUserById(navigation.getParam('user_id'));
         const imageData = ContentsStore.getContentById(navigation.getParam('id'));
         userData && NavigationStore.setProfileName(userData.username);
