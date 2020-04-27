@@ -255,7 +255,7 @@ export default class PhotoScreen extends Component {
               id={`PHOTO_SCREEN_${navigation.getParam('id')}`}
               style={[content, {height: window_height-160}]}
               url={imageData.url}
-              onDoubleClick={AuthStore.getUserLogin._id == userData._id ? (null):(() => this.setState({openEmoji: !this.state.openEmoji, openComments: false}))}
+              onDoubleClick={() => this.setState({openEmoji: !this.state.openEmoji, openComments: false})}
               contentType={imageData.mimetype}
 
             />

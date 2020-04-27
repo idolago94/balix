@@ -218,7 +218,7 @@ export default class Photo extends Component {
           <ProgressiveImage 
             id={`${this.props.id}${data.content_id}`}
             style={content}
-            onDoubleClick={AuthStore.getUserLogin._id == userData._id ? (null):(() => this.setState({openEmoji: !this.state.openEmoji, openComments: false}))}
+            onDoubleClick={() => this.setState({openEmoji: !this.state.openEmoji, openComments: false})}
             url={imageData.url}
             contentType={imageData.mimetype}
           />
