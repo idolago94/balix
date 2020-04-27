@@ -8,7 +8,6 @@ import CommentInput from './CommentInput';
 import { inject, observer } from "mobx-react";
 import IconButton from '../../IconButton/IconButton';
 import { iconNames } from '../../Icon/Icon';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 @inject('AuthStore')
@@ -72,10 +71,11 @@ export default class CommentsBox extends Component {
       <KeyboardAvoidingView 
         style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, justifyContent: 'flex-end'}} 
         behavior={'padding'}
-        keyboardVerticalOffset={this.state.comments.length < 1 ? (10):(this.state.height < this.maxHeight ? (this.state.height/2):(-300))}
+        keyboardVerticalOffset={this.state.comments.length < 1 ? (10):(this.state.height < this.maxHeight ? (this.state.height*0.35):(-300))}
       >
-        <TouchableWithoutFeedback onPress={() => this.onBackground()} style={{height: '100%'}} />
-        <IconButton onPress={() => this.props.onClose()} style={s.closeIcon} icon={iconNames.CLOSE} size={13} />
+        <TouchableWithoutFeedback onPress={() => this.onBackground()} style={{height: '100%', justifyContent: 'flex-end'}}>
+          <IconButton onPress={() => this.onBackground()} style={s.closeIcon} icon={iconNames.CLOSE} size={13} />
+        </TouchableWithoutFeedback>
         <CommentInput style={{width: window_width,backgroundColor: background, borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: 7}} onSend={c => this.sendComment(c)}/>
         <Animated.View onLayout={this.onLayout.bind(this)} style={[this.props.style, s.container, {maxHeight: this.animation}]}>
           <ScrollView>
@@ -124,6 +124,6 @@ const s = StyleSheet.create({
     borderRadius: 999,
     padding: 7,
     backgroundColor: background,
-    margin: 10
+    margin: 10,
 }
 });
