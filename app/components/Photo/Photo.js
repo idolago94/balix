@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 // Componenta
-import {StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Animated, Dimensions, Share} from 'react-native';
+import {StyleSheet, View, KeyboardAvoidingView, Animated, Dimensions, Share} from 'react-native';
 import EmojiBox from './EmojiBox/EmojiBox';
 import PhotoIndicator from './PhotoIndicator';
 import Icon, {iconNames} from '../Icon/Icon';
@@ -222,13 +222,14 @@ export default class Photo extends Component {
             url={imageData.url}
             contentType={imageData.mimetype}
           />
+
           <PhotoIndicator 
             user={userData}
             cash={imageData.cash}
             hearts={imageData.hearts}
             onDelete={AuthStore.getUserLogin._id == userData._id ? (() => NavigationStore.showAlert('Delete image?', null, () => this.onDelete())):(null)}
           />
-
+          {/* Buttons Box */}
           {!openComments && !openEmoji && <Buttons 
             content_title={imageData.title}
             onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
@@ -244,7 +245,8 @@ export default class Photo extends Component {
             emojiPress={this.emojiPress.bind(this)}
             onClose={() => this.setState({openEmoji: false})}
           />}
-
+  
+          {/* comments box */}
           {openComments && <CommentsBox 
             onClose={() => this.setState({openComments: false})} 
             content_id={data.content_id} 

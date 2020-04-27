@@ -266,6 +266,7 @@ export default class PhotoScreen extends Component {
               onDelete={AuthStore.getUserLogin._id == userData._id ? (() => NavigationStore.showAlert('Delete image?', null, () => this.onDelete())):(null)}
             />
 
+            {/* Buttons Box */}
             {!openComments && !openEmoji && <Buttons
               content_title={imageData.title}
               onOpenEmoji={() => this.setState({openEmoji: !this.state.openEmoji})}
@@ -273,6 +274,7 @@ export default class PhotoScreen extends Component {
               onShare={() => this.onShare()}
             />}
 
+            {/* Emojis Box */}
             {openEmoji &&<EmojiBox 
               includeHeart={true} 
               emojiSize={this.emojiBoxSize} 
@@ -281,11 +283,11 @@ export default class PhotoScreen extends Component {
               onClose={() => this.setState({openEmoji: false})}
             />}
 
+            {/* Comments Box */}
             {openComments && <CommentsBox 
               onClose={() => this.setState({openComments: false})} 
               content_id={imageData._id} 
-              />}
-
+            />}
 
             {/* emoji sent */}
             <Animated.Image
@@ -305,6 +307,7 @@ export default class PhotoScreen extends Component {
                 }),
               }}
             />
+
             {/* heart sent */}
             <Animated.View
                 style={{
@@ -321,25 +324,24 @@ export default class PhotoScreen extends Component {
             >
               <Icon color={colors.heart} name={iconNames.FULL_HEART} size={this.emojiBoxSize} />
             </Animated.View>
+
             {/* sparkle animation */}
-            {
-              this.sparkleAnimation.map((anim, i) => (
-                  <Animated.Image key={i} source={require('../../../assets/sparkle.gif')} style={{
-                    position: 'absolute',
-                    width: this.sizeEmoji,
-                    height: this.sizeEmoji,
-                    opacity: this.fadeEmoji,
-                    top: anim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [emojiSendPosition.y, 0],
-                    }),
-                    left: anim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [emojiSendPosition.x, Dimensions.get('window').width * 0.77],
-                    }),
-                  }}/>
-              ))
-            }
+            {this.sparkleAnimation.map((anim, i) => (
+                <Animated.Image key={i} source={require('../../../assets/sparkle.gif')} style={{
+                  position: 'absolute',
+                  width: this.sizeEmoji,
+                  height: this.sizeEmoji,
+                  opacity: this.fadeEmoji,
+                  top: anim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [emojiSendPosition.y, 0],
+                  }),
+                  left: anim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [emojiSendPosition.x, Dimensions.get('window').width * 0.77],
+                  }),
+                }}/>
+            ))}
         </View>}
       </View>
     )
