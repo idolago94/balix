@@ -1,6 +1,6 @@
 // Components
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, ScrollView, FlatList, SafeAreaView, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, FlatList, SafeAreaView, Keyboard} from 'react-native';
 import Photo from '../../components/Photo/Photo';
 import Header from '../../components/Header/Header';
 // Navigator
@@ -30,6 +30,8 @@ export default class TopScreen extends Component {
 		this.focusListener = null;
 		this._roller = null;
 		this._view = null;
+		this.keyboardShow = null;
+		this.keyboardHide = null;
 	}
 
 	componentDidMount() {
@@ -41,11 +43,21 @@ export default class TopScreen extends Component {
 			if(!this.props.NavigationStore.inProgress) {
 				UpdatesService.updateTop();
 			}
-		})
+		});
+		this.keyboardShow = Keyboard.addListener('keyboardDidShow', () => {
+			this._view.setNativeProps({ scrollEnabled: false });
+			this._roller.setNativeProps({ scrollEnabled: false })
+		});
+		this.keyboardHide = Keyboard.addListener('keyboardDidHide', () => {
+			this._view.setNativeProps({ scrollEnabled: true });
+			this._roller.setNativeProps({ scrollEnabled: true })
+		});
 	}
 
 	componentWillUnMount() {
 		this.focusListener.remove();
+		this.keyboardShow.remove();
+		this.keyboardHide.remove();
 	}
 
 	handleScroll(event) {

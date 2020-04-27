@@ -30,6 +30,8 @@ export default class Home extends Component {
 		this.focusListener = null;
 		this._roller = null;
 		this._view = null;
+		this.keyboardShow = null;
+		this.keyboardHide = null;
 	}
 
 	componentDidMount() {
@@ -41,11 +43,21 @@ export default class Home extends Component {
 			if(!this.props.NavigationStore.inProgress) {
 				UpdatesService.checkFollowingUpdates();
 			}
-		})
+		});
+		this.keyboardShow = Keyboard.addListener('keyboardDidShow', () => {
+			this._view.setNativeProps({ scrollEnabled: false });
+			this._roller.setNativeProps({ scrollEnabled: false })
+		});
+		this.keyboardHide = Keyboard.addListener('keyboardDidHide', () => {
+			this._view.setNativeProps({ scrollEnabled: true });
+			this._roller.setNativeProps({ scrollEnabled: true })
+		});
 	}
 
 	componentWillUnMount() {
 		this.focusListener.remove();
+		this.keyboardShow.remove();
+		this.keyboardHide.remove();
 	}
 
 	handleScroll(event) {
