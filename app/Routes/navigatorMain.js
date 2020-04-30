@@ -11,6 +11,8 @@ import { colors } from '../utils/style';
 import Drawer from '../components/Drawer/Drawer';
 import EditProfileScreen from '../Screens/EditProfileScreen/EditProfileScreen';
 import PolicyScreen from '../Screens/PolicyScreen/PolicyScreen';
+import Mail from '../Screens/Mail/Mail';
+import TermsScreen from '../Screens/TermsScreen/TermsScreeen';
 
 export default createAppContainer(createDrawerNavigator(
   {
@@ -37,7 +39,13 @@ export default createAppContainer(createDrawerNavigator(
     },
     [Routes.Screens.POLICY.routeName]: {
       screen: PolicyScreen
-    }
+    },
+    [Routes.Screens.TERMS.routeName]: {
+      screen: TermsScreen
+    },
+    [Routes.Screens.MAIL.routeName]: {
+      screen: Mail
+    },
   },
   {
     // mode: 'modal', //must be modal for transparent background

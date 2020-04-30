@@ -54,5 +54,7 @@ export const iconNames = {
     TOP: 'award',
     FULL_TOP: 'full-top',
     CALENDAR: 'calendar',
-    TRASH: 'trash'
+    TRASH: 'trash',
+    DOC: 'doc',
+    LAW: 'law'
 }

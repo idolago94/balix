@@ -28,9 +28,6 @@ export default createBottomTabNavigator(
     [Routes.Screens.PHOTO.routeName]: {
       screen: PhotoScreen
     },
-    [Routes.Screens.MAIL.routeName]: {
-      screen: Mail
-    },
     [Routes.Screens.SEARCH.routeName]: {
         screen: Search
     },

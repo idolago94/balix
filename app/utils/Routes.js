@@ -36,6 +36,7 @@ export default Routes = {
         APP_SCREEN: {routeName: 'App_Screen'},
         TOP: {routeName: 'Top_Screen'},
         EDIT_PROFILE: {routeName: 'Edit_Profile'},
-        POLICY: {routeName: 'Policy_Screen'}
+        POLICY: {routeName: 'Policy_Screen'},
+        TERMS: {routeName: 'Terms_Screen'}
     }
 }

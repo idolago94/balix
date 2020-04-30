@@ -8,7 +8,7 @@ import IconButton from '../../components/IconButton/IconButton';
 import { iconNames } from '../../components/Icon/Icon';
 
 @inject('NavigationStore')
-export default class PolicyScreen extends Component {
+export default class TermsScreen extends Component {
 
   render() {
     return (
@@ -21,7 +21,7 @@ export default class PolicyScreen extends Component {
           onPress={() => this.props.NavigationStore.goBack()}
         />
         <Pdf
-            source={{uri: 'http://34.69.232.216:8080/privacypolicy'}}
+            source={{uri: 'http://34.69.232.216:8080/terms'}}
             onLoadComplete={(numberOfPages,filePath)=>{
                 console.log(`number of pages: ${numberOfPages}`);
             }}

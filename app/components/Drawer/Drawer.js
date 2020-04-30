@@ -21,8 +21,13 @@ export default class Drawer extends Component {
                 />
                 <DrawerTab 
                     onPress={() => this.props.NavigationStore.navigate(Routes.Screens.POLICY.routeName)} 
-                    title={'App Policy'} 
-                    icon={iconNames.TIMER}
+                    title={'Privacy Policy'} 
+                    icon={iconNames.LAW}
+                />
+                <DrawerTab 
+                    onPress={() => this.props.NavigationStore.navigate(Routes.Screens.TERMS.routeName)} 
+                    title={'Terms of Service'} 
+                    icon={iconNames.DOC}
                 />
                 <DrawerTab 
                     onPress={() => this.props.AuthStore.logout()} 
