@@ -50,6 +50,7 @@ export default class ProgressiveImage extends Component {
               source={{uri: this.props.url}}
               muted
               repeat
+              resizeMode='cover'
             />
           )}
         </View>
