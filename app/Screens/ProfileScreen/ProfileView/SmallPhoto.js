@@ -78,7 +78,7 @@ export default class SmallPhoto extends Component {
                 />
                 {this.props.secret && !this.props.isMy && !isViewed && <BlurView 
                   style={[s.photo, {position: 'absolute', top: 0, left: 0}]}
-                  blurAmount={10}
+                  blurAmount={3.5}
                   blurType="light"
                 />}
                 {this.props.secret && <SecretIndicator views={imageData.views.length} />}
