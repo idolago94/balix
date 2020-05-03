@@ -62,7 +62,7 @@ export default class PreviewPhoto extends Component {
       NavigationStore.setModal({type: 'delete_content', data: AuthStore.getUserLogin[secretMode ? ('secrets'):('uploads')], mode: secretMode ? ('secrets'):('uploads')});
     } else {
       NavigationStore.setProgress(true);
-      NavigationStore.navigate(secretMode ? (Routes.Screens.PROFILE.routeName):(Routes.Screens.HOME.routeName), secretMode ? ({id: AuthStore.getUserLogin._id}):({}));
+      NavigationStore.navigate(secretMode ? (Routes.Screens.PROFILE.routeName):(Routes.Screens.HOME.routeName), secretMode ? ({id: AuthStore.getUserLogin._id, secret: true}):({}));
       AppStore.setVideoVolume(null);
       let uploadResponse = null; // new upload object(contents collection)
       if(secretMode) {

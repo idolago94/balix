@@ -12,6 +12,7 @@ import { iconNames } from '../../../components/Icon/Icon';
 import FollowButton from './FollowButton';
 import SecretView from './SecretView';
 import { colors } from '../../../utils/style';
+import ProgressBar from '../../../components/ProgressBar/ProgressBar';
 
 @inject('AuthStore', 'NavigationStore', 'UsersStore')
 @observer
@@ -53,7 +54,7 @@ export default class ProfileView extends Component {
         if(id == AuthStore.getUserLogin._id) {
           NavigationStore.setCurrentTab(Routes.Screens.PROFILE.routeName);
         }
-        this.setState({showScret: false});
+        this.setState({showScret: navigation.getParam('secret')});
       }
     );
   }
@@ -99,7 +100,7 @@ export default class ProfileView extends Component {
   }
 
   render() {
-    const {UsersStore, AuthStore, navigation} = this.props;
+    const {NavigationStore, UsersStore, AuthStore, navigation} = this.props;
     const userData = UsersStore.getUserById(navigation.getParam('id'));
     let myProfile = false;
     if(userData) {
@@ -107,9 +108,10 @@ export default class ProfileView extends Component {
     }
     return (
       <View style={{flex:1}}>
+        {NavigationStore.inProgress && <ProgressBar />}
         {userData && <View style={s.viewContainer}>
           <UserDetails 
-            onNavigate={(routeName, params) => this.props.NavigationStore.navigate(routeName, params)} 
+            onNavigate={(routeName, params) => NavigationStore.navigate(routeName, params)} 
             followPress={this.updateFollow.bind(this)}
             isMy={myProfile} 
             follow={AuthStore.isFollow(userData._id)} 
@@ -124,7 +126,7 @@ export default class ProfileView extends Component {
             <SecretView
               isMy={myProfile}   
               data={userData.secrets}     
-              toAdd={() => this.props.NavigationStore.navigate(Routes.Screens.CAMERA.routeName, {secret: true})}
+              toAdd={() => NavigationStore.navigate(Routes.Screens.CAMERA.routeName, {secret: true})}
               onPhoto={this.navigateToPhoto.bind(this)}
             />
           ):(
@@ -133,7 +135,7 @@ export default class ProfileView extends Component {
               amount={userData.limit_of_contents}
               onPhoto={this.navigateToPhoto.bind(this)}
               data={userData.uploads}
-              toAdd={() => this.props.NavigationStore.navigate(Routes.Screens.CAMERA.routeName)}
+              toAdd={() => NavigationStore.navigate(Routes.Screens.CAMERA.routeName)}
             />
           )}
         </View>}

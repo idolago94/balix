@@ -4,14 +4,13 @@ import {StyleSheet, Text, View, ScrollView, FlatList, SafeAreaView, Keyboard} fr
 import Photo from '../../components/Photo/Photo';
 import Header from '../../components/Header/Header';
 // Navigator
-import Routes from '../../utils/Routes';
 import { inject, observer } from "mobx-react";
 import UpdatesService from '../../Services/Updates';
 import ProfileIndicator from '../HomeScreen/ProfileIndicator';
-import {content_height, window_height, window_width} from '../../utils/view';
-import {Bar} from 'react-native-progress';
+import {content_height} from '../../utils/view';
 import { roller, roller_container, main_view, colors } from '../../utils/style';
 import { getCurrenIndexInFlatList } from '../../utils/Tools';
+import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 @inject('NavigationStore', 'IdentifierStore', 'AppStore')
 @observer
@@ -113,14 +112,7 @@ export default class TopScreen extends Component {
 						)}			
 					/>
 				</View>
-				{this.props.NavigationStore.inProgress && <Bar 
-					indeterminate 
-					height={3} 
-					width={window_width} 
-					color={colors.darkMain} 
-					unfilledColor={colors.background} 
-					borderWidth={0} 
-				/>}
+				{this.props.NavigationStore.inProgress && <ProgressBar />}
 				<View>
 					<FlatList
 						ref={(ref) => this._view = ref}
