@@ -41,7 +41,7 @@ export default class AddBottomBar extends Component {
       this.pressTimer = 0;
       this.timer = setInterval(() => {
         this.pressTimer++;
-        if(this.pressTimer > 2) {
+        if(this.pressTimer == 2) {
           Animated.timing(this.recButton, {
             toValue: 1
           }).start();
@@ -54,6 +54,9 @@ export default class AddBottomBar extends Component {
     pictureOut() {
       clearInterval(this.timer);
       this.timer = null;
+      Animated.timing(this.recButton, {
+        toValue: 0
+      }).start();
       if(this.pressTimer >= 2) {
         console.log('stop video');
         this.props.onEndVideo();

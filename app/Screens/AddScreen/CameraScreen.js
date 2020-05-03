@@ -152,7 +152,6 @@ export default class CameraScreen extends Component {
               ) :
               // camera bottom buttons
               (<AddBottomBar
-                  story_live={this.state.story_live}
                   onGallery={this.onGallery.bind(this)}
                   onSwitch={this.switchCamera.bind(this)} 
                   onPicture={this.takePicture.bind(this)} 
