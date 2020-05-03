@@ -13,7 +13,7 @@ import {Bar} from 'react-native-progress';
 import { roller, roller_container, main_view, colors } from '../../utils/style';
 import { getCurrenIndexInFlatList } from '../../utils/Tools';
 
-@inject('NavigationStore', 'IdentifierStore')
+@inject('NavigationStore', 'IdentifierStore', 'AppStore')
 @observer
 export default class TopScreen extends Component {
 	static navigationOptions = ({navigation}) => {
@@ -70,6 +70,7 @@ export default class TopScreen extends Component {
 				index = 0;
 			}
 			if(this.state.currentContentIndex != index) {
+				this.props.AppStore.setVideoVolume(null);
 				this._view.scrollToIndex({index: index > 0 ? (index):(0)});
 				this.setState({currentContentIndex: index})
 			}
@@ -78,6 +79,7 @@ export default class TopScreen extends Component {
 
 	onRollerItem(i) {
 		console.log('onRollerItem -> ', i);
+		this.props.AppStore.setVideoVolume(null);
 		this._view.scrollToIndex({index: i});
 		this.setState({currentContentIndex: i})
 	}
