@@ -61,10 +61,6 @@ export default class Connection extends Component {
     }
   }
 
-  navigateToProfile(userData) {
-    this.props.NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {userData: userData})
-  }
-
   render() {
     const {data} = this.props;
     const mainVolunteers = data.slice(0, data.length/2);

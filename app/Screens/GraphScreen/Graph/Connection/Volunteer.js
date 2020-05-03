@@ -31,7 +31,7 @@ export default class Volunteer extends Component {
                 <ProfileSymbol
                     src={userData.profileImage}
                     size={size}
-                    press={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: user_id})}
+                    press={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: user_id, secret: false})}
                 />
                 <View style={s.cashBox}>
                     <Icon name={iconNames.DOLLAR} size={size/4} color={colors.darkMain}/>

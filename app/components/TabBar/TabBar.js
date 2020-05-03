@@ -184,7 +184,7 @@ export default class TabBar extends Component {
               style={styles.tab}
               icon={iconNames.AVATAR} 
               isSelected={NavigationStore.getCurrentTab == Routes.Screens.PROFILE.routeName}
-              onPress={() => this.navigateTo(Routes.Screens.PROFILE.routeName, {id: AuthStore.getUserLogin._id})}
+              onPress={() => this.navigateTo(Routes.Screens.PROFILE.routeName, {id: AuthStore.getUserLogin._id, secret: false})}
             />
           </View>
         </View>

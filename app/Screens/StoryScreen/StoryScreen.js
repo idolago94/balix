@@ -438,7 +438,7 @@ export default class StoryScreen extends Component {
           <View style={styles.buttons}>
             <ProfileSymbol
                 style={styles.btn}
-                press={() => this.props.NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {userData: this.state.userData})}
+                press={() => this.props.NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {userData: this.state.userData, secret: false})}
                 src={this.state.userData.profileImage}
                 size={this.buttonSize}
             />

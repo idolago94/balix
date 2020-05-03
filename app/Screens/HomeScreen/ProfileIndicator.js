@@ -40,7 +40,7 @@ export default class ProfileIndicator extends Component {
             <Animated.View style={[s.box, {transform: [{translateY: inView ? (37):(isBack ? (-25):(0))}], opacity: inView ? (1):(0.5)}]}>
                 {userData && <View style={{alignItems: 'center'}}>
                     <ProfileSymbol 
-                        press={inView ? (() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id})):(() => this.props.onPress())}
+                        press={() => inView ? NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: userData._id, secret: false}):this.props.onPress()}
                         src={userData.profileImage}
                         size={inView ? (83):(isBack ? (20):(50))}
                         style={[s.profile, {borderColor: inView ? (colors.text):('transparent')}]} 

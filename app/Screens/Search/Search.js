@@ -35,7 +35,7 @@ export default class Search extends Component {
 					data={this.props.IdentifierStore.getSearch}
 					renderItem={({item}) => (
 						<TouchableHighlight
-							onPress={this.navigateTo.bind(this, Routes.Screens.PROFILE.routeName, {id: item})}>
+							onPress={() => this.navigateTo(Routes.Screens.PROFILE.routeName, {id: item, secret: false})}>
 							<Result id={item}/>
 						</TouchableHighlight>
 					)}

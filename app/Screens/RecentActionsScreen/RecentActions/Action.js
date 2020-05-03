@@ -302,13 +302,13 @@ export default class Action extends Component {
                 {
                     (actionData.active_user_id == AuthStore.getUserLogin._id) ?
                         (<ProfileSymbol 
-                            press={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: AuthStore.getUserLogin._id})} 
+                            press={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: AuthStore.getUserLogin._id, secret: false})} 
                             src={AuthStore.getUserLogin.profileImage} 
                             size={40} 
                             style={{margin: 5}} 
                         />) :
                         (<ProfileSymbol 
-                            press={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: otherUserData._id})} 
+                            press={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: otherUserData._id, secret: false})} 
                             src={otherUserData.profileImage} 
                             size={40} 
                             style={{margin: 5}} 
