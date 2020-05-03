@@ -116,9 +116,11 @@ export default class TopScreen extends Component {
 				<View>
 					<FlatList
 						ref={(ref) => this._view = ref}
-						onScrollEndDrag={(e) => this.handleScroll(e)}
 						style={main_view}
 						showsVerticalScrollIndicator={false}
+						refreshing={this.props.NavigationStore.inProgress}
+						onRefresh={() => UpdatesService.updateTop()}
+						onScrollEndDrag={(e) => this.handleScroll(e)}
 						keyExtractor={(item, index) => index.toString()}
 						data={this.props.IdentifierStore.getTop}
 						renderItem={({item, index}) => (

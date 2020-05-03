@@ -3,6 +3,7 @@ import { content_width, content_height, window_width } from './view';
 export const colors = {
     text: 'white',
     background: 'black',
+    // background: 'white',
     lightMain: '#11DBDB',
     darkMain: '#0A555F',
     popup: 'rgba(30,33,35,0.5)',

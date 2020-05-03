@@ -117,11 +117,13 @@ export default class Home extends Component {
 				<View>
 					<FlatList
 						ref={(ref) => this._view = ref}
-						onScrollEndDrag={(e) => this.handleScroll(e)}
 						style={main_view}
 						showsVerticalScrollIndicator={false}
-						keyExtractor={(item, index) => index.toString()}
 						ListEmptyComponent={() => <HomeEmpty/>}
+						refreshing={this.props.NavigationStore.inProgress}
+						onRefresh={() => UpdatesService.checkFollowingUpdates()}
+						onScrollEndDrag={(e) => this.handleScroll(e)}
+						keyExtractor={(item, index) => index.toString()}
 						data={this.props.IdentifierStore.getFollowing}
 						renderItem={({item, index}) => (
 							<Photo 
