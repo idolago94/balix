@@ -1,31 +1,42 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableHighlight, Dimensions } from 'react-native';
 import Icon, { iconNames } from '../../components/Icon/Icon';
-import { inject } from 'mobx-react';
 import { sizes, colors } from '../../utils/style';
+import IconButton from '../../components/IconButton/IconButton';
+import { window_width } from '../../utils/view';
 
-@inject('NavigationStore')
-export default class AddHeader extends Component {
-
-  render() {
+export default function AddHeader(props){
     return (
       <View style={styles.container}>
-        <View style={styles.leftSide}>
-          <TouchableHighlight style={{borderRadius: 999, padding: 5}} onPress={() => this.props.NavigationStore.goBack()}>
-            <Icon style={{padding: 5}} name={iconNames.CLOSE} size={sizes.icon} color={colors.icon} />
-          </TouchableHighlight>
-        </View>
+        <IconButton 
+          style={styles.btn}
+          onPress={() => props.onClose()}
+          icon={iconNames.CLOSE} 
+          size={sizes.icon} 
+          color={colors.icon}
+        />
+        <IconButton
+          style={[styles.btn, {borderColor: !props.flashMode ? colors.icon : colors.lightMain}]} 
+          icon={iconNames.FLASH} 
+          size={sizes.icon} 
+          color={!props.flashMode ? colors.icon : colors.lightMain} 
+          onPress={() => props.onFlash()} 
+        />
       </View>
     );
-  }
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: sizes.barHeight,
     alignItems: 'center',
-    width: Dimensions.get('window').width
+    justifyContent: 'space-between',
+    width: window_width,
+    padding: 5
+  },
+  btn: {
+    padding: 5,
+    borderWidth: 1,
+    borderRadius: 999,
   }
 });

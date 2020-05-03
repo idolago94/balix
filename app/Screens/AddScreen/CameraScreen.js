@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableHighlight, Platform, Text, Dimensions } from 'react-native';
-import Icon, {iconNames} from '../../components/Icon/Icon';
+import {iconNames} from '../../components/Icon/Icon';
 import AddHeader from './AddHeader';
 import AddBottomBar from './AddBottomBar';
 import { RNCamera } from 'react-native-camera';
@@ -11,12 +11,14 @@ import ImagePicker from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 import { inject } from 'mobx-react';
 import { colors, sizes } from '../../utils/style';
+import IconButton from '../../components/IconButton/IconButton';
+import PhotoIndicator from '../../components/Photo/PhotoIndicator';
 
 @inject('NavigationStore')
 export default class CameraScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: () => <AddHeader />,
+      headerTitle: () => null,
       headerTransparent: true
     };
   }
@@ -55,9 +57,8 @@ export default class CameraScreen extends Component {
   }
 
   toggleFlash() {
-    if(this.state.flashMode) {
-      this.setState({ flashMode: false });
-    } else this.setState({ flashMode: true });
+    console.log('toggle flash', !this.state.flashMode);
+    this.setState({flashMode: !this.state.flashMode});
   }
 
   async takePicture() {
@@ -121,13 +122,15 @@ export default class CameraScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <AddHeader
+          onClose={() => this.props.NavigationStore.goBack()}
+          onFlash={() => this.toggleFlash()}
+          flashMode={this.state.flashMode}
+        />
         {/* cash indicators for live */}
-        {this.state.story_live != 'live' && (
-          <View style={{position: 'absolute', top: 40, right: 10, borderWidth: 1, borderRadius: 10, borderColor: colors.lightMain}}>
-            <Text style={{color: colors.text, padding: 10}}>10$</Text>
-          </View>
-        )}
-        {/*  */}
+        {/* {this.state.story_live == 'live' && <Text style={styles.liveIndicator}>10$</Text>} */}
+        {this.state.story_live == 'live' && <PhotoIndicator style={{top: 60}} cash={7} hearts={22}/>}
+        {/* CAMERA */}
         <RNCamera
           ref={ref => {
             this.camera = ref;
@@ -136,23 +139,6 @@ export default class CameraScreen extends Component {
           type={this.state.cameraType}
           flashMode={(this.state.flashMode) ? (RNCamera.Constants.FlashMode.on) : (RNCamera.Constants.FlashMode.off)}
         />
-        {
-          (!this.state.flashMode) ?
-          (
-            <TouchableHighlight onPress={() => this.toggleFlash()} style={{
-              ...styles.flashBox,
-              borderColor: colors.icon,
-            }}>
-              <Icon name={iconNames.FLASH} size={sizes.icon} color={colors.icon} />
-            </TouchableHighlight>
-          ) :
-          (
-            <TouchableHighlight onPress={() => this.toggleFlash()} style={{...styles.flashBox, borderColor: colors.lightMain}}>
-              <Icon name={iconNames.FLASH} size={sizes.icon} color={colors.lightMain} />
-            </TouchableHighlight>
-          )
-        }
-
         {
           (this.state.story_live == 'live') ?
               (
@@ -164,6 +150,7 @@ export default class CameraScreen extends Component {
                 </TouchableHighlight>
                 // 
               ) :
+              // camera bottom buttons
               (<AddBottomBar
                   story_live={this.state.story_live}
                   onGallery={this.onGallery.bind(this)}
@@ -181,20 +168,21 @@ export default class CameraScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
-    position: 'relative'
+    backgroundColor: colors.background
   },
   liveButton: {
     width: Dimensions.get('window').width,
     alignItems: 'center',
     marginBottom: 50
   },
-  flashBox: {
-    position: 'absolute',
-    right: 0,
-    padding: 5,
-    borderWidth: 1,
-    borderRadius: 999,
-    margin: 7,
+  liveIndicator: {
+    borderWidth: 1, 
+    borderRadius: 7, 
+    borderColor: colors.lightMain,
+    margin: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    color: colors.text,
+    alignSelf: 'flex-end'
   }
 });

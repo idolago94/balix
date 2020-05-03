@@ -126,7 +126,7 @@ export default class ProfileView extends Component {
             <SecretView
               isMy={myProfile}   
               data={userData.secrets}     
-              toAdd={() => NavigationStore.navigate(Routes.Screens.CAMERA.routeName, {secret: true})}
+              toAdd={() => NavigationStore.navigate(Routes.Screens.CAMERA.routeName, {secret: true, story_live: null})}
               onPhoto={this.navigateToPhoto.bind(this)}
             />
           ):(
@@ -135,7 +135,7 @@ export default class ProfileView extends Component {
               amount={userData.limit_of_contents}
               onPhoto={this.navigateToPhoto.bind(this)}
               data={userData.uploads}
-              toAdd={() => NavigationStore.navigate(Routes.Screens.CAMERA.routeName)}
+              toAdd={() => NavigationStore.navigate(Routes.Screens.CAMERA.routeName, {story_live: null})}
             />
           )}
         </View>}

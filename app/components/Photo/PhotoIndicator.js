@@ -9,14 +9,12 @@ export default function PhotoIndicator(props) {
   // Props = [ indicators: {cash: number, hearts: number} ]
 
     return (
-      <View style={{position: 'absolute', right: 0, alignItems: 'center'}}>
+      <View style={[props.style, {position: 'absolute', right: 0, alignItems: 'center', zIndex: 999}]}>
         <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 10, padding: 4}}>
-          {/* <Icon color={colors.text} name={iconNames.DOLLAR} size={22} /> */}
           <Image style={{height: 22, aspectRatio: 1}} source={require('../../assets/dollar_indicator.png')} />
           <Text style={{color: colors.text}}>{thousandsWithCommas(props.cash)}</Text>
         </View>
         <View style={{justifyContent: 'center', alignItems: 'center', margin: 5, marginLeft: 10, padding: 4}}>
-          {/* <Icon color={colors.text} name={iconNames.FULL_HEART} size={22} /> */}
           <Image style={{height: 22, aspectRatio: 1}} source={require('../../assets/heart_indicator.png')} />
           <Text style={{color: colors.text}}>{thousandsWithCommas(props.hearts)}</Text>
         </View>
