@@ -6,6 +6,7 @@ import ApiService from '../../../Services/Api';
 import SecretIndicator from './SecretIndicator';
 import { BlurView, VibrancyView } from "@react-native-community/blur";
 import DeleteIndicator from './DeleteIndicator';
+import Routes from '../../../utils/Routes';
 
 @inject('NavigationStore', 'ContentsStore', 'AuthStore')
 @observer
@@ -49,6 +50,9 @@ export default class SmallPhoto extends Component {
     async openPhoto() {
         const {AuthStore, ContentsStore, NavigationStore, data} = this.props;
         const imageData = ContentsStore.getContentById(data.content_id);
+        if(imageData.entrance > AuthStore.getUserLogin.cash) {
+            NavigationStore.navigate(Routes.Screens.BUY_PACKAGE.routeName);
+        }
         let viewResponse = await ApiService.addSecretView(AuthStore.getUserLogin._id, imageData);
         if(viewResponse.error) {
             NavigationStore.setBanner(viewResponse.error);
