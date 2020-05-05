@@ -84,7 +84,7 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We need your permission to use your gallery for the option to upload image from your phone gallery</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need your permission to use your gallery for the option to upload image from your phone gallery/string>
+	<string>We need your permission to use your gallery for the option to upload image from your phone gallery</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fontello.ttf</string>
