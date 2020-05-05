@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<string>org.reactjs.native.example.balix</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>2643304689101361</string>
 	<key>FacebookDisplayName</key>
@@ -78,15 +78,13 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>We need your permission to use your camera</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>We need your permission to use your camera for the option to upload image from the camera</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We need your permission to use your microphone</string>
+	<string>We need your permission to use your microphone for the option to record video</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We need your permission to use your gallery</string>
+	<string>We need your permission to use your gallery for the option to upload image from your phone gallery</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need your permission to use your gallery</string>
+	<string>We need your permission to use your gallery for the option to upload image from your phone gallery/string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fontello.ttf</string>
