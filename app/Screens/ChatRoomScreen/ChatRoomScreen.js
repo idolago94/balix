@@ -25,6 +25,7 @@ export default class ChatRoomScreen extends Component {
         this.keyboardHide = null;
         this._chat = null;
         this.room_data = null;
+        this.socketListener = null
     }
     
     messages = [
@@ -56,10 +57,14 @@ export default class ChatRoomScreen extends Component {
 
 	componentDidMount() {
         console.log('content_height', content_height);
-        this.props.ChatStore.getSocket.on(`msg:${this.props.AuthStore.getUserLogin._id}`, (msg) => {
-            if(this.room_data._id == msg.room_id) {
+        this.socketListener = this.props.ChatStore.getSocket.on(`msg:${this.props.AuthStore.getUserLogin._id}`, data => {
+            if(this.room_data && this.room_data._id == data.message.room_id) {
                 let messages = this.state.messages;
-                messages.unshift(msg);
+                messages.unshift(data.message);
+                if(!this.room_data) {
+                    this.room_data = data.room;
+                    this.props.ChatStore.setRooms([data.room]);
+                }
                 this.setState({messages});
             }
         });
@@ -74,7 +79,9 @@ export default class ChatRoomScreen extends Component {
             }
 		});
         this.blurListener = this.props.navigation.addListener('willBlur', () => {
+            // socket.off('event-name', listener);
             this.props.ChatStore.visitRoom(this.room_data._id);
+            this.room_data = null;
         });
 		this.keyboardShow = Keyboard.addListener('keyboardDidShow', () => {
 
@@ -95,7 +102,7 @@ export default class ChatRoomScreen extends Component {
         console.log('send message', msg);
         let receive_user = this.props.navigation.getParam('user');
         let message_data = {
-            room_id: this.room_data._id,
+            room_id: this.room_data ? this.room_data._id:'',
             user_id: this.props.AuthStore.getUserLogin._id,
             receive_user: receive_user[0]._id,
             context: msg,
