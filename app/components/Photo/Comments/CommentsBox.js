@@ -77,7 +77,14 @@ export default class CommentsBox extends Component {
         <TouchableWithoutFeedback onPress={() => this.onBackground()} style={{height: '100%', justifyContent: 'flex-end'}}>
           <IconButton onPress={() => this.onBackground()} style={s.closeIcon} icon={iconNames.CLOSE} size={13} />
         </TouchableWithoutFeedback>
-        <CommentInput style={{width: window_width,backgroundColor: background, borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: 7}} onSend={c => this.sendComment(c)}/>
+
+        <CommentInput 
+          sendDismissKeyboard 
+          multiline 
+          style={{width: window_width,backgroundColor: background, borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: 7}} 
+          onSend={c => this.sendComment(c)}
+        />
+        
         <Animated.View onLayout={this.onLayout.bind(this)} style={[this.props.style, s.container, {maxHeight: this.animation}]}>
           <ScrollView>
             {this.state.comments.length < 1 && <Text style={s.no_comments}>No Comments</Text>}

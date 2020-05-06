@@ -200,6 +200,30 @@ class ApiService {
         return sendResponse;
     }
 
+    // Route: /chatRoom
+
+    async getUserRoomsChat() {
+        let roomsResponse = await this.sendRequest('GET', '/chatRoom');
+        return roomsResponse;
+    }
+
+    async getUsersRoom(users_ids) {
+        let roomResponse = await this.sendRequest('GET', '/chatRoom/user?ids=' + users_ids.join(','));
+        return roomResponse;
+    }
+
+    // Route: /message
+
+    async getRoomMessages(room_id) {
+        let messagesResponse = await this.sendRequest('GET', '/message/room?id=' + room_id);
+        return messagesResponse;
+    }
+
+    async sendMessage(room_id, context, receive_user) {
+        let sendResponse = await this.sendRequest('POST', '/message/send?id=' + room_id, {context, receive: receive_user});
+        return sendResponse;
+    }
+
     async getEmojis() {
         let emojisResponse = await this.sendRequest('GET', '/emoji/all');
         return emojisResponse;

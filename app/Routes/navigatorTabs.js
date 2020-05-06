@@ -10,6 +10,7 @@ import PhotoScreen from '../Screens/PhotoScreen/PhotoScreen/PhotoScreen';
 import Mail from '../Screens/Mail/Mail';
 import Search from '../Screens/Search/Search';
 import TopScreen from '../Screens/TopScreen/TopScreen';
+import ChatRoomScreen from '../Screens/ChatRoomScreen/ChatRoomScreen';
 
 export default createBottomTabNavigator(
   {
@@ -33,6 +34,9 @@ export default createBottomTabNavigator(
     },
     [Routes.Screens.TOP.routeName]: {
       screen: TopScreen
+    },
+    [Routes.Screens.CHAT_ROOM.routeName]: {
+      screen: ChatRoomScreen
     }
   },
   {

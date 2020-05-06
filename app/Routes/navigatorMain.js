@@ -45,7 +45,7 @@ export default createAppContainer(createDrawerNavigator(
     },
     [Routes.Screens.MAIL.routeName]: {
       screen: Mail
-    },
+    }
   },
   {
     // mode: 'modal', //must be modal for transparent background

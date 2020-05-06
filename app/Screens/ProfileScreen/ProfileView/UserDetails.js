@@ -13,7 +13,7 @@ export default function UserDetails(props) {
         <UserIndicators username={props.user.username} followers={props.user.followers} following={props.user.following} achievements={{cash: props.user.cash_earned || 0}} />
         <View style={styles.imageBox}>
           <ProfileSymbol
-            iconPress={(props.isMy) ? (() => props.onNavigate(Routes.Screens.CAMERA.routeName, {story_live: 'live'})) : (() => props.onNavigate(Routes.Screens.CONVERSATION.routeName))}
+            iconPress={() => props.isMy ? props.toLive():props.toChat()}
             src={props.user.profileImage}
             icon={(props.isMy) ? (iconNames.LIVE) : (iconNames.LETTER)}
             iconStyle={{backgroundColor: colors.text, borderColor: colors.background, borderWidth: 2}}

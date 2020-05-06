@@ -37,6 +37,7 @@ export default Routes = {
         TOP: {routeName: 'Top_Screen'},
         EDIT_PROFILE: {routeName: 'Edit_Profile'},
         POLICY: {routeName: 'Policy_Screen'},
-        TERMS: {routeName: 'Terms_Screen'}
+        TERMS: {routeName: 'Terms_Screen'},
+        CHAT_ROOM: {routeName: 'Chat_Room'}
     }
 }

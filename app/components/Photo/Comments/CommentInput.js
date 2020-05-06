@@ -9,7 +9,7 @@ export default function CommentInput(props) {
 
     function onSend() {
         props.onSend(comment);
-        Keyboard.dismiss();
+        props.sendDismissKeyboard && Keyboard.dismiss();
         setComment('');
     }
 
@@ -20,7 +20,7 @@ export default function CommentInput(props) {
                     value={comment} 
                     style={s.input} 
                     onChangeText={s => setComment(s)} 
-                    multiline
+                    multiline={props.multiline}
                 />
                 <IconButton style={{padding: 6}} icon={iconNames.SEND} size={18} color={'black'} onPress={() => onSend()} />
             </View>

@@ -99,6 +99,12 @@ export default class ProfileView extends Component {
     )
   }
 
+  async toChat() {
+    let room = await ApiService.getUsersRoom([this.props.navigation.getParam('id')]);
+    room = room[0];
+    this.props.NavigationStore.navigate(Routes.Screens.CHAT_ROOM.routeName, {room, user: this.props.navigation.getParam('id')});
+  }
+
   render() {
     const {NavigationStore, UsersStore, AuthStore, navigation} = this.props;
     const userData = UsersStore.getUserById(navigation.getParam('id'));
@@ -111,11 +117,12 @@ export default class ProfileView extends Component {
         {NavigationStore.inProgress && <ProgressBar />}
         {userData && <View style={s.viewContainer}>
           <UserDetails 
-            onNavigate={(routeName, params) => NavigationStore.navigate(routeName, params)} 
             followPress={this.updateFollow.bind(this)}
             isMy={myProfile} 
             follow={AuthStore.isFollow(userData._id)} 
             user={userData}
+            toChat={() => this.toChat()}
+            toLive={() => NavigationStore.navigate(Routes.Screens.CAMERA.routeName, {story_live: 'live'})}
           />
           <View style={s.buttons}>
             {myProfile ? (<ProfileButton style={{backgroundColor: colors.text}} title='Extra Photo' onPress={() => this.pressExtra()} icon={iconNames.PLUS} />)

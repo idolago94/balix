@@ -34,12 +34,14 @@ class NavigationStore {
     @observable nonHeaderButton = [
         Routes.Screens.PROFILE.routeName,
         Routes.Screens.PHOTO.routeName,
-        Routes.Screens.SEARCH.routeName
+        Routes.Screens.SEARCH.routeName,
+        Routes.Screens.CHAT_ROOM.routeName
     ]
     @observable nonCashIndicator = [
         Routes.Screens.PROFILE.routeName,
         Routes.Screens.PHOTO.routeName,
-        Routes.Screens.SEARCH.routeName
+        Routes.Screens.SEARCH.routeName,
+        Routes.Screens.CHAT_ROOM.routeName
     ];
 
     //GET
