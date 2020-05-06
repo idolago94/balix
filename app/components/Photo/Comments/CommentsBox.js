@@ -28,6 +28,7 @@ export default class CommentsBox extends Component {
 
   async componentDidMount() {
     let comments = await ApiService.getContentComments(this.props.content_id);
+    comments.sort((a,b) => new Date(b.date) - new Date(a.date));
     this.setState({comments});
     Animated.spring(this.animation, {
        toValue: this.maxHeight,
@@ -48,7 +49,7 @@ export default class CommentsBox extends Component {
     let sendResponse = await ApiService.sendComment(this.props.AuthStore.getUserLogin._id, this.props.content_id, comment);
     if(sendResponse._id) {
       let newCommentsArray = this.state.comments;
-      newCommentsArray.push(sendResponse);
+      newCommentsArray.unshift(sendResponse);
       this.setState({comments: newCommentsArray});
     }
   }
