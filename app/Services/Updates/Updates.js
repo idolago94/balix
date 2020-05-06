@@ -33,6 +33,7 @@ class UpdateService {
     async updateActions() {
         console.log('UpdateService -> updateActions');
         let actions = await ApiService.getUserActions(AuthStore.getUserLogin._id);
+        actions.sort((a,b) => new Date(b.date) - new Date(a.date));
         this.updateGraphs(actions);
         ActionsStore.setActions(actions);
         let actions_ids = actions.map(act => act._id);
