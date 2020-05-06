@@ -55,15 +55,21 @@ export default class ChatRoomScreen extends Component {
     ]
 
 	componentDidMount() {
-		console.log('content_height', content_height);
+        console.log('content_height', content_height);
+        this.props.ChatStore.getSocket.on(`msg:${this.props.AuthStore.getUserLogin._id}`, (msg) => {
+            if(this.room_data._id == msg.room_id) {
+                let messages = this.state.messages;
+                messages.unshift(msg);
+                this.setState({messages});
+            }
+        });
 		this.focusListener = this.props.navigation.addListener('willFocus', async() => {
 			console.log('ChatRoomScreen -> willFocus');
             this.room_data = this.props.navigation.getParam('room');
-            // this.props.ChatStore.visitRoom(this.room_data._id);
             console.log('roomData', this.room_data);
             if(this.room_data) {
                 let messages = await ApiService.getRoomMessages(this.room_data._id);
-                messages.sort((a,b) => new Date(a.date) - new Date(b.date));
+                messages.sort((a,b) => new Date(a.date) - new Date(b.date)).reverse();
                 this.setState({messages});
             }
 		});
@@ -97,7 +103,7 @@ export default class ChatRoomScreen extends Component {
         }
         this.props.ChatStore.getSocket.emit("send message", message_data);
         let messages = this.state.messages;
-        messages.push(message_data);
+        messages.unshift(message_data);
         this.setState({messages});
     }
 
@@ -116,6 +122,7 @@ export default class ChatRoomScreen extends Component {
                     <FlatList
                         ref={(ref) => this._chat = ref}
                         style={{flex: 1}}
+                        inverted={true}
 						showsVerticalScrollIndicator={false}
 						keyExtractor={(item, index) => index.toString()}
 						data={this.state.messages}
