@@ -8,7 +8,8 @@ import ApiService from '../../Services/Api';
 import { window_width } from '../../utils/view';
 import moment from 'moment';
 
-@inject('AuthStore', 'UsersStore', 'NavigationStore')
+@inject('AuthStore', 'UsersStore', 'NavigationStore', 'ChatStore')
+@observer
 export default class Conversation extends Component {
 
     constructor(props) {
@@ -36,6 +37,8 @@ export default class Conversation extends Component {
     }
 
     render() {
+        let hasNew = this.props.ChatStore.roomHasNew(this.props.data._id, this.props.data.last_message);
+        console.log('conv has new messages ? ', hasNew);
         return (
             <TouchableHighlight onPress={() => this.props.NavigationStore.navigate(Routes.Screens.CHAT_ROOM.routeName, {room: this.props.data, user: this.state.talkWith})}>
                 <View style={s.container}>
@@ -50,7 +53,7 @@ export default class Conversation extends Component {
                         ))}
                     </View>
                     <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
-                        <Text style={s.username}>{this.state.talkWith.map(u => u.username).join(', ')}</Text>
+                        <Text style={[s.username, {color: hasNew ? 'red':colors.text}]}>{this.state.talkWith.map(u => u.username).join(', ')}</Text>
                         <Text style={s.date}>{moment(this.props.data.last_message).startOf().fromNow()}</Text>
                     </View>
                 </View>

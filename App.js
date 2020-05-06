@@ -20,6 +20,7 @@ const hydrate = create({
 });
 
 hydrate('AuthStore', Stores.AuthStore);
+hydrate('ChatStore', Stores.ChatStore);
 
 export default class App extends Component {
 

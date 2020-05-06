@@ -6,7 +6,7 @@ import ApiService from '../../Services/Api';
 import Conversation from './Conversation';
 import Routes from '../../utils/Routes';
 
-@inject('AuthStore', 'NavigationStore')
+@inject('ChatStore')
 export default class Mail extends Component {
 
   constructor(props) {
@@ -16,23 +16,17 @@ export default class Mail extends Component {
     }
   }
 
-  async componentDidMount() {
-    let rooms = await ApiService.getUserRoomsChat();
-    this.setState({rooms});
-  }
-
   render() {
     return (
       <View style={styles.container}>
         <FlatList
 						showsVerticalScrollIndicator={false}
 						keyExtractor={(item, index) => index.toString()}
-						data={this.state.rooms}
+						data={this.props.ChatStore.getRoomsIds}
 						renderItem={({item, index}) => (
               <Conversation 
                 key={index}
-                // onPress={() => this.props.NavigationStore.navigate(Routes.Screens.CHAT_ROOM.routeName, {room: item})} 
-                data={item} 
+                data={this.props.ChatStore.getRoomById(item)} 
               />
 						)}
 					/>

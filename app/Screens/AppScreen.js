@@ -22,12 +22,10 @@ export default class AppScreen extends Component {
     this.state = { lottieJson: '' }
   }
 
-  componentDidMount() {
-    // this.socket = io(ApiService.server_url);
-    // this.socket.on(`msg:${this.props.AuthStore.getUserLogin._id}`, msg => {
-    //   console.log(msg);
-    // });
+  async componentDidMount() {
     this.props.ChatStore.initSocket();
+    let roomsChat = await ApiService.getUserRoomsChat();
+    this.props.ChatStore.setRooms(roomsChat);
     if (Platform.OS === 'android') {
       Linking.getInitialURL().then(url => {
         this.navigate(url);

@@ -58,6 +58,7 @@ export default class ChatRoomScreen extends Component {
 		this.focusListener = this.props.navigation.addListener('willFocus', async() => {
 			console.log('ChatRoomScreen -> willFocus');
             this.room_data = this.props.navigation.getParam('room');
+            this.props.ChatStore.visitRoom(this.room_data._id);
             console.log('roomData', this.room_data);
             if(this.room_data) {
                 let messages = await ApiService.getRoomMessages(this.room_data._id);

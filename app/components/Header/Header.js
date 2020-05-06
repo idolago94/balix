@@ -46,6 +46,8 @@ export default class Header extends Component {
 
 	render() {
 		const {AuthStore, NavigationStore, ChatStore} = this.props;
+		let newMessages = ChatStore.hasNewMessages;
+		console.log('newMessages', newMessages)
 		return (
 			<LinearGradient colors={[colors.notch, colors.bar]}>
 				<View>
@@ -80,7 +82,7 @@ export default class Header extends Component {
 								color={colors.icon}
 								icon={iconNames.LETTER}
 								size={sizes.icon}
-								badge={ChatStore.isNew}
+								badge={newMessages}
 							/>)}
 
 							{!NavigationStore.isSearch && (<HeaderButton
