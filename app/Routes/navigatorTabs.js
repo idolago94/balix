@@ -35,8 +35,11 @@ export default createBottomTabNavigator(
     [Routes.Screens.TOP.routeName]: {
       screen: TopScreen
     },
-    [Routes.Screens.CHAT_ROOM.routeName]: {
-      screen: ChatRoomScreen
+    // [Routes.Screens.CHAT_ROOM.routeName]: {
+    //   screen: ChatRoomScreen
+    // },
+    [Routes.Screens.MAIL.routeName]: {
+      screen: Mail
     }
   },
   {

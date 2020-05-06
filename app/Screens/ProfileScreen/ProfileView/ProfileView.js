@@ -102,7 +102,8 @@ export default class ProfileView extends Component {
   async toChat() {
     let room = await ApiService.getUsersRoom([this.props.navigation.getParam('id')]);
     room = room[0];
-    this.props.NavigationStore.navigate(Routes.Screens.CHAT_ROOM.routeName, {room, user: this.props.navigation.getParam('id')});
+    let user = this.props.UsersStore.getUserById(this.props.navigation.getParam('id'))
+    this.props.NavigationStore.navigate(Routes.Screens.CHAT_ROOM.routeName, {room, user: [user]});
   }
 
   render() {

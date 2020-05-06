@@ -9,7 +9,6 @@ import moment from 'moment';
 import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
 import Routes from '../../../utils/Routes';
 import { colors } from '../../../utils/style';
-import { window_width } from '../../../utils/view';
 
 @inject('AuthStore', 'UsersStore', 'ActionsStore', 'NavigationStore')
 @observer

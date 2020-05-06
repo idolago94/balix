@@ -48,7 +48,7 @@ export default class ProfileIndicator extends Component {
                         iconStyle={{backgroundColor: colors.darkMain}}
                         iconSize={inView ? (10):(7)}
                         iconPress={() => !isMy && !isFollow && this.startFollow() }
-                        />
+                    />
                     <Text style={{color: colors.text, fontSize: inView ? (16):(10)}}>{sliceString(userData.username, 12)}</Text>
                 </View>}
             </Animated.View>

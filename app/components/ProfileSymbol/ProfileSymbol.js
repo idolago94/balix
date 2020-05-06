@@ -32,8 +32,8 @@ export default function ProfileSymbol(props) {
 
     const iconPosition = calculateIconLocation(props.iconDeg || 145);
     return (
-        <View style={{alignItems: 'center'}}>
-          <View>
+        // <View>
+          <View style={{alignItems: 'center'}}>
             <TouchableOpacity 
               style={[props.style, (props.story || props.live) ? (styles.storyBorder):({})]} 
               onPress={props.press ? (e => props.press(e)):(() => console.log('symbol press'))}
@@ -54,8 +54,8 @@ export default function ProfileSymbol(props) {
               />
             </TouchableOpacity>}
           </View>
-          {props.live && <LiveIndicator press={imageClicked.bind(this)} size={props.size} />}
-        </View>
+        //   {props.live && <LiveIndicator press={imageClicked.bind(this)} size={props.size} />}
+        // </View>
     );
 }
 

@@ -29,19 +29,21 @@ class NavigationStore {
     @observable nonBack = [
         Routes.Screens.HOME.routeName,
         Routes.Screens.TOP.routeName,
-        Routes.Screens.GRAPH.routeName
+        Routes.Screens.GRAPH.routeName,
     ]
     @observable nonHeaderButton = [
         Routes.Screens.PROFILE.routeName,
         Routes.Screens.PHOTO.routeName,
         Routes.Screens.SEARCH.routeName,
-        Routes.Screens.CHAT_ROOM.routeName
+        Routes.Screens.CHAT_ROOM.routeName,
+        Routes.Screens.MAIL.routeName
     ]
     @observable nonCashIndicator = [
         Routes.Screens.PROFILE.routeName,
         Routes.Screens.PHOTO.routeName,
         Routes.Screens.SEARCH.routeName,
-        Routes.Screens.CHAT_ROOM.routeName
+        Routes.Screens.CHAT_ROOM.routeName,
+        Routes.Screens.MAIL.routeName
     ];
 
     //GET

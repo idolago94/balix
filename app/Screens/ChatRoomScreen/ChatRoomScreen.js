@@ -7,8 +7,10 @@ import { colors } from '../../utils/style';
 import CommentInput from '../../components/Photo/Comments/CommentInput';
 import Message from './Message';
 import ApiService from '../../Services/Api';
+import RoomHeader from './RoomHeader';
+import Routes from '../../utils/Routes';
 
-@inject('AuthStore')
+@inject('AuthStore', 'NavigationStore')
 @observer
 export default class ChatRoomScreen extends Component {
 
@@ -59,7 +61,7 @@ export default class ChatRoomScreen extends Component {
             console.log('roomData', this.room_data);
             if(this.room_data) {
                 let messages = await ApiService.getRoomMessages(this.room_data._id);
-                messages.sort((a,b) => new Date(b.date) - new Date(a.date));
+                messages.sort((a,b) => new Date(a.date) - new Date(b.date));
                 this.setState({messages});
             }
 		});
@@ -88,8 +90,15 @@ export default class ChatRoomScreen extends Component {
 
 
 	render() {
+        const { AuthStore, NavigationStore, navigation } = this.props
+        const users = navigation.getParam('user');
 		return (
 			<View style={{flex: 1, backgroundColor: colors.background}}>
+                <RoomHeader 
+                    users={users}
+                    onBack={() => NavigationStore.goBack()}
+                    onDetails={() => NavigationStore.navigate(Routes.Screens.PROFILE.routeName, {id: user._id})}
+                />
                 <View style={{flexGrow: 1}}>
                     <FlatList
 						ref={(ref) => this._chat = ref}
@@ -98,14 +107,15 @@ export default class ChatRoomScreen extends Component {
 						data={this.state.messages}
 						renderItem={({item, index}) => (
                             <Message 
-                                side={this.props.AuthStore.getUserLogin._id == item.user_id ? 'right':'left'} 
+                                side={AuthStore.getUserLogin._id == item.user_id ? 'right':'left'} 
                                 msg={item.context} 
+                                date={item.date}
                             />
 						)}
 					/>
                 </View>
-                <KeyboardAvoidingView behavior={'padding'} keyboardVerticalOffset={50}>
-                    <View style={{paddingBottom: 40, backgroundColor: 'gray'}}>
+                <KeyboardAvoidingView behavior={'padding'} keyboardVerticalOffset={40}>
+                    <View style={{backgroundColor: 'gray'}}>
                         <CommentInput style={{padding: 10}} onSend={(msg) => this.sendMessage(msg)} />
                     </View>
                 </KeyboardAvoidingView>

@@ -11,8 +11,8 @@ import { colors } from '../utils/style';
 import Drawer from '../components/Drawer/Drawer';
 import EditProfileScreen from '../Screens/EditProfileScreen/EditProfileScreen';
 import PolicyScreen from '../Screens/PolicyScreen/PolicyScreen';
-import Mail from '../Screens/Mail/Mail';
 import TermsScreen from '../Screens/TermsScreen/TermsScreeen';
+import ChatRoomScreen from '../Screens/ChatRoomScreen/ChatRoomScreen';
 
 export default createAppContainer(createDrawerNavigator(
   {
@@ -43,9 +43,9 @@ export default createAppContainer(createDrawerNavigator(
     [Routes.Screens.TERMS.routeName]: {
       screen: TermsScreen
     },
-    [Routes.Screens.MAIL.routeName]: {
-      screen: Mail
-    }
+    [Routes.Screens.CHAT_ROOM.routeName]: {
+      screen: ChatRoomScreen
+    },
   },
   {
     // mode: 'modal', //must be modal for transparent background
