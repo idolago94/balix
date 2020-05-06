@@ -10,8 +10,10 @@ import { inject, observer } from "mobx-react";
 import Routes from '../utils/Routes';
 import LottieView from 'lottie-react-native';
 import { window_width, window_height } from '../utils/view';
+import io from "socket.io-client";
+import ApiService from '../Services/Api';
 
-@inject('AuthStore', 'NavigationStore')
+@inject('AuthStore', 'NavigationStore', 'ChatStore')
 @observer
 export default class AppScreen extends Component {
 
@@ -21,6 +23,11 @@ export default class AppScreen extends Component {
   }
 
   componentDidMount() {
+    // this.socket = io(ApiService.server_url);
+    // this.socket.on(`msg:${this.props.AuthStore.getUserLogin._id}`, msg => {
+    //   console.log(msg);
+    // });
+    this.props.ChatStore.initSocket();
     if (Platform.OS === 'android') {
       Linking.getInitialURL().then(url => {
         this.navigate(url);

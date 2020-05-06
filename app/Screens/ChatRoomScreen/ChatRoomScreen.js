@@ -10,7 +10,7 @@ import ApiService from '../../Services/Api';
 import RoomHeader from './RoomHeader';
 import Routes from '../../utils/Routes';
 
-@inject('AuthStore', 'NavigationStore')
+@inject('AuthStore', 'NavigationStore', 'ChatStore')
 @observer
 export default class ChatRoomScreen extends Component {
 
@@ -81,10 +81,17 @@ export default class ChatRoomScreen extends Component {
     
     async sendMessage(msg) {
         console.log('send message', msg);
-        let receiveUser = this.props.navigation.getParam('user');
-        let msgResponse = await ApiService.sendMessage(this.room_data ? this.room_data._id:'', msg, receiveUser);
+        let receive_user = this.props.navigation.getParam('user');
+        let message_data = {
+            room_id: this.room_data._id,
+            user_id: this.props.AuthStore.getUserLogin._id,
+            receive_user: receive_user[0]._id,
+            context: msg,
+            date: new Date()
+        }
+        this.props.ChatStore.getSocket.emit("send message", message_data);
         let messages = this.state.messages;
-        messages.push(msgResponse);
+        messages.push(message_data);
         this.setState({messages});
     }
 
@@ -101,7 +108,8 @@ export default class ChatRoomScreen extends Component {
                 />
                 <View style={{flexGrow: 1}}>
                     <FlatList
-						ref={(ref) => this._chat = ref}
+                        ref={(ref) => this._chat = ref}
+                        style={{flex: 1}}
 						showsVerticalScrollIndicator={false}
 						keyExtractor={(item, index) => index.toString()}
 						data={this.state.messages}

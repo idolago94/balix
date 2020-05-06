@@ -27,6 +27,6 @@ const s = StyleSheet.create({
     },
     msg: {
         color: colors.text,
-        fontSize: 20
+        fontSize: 18
     }
 })
