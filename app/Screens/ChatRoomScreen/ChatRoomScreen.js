@@ -19,7 +19,8 @@ export default class ChatRoomScreen extends Component {
         this.state = {
             messages: []
         }
-		this.focusListener = null;
+        this.focusListener = null;
+        this.blurListener = null;
 		this.keyboardShow = null;
         this.keyboardHide = null;
         this._chat = null;
@@ -58,7 +59,7 @@ export default class ChatRoomScreen extends Component {
 		this.focusListener = this.props.navigation.addListener('willFocus', async() => {
 			console.log('ChatRoomScreen -> willFocus');
             this.room_data = this.props.navigation.getParam('room');
-            this.props.ChatStore.visitRoom(this.room_data._id);
+            // this.props.ChatStore.visitRoom(this.room_data._id);
             console.log('roomData', this.room_data);
             if(this.room_data) {
                 let messages = await ApiService.getRoomMessages(this.room_data._id);
@@ -66,18 +67,22 @@ export default class ChatRoomScreen extends Component {
                 this.setState({messages});
             }
 		});
+        this.blurListener = this.props.navigation.addListener('willBlur', () => {
+            this.props.ChatStore.visitRoom(this.room_data._id);
+        });
 		this.keyboardShow = Keyboard.addListener('keyboardDidShow', () => {
 
 		});
 		this.keyboardHide = Keyboard.addListener('keyboardDidHide', () => {
 
-		});
+        });
 	}
 
 	componentWillUnMount() {
 		this.focusListener.remove();
 		this.keyboardShow.remove();
-		this.keyboardHide.remove();
+        this.keyboardHide.remove();
+        this.blurListener.remove();
     }
     
     async sendMessage(msg) {
