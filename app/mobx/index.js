@@ -6,6 +6,7 @@ import ContentsStore from './contentsStore';
 import IdentifierStore from './identifierStore';
 import GraphStore from './GraphStore';
 import AppStore from './appStore';
+import ChatStore from './chatStore';
 
 export {
     ActionsStore,
@@ -15,5 +16,6 @@ export {
     ContentsStore,
     IdentifierStore,
     GraphStore,
-    AppStore
+    AppStore,
+    ChatStore
 }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, TouchableHighlight, Animated} from 'react-native';
+import {StyleSheet, View, TouchableHighlight, Animated, Text} from 'react-native';
 import Icon, {iconNames} from '../../Icon/Icon';
 
 export default class HeaderButton extends Component {
@@ -39,6 +39,9 @@ export default class HeaderButton extends Component {
                     <Icon color={this.props.color} name={this.props.icon} size={this.props.size}
                         style={{margin: 10}}/>
                 </TouchableHighlight>
+                {/* {this.props.badge && <View style={{position: 'absolute', top: 3, right: 0, backgroundColor: 'red', borderRadius: 999, aspectRatio: 1}}>
+                    <Text style={{color: 'white', fontWeight: 'bold', fontSize: 13, aspectRatio: 1, textAlign: 'center'}}>{this.props.badge}</Text>
+                </View>} */}
             </Animated.View>
         )
     }

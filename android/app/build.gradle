@@ -142,6 +142,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        missingDimensionStrategy 'react-native-camera', 'general' 
         
         // react native blur
         renderscriptTargetApi 23
@@ -194,7 +196,10 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "com.android.support:appcompat-v7:27.0.2"
 
+    
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")

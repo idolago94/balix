@@ -54,6 +54,12 @@ class RootComponent extends Component {
 		const Root = AuthStore.getUserLogin._id && AuthStore.getToken ? AppScreen : LoginNavigator;
         return (
 			<SafeAreaView style={{flex: 1, backgroundColor: colors.notch}}>
+				{/* <LottieView 
+					style={s.animation} 
+					source={require('./app/assets/anim/Bag_torn.json')}
+					autoPlay
+					autoSize={true}
+				/> */}
 				{AppStore.getAnimation && <LottieView 
 					style={s.animation} 
 					source={JSON.parse(AppStore.getAnimation)}

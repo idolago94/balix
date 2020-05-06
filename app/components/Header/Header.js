@@ -14,7 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { colors, sizes } from '../../utils/style';
 import { window_width } from '../../utils/view';
 
-@inject('AuthStore', 'NavigationStore')
+@inject('AuthStore', 'NavigationStore', 'ChatStore')
 @observer
 export default class Header extends Component {
 	constructor(props) {
@@ -45,7 +45,7 @@ export default class Header extends Component {
 	}
 
 	render() {
-		const {AuthStore, NavigationStore} = this.props;
+		const {AuthStore, NavigationStore, ChatStore} = this.props;
 		return (
 			<LinearGradient colors={[colors.notch, colors.bar]}>
 				<View>
@@ -80,14 +80,15 @@ export default class Header extends Component {
 								color={colors.icon}
 								icon={iconNames.LETTER}
 								size={sizes.icon}
-								/>)}
+								badge={ChatStore.isNew}
+							/>)}
 
 							{!NavigationStore.isSearch && (<HeaderButton
 								onPress={() => NavigationStore.toggleDrawer()}
 								color={colors.icon}
 								icon={iconNames.MENU}
 								size={sizes.icon}
-								/>)}
+							/>)}
 							
 						</View>
 					</View>
