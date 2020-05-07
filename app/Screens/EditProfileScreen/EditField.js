@@ -85,7 +85,7 @@ export default function EditField(props) {
                         <IconButton style={{paddingLeft: 10}} icon={iconNames.PLUS} size={23} color={colors.text} onPress={() => {props.onAdd(keyword);setKeyword('')}}/>
                     </View>
                     <View style={s.keywordsBox}>
-                        {props.value.map((word, i) => (
+                        {Array.from(props.value).map((word, i) => (
                             <View key={i} style={s.keyword}>
                                 <Text style={{color: colors.text}}>{word}</Text>
                                 <IconButton 
