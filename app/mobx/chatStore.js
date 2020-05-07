@@ -8,7 +8,7 @@ import { AuthStore } from ".";
 class ChatStore {
     @observable newMessages = 0;
     @observable socket = io(ApiService.server_url);
-    @persist('object') @observable rooms_visit = {}; // { room_id: last_visit }
+    // @persist('object') @observable rooms_visit = {}; // { room_id: last_visit }
     @observable rooms = {};
     @observable rooms_ids = [];
 
@@ -24,7 +24,9 @@ class ChatStore {
 
     @computed
     get roomHasNew() {
-        return (room_id, lastMessage) => !get(this.rooms_visit, room_id) || (new Date(get(this.rooms_visit, room_id)) < new Date(lastMessage));
+        // return (room_id, lastMessage) => !get(this.rooms_visit, room_id) || (new Date(get(this.rooms_visit, room_id)) < new Date(lastMessage));
+        return (room_id) => !AuthStore.getUserLogin.chat_rooms || !AuthStore.getUserLogin.chat_rooms[room_id] ||
+                        new Date(get(this.rooms, room_id).last_message) > new Date(AuthStore.getUserLogin.chat_rooms[room_id]);
     }
     @computed
     get getRooms() {
@@ -45,7 +47,7 @@ class ChatStore {
     get hasNewMessages() {
         let counter = 0;
         for(let i=0; i<this.rooms_ids.length; i++) {
-            if(!get(this.rooms_visit, this.rooms_ids[i]) || new Date(get(this.rooms, this.rooms_ids[i]).last_message) > new Date(get(this.rooms_visit, this.rooms_ids[i]))) {
+            if(this.roomHasNew(this.rooms_ids[i])) {
                 counter++;
             }
         }
@@ -58,12 +60,6 @@ class ChatStore {
             let updateRooms = await ApiService.getUserRoomsChat();
             this.setRooms(updateRooms);
         });
-    }
-
-    @action
-    visitRoom(room_id) {
-        console.log('visit room', room_id);
-        set(this.rooms_visit, room_id, new Date());
     }
 
     @action

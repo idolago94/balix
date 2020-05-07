@@ -212,6 +212,11 @@ class ApiService {
         return roomResponse;
     }
 
+    async visitRoom(room_id) {
+        let visitResponse = await this.sendRequest('PUT', '/chatRoom/visit?id=' + room_id);
+        return visitResponse;
+    }
+
     // Route: /message
 
     async getRoomMessages(room_id) {

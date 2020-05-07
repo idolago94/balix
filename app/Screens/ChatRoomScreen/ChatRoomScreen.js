@@ -21,39 +21,10 @@ export default class ChatRoomScreen extends Component {
         }
         this.focusListener = null;
         this.blurListener = null;
-		this.keyboardShow = null;
-        this.keyboardHide = null;
         this._chat = null;
         this.room_data = null;
         this.socketListener = null
     }
-    
-    messages = [
-        {
-            context: 'com1\ndfhdfhd',
-            user_id: this.props.AuthStore.getUserLogin._id,
-            room_id: '1234',
-            date: new Date()
-        },
-        {
-            context: 'com2',
-            user_id: 'rg34t45yrt',
-            room_id: '1234',
-            date: new Date()
-        },
-        {
-            context: 'com3',
-            user_id: this.props.AuthStore.getUserLogin._id,
-            room_id: '1234',
-            date: new Date()
-        },
-        {
-            context: 'com4',
-            user_id: this.props.AuthStore.getUserLogin._id,
-            room_id: '1234',
-            date: new Date()
-        },
-    ]
 
 	componentDidMount() {
         console.log('content_height', content_height);
@@ -78,23 +49,15 @@ export default class ChatRoomScreen extends Component {
                 this.setState({messages});
             }
 		});
-        this.blurListener = this.props.navigation.addListener('willBlur', () => {
-            // socket.off('event-name', listener);
-            this.props.ChatStore.visitRoom(this.room_data._id);
+        this.blurListener = this.props.navigation.addListener('willBlur', async() => {
+            let visits = await ApiService.visitRoom(this.room_data._id);
+            this.props.AuthStore.updateUserLogin(visits);
             this.room_data = null;
-        });
-		this.keyboardShow = Keyboard.addListener('keyboardDidShow', () => {
-
-		});
-		this.keyboardHide = Keyboard.addListener('keyboardDidHide', () => {
-
         });
 	}
 
 	componentWillUnMount() {
 		this.focusListener.remove();
-		this.keyboardShow.remove();
-        this.keyboardHide.remove();
         this.blurListener.remove();
     }
     
@@ -105,15 +68,13 @@ export default class ChatRoomScreen extends Component {
             room_id: this.room_data ? this.room_data._id:'',
             user_id: this.props.AuthStore.getUserLogin._id,
             receive_user: receive_user[0]._id,
-            context: msg,
-            date: new Date()
+            context: msg
         }
         this.props.ChatStore.getSocket.emit("send message", message_data);
         let messages = this.state.messages;
         messages.unshift(message_data);
         this.setState({messages});
     }
-
 
 	render() {
         const { AuthStore, NavigationStore, navigation } = this.props
