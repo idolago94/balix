@@ -9,8 +9,8 @@ import Animated from 'react-native-reanimated';
 import ApiService from '../../Services/Api';
 import { iconNames } from '../../components/Icon/Icon';
 import IconButton from '../../components/IconButton/IconButton';
-import CustomButton from '../../components/CustomButton/CustomButton';
 import UpdateService from '../../Services/Updates';
+import PopoverView from '../../components/PopoverView/PopoverView';
 
 @inject('UsersStore', 'NavigationStore', 'ContentsStore', 'AuthStore')
 @observer
@@ -33,36 +33,10 @@ export default class ProfileIndicator extends Component {
         (Array.isArray(followResponse)) && AuthStore.updateUserLogin({following: followResponse});
     }
 
-    async onDelete() {
-        const {AuthStore, NavigationStore, data} = this.props;
-        NavigationStore.setPopover(null);
-        let updateResponse = await ApiService.deleteContent(AuthStore.getUserLogin._id, [data.content_id]);
-        if(updateResponse.length) {
-            AuthStore.updateUserLogin({uploads: updateResponse});
-            NavigationStore.setBanner(`You deleted one image.`, 'lightgreen');
-            if(NavigationStore.getCurrentScreen == Routes.Screens.HOME.routeName) {
-                UpdateService.checkFollowingUpdates();
-            } else if(NavigationStore.getCurrentScreen == Routes.Screens.TOP.routeName) {
-                UpdateService.updateTop();
-            }
-        }
-    }
-
     onMore(viewRef) {
-        const {AuthStore, NavigationStore, ContentsStore, data} = this.props;
+        const {NavigationStore, ContentsStore, data} = this.props;
         let contentData = ContentsStore.getContentById(data.content_id);
-        let pop_view = (
-            <View>
-                <CustomButton icon={iconNames.ALERT} color={'black'} title={'Report'} />
-                {contentData && AuthStore.getUserLogin._id == contentData.user_id && <CustomButton 
-                    onPress={() => NavigationStore.showAlert('Delete image?', null, () => this.onDelete())} 
-                    icon={iconNames.TRASH} 
-                    color={'black'} 
-                    title={'Delete'} 
-                />}
-            </View>
-        )
-        this.props.NavigationStore.setPopover(viewRef, pop_view);
+        NavigationStore.setPopover(viewRef, PopoverView('content_more', {content: contentData}));
     }
 
     render() {

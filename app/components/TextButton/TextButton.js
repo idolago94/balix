@@ -6,7 +6,7 @@ export default function TextButton(props) {
 
   return (
     <TouchableHighlight style={styles.button} onPress={() => props.onPress()}>
-        <Text style={styles.text}>{props.title}</Text>
+        <Text style={{color: props.color || colors.text}}>{props.title}</Text>
     </TouchableHighlight>
   )
 }
@@ -21,8 +21,5 @@ const styles = StyleSheet.create({
         padding: 15,
         paddingHorizontal: 40,
         alignItems: 'center' 
-    },
-    text: {
-        color: colors.text
-    },
+    }
 });

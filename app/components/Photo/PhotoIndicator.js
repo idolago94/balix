@@ -18,7 +18,6 @@ export default function PhotoIndicator(props) {
           <Image style={{height: 22, aspectRatio: 1}} source={require('../../assets/heart_indicator.png')} />
           <Text style={{color: colors.text}}>{thousandsWithCommas(props.hearts)}</Text>
         </View>
-        {props.onDelete && <IconButton style={{padding: 10}} icon={iconNames.TRASH} size={22} onPress={() => props.onDelete()}/>}
       </View>
     );
 }

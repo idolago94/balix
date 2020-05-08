@@ -15,6 +15,7 @@ import { thousandsWithCommas, getScreenUrl } from '../../../utils/Tools';
 import CommentsBox from '../../../components/Photo/Comments/CommentsBox';
 import { window_height } from '../../../utils/view';
 import { thisTypeAnnotation } from '@babel/types';
+import IconButton from '../../../components/IconButton/IconButton';
 
 @inject('AppStore', 'AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
 @observer
@@ -242,6 +243,12 @@ export default class PhotoScreen extends Component {
     }
   }
 
+  onMore(viewRef) {
+    const {NavigationStore, ContentsStore, navigation} = this.props;
+    const contentData = ContentsStore.getContentById(navigation.getParam('id'));
+    NavigationStore.setPopover(viewRef, PopoverView('content_more', {content: contentData}));
+}
+
   render() {
     const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, openComments} = this.state;
     const {AuthStore, NavigationStore, ContentsStore, UsersStore, navigation} = this.props;
@@ -259,6 +266,14 @@ export default class PhotoScreen extends Component {
               contentType={imageData.mimetype}
 
             />
+
+            <IconButton 
+              style={{transform: [{rotate: '90deg'}], position: 'absolute', top: 10, left: 10}} 
+              icon={iconNames.MORE} 
+              onPress={ref => this.onMore(ref)} 
+              size={20} 
+            />
+
             <PhotoIndicator 
               user={userData}
               cash={imageData.cash}

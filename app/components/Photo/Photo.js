@@ -179,17 +179,6 @@ export default class Photo extends Component {
     ContentsStore.updateContent(data.content_id, updateResponse.content);
   }
 
-  async onDelete() {
-    const {AuthStore, ContentsStore, NavigationStore, data} = this.props;
-    const imageData = ContentsStore.getContentById(data.content_id);
-    let updateResponse = await ApiService.deleteContent(AuthStore.getUserLogin._id, [imageData._id]);
-    if(updateResponse.length) {
-        AuthStore.updateUserLogin({uploads: updateResponse});
-        NavigationStore.setBanner(`You deleted one image.`, 'lightgreen');
-        UpdateService.checkFollowingUpdates();
-    }
-  }
-
   async onShare() {
     const imageData = this.props.ContentsStore.getContentById(this.props.data.content_id);
     let result = await Share.share({
@@ -228,7 +217,6 @@ export default class Photo extends Component {
             user={userData}
             cash={imageData.cash}
             hearts={imageData.hearts}
-            onDelete={AuthStore.getUserLogin._id == userData._id ? (() => NavigationStore.showAlert('Delete image?', null, () => this.onDelete())):(null)}
           />
           {/* Buttons Box */}
           {!openComments && !openEmoji && <Buttons 
