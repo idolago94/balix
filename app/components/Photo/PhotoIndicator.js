@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, View, Image } from 'react-native';
 import { colors } from '../../utils/style';
 import { thousandsWithCommas } from '../../utils/Tools';

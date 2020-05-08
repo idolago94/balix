@@ -1,11 +1,12 @@
 import { observable, action, computed } from "mobx";
 import { NavigationActions } from 'react-navigation';
 import { DrawerActions } from 'react-navigation-drawer';
-import { Keyboard } from 'react-native';
+import { Keyboard, Text } from 'react-native';
 import Routes from "../utils/Routes";
 import AuthStore from './authStore';
 import {Alert} from 'react-native';
 import AppStore from "./appStore";
+import React from 'react';
 
 class NavigationStore {
     @observable _navigator = null;
@@ -16,6 +17,7 @@ class NavigationStore {
     @observable profileName = null;
     @observable.shallow banner = null;
     @observable.shallow modal = null;
+    @observable.shallow popover = null;
     @observable showProgress = false;
     @observable showCashButtons = false;
     @observable searchStatus = false;
@@ -71,6 +73,11 @@ class NavigationStore {
     @computed
     get isSearch() {
         return this.currentScreen == Routes.Screens.SEARCH.routeName;
+    }
+
+    @computed
+    get isPopover() {
+        return this.popover;
     }
 
     @computed
@@ -139,6 +146,19 @@ class NavigationStore {
     }
 
     //SET
+
+    @action
+    setPopover(viewRef, component) {
+        if(viewRef) {
+            if(typeof component == 'string') {
+                component = <Text>{component}</Text>
+            }
+            this.popover = {
+                ref: viewRef,
+                component
+            }
+        } else this.popover = null;
+    }
 
     @action
     setSearch(status) {

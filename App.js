@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StatusBar, View, StyleSheet} from 'react-native';
+import {StatusBar, View, StyleSheet, Text} from 'react-native';
 import LoginNavigator from './app/Routes/navigatorLogin';
 import * as Stores from './app/mobx';
 import AppScreen from './app/Screens/AppScreen';
@@ -14,6 +14,7 @@ import { colors } from './app/utils/style';
 import CashButtons from './app/components/CashButtons/CashButtons';
 import LottieView from 'lottie-react-native';
 import { window_width, window_height } from './app/utils/view';
+import Popover from 'react-native-popover-view';
 
 const hydrate = create({
     storage: AsyncStorage,
@@ -60,6 +61,15 @@ class RootComponent extends Component {
 					autoPlay
 					autoSize={true}
 				/> */}
+				<Popover
+					isVisible={NavigationStore.isPopover}
+					fromView={NavigationStore.isPopover ? NavigationStore.isPopover.ref : null}
+					onRequestClose={() => NavigationStore.setPopover(null)}
+					placement='bottom'
+				>
+					{NavigationStore.isPopover && NavigationStore.isPopover.component}
+				</Popover>
+
 				{AppStore.getAnimation && <LottieView 
 					style={s.animation} 
 					source={JSON.parse(AppStore.getAnimation)}

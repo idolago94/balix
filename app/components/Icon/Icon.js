@@ -56,5 +56,7 @@ export const iconNames = {
     CALENDAR: 'calendar',
     TRASH: 'trash',
     DOC: 'doc',
-    LAW: 'law'
+    LAW: 'law',
+    ALERT: 'alert',
+    MORE: 'more'
 }

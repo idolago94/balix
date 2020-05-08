@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 // Componenta
-import {StyleSheet, View, KeyboardAvoidingView, Animated, Dimensions, Share} from 'react-native';
+import {StyleSheet, View, Animated, Dimensions, Share, Text} from 'react-native';
 import EmojiBox from './EmojiBox/EmojiBox';
 import PhotoIndicator from './PhotoIndicator';
 import Icon, {iconNames} from '../Icon/Icon';
@@ -13,6 +13,7 @@ import { photo_box, content, emoji_popup_box, colors } from '../../utils/style';
 import CommentsBox from './Comments/CommentsBox';
 import UpdateService from '../../Services/Updates';
 import { getScreenUrl } from '../../utils/Tools';
+import IconButton from '../IconButton/IconButton';
 
 @inject('AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore', 'AppStore')
 @observer
