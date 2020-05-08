@@ -38,6 +38,8 @@ export default class Conversation extends Component {
 
     render() {
         let hasNew = this.props.ChatStore.roomHasNew(this.props.data._id);
+        console.log('conversation hasNew', hasNew);
+        // debugger;
         return (
             <TouchableHighlight onPress={() => this.props.NavigationStore.navigate(Routes.Screens.CHAT_ROOM.routeName, {room: this.props.data, user: this.state.talkWith})}>
                 <View style={s.container}>

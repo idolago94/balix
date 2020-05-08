@@ -28,33 +28,36 @@ export default class ChatRoomScreen extends Component {
 
 	componentDidMount() {
         console.log('content_height', content_height);
-        this.socketListener = this.props.ChatStore.getSocket.on(`msg:${this.props.AuthStore.getUserLogin._id}`, data => {
-            if(this.room_data && this.room_data._id == data.message.room_id) {
-                let messages = this.state.messages;
-                messages.unshift(data.message);
-                if(!this.room_data) {
-                    this.room_data = data.room;
-                    this.props.ChatStore.setRooms([data.room]);
-                }
-                this.setState({messages});
-            }
-        });
 		this.focusListener = this.props.navigation.addListener('willFocus', async() => {
-			console.log('ChatRoomScreen -> willFocus');
+            console.log('ChatRoomScreen -> willFocus');
             this.room_data = this.props.navigation.getParam('room');
             console.log('roomData', this.room_data);
             if(this.room_data) {
+                this.subscribeRoomSocket();
                 let messages = await ApiService.getRoomMessages(this.room_data._id);
                 messages.sort((a,b) => new Date(a.date) - new Date(b.date)).reverse();
                 this.setState({messages});
             }
 		});
         this.blurListener = this.props.navigation.addListener('willBlur', async() => {
+            this.props.ChatStore.getSocket.off(`msg:${this.room_data._id}`);
             let visits = await ApiService.visitRoom(this.room_data._id);
             this.props.AuthStore.updateUserLogin(visits);
             this.room_data = null;
         });
-	}
+    }
+    
+    subscribeRoomSocket() {
+        this.socketListener = this.props.ChatStore.getSocket.on(`msg:${this.room_data._id}`, data => {
+            if(this.room_data && this.room_data._id == data.message.room_id) {
+                let messages = this.state.messages;
+                if(messages[messages.length-1]._id != data.message._id) {
+                    messages.unshift(data.message);
+                    this.setState({messages});
+                }
+            }
+        });
+    }
 
 	componentWillUnMount() {
 		this.focusListener.remove();
@@ -71,9 +74,9 @@ export default class ChatRoomScreen extends Component {
             context: msg
         }
         this.props.ChatStore.getSocket.emit("send message", message_data);
-        let messages = this.state.messages;
-        messages.unshift(message_data);
-        this.setState({messages});
+        // let messages = this.state.messages;
+        // messages.unshift(message_data);
+        // this.setState({messages});
     }
 
 	render() {

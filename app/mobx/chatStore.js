@@ -25,8 +25,8 @@ class ChatStore {
     @computed
     get roomHasNew() {
         // return (room_id, lastMessage) => !get(this.rooms_visit, room_id) || (new Date(get(this.rooms_visit, room_id)) < new Date(lastMessage));
-        return (room_id) => !AuthStore.getUserLogin.chat_rooms || !AuthStore.getUserLogin.chat_rooms[room_id] ||
-                        new Date(get(this.rooms, room_id).last_message) > new Date(AuthStore.getUserLogin.chat_rooms[room_id]);
+        return (room_id) => !AuthStore.getChatRooms || !AuthStore.getChatRooms[room_id] ||
+                        new Date(get(this.rooms, room_id).last_message) > new Date(AuthStore.getChatRooms[room_id]);
     }
     @computed
     get getRooms() {
@@ -55,22 +55,19 @@ class ChatStore {
     }
 
     initSocket() {
-        this.socket.on(`msg:${AuthStore.getUserLogin._id}`, async(msg) => {
-            console.log(msg);
-            let updateRooms = await ApiService.getUserRoomsChat();
-            this.setRooms(updateRooms);
+        this.socket.on(`update_room:${AuthStore.getUserLogin._id}`, (update_room) => {
+            console.log('update room from socket', update_room);
+            this.setRooms([update_room]);
         });
     }
 
     @action
     setRooms(rooms) {
         console.log('ChatStore -> setRooms', rooms.length);
-        let update_rooms_ids  = [];
         rooms.map(r => {
             set(this.rooms, r._id, r);
-            update_rooms_ids.push(r._id);
+            !this.rooms_ids.includes(r._id) && this.rooms_ids.push(r._id);
         });
-        this.rooms_ids = update_rooms_ids;
     }
 }
 
