@@ -28,13 +28,23 @@ export default PopoverView = (type, data) => {
         case 'content_more':
             return (<View>
                 <CustomButton onPress={ref => NavigationStore.setPopover(ref, PopoverView('report', data))} icon={iconNames.ALERT} color={'black'} title={'Report'} />
-                {data.content && AuthStore.getUserLogin._id == data.item.user_id && <CustomButton 
+                {data.item && AuthStore.getUserLogin._id == data.item.user_id && <CustomButton 
                     onPress={() => NavigationStore.showAlert('Delete image?', null, () => deleteContent(data.item._id))} 
                         icon={iconNames.TRASH} 
                         color={'black'} 
                     title={'Delete'} 
                 />}
             </View>);
+        case 'user_more':
+            return (<View>
+                <CustomButton onPress={ref => NavigationStore.setPopover(ref, PopoverView('report', data))} icon={iconNames.ALERT} color={'black'} title={'Report'} />
+                {data.item && AuthStore.getUserLogin._id == data.item._id && <CustomButton 
+                    onPress={() => NavigationStore.navigate(Routes.Screens.EDIT_PROFILE.routeName)} 
+                        icon={iconNames.AVATAR} 
+                        color={'black'} 
+                    title={'Delete'} 
+                />}
+            </View>)
         default: return <Text>Popover not defined</Text>;
     }
 } 

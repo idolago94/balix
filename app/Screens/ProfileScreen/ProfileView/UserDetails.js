@@ -5,6 +5,7 @@ import ProfileSymbol from '../../../components/ProfileSymbol/ProfileSymbol';
 import Routes from '../../../utils/Routes';
 import UserIndicators from './UserIndicators';
 import { colors } from '../../../utils/style';
+import IconButton from '../../../components/IconButton/IconButton';
 
 export default function UserDetails(props) {
 
@@ -21,6 +22,12 @@ export default function UserDetails(props) {
             size={220}
             iconSize={20}
             iconDeg={273}
+          />
+          <IconButton
+            style={{position: 'absolute', bottom: 0, left: 0}}
+            onPress={ref => props.onMore(ref)}
+            icon={iconNames.MORE}
+            size={20}
           />
         </View>
       </View>

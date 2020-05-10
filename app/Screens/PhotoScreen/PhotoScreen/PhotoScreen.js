@@ -246,7 +246,7 @@ export default class PhotoScreen extends Component {
     const {NavigationStore, ContentsStore, navigation} = this.props;
     const contentData = ContentsStore.getContentById(navigation.getParam('id'));
     NavigationStore.setPopover(viewRef, PopoverView('content_more', {type: 'post', item: contentData}));
-}
+  }
 
   render() {
     const {openEmoji, emojiSend, emojiSendPosition, heartSendPosition, openComments} = this.state;

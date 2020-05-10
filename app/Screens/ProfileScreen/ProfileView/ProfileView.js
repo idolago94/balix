@@ -106,6 +106,12 @@ export default class ProfileView extends Component {
     this.props.NavigationStore.navigate(Routes.Screens.CHAT_ROOM.routeName, {room, user: [user]});
   }
 
+  onMore(viewRef) {
+    const {NavigationStore, UsersStore, navigation} = this.props;
+    const userData = UsersStore.getUserById(navigation.getParam('id'));
+    NavigationStore.setPopover(viewRef, PopoverView('user_more', {type: 'user', item: userData}));
+  }
+
   render() {
     const {NavigationStore, UsersStore, AuthStore, navigation} = this.props;
     const userData = UsersStore.getUserById(navigation.getParam('id'));
@@ -124,6 +130,7 @@ export default class ProfileView extends Component {
             user={userData}
             toChat={() => this.toChat()}
             toLive={() => NavigationStore.navigate(Routes.Screens.CAMERA.routeName, {story_live: 'live'})}
+            onMore={ref => this.onMore(ref)}
           />
           <View style={s.buttons}>
             {myProfile ? (<ProfileButton style={{backgroundColor: colors.text}} title='Extra Photo' onPress={() => this.pressExtra()} icon={iconNames.PLUS} />)
