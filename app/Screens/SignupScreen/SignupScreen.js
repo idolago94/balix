@@ -11,10 +11,9 @@ import HandleError from '../../components/HandleError/HandleError';
 import ValidationService from '../../Services/Validation';
 import { colors, sizes } from '../../utils/style';
 import { window_height, window_width } from '../../utils/view';
-import { TextInput } from 'react-native-gesture-handler';
 import TextButton from '../../components/TextButton/TextButton';
 import CustomLink from '../../components/CustomLink/CustomLink';
-
+import ServiceTermsCheck from './ServiceTermsCheck';
 @inject('AuthStore')
 export default class SignupScreen extends Component {
 
@@ -26,6 +25,7 @@ export default class SignupScreen extends Component {
             created: false,
             password: '',
             confirmPassword: '',
+            confirmTerms: false,
             errors: []
         }
         this.first_nameRef = null;
@@ -119,6 +119,12 @@ export default class SignupScreen extends Component {
                             value={this.state.gender}
                             type={'radio'}
                             onChange={(gender) => this.setState({gender: gender})}
+                        />
+
+                        <ServiceTermsCheck
+                            toTerms={() => navigation.navigate(Routes.Screens.TERMS.routeName)}
+                            onPress={val => this.setState({confirmTerms: val})}
+                            value={this.state.confirmTerms}
                         />
 
                         <TextButton onPress={this.onCreateAccount.bind(this)} title={'Signup'} />

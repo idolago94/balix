@@ -17,6 +17,7 @@ class ValidationService {
         errors.push(this.email(data.email));
         errors.push(this.password(data.password, data.confirmPassword));
         errors.push(data.gender ? (null):('Gender not define.'));
+        !data.confirmTerms && errors.push('You must read and confirm our terms.');
         errors = errors.filter(err => err != null);
         if(errors.length > 0) {
             return errors;

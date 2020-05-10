@@ -4,6 +4,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import Routes from '../utils/Routes';
 import LoginScreen from '../Screens/LoginScreen/LoginScreen';
 import ResgisterNavigator from './navigatorRegister';
+import TermsScreen from '../Screens/TermsScreen/TermsScreeen';
 
 export default createAppContainer(createStackNavigator(
   {
@@ -12,6 +13,9 @@ export default createAppContainer(createStackNavigator(
     },
     [Routes.Navigators.REGISTER.routeName]: {
         screen: ResgisterNavigator
+    },
+    [Routes.Screens.TERMS.routeName]: {
+      screen: TermsScreen
     },
   },
   {

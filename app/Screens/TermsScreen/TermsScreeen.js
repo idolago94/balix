@@ -18,7 +18,7 @@ export default class TermsScreen extends Component {
           icon={iconNames.CLOSE}
           color={'black'}
           size={20}
-          onPress={() => this.props.NavigationStore.goBack()}
+          onPress={() => this.props.navigation.goBack()}
         />
         <Pdf
             source={{uri: 'http://34.69.232.216:8080/terms'}}
