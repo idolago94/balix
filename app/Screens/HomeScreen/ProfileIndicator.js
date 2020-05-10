@@ -36,7 +36,7 @@ export default class ProfileIndicator extends Component {
     onMore(viewRef) {
         const {NavigationStore, ContentsStore, data} = this.props;
         let contentData = ContentsStore.getContentById(data.content_id);
-        NavigationStore.setPopover(viewRef, PopoverView('content_more', {content: contentData}));
+        NavigationStore.setPopover(viewRef, PopoverView('content_more', {type: 'post', item: contentData}));
     }
 
     render() {

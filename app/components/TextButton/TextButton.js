@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React, { useRef } from 'react';
 import { StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { colors, sizes } from '../../utils/style';
 
 export default function TextButton(props) {
+  const buttonRef = useRef(null);
 
   return (
-    <TouchableHighlight style={styles.button} onPress={() => props.onPress()}>
-        <Text style={{color: props.color || colors.text}}>{props.title}</Text>
+    <TouchableHighlight ref={buttonRef} style={styles.button} onPress={() => props.onPress(buttonRef.current)}>
+        <Text style={{color: props.color || colors.text, textAlign: 'center'}}>{props.title}</Text>
     </TouchableHighlight>
   )
 }

@@ -234,13 +234,27 @@ class ApiService {
         return emojisResponse;
     }
 
+    // Route: /report
+
+    async sendReport(what_to_report, id, description) {
+        let reportResponse = await this.sendRequest('PUT', `/report?type=${what_to_report}`, {id, description});
+        return reportResponse;
+    }
+
+    async getInappropiateOptions() {
+        let reportResponse = await this.sendRequest('GET', `/report/inappropiate`);
+        return reportResponse;
+    }
+
+    // Token
+
     async refreshToken(user_id) {
         let tokenResponse = await this.sendRequest('GET', '/refreshToken?id=' + user_id);
         return tokenResponse;
     }
 
-    server_url = 'http://34.69.232.216:8080'; // google server 
-    // server_url = 'http://127.0.0.1:8080'; // local server
+    // server_url = 'http://34.69.232.216:8080'; // google server 
+    server_url = 'http://127.0.0.1:8080'; // local server
 
     sendRequest(method, route, body, token) {
         return new Promise((resolve, reject) => {

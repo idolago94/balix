@@ -10,11 +10,10 @@ import ApiService from '../../../Services/Api';
 import Buttons from '../../../components/Photo/Buttons';
 import DoubleClick from 'react-native-double-click';
 import ProgressiveImage from '../../../components/ProgressiveImage/PreogressiveImage';
-import { photo_box, content, emoji_popup_box, colors } from '../../../utils/style';
-import { thousandsWithCommas, getScreenUrl } from '../../../utils/Tools';
+import { content, colors } from '../../../utils/style';
+import { getScreenUrl } from '../../../utils/Tools';
 import CommentsBox from '../../../components/Photo/Comments/CommentsBox';
 import { window_height } from '../../../utils/view';
-import { thisTypeAnnotation } from '@babel/types';
 import IconButton from '../../../components/IconButton/IconButton';
 
 @inject('AppStore', 'AuthStore', 'UsersStore', 'NavigationStore', 'ContentsStore')
@@ -246,7 +245,7 @@ export default class PhotoScreen extends Component {
   onMore(viewRef) {
     const {NavigationStore, ContentsStore, navigation} = this.props;
     const contentData = ContentsStore.getContentById(navigation.getParam('id'));
-    NavigationStore.setPopover(viewRef, PopoverView('content_more', {content: contentData}));
+    NavigationStore.setPopover(viewRef, PopoverView('content_more', {type: 'post', item: contentData}));
 }
 
   render() {

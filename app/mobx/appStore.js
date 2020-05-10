@@ -4,10 +4,16 @@ class AppStore {
     @observable emojis = {};
     @observable videoOnVolume = null;
     @observable animationPlay = null;
+    @observable inappropiateOptions = [];
 
     @computed
     get getEmojis() {
         return this.emojis;
+    }
+
+    @computed
+    get getInappropiateOptions() {
+        return this.inappropiateOptions;
     }
 
     @computed
@@ -24,6 +30,11 @@ class AppStore {
     setEmojis(data) {
         console.log('AppStore -> setEmojis', data);
         this.emojis = data;
+    }
+
+    @action
+    setInappropiateOptions(data) {
+        this.inappropiateOptions = data;
     }
 
     @action

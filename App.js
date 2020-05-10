@@ -43,10 +43,16 @@ class RootComponent extends Component {
 	async componentDidMount() {
 		let actionsType = await ApiService.getActionsTypes();
 		let emojis = await ApiService.getEmojis();
-		if(!actionsType.error && !emojis.error) {
+		let report_inappropiate_options = await ApiService.getInappropiateOptions();
+		if(!actionsType.error && !emojis.error && !report_inappropiate_options.error) {
 			this.props.ActionsStore.setTypes(actionsType);
 			this.props.AppStore.setEmojis(emojis);
+			this.props.AppStore.setInappropiateOptions(report_inappropiate_options);
 			SplashScreen.hide();
+		} else {
+			console.log('actionsType', !!actionsType);
+			console.log('emojis', !!emojis);
+			console.log('report_inappropiate_options', !!report_inappropiate_options);
 		}
 	}
 
@@ -62,7 +68,7 @@ class RootComponent extends Component {
 					autoSize={true}
 				/> */}
 				<Popover
-					isVisible={NavigationStore.isPopover}
+					isVisible={!!NavigationStore.isPopover}
 					fromView={NavigationStore.isPopover ? NavigationStore.isPopover.ref : null}
 					onRequestClose={() => NavigationStore.setPopover(null)}
 					placement='bottom'
