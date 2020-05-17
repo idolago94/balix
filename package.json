@@ -11,6 +11,7 @@
     "postinstall": "jetify"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.10.1",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/cameraroll": "^1.5.2",
     "@react-native-community/masked-view": "^0.1.6",

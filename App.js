@@ -5,7 +5,8 @@ import * as Stores from './app/mobx';
 import AppScreen from './app/Screens/AppScreen';
 import { Provider, inject, observer } from "mobx-react";
 import {create} from 'mobx-persist';
-import {AsyncStorage, SafeAreaView} from 'react-native';
+import {SafeAreaView} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import ApiService from './app/Services/Api';
 import Banner from './app/components/Banner/Banner';
 import Modal from './app/components/Modal/Modal';
@@ -50,9 +51,9 @@ class RootComponent extends Component {
 			this.props.AppStore.setInappropiateOptions(report_inappropiate_options);
 			SplashScreen.hide();
 		} else {
-			console.log('actionsType', !!actionsType);
-			console.log('emojis', !!emojis);
-			console.log('report_inappropiate_options', !!report_inappropiate_options);
+			console.log('actionsType', actionsType);
+			console.log('emojis', emojis);
+			console.log('report_inappropiate_options', report_inappropiate_options);
 		}
 	}
 
