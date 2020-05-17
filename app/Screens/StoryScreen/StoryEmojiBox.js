@@ -29,7 +29,6 @@ export default class StoryEmojiBox extends Component {
         Animated.spring(this.animation, {
             toValue: 0,
         }).start();
-        this.setState({emojis: []})
     }
 
     render() {
