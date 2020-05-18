@@ -35,7 +35,7 @@ class CompressService {
                     resolve(result);
                     // {path, size, width, height, name, uri}
                 }
-            });
+            }).catch(err => console.log(err));
         });
     }
 

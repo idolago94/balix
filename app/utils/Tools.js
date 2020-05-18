@@ -205,7 +205,7 @@ export const getCountryList = () => {
             }
           });
           resolve(allCountries);
-        });
+        }).catch(err => console.log(err));
     })
 }
 

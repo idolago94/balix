@@ -29,7 +29,7 @@ export default class AppScreen extends Component {
     if (Platform.OS === 'android') {
       Linking.getInitialURL().then(url => {
         this.navigate(url);
-      });
+      }).catch(err => console.log(err));
     } else {
         Linking.addEventListener('url', this.handleOpenURL);
       }

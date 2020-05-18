@@ -84,7 +84,7 @@ export default class CameraScreen extends Component {
           break;
         case RESULTS.DENIED:
           console.log('The permission has not been requested / is denied but requestable');
-          request(cameraPermission).then(res => console.log(res));
+          request(cameraPermission).then(res => console.log(res)).catch(err => console.log(err));
           break;
         case RESULTS.GRANTED:
           console.log('The permission is granted');
@@ -95,7 +95,7 @@ export default class CameraScreen extends Component {
           this.navigateTo(Routes.Screens.HOME.routeName);
           break;
       }
-    });
+    }).catch(err => console.log(err));
   }
 
   navigateTo(routeName, params) {
@@ -116,7 +116,7 @@ export default class CameraScreen extends Component {
   startRecord() {
     this.camera.recordAsync().then((record) => {
       console.log('record', record)
-    })
+    }).catch(err => console.log(err))
   }
 
   render() {
