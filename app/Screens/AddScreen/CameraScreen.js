@@ -63,11 +63,11 @@ export default class CameraScreen extends Component {
 
   async takePicture() {
     if (this.camera) {
-      const options = { quality: 0.5, base64: true };
-      const data = await this.camera.takePictureAsync(options);
-      this.saveToCameraRoll(data);
+      const options = { quality: 0.5 };
+      const imageData = await this.camera.takePictureAsync(options);
+      this.saveToCameraRoll(imageData);
       let secret = this.props.navigation.getParam('secret');
-      this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, { imageData: data, secret });
+      this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, { imageData, secret });
     }
   }
 
@@ -103,12 +103,11 @@ export default class CameraScreen extends Component {
   }
 
   onGallery() {
-    ImagePicker.launchImageLibrary({mediaType: 'mixed'}, (imageSelected) => {
-      console.log('CameraScreen -> onGallery -> imageSelected ', imageSelected);
-      if(!imageSelected.didCancel) {
+    ImagePicker.launchImageLibrary({mediaType: 'mixed'}, (imageData) => {
+      console.log('CameraScreen -> onGallery -> imageData ', imageData);
+      if(!imageData.didCancel) {
         let secret = this.props.navigation.getParam('secret');
-        console.log('imageSelected', imageSelected);
-        this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, {imageData: imageSelected, secret});
+        this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, {imageData, secret});
       }
     });
   }
