@@ -93,7 +93,6 @@ export default class ProfileView extends Component {
           NavigationStore.setBanner(buyResponse.error);
         } else {
           AuthStore.updateUserLogin(buyResponse);
-          UsersStore.updateUser(AuthStore.getUserLogin._id, buyResponse);
         }
       }
     )
