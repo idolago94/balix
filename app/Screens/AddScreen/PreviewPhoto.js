@@ -136,7 +136,7 @@ export default class PreviewPhoto extends Component {
 
         </View>
         <View style={styles.buttons}>
-          <IconButton style={styles.btn} onPress={() => this.postImage()} icon={iconNames.COLLAGE} size={buttonSize} />
+          <IconButton style={styles.btn} onPress={() => console.log('COLLAGE')} icon={iconNames.COLLAGE} size={buttonSize} />
           <IconButton style={styles.btn} onPress={() => console.log('ROTATE')} icon={iconNames.ROTATE} size={buttonSize} />
           <IconButton style={styles.btn} onPress={() => console.log('TEXT')} icon={iconNames.TEXT} size={buttonSize} />
           <IconButton style={styles.btn} onPress={() => console.log('DESIGN')} icon={iconNames.DESIGN} size={buttonSize} />
