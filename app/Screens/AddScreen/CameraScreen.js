@@ -65,7 +65,7 @@ export default class CameraScreen extends Component {
     if (this.camera) {
       const options = { quality: 0.5 };
       const imageData = await this.camera.takePictureAsync(options);
-      saveToGallery(imageData);
+      saveToGallery(imageData.uri);
       let secret = this.props.navigation.getParam(Routes.Screens.CAMERA.params.secret);
       this.props.NavigationStore.navigate(
         Routes.Screens.PREVIEW_PHOTO.routeName, 

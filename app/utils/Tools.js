@@ -284,5 +284,5 @@ export const askPermission = permission => {
     })
 }
 
-export const saveToGallery = data => CameraRoll.saveToCameraRoll(data.uri);
+export const saveToGallery = URI => CameraRoll.saveToCameraRoll(URI);
 
