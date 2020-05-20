@@ -128,7 +128,7 @@ export default class ProfileView extends Component {
             follow={AuthStore.isFollow(userData._id)} 
             user={userData}
             toChat={() => this.toChat()}
-            toLive={() => NavigationStore.navigate(Routes.Screens.CAMERA.routeName, {story_live: 'live'})}
+            toLive={() => NavigationStore.navigate(Routes.Screens.CAMERA.routeName, {[Routes.Screens.CAMERA.params.isLive]: true})}
             onMore={ref => this.onMore(ref)}
           />
           <View style={s.buttons}>

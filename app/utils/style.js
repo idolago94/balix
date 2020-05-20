@@ -59,3 +59,8 @@ export const emoji_popup_box = {
     alignItems: 'center',
     width: window_width,
 }
+
+export const row = {
+    flexDirection: 'row',
+    alignItems: 'center'
+}

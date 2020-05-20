@@ -9,16 +9,15 @@ import UpdateService from '../../Services/Updates';
 import IconButton from '../../components/IconButton/IconButton';
 import Slider from '@react-native-community/slider';
 import Video from 'react-native-video';
-import { colors } from '../../utils/style';
+import { colors, row } from '../../utils/style';
 import EditField from '../EditProfileScreen/EditField';
+import PreviewHeader from './PreviewHeader';
 
 @inject('AuthStore', 'NavigationStore', 'ContentsStore', 'AppStore')
 export default class PreviewPhoto extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-        style: {
-          backgroundColor: colors.bar
-        }
+      headerTitle: () => null
     };
   }
 
@@ -36,7 +35,7 @@ export default class PreviewPhoto extends Component {
   componentDidMount() {
     this.focusListener = this.props.navigation.addListener(
       'willFocus',
-      this.getDataFromParams.bind(this)
+      () => this.getDataFromParams()
     );
   }
 
@@ -46,8 +45,8 @@ export default class PreviewPhoto extends Component {
 
   getDataFromParams() {
     this.props.AppStore.setVideoVolume('preview');
-    let image = this.props.navigation.getParam('imageData');
-    this.setState({ imageData: image});
+    let imageData = this.props.navigation.getParam(Routes.Screens.PREVIEW_PHOTO.params.image);
+    this.setState({ imageData });
   }
 
   rotateImage() {
@@ -57,19 +56,15 @@ export default class PreviewPhoto extends Component {
   async doUpload() {
     console.log('PreviewPhoto -> doUpload');
     const {AuthStore, NavigationStore, AppStore, navigation} = this.props;
-    let secretMode = navigation.getParam('secret');
+    let secretMode = navigation.getParam(Routes.Screens.PREVIEW_PHOTO.params.secret);
+    // check upload limit
     if(secretMode && AuthStore.getUserLogin.secrets.length >= 9 || !secretMode && AuthStore.getUserLogin.uploads.length >= AuthStore.getUserLogin.limit_of_contents) {
       NavigationStore.setModal({type: 'delete_content', data: AuthStore.getUserLogin[secretMode ? ('secrets'):('uploads')], mode: secretMode ? ('secrets'):('uploads')});
     } else {
       NavigationStore.setProgress(true);
       NavigationStore.navigate(secretMode ? (Routes.Screens.PROFILE.routeName):(Routes.Screens.HOME.routeName), secretMode ? ({id: AuthStore.getUserLogin._id, secret: true}):({}));
       AppStore.setVideoVolume(null);
-      let uploadResponse = null; // new upload object(contents collection)
-      if(secretMode) {
-        uploadResponse = await ApiService.uploadSecret(AuthStore.getUserLogin._id, this.state.imageData, {entrance: this.state.entranceSecret, title: this.state.title});
-      } else {
-        uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, this.state.imageData, {title: this.state.title});
-      }
+      let uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, this.state.imageData, {entrance: this.state.entranceSecret, title: this.state.title}, secretMode);
       if(uploadResponse.error) {
         NavigationStore.setBanner(uploadResponse.error);
       } else {
@@ -80,35 +75,32 @@ export default class PreviewPhoto extends Component {
           lastUpdate: uploadResponse.lastUpdate
         });
         AuthStore.updateUserLogin({[secretMode ? ('secrets'):('uploads')]: myUploads});
-        UpdateService.checkFollowingUpdates();
+        !secretMode && UpdateService.checkFollowingUpdates();
       }
     }
   }
 
   render() {
-    const isSecret = this.props.navigation.getParam('secret');
+    const isSecret = this.props.navigation.getParam(Routes.Screens.PREVIEW_PHOTO.params.secret);
     let buttonSize = 30;
     if(!this.state.imageData) {
       return null;
     }
     return (
       <View style={{flex: 1, backgroundColor: colors.background}}>
-        <View style={{alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row', width: window_width}}>
-          {isSecret && <Icon name={iconNames.LOCK} size={buttonSize} color={colors.icon} />}
-          <IconButton style={styles.btn} onPress={() => this.doUpload()} icon={iconNames.CONFIRM} size={buttonSize} />
-        </View>
-        <View style={styles.container}>
+        <PreviewHeader secret={isSecret} />
+        <View>
           <EditField 
-          style={{margin: 5}}
+            style={styles.input}
             label={'Title:'}
             value={this.state.title} 
             onChange={value => this.setState({title: value})}
           />
           {isSecret && <View>
             <Text style={{color: colors.text}}>Select the price to enter your secret:</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={row}>
               <Slider
-                style={{margin: 10, flexGrow: 1}}
+                style={styles.slider}
                 minimumValue={1}
                 maximumValue={200}
                 minimumTrackTintColor={colors.lightMain}
@@ -116,7 +108,7 @@ export default class PreviewPhoto extends Component {
                 value={this.state.entranceSecret}
                 onValueChange={(value) => this.setState({entranceSecret: Math.round(value)})}
               />
-              <Text style={{color: colors.lightMain, fontSize: 30}}>{this.state.entranceSecret}$</Text>
+              <Text style={styles.sliderPlaceholder}>{this.state.entranceSecret}$</Text>
             </View>
           </View>}
 
@@ -158,5 +150,16 @@ const styles = StyleSheet.create({
   image: {
     width: content_width, 
     height: content_height
+  },
+  input: {
+    margin: 5
+  },
+  slider: {
+    margin: 10, 
+    flexGrow: 1
+  },
+  sliderPlaceholder: {
+    color: colors.lightMain,
+    fontSize: 30
   }
 });

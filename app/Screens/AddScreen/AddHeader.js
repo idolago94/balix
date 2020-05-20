@@ -1,24 +1,21 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, TouchableHighlight, Dimensions } from 'react-native';
-import Icon, { iconNames } from '../../components/Icon/Icon';
-import { sizes, colors } from '../../utils/style';
-import IconButton from '../../components/IconButton/IconButton';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { iconNames } from '../../components/Icon/Icon';
+import { colors } from '../../utils/style';
 import { window_width } from '../../utils/view';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 export default function AddHeader(props){
     return (
       <View style={styles.container}>
-        <IconButton 
+        <CustomButton 
           style={styles.btn}
           onPress={() => props.onClose()}
           icon={iconNames.CLOSE} 
-          size={sizes.icon} 
-          color={colors.icon}
         />
-        <IconButton
+        <CustomButton
           style={[styles.btn, {borderColor: !props.flashMode ? colors.icon : colors.lightMain}]} 
           icon={iconNames.FLASH} 
-          size={sizes.icon} 
           color={!props.flashMode ? colors.icon : colors.lightMain} 
           onPress={() => props.onFlash()} 
         />

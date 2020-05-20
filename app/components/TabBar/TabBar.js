@@ -169,7 +169,7 @@ export default class TabBar extends Component {
             />
             <View style={styles.plusTabBox}>
               <LinearGradient style={{borderRadius: 999, borderWidth: 1, borderColor: 'black'}} colors={[colors.lightMain, colors.darkMain]}>
-                <TouchableHighlight onPress={() => this.navigateTo(Routes.Screens.CAMERA.routeName, {story_live: null})} style={styles.plusTab}>
+                <TouchableHighlight onPress={() => this.navigateTo(Routes.Screens.CAMERA.routeName, {[Routes.Screens.CAMERA.params.isLive]: false})} style={styles.plusTab}>
                   <Icon size={sizes.icon+10} name={iconNames.CAMERA} color={colors.text} />
                 </TouchableHighlight>
               </LinearGradient>

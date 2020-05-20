@@ -1,6 +1,10 @@
 import { Animated, Dimensions, Easing, PixelRatio } from 'react-native'
 import { content_height } from './view';
 import { photo_box } from './style';
+import CameraRoll from "@react-native-community/cameraroll";
+import ImagePicker from 'react-native-image-picker';
+import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+
 // import Color from 'color';
 // import EStyleSheet from "react-native-extended-stylesheet";
 
@@ -18,11 +22,12 @@ export const phoneNumberWithDash = (num) => num.toString().replace(/^(\d{3})(\d+
 
 export const removeDash = (string) => string.replace(/-/g, '');
 
-export const runAnimation = (animationValue, value) => {
+export const runAnimation = (animationValue, value, options) => {
     Animated.timing(animationValue, {
+        ...options,
         toValue: value,
-        easing: Easing.out(Easing.poly(4)),
-        duration: 300,
+        // easing: Easing.out(Easing.poly(4)),
+        // duration: 300,
     }).start();
 }
 
@@ -228,3 +233,56 @@ export const getScreenUrl = (routeName, params) => {
     console.log('balix link: ', url);
     return url;
 }
+
+export const getFromGallery = options => {
+    return new Promise((resolve, reject) => {
+        CameraRoll.getPhotos(options)
+        .then(r => {
+            resolve(r.edges[0].node.image.uri);
+        })
+        .catch((err) => {
+            //Error Loading Images
+            console.log(err);
+        });
+    })
+}
+
+export const launchGallery = options => {
+    return new Promise((resolve, reject) => {
+        ImagePicker.launchImageLibrary(options, (imageData) => {
+            console.log('Tools -> launchGallery', imageData);
+            if(!imageData.didCancel) {
+              resolve(imageData);
+            }
+        });
+    })
+}
+
+export const askPermission = permission => {
+    return new Promise((resolve, reject) => {
+        check(permission).then(result => {
+            switch (result) {
+              case RESULTS.UNAVAILABLE:
+                console.log('This feature is not available (on this device / in this context)');
+                resolve(false);
+                break;
+              case RESULTS.DENIED:
+                console.log('The permission has not been requested / is denied but requestable');
+                request(permission).then(res => console.log(res)).catch(err => console.log(err));
+                resolve(false);
+                break;
+              case RESULTS.GRANTED:
+                console.log('The permission is granted');
+                resolve(true);
+                break;
+              case RESULTS.BLOCKED:
+                console.log('The permission is denied and not requestable anymore');
+                resolve(false);
+                break;
+            }
+          }).catch(err => console.log(err));
+    })
+}
+
+export const saveToGallery = data => CameraRoll.saveToCameraRoll(data.uri);
+

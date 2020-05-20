@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, TouchableHighlight, Animated, Dimensions } from 'react-native';
-import Icon, { iconNames } from '../../components/Icon/Icon';
-import CameraRoll from "@react-native-community/cameraroll";
-import Routes from '../../utils/Routes';
-import { colors, sizes } from '../../utils/style';
-
-const pictureButtonSize = 70;
+import { StyleSheet, View, TouchableHighlight, Animated } from 'react-native';
+import { iconNames } from '../../components/Icon/Icon';
+import { colors } from '../../utils/style';
+import { window_width } from '../../utils/view';
+import { getFromGallery, runAnimation } from '../../utils/Tools';
+import ImageButton from '../../components/ImageButton/ImageButton';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 export default class AddBottomBar extends Component {
 
@@ -19,22 +19,13 @@ export default class AddBottomBar extends Component {
         this.timer = null;
     }
 
-    componentDidMount() {
-      this.getCameraRoll();
-    }
-
-    getCameraRoll() {
-      CameraRoll.getPhotos({
+    async componentDidMount() {
+      let galleryFirstPic = await getFromGallery({
         first: 1,
         assetType: 'All',
         groupName: 'Camera'
-      }).then(r => {
-        this.setState({ galleryFirstPic: r.edges[0].node.image.uri });
-      })
-      .catch((err) => {
-        //Error Loading Images
-        console.log(err);
       });
+      this.setState({galleryFirstPic});
     }
 
     pictureIn() {
@@ -42,9 +33,7 @@ export default class AddBottomBar extends Component {
       this.timer = setInterval(() => {
         this.pressTimer++;
         if(this.pressTimer == 2) {
-          Animated.timing(this.recButton, {
-            toValue: 1
-          }).start();
+          runAnimation(this.recButton, 1);
           this.props.onStartVideo();
           console.log('start video');
         }
@@ -54,9 +43,7 @@ export default class AddBottomBar extends Component {
     pictureOut() {
       clearInterval(this.timer);
       this.timer = null;
-      Animated.timing(this.recButton, {
-        toValue: 0
-      }).start();
+      runAnimation(this.recButton, 0);
       if(this.pressTimer >= 2) {
         console.log('stop video');
         this.props.onEndVideo();
@@ -68,55 +55,49 @@ export default class AddBottomBar extends Component {
 
   render() {
     return (
-        <View style={styles.container}>
-            <View style={styles.buttonsBox}>
-              <TouchableHighlight onPress={() => this.props.onGallery(Routes.Screens.GALLERY.routeName)} style={styles.galleryButton}>
-                <Image style={{ height: '100%', width: '100%', borderRadius: 10 }} source={{uri: this.state.galleryFirstPic}} />
-              </TouchableHighlight>
-              <TouchableHighlight onPressIn={() => this.pictureIn()} onPressOut={() => this.pictureOut()} style={styles.captureButton}>
-                <Animated.View style={[styles.circle, {backgroundColor: this.recButton.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: ['white', 'red']
-                })}]} />
-              </TouchableHighlight>
-              <TouchableHighlight onPress={() => this.props.onSwitch()} style={styles.switchCameraButton}>
-                <Icon name={iconNames.FLIP} size={sizes.icon} color={colors.icon} />
-              </TouchableHighlight>
-            </View>
-        </View>
+        <View style={s.container}>
+            <ImageButton 
+              style={s.galleryButton}
+              imageStyle={s.imageButton}
+              src={{uri: this.state.galleryFirstPic}}
+              onPress={() => this.props.onGallery()}
+            />
+            <TouchableHighlight onPressIn={() => this.pictureIn()} onPressOut={() => this.pictureOut()} style={s.captureButton}>
+              <Animated.View style={[s.circle, {backgroundColor: this.recButton.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['white', 'red']
+              })}]} />
+            </TouchableHighlight>
+            <CustomButton 
+              onPress={() => this.props.onSwitch()} 
+              style={s.switchCameraButton}
+              icon={iconNames.FLIP}
+            />
+      </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  swiper: {
-    height: 30,
-  },
-  slider: {
-    width: 60,
-    alignItems: 'center'
-  },
+const s = StyleSheet.create({
   container: {
     backgroundColor: colors.addBar,
     position: 'absolute',
     bottom: 0,
     left: 0,
-    width: '100%',
+    width: window_width,
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonsBox: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 25,
-    width: '100%',
-    marginBottom: 20,
-    marginTop: 10
+    justifyContent: 'space-around',
+    paddingVertical: 20
   },
   galleryButton: {
-    height: 50,
+    height: window_width*.13,
     aspectRatio: 1,
+    borderRadius: 10
+  },
+  imageButton: {
+    height: '100%', 
+    width: '100%', 
     borderRadius: 10
   },
   captureButton: {
@@ -130,23 +111,13 @@ const styles = StyleSheet.create({
   circle: {
     aspectRatio: 1,
     borderRadius: 999,
-    height: pictureButtonSize,
+    height: window_width*.17,
     alignItems: 'center',
     justifyContent: 'center'
   },
   switchCameraButton: {
-    padding: 8,
+    padding: 10,
     borderRadius: 999,
     backgroundColor: 'gray'
-  },
-  optionBox: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 50
-  },
-  option: {
-    color: 'white',
-    fontSize: 15,
-    textTransform: 'uppercase',
   }
 });

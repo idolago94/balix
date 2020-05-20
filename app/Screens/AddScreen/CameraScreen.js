@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableHighlight, Platform, Text, Dimensions } from 'react-native';
-import {iconNames} from '../../components/Icon/Icon';
+import { StyleSheet, View, TouchableHighlight, Platform, Text } from 'react-native';
 import AddHeader from './AddHeader';
 import AddBottomBar from './AddBottomBar';
 import { RNCamera } from 'react-native-camera';
-import CameraRoll from "@react-native-community/cameraroll";
 import Routes from '../../utils/Routes';
-import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import ImagePicker from 'react-native-image-picker';
+import {PERMISSIONS} from 'react-native-permissions';
 import LinearGradient from 'react-native-linear-gradient';
 import { inject } from 'mobx-react';
-import { colors, sizes } from '../../utils/style';
-import IconButton from '../../components/IconButton/IconButton';
+import { colors } from '../../utils/style';
 import PhotoIndicator from '../../components/Photo/PhotoIndicator';
+import { launchGallery, askPermission, saveToGallery } from '../../utils/Tools';
 
 @inject('NavigationStore')
 export default class CameraScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: () => null,
-      headerTransparent: true
+      headerTitle: () => null
     };
   }
 
@@ -27,7 +23,7 @@ export default class CameraScreen extends Component {
     super(props);
     this.state = {
       cameraType: RNCamera.Constants.Type.back,
-      story_live: false,
+      isLive: false,
       postMode: undefined,
       flashMode: false
     }
@@ -35,15 +31,19 @@ export default class CameraScreen extends Component {
     this.focusListener = null;
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.focusListener = this.props.navigation.addListener(
         'willFocus', () => {
-          let story_live = this.props.navigation.getParam('story_live');
-          console.log(story_live);
-          this.setState({story_live: story_live});
+          let isLive = this.props.navigation.getParam(Routes.Screens.CAMERA.params.isLive);
+          console.log('isLive', isLive);
+          this.setState({isLive});
         }
     );
-    this.askCameraRollPermission();
+    let per = await askPermission(Platform.OS == 'ios' ? PERMISSIONS.IOS.CAMERA:PERMISSIONS.ANDROID.CAMERA);    
+    if(!per) {
+      this.props.NavigationStore.setBanner('This app can not access to your camera.');
+      this.props.NavigationStore.navigate(Routes.Screens.HOME.routeName);
+    }
   }
 
   componentWillUnMount() {
@@ -65,51 +65,22 @@ export default class CameraScreen extends Component {
     if (this.camera) {
       const options = { quality: 0.5 };
       const imageData = await this.camera.takePictureAsync(options);
-      this.saveToCameraRoll(imageData);
-      let secret = this.props.navigation.getParam('secret');
-      this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, { imageData, secret });
+      saveToGallery(imageData);
+      let secret = this.props.navigation.getParam(Routes.Screens.CAMERA.params.secret);
+      this.props.NavigationStore.navigate(
+        Routes.Screens.PREVIEW_PHOTO.routeName, 
+        { [Routes.Screens.PREVIEW_PHOTO.params.image]: imageData, [Routes.Screens.PREVIEW_PHOTO.params.secret]: secret }
+      );
     }
   }
 
-  saveToCameraRoll(data) {
-    CameraRoll.saveToCameraRoll(data.uri);
-  }
-
-  async askCameraRollPermission() {
-    let cameraPermission = Platform.OS == 'ios' ? PERMISSIONS.IOS.CAMERA:PERMISSIONS.ANDROID.CAMERA;
-    check(cameraPermission).then(result => {
-      switch (result) {
-        case RESULTS.UNAVAILABLE:
-          console.log('This feature is not available (on this device / in this context)');
-          break;
-        case RESULTS.DENIED:
-          console.log('The permission has not been requested / is denied but requestable');
-          request(cameraPermission).then(res => console.log(res)).catch(err => console.log(err));
-          break;
-        case RESULTS.GRANTED:
-          console.log('The permission is granted');
-          break;
-        case RESULTS.BLOCKED:
-          console.log('The permission is denied and not requestable anymore');
-          this.props.NavigationStore.setBanner('This app can not access to your camera.');
-          this.navigateTo(Routes.Screens.HOME.routeName);
-          break;
-      }
-    }).catch(err => console.log(err));
-  }
-
-  navigateTo(routeName, params) {
-    this.props.NavigationStore.navigate(routeName, params);
-  }
-
-  onGallery() {
-    ImagePicker.launchImageLibrary({mediaType: 'mixed'}, (imageData) => {
-      console.log('CameraScreen -> onGallery -> imageData ', imageData);
-      if(!imageData.didCancel) {
-        let secret = this.props.navigation.getParam('secret');
-        this.navigateTo(Routes.Screens.PREVIEW_PHOTO.routeName, {imageData, secret});
-      }
-    });
+  async onGallery() {
+    let imageData = await launchGallery({mediaType: 'mixed'});
+    let secret = this.props.navigation.getParam(Routes.Screens.CAMERA.params.secret);
+    this.props.NavigationStore.navigate(
+      Routes.Screens.PREVIEW_PHOTO.routeName, 
+      { [Routes.Screens.PREVIEW_PHOTO.params.image]: imageData, [Routes.Screens.PREVIEW_PHOTO.params.secret]: secret }
+    );
   }
 
   startRecord() {
@@ -127,8 +98,7 @@ export default class CameraScreen extends Component {
           flashMode={this.state.flashMode}
         />
         {/* cash indicators for live */}
-        {/* {this.state.story_live == 'live' && <Text style={styles.liveIndicator}>10$</Text>} */}
-        {this.state.story_live == 'live' && <PhotoIndicator style={{top: 60}} cash={7} hearts={22}/>}
+        {this.state.isLive && <PhotoIndicator style={styles.liveIndicator} cash={7} hearts={22}/>}
         {/* CAMERA */}
         <RNCamera
           ref={ref => {
@@ -139,21 +109,22 @@ export default class CameraScreen extends Component {
           flashMode={(this.state.flashMode) ? (RNCamera.Constants.FlashMode.on) : (RNCamera.Constants.FlashMode.off)}
         />
         {
-          (this.state.story_live == 'live') ?
+          (this.state.isLive) ?
               (
                 // live button
-                <TouchableHighlight style={styles.liveButton}>
-                  <LinearGradient colors={[colors.lightMain, colors.darkMain]} style={{borderRadius: 10, padding: 10, paddingHorizontal: 30}}>
-                    <Text style={{color: colors.text, fontSize: 20, letterSpacing: 3}}>{'>> GO LIVE <<'}</Text>
-                  </LinearGradient>
-                </TouchableHighlight>
-                // 
+                <View style={styles.liveFooter}>
+                  <TouchableHighlight onPress={() => console.log('start live')}>
+                    <LinearGradient colors={[colors.lightMain, colors.darkMain]} style={styles.liveButton}>
+                      <Text style={styles.liveText}>{'>> GO LIVE <<'}</Text>
+                    </LinearGradient>
+                  </TouchableHighlight>
+                </View>
               ) :
               // camera bottom buttons
               (<AddBottomBar
-                  onGallery={this.onGallery.bind(this)}
-                  onSwitch={this.switchCamera.bind(this)} 
-                  onPicture={this.takePicture.bind(this)} 
+                  onGallery={() => this.onGallery()}
+                  onSwitch={() => this.switchCamera()} 
+                  onPicture={() => this.takePicture()} 
                   onStartVideo={() => this.startRecord()}
                   onEndVideo={() => this.camera.stopRecording()}
               />)
@@ -168,19 +139,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background
   },
-  liveButton: {
-    width: Dimensions.get('window').width,
+  liveFooter: {
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 50
+    padding: 40
   },
   liveIndicator: {
-    borderWidth: 1, 
-    borderRadius: 7, 
-    borderColor: colors.lightMain,
-    margin: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    color: colors.text,
-    alignSelf: 'flex-end'
+    top: 60
+  },
+  liveButton: {
+    borderRadius: 10, 
+    padding: 10, 
+    paddingHorizontal: 30
+  },
+  liveText: {
+    color: colors.text, 
+    fontSize: 20, 
+    letterSpacing: 3
   }
 });

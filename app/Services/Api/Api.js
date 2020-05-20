@@ -99,7 +99,7 @@ class ApiService {
 
     // Route: /content
 
-    async upload(user_id, content, extraData) {
+    async upload(user_id, content, extraData, secret) {
         let upload_obj = await CompressService.compressFile(content);
         let data = new FormData();
         data.append('file', {
@@ -109,7 +109,7 @@ class ApiService {
               Platform.OS === "android" ? upload_obj.uri : upload_obj.uri.replace("file://", "")
         })
         Object.keys(extraData).map(k => data.append(k, extraData[k]));
-        let updateResponse = await this.sendUploadRequest(`/content/upload?id=${user_id}`, data);
+        let updateResponse = await this.sendUploadRequest(`/content/upload?secret=${!!secret}`, data);
         return updateResponse;
     }
 
@@ -129,20 +129,6 @@ class ApiService {
         }
         let contentsResponse = await this.sendRequest('GET', '/content/getContents?ids=' + ids_array.join());
         return contentsResponse;
-    }
-
-    async uploadSecret(user_id, content, extraData) {
-        let upload_obj = await CompressService.compressFile(content);
-        let data = new FormData();
-        data.append('file', {
-            name: upload_obj.name,
-            type: content.type,
-            uri:
-              Platform.OS === "android" ? upload_obj.uri : upload_obj.uri.replace("file://", "")
-        });
-        Object.keys(extraData).map(k => data.append(k, extraData[k]));
-        let updateResponse = await this.sendUploadRequest(`/content/upload?id=${user_id}&secret=true`, data);
-        return updateResponse;
     }
 
     async addSecretView(user_id, content) {
