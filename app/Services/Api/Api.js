@@ -68,7 +68,7 @@ class ApiService {
             uri:
               Platform.OS === "android" ? resizedImage.uri : resizedImage.uri.replace("file://", "")
         })
-        let updateResponse = await this.sendUploadRequest('/users/updateProfileImage?id=' + user_id, data, token);
+        let updateResponse = await this.sendUploadRequest('/users/updateProfileImage?id=' + user_id, data, token, user_id);
         return updateResponse;
     }
 
@@ -76,7 +76,7 @@ class ApiService {
         if(!keywords_array || keywords_array.length < 1) {
             return null;
         }
-        let keywordsResponse = await this.sendRequest('PUT', '/users/updateKeywords?id=' + user_id, {keywords: keywords_array}, token);
+        let keywordsResponse = await this.sendRequest('PUT', '/users/updateKeywords?id=' + user_id, {keywords: keywords_array}, token, user_id);
         return keywordsResponse;
     }
 
@@ -242,7 +242,7 @@ class ApiService {
     server_url = 'http://34.69.232.216:8080'; // google server 
     // server_url = 'http://127.0.0.1:8080'; // local server
 
-    sendRequest(method, route, body, token) {
+    sendRequest(method, route, body, token, user_id) {
         return new Promise((resolve, reject) => {
             console.log('ApiService -> sendRequest -> ', method, route, body);
             fetch(this.server_url + route, {
@@ -250,7 +250,7 @@ class ApiService {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token || AuthStore.getToken}`,
-                    'user': AuthStore.getUserLogin._id
+                    'user': user_id || AuthStore.getUserLogin._id
                 },
                 body: JSON.stringify(body)
             })
@@ -269,7 +269,7 @@ class ApiService {
         });
     }
 
-    sendUploadRequest(route, body, token) {
+    sendUploadRequest(route, body, token, user_id) {
         return new Promise((resolve, reject) => {
             console.log('ApiService -> sendRequest -> ', route, body);
             fetch(this.server_url + route, {
@@ -277,7 +277,7 @@ class ApiService {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token || AuthStore.getToken}`,
-                    'user': AuthStore.getUserLogin._id
+                    'user': user_id || AuthStore.getUserLogin._id
                 },
                 body: body
             })

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import { colors } from '../../utils/style';
-import moment from 'moment'
+import moment from 'moment';
 
 
 export default function Message(props) {

@@ -38,10 +38,14 @@ export default class SetProfileImage extends Component {
         if(validate.length <= 0) {
             const {navigation, AuthStore} = this.props;
             const {profileImage} = this.state;
-            let authData = navigation.getParam('auth');
+            let authData = navigation.getParam(Routes.Screens.SET_PROFILE.params.auth);
             let setProfileResponse = await ApiService.updateProfileImage(authData.user._id, profileImage, authData.token);
-            authData.user.profileImage = setProfileResponse._id;
-            navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {auth: authData});
+            if(!setProfileResponse.error) {
+                authData.user.profileImage = setProfileResponse;
+                navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {[Routes.Screens.SET_KEYWORDS.params.auth]: authData});
+            } else {
+                this.setState({errors: ['Something goes wrong!']})
+            }
         }
     }
 
@@ -58,8 +62,8 @@ export default class SetProfileImage extends Component {
     }
 
     render() {
-        const {navigation, AuthStore} = this.props;
-        const newUser = navigation.getParam('auth').user;
+        const {navigation} = this.props;
+        const newUser = navigation.getParam(Routes.Screens.SET_PROFILE.params.auth).user;
         return (
             <View style={styles.container}>
                 <AppTitle />
@@ -80,7 +84,10 @@ export default class SetProfileImage extends Component {
                     <TextButton onPress={this.onSetImage.bind(this)} title={'Set Profile Image'} />
 
                     <View style={styles.footerButtons}>
-                        <FooterButton title={'SKIP'} onPress={() => navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {user: newUser})}/>
+                        <FooterButton 
+                            title={'SKIP'} 
+                            onPress={() => navigation.navigate(Routes.Screens.SET_KEYWORDS.routeName, {[Routes.Screens.SET_KEYWORDS.params.auth]: navigation.getParam(Routes.Screens.SET_PROFILE.params.auth)})}
+                        />
                     </View>
                 </View>
             </View>

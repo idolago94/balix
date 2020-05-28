@@ -7,6 +7,7 @@ import { inject, observer } from 'mobx-react';
 import ApiService from '../../Services/Api';
 import FooterButton from './FooterButton';
 import { colors, sizes } from '../../utils/style';
+import HandleError from '../../components/HandleError/HandleError';
 
 @inject('AuthStore')
 export default class SetKeywords extends Component {
@@ -15,7 +16,8 @@ export default class SetKeywords extends Component {
         console.log('SetKeywords -> constructor');
         super(props);
         this.state = {
-            keywords: []
+            keywords: [],
+            errors: []
         };
     }
 
@@ -28,12 +30,16 @@ export default class SetKeywords extends Component {
     async onSave() {
         const {keywords} = this.state;
         const {navigation} = this.props;
-        let authData = navigation.getParam('auth');
+        let authData = navigation.getParam(Routes.Screens.SET_KEYWORDS.params.auth);
         if(keywords.length > 0) {
             let keywordsResponse = await ApiService.updateKeywords(authData.user._id, keywords, authData.token);
-            authData.user.keywords = keywordsResponse;
-        }
-        this.toApp(authData);
+            if(!keywordsResponse.error) {
+                authData.user.keywords = keywordsResponse;
+                this.toApp(authData);
+            } else {
+                this.setState({errors: ['Something goes wrong!']})
+            } 
+        } else this.toApp(authData);
     }
 
     toApp(auth) {
@@ -49,6 +55,7 @@ export default class SetKeywords extends Component {
                     <View style={styles.form}>
                         <View style={{alignItems: 'center'}}>
                             <Text style={styles.label}>You can add keywords that will help other people find you:</Text>
+                            {this.state.errors.length > 0 && <HandleError data={this.state.errors} />}
                             <FormField onAdd={(value) => this.addKeyword(value)} placeholder={'Type a word'} type={'keyword'}/>
                             <View style={styles.keywordsBox}>
                                 {
