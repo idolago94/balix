@@ -24,29 +24,10 @@ export default class PreviewPhoto extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageData: undefined,
       rotateDeg: 0,
       entranceSecret: 10,
       title: ''
     }
-    this.focusListener = null;
-  }
-
-  componentDidMount() {
-    this.focusListener = this.props.navigation.addListener(
-      'willFocus',
-      () => this.getDataFromParams()
-    );
-  }
-
-  componentWillUnMount() {
-    this.focusListener.remove();
-  }
-
-  getDataFromParams() {
-    this.props.AppStore.setVideoVolume('preview');
-    let imageData = this.props.navigation.getParam(Routes.Screens.PREVIEW_PHOTO.params.image);
-    this.setState({ imageData });
   }
 
   rotateImage() {
@@ -56,6 +37,7 @@ export default class PreviewPhoto extends Component {
   async doUpload() {
     console.log('PreviewPhoto -> doUpload');
     const {AuthStore, NavigationStore, AppStore, navigation} = this.props;
+    let imageData = this.props.navigation.getParam(Routes.Screens.PREVIEW_PHOTO.params.image);
     let secretMode = navigation.getParam(Routes.Screens.PREVIEW_PHOTO.params.secret);
     // check upload limit
     if(secretMode && AuthStore.getUserLogin.secrets.length >= 9 || !secretMode && AuthStore.getUserLogin.uploads.length >= AuthStore.getUserLogin.limit_of_contents) {
@@ -64,7 +46,7 @@ export default class PreviewPhoto extends Component {
       NavigationStore.setProgress(true);
       NavigationStore.navigate(secretMode ? (Routes.Screens.PROFILE.routeName):(Routes.Screens.HOME.routeName), secretMode ? ({id: AuthStore.getUserLogin._id, secret: true}):({}));
       AppStore.setVideoVolume(null);
-      let uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, this.state.imageData, {entrance: this.state.entranceSecret, title: this.state.title}, secretMode);
+      let uploadResponse = await ApiService.upload(AuthStore.getUserLogin._id, imageData, {entrance: this.state.entranceSecret, title: this.state.title}, secretMode);
       if(uploadResponse.error) {
         NavigationStore.setBanner(uploadResponse.error);
       } else {
@@ -81,9 +63,10 @@ export default class PreviewPhoto extends Component {
   }
 
   render() {
+    let imageData = this.props.navigation.getParam(Routes.Screens.PREVIEW_PHOTO.params.image);
     const isSecret = this.props.navigation.getParam(Routes.Screens.PREVIEW_PHOTO.params.secret);
     let buttonSize = 30;
-    if(!this.state.imageData) {
+    if(!imageData) {
       return null;
     }
     return (
@@ -112,14 +95,14 @@ export default class PreviewPhoto extends Component {
             </View>
           </View>}
 
-          {this.state.imageData.type ? (
+          {imageData.type ? (
             <Image
                 style={[styles.image, {transform: [{ rotate: `${this.state.rotateDeg}deg` }]}]}
-                source={{uri: this.state.imageData.uri}}
+                source={{uri: imageData.uri}}
             />
           ):(
             <Video 
-              source={{uri: this.state.imageData.uri}} 
+              source={{uri: imageData.uri}} 
               style={[styles.image, {transform: [{ rotate: `${this.state.rotateDeg}deg` }]}]}
               muted={!this.props.AppStore.inVolume('preview')}
               repeat
