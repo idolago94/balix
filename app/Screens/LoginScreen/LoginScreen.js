@@ -78,11 +78,6 @@ export default class LoginScreen extends Component {
             <CustomLink title={'Create Account'}  onPress={() => navigation.navigate(Routes.Screens.REGISTER.routeName)} />
 
           </KeyboardAwareScrollView>
-
-          {/* <TextButton onPress={() => AuthStore.login({username: 'Idolago94', password: 'ido312546534'})} content={'Log Idolago94'} /> */}
-          {/* <TextButton onPress={() => AuthStore.login({username: 'Test2', password: 't12345678'})} content={'Log Test2'} /> */}
-          {/* <TextButton onPress={() => AuthStore.login({username: 'Test4', password: 't12345678'})} content={'Log Test4'} /> */}
-
         </View>
     );
   }
